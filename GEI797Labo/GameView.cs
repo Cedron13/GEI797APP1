@@ -16,7 +16,6 @@ namespace GEI797Labo
         private double playerPosY = 0;
         private float playerVelocity = 10; // in pixels per second
         private TileManager tileManager;
-        private Sprite player;
         private Controller controller;
 
         public GameView()
@@ -26,9 +25,7 @@ namespace GEI797Labo
             oGameForm.PreviewKeyDown += KeyDownEvent;
             oGameForm.FormClosing += CloseWindowEvent;
             tileManager = new TileManager();
-            player = new Sprite();
             controller = new Controller();
-
         }
 
         public void Show()
@@ -74,19 +71,7 @@ namespace GEI797Labo
 
         private void KeyDownEvent(object sender, PreviewKeyDownEventArgs e)
         {
-            switch (e.KeyCode)
-            {
-                case Keys.Down:
-                    Console.WriteLine("Down");
-                    break;
-                case Keys.Up:
-                    break;
-                case Keys.Right:
-                    break;
-                case Keys.Left:
-                    break;
-
-            }
+            controller.SendKeyPressedEvent(e);
         }
 
         private void CloseWindowEvent(object sender, FormClosingEventArgs e)

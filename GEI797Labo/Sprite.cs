@@ -24,10 +24,14 @@ namespace GEI797Labo
         private coord currentPos;
         private coord destinationPos;
         private int imageIndex;
-        private double timeToMove = 1000; // Ms
+        private double timeToMove;// Ms
         private double timeElapsed = 0;
-        public Sprite() {
-            
+
+        public Sprite(Image2D i, coord pos, int index, double timeMove) {
+            image = i;
+            currentPos = pos;
+            imageIndex = index;
+            timeToMove = timeMove;
         }
 
         public void StartMovement(coord finalPos)
@@ -59,5 +63,7 @@ namespace GEI797Labo
             currentPos.y = (int)((destinationPos.y - initialPos.y) * ratio + initialPos.y);
             imageIndex = (int)(5 * ratio);
         }
+
+        public coord GetPosition() => currentPos;
     }
 }
