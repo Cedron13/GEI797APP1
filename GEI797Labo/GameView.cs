@@ -74,19 +74,7 @@ namespace GEI797Labo
 
         private void KeyDownEvent(object sender, PreviewKeyDownEventArgs e)
         {
-            switch (e.KeyCode)
-            {
-                case Keys.Down:
-                    Console.WriteLine("Down");
-                    break;
-                case Keys.Up:
-                    break;
-                case Keys.Right:
-                    break;
-                case Keys.Left:
-                    break;
-
-            }
+            controller.SendKeyPressedEvent(e);
         }
 
         private void CloseWindowEvent(object sender, FormClosingEventArgs e)
