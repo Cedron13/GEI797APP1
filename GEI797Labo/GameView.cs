@@ -88,7 +88,12 @@ namespace GEI797Labo
                     }
                     else if (labyrinth[j, i] == 2)
                     {
-                        e.Graphics.DrawImage(tileManager.getImage("Wall").bitmap, 96 * i, 96 * j); //TODO : modify transparency
+                        e.Graphics.DrawImage(tileManager.getImage("Wall").bitmap, 96 * i, 96 * j);
+                        //TODO : modify transparency
+                        using (Brush yellowBrush = new SolidBrush(Color.FromArgb(150, Color.Black)))
+                        {
+                            e.Graphics.FillRectangle(yellowBrush, new Rectangle(96 * i, 96 * j, 96, 96));
+                        }
                     }
                     else if (labyrinth[j, i] == 3)
                     {
@@ -96,7 +101,7 @@ namespace GEI797Labo
                     }
                     else if (labyrinth[j, i] == 4)
                     {
-                        e.Graphics.DrawImage(tileManager.getImage("Gem").bitmap, 96 * i + 24, 96 * j + 24);
+                        e.Graphics.DrawImage(   tileManager.getImage("Gem").bitmap, 96 * i + 24, 96 * j + 24);
                     }
                     else if (labyrinth[j, i] == 5)
                     {
