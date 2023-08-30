@@ -11,7 +11,8 @@ namespace GEI797Labo.Models
     {
         Wall,
         Player,
-        Collectible
+        Collectible,
+        Other
     };
 
     internal class Image2D
