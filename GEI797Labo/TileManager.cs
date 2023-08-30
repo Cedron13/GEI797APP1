@@ -20,6 +20,74 @@ namespace GEI797Labo
             Rectangle tileBounds = new Rectangle(0, 0, 96, 96);
             images.Add("Wall", new Image2D(1, ImageType.Wall, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
 
+            //Title
+            tileBounds = new Rectangle(96, 0, 196, 48);
+            images.Add("Title", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //Heart
+            tileBounds = new Rectangle(288, 0, 48, 48);
+            images.Add("Heart", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //BigBubble
+            tileBounds = new Rectangle(336, 0, 48, 48);
+            images.Add("BigBubble", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //SmallBubble
+            tileBounds = new Rectangle(384, 0, 48, 48);
+            images.Add("SmallBubble", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //Effect
+            tileBounds = new Rectangle(432, 0, 48, 48);
+            images.Add("Effect", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //Gem
+            tileBounds = new Rectangle(480, 0, 48, 48);
+            images.Add("Gem", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //Key
+            tileBounds = new Rectangle(528, 0, 48, 48);
+            images.Add("Key", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //BeginBar
+            tileBounds = new Rectangle(96, 48, 48, 48);
+            images.Add("BeginBar", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //RedFull
+            tileBounds = new Rectangle(144, 48, 48, 48);
+            images.Add("RedFull", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //RedHalf
+            tileBounds = new Rectangle(192, 48, 48, 48);
+            images.Add("RedHalf", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //BlueFull
+            tileBounds = new Rectangle(240, 48, 48, 48);
+            images.Add("BlueFull", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //BlueHalf
+            tileBounds = new Rectangle(288, 48, 48, 48);
+            images.Add("BlueHalf", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+            
+            //YellowFull
+            tileBounds = new Rectangle(336, 48, 48, 48);
+            images.Add("YellowFull", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //YellowHalf
+            tileBounds = new Rectangle(384, 48, 48, 48);
+            images.Add("YellowHalf", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //EmptyBar
+            tileBounds = new Rectangle(432, 48, 48, 48);
+            images.Add("EmptyBar", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //EndBar
+            tileBounds = new Rectangle(480, 48, 48, 48);
+            images.Add("EndBar", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //MiniSlime
+            tileBounds = new Rectangle(528, 48, 48, 48);
+            images.Add("MiniSlime", new Image2D(1, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
             //Down1
             tileBounds = new Rectangle(0, 96, 96, 96);
             images.Add("Down1", new Image2D(2, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
@@ -31,6 +99,53 @@ namespace GEI797Labo
             //Down3
             tileBounds = new Rectangle(96*2, 96, 96, 96);
             images.Add("Down3", new Image2D(2, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+
+
+
+
+
+            //Right1
+            tileBounds = new Rectangle(96*3, 96, 96, 96);
+            images.Add("Right1", new Image2D(2, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //Right2
+            tileBounds = new Rectangle(96*4, 96, 96, 96);
+            images.Add("Right2", new Image2D(2, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //Right3
+            tileBounds = new Rectangle(96 * 5, 96, 96, 96);
+            images.Add("Right3", new Image2D(2, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+
+
+
+            //Up1
+            tileBounds = new Rectangle(0, 96*2, 96, 96);
+            images.Add("Up1", new Image2D(2, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //Up2
+            tileBounds = new Rectangle(96, 96*2, 96, 96);
+            images.Add("Up2", new Image2D(2, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //Up3
+            tileBounds = new Rectangle(96 * 2, 96 * 2, 96, 96);
+            images.Add("Up3", new Image2D(2, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+
+
+
+            //Left1
+            tileBounds = new Rectangle(96*3, 96 * 2, 96, 96);
+            images.Add("Left1", new Image2D(2, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //Left2
+            tileBounds = new Rectangle(96*4, 96 * 2, 96, 96);
+            images.Add("Left2", new Image2D(2, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //Left3
+            tileBounds = new Rectangle(96 * 4, 96 * 2, 96, 96);
+            images.Add("Left3", new Image2D(2, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
 
         }
         public Image2D getImage(string name)
