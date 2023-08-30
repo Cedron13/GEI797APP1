@@ -38,7 +38,7 @@ namespace GEI797Labo
                 if (lag >= MS_PER_FRAME)
                 {
                     fps = (float)(1000f / lag);
-                    Console.WriteLine(fps);
+                    //Console.WriteLine(fps);
 
                     ProcessInput();
 

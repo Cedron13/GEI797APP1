@@ -15,6 +15,8 @@ namespace GEI797Labo
         public GameForm()
         {
             InitializeComponent();
+            this.DoubleBuffered = true;
+            this.KeyPreview = true;
         }
     }
 }
