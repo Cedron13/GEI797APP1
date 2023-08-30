@@ -21,7 +21,7 @@ namespace GEI797Labo
             images.Add("Wall", new Image2D(1, ImageType.Wall, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
 
             //Title
-            tileBounds = new Rectangle(96, 0, 196, 48);
+            tileBounds = new Rectangle(96, 0, 195, 48);
             images.Add("Title", new Image2D(2, ImageType.Other, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
 
             //Heart

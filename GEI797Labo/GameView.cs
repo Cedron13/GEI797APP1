@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 
 namespace GEI797Labo
@@ -19,14 +20,16 @@ namespace GEI797Labo
         private int[,]
             labyrinth =
                 {
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, // 0 = Aucune image (zone de déplacement)
-                {1, 4, 0, 0, 0, 4, 0, 0, 0, 1 }, // 1 = Afficher un mur
-                {1, 0, 1, 1, 1, 0, 1, 1, 0, 1 }, // 2 = Afficher une porte
-                {1, 3, 1, 5, 2, 0, 0, 0, 4, 1 }, // 3 = Afficher Slimus
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } // 4 = Afficher une gemme
-                };                              // 5 = Afficher un mini-slime
-
-
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, // 0 = Aucune image (zone de déplacement)
+                {1, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1}, // 1 = Afficher un mur
+                {1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1},  // 2 = Afficher une porte
+                {1, 0, 0, 0, 0, 0, 1, 5, 1, 0, 1},  // 3 = Afficher Slimus
+                {1, 0, 1, 0, 1, 1, 1, 2, 1, 0, 1},  // 4 = Afficher une gemme
+                {1, 0, 1, 0, 1, 4, 0, 0, 0, 0, 1},  // 5 = Afficher un mini-slime
+                {1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1},
+                {1, 0, 0, 0, 3, 1, 0, 0, 4, 0, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                };
 
         public GameView()
         {
@@ -64,8 +67,12 @@ namespace GEI797Labo
 
         private void GameRenderer(object sender, PaintEventArgs e)
         {
+
             // Mettre l'arrière-plan en noir
             e.Graphics.Clear(Color.Black);
+
+            e.Graphics.DrawImage(tileManager.getImage("Title").bitmap, 20, 48);
+
 
             /*
             // Afficher un carré jaune de 20x20px
@@ -77,35 +84,40 @@ namespace GEI797Labo
 
 
             /*e.Graphics.DrawImage(tileManager.getImage("Right1").bitmap, 0, 0);*/
-           
+
+
+
+
+
+
             for (int i = 0; i < labyrinth.GetLength(1); i++)
             {
                 for (int j = 0; j < labyrinth.GetLength(0); j++)
                 {
                     if (labyrinth[j,i] == 1)
                     {
-                        e.Graphics.DrawImage(tileManager.getImage("Wall").bitmap, 96 * i, 96*j);
+                        e.Graphics.DrawImage(tileManager.getImage("Wall").bitmap, 96 * i+20, 96*j+144);
                     }
                     else if (labyrinth[j, i] == 2)
                     {
-                        e.Graphics.DrawImage(tileManager.getImage("Wall").bitmap, 96 * i, 96 * j);
+                        e.Graphics.DrawImage(tileManager.getImage("Wall").bitmap, 96 * i + 20, 96 * j + 144);
                         //TODO : modify transparency
                         using (Brush yellowBrush = new SolidBrush(Color.FromArgb(150, Color.Black)))
                         {
-                            e.Graphics.FillRectangle(yellowBrush, new Rectangle(96 * i, 96 * j, 96, 96));
+                            e.Graphics.FillRectangle(yellowBrush, new Rectangle(96 * i + 20, 96 * j + 144, 96, 96));
                         }
                     }
                     else if (labyrinth[j, i] == 3)
                     {
-                        e.Graphics.DrawImage(tileManager.getImage("Down1").bitmap, 96 * i, 96 * j);
+                        e.Graphics.DrawImage(tileManager.getImage("Down1").bitmap, 96 * i + 20, 96 * j + 144);
                     }
                     else if (labyrinth[j, i] == 4)
                     {
-                        e.Graphics.DrawImage(   tileManager.getImage("Gem").bitmap, 96 * i + 24, 96 * j + 24);
+                        e.Graphics.DrawImage(   tileManager.getImage("Gem").bitmap, 96 * i + 20 + 24, 96 * j + 144 + 24);
                     }
                     else if (labyrinth[j, i] == 5)
                     {
-                        e.Graphics.DrawImage(tileManager.getImage("MiniSlime").bitmap, 96 * i + 24, 96 * j + 24);
+                        e.Graphics.DrawImage(tileManager.getImage("MiniSlime").bitmap, 96 * i + 20 + 24, 96 * j + 144 + 24);
                     }
                 }
 
