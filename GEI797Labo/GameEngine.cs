@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GEI797Labo.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,25 +13,13 @@ namespace GEI797Labo
     
     internal class GameEngine
     {
-        private GameView oView;
-        private Sprite player;
+        private IController controller;
 
-
-        public GameEngine()
+        public GameEngine(IController c)
         {
-            oView = new GameView();
-
-            TileManager tileManager = new TileManager();
-            coord coordPlayerInit = new coord
-            {
-                x = 0,
-                y = 0
-            };
-            player = new Sprite(tileManager.getImage("Wall"), coordPlayerInit, 0, 1000);
-
+            controller = c;
             Thread thread = new Thread(new ThreadStart(GameLoop));
             thread.Start();
-            oView.Show();
         }
 
         private void GameLoop()
@@ -65,15 +54,15 @@ namespace GEI797Labo
         }
 
         private void Render(double frameAhead) {
-            oView.Render(); // Appel initial de la méthode Render
+            controller.EngineRenderEvent(); // Appel initial de la méthode Render
         }
         private void Update(double lag)
         {
-
+            controller.EngineUpdateEvent(lag);
         }
         private void ProcessInput()
         {
-
+            controller.EngineProcessInputEvent();
         }
         private double GetCurrentTimeMillis()
         {
@@ -81,7 +70,5 @@ namespace GEI797Labo
             TimeSpan elapsedTime = DateTime.UtcNow - epochStart;
             return elapsedTime.TotalMilliseconds;
         }
-
-        public Sprite GetPlayer() => player;
     }
 }

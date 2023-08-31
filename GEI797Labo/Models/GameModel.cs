@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GEI797Labo.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,12 @@ namespace GEI797Labo.Models
 {
     internal class GameModel
     {
+        private IController controller;
+        public GameModel(IController c) {
 
-        public GameModel() { }
+            controller = c;
+
+        }
         
         private int[,] labyrinth = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, // 0 = Aucune image (zone de déplacement)

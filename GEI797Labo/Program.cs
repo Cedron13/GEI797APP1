@@ -15,8 +15,7 @@ namespace GEI797Labo
         [STAThread]
         static void Main()
         {
-            Bitmap wallImage = Properties.Resources.TilesSheet;
-            GameEngine ge = new GameEngine();
+            Controller controller = new Controller();
         }
     }
 }

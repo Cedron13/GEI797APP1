@@ -1,4 +1,5 @@
-﻿using GEI797Labo.Models;
+﻿using GEI797Labo.Controllers;
+using GEI797Labo.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,19 +16,18 @@ namespace GEI797Labo
     {
         private GameForm oGameForm; // Supposons que GameForm est une classe existante
         private TileManager tileManager;
-        private Controller controller;
-        private GameModel model;
+        private IController controller;
 
 
-        public GameView()
+        public GameView(IController c)
         {
+            controller = c;
             oGameForm = new GameForm();
             oGameForm.Paint += GameRenderer;
             oGameForm.PreviewKeyDown += KeyDownEvent;
             oGameForm.FormClosing += CloseWindowEvent;
             tileManager = new TileManager();
-            controller = new Controller();
-            model = new GameModel();
+            Show();
 
         }
 
@@ -67,7 +67,8 @@ namespace GEI797Labo
 
             g.DrawImage(tileManager.getImage("Title").bitmap, 20, 48);
 
-            int[,] labyrinth = model.GetLabyrinth();
+            //Calls Lab from another thread, lock may be needed
+            int[,] labyrinth = controller.GetLabyrinth();
 
 
             for (int i = 0; i < labyrinth.GetLength(1); i++)
@@ -106,12 +107,12 @@ namespace GEI797Labo
 
         private void KeyDownEvent(object sender, PreviewKeyDownEventArgs e)
         {
-            controller.SendKeyPressedEvent(e);
+            controller.ViewKeyPressedEvent(e);
         }
 
         private void CloseWindowEvent(object sender, FormClosingEventArgs e)
         {
-            controller.CloseEvent();
+            controller.ViewCloseEvent();
             Console.WriteLine("Close");
         }
 
