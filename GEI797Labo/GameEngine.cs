@@ -58,7 +58,7 @@ namespace GEI797Labo
         }
         private void Update(double lag)
         {
-            oView.moveRight(lag);
+
         }
         private void ProcessInput()
         {

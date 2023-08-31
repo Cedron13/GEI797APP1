@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\IController.cs" />
     <Compile Include="GameEngine.cs" />
     <Compile Include="GameForm.cs">
       <SubType>Form</SubType>
@@ -54,6 +55,7 @@
       <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GameView.cs" />
+    <Compile Include="Models\GameModel.cs" />
     <Compile Include="Models\Image2D.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

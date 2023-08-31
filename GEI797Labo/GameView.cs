@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GEI797Labo.Models;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -13,29 +14,15 @@ namespace GEI797Labo
     internal class GameView
     {
         private GameForm oGameForm; // Supposons que GameForm est une classe existante
-        private double playerPosX = 0;
-        private double playerPosY = 0;
-        private float playerVelocity = 10; // in pixels per second
         private TileManager tileManager;
-        private int[,]
-            labyrinth =
-                {
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, // 0 = Aucune image (zone de déplacement)
-                {1, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1}, // 1 = Afficher un mur
-                {1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1},  // 2 = Afficher une porte
-                {1, 0, 0, 0, 0, 0, 1, 5, 1, 0, 1},  // 3 = Afficher Slimus
-                {1, 0, 1, 0, 1, 1, 1, 2, 1, 0, 1},  // 4 = Afficher une gemme
-                {1, 0, 1, 0, 1, 4, 0, 0, 0, 0, 1},  // 5 = Afficher un mini-slime
-                {1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1},
-                {1, 0, 0, 0, 3, 1, 0, 0, 4, 0, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                };
+        private GameModel model;
 
         public GameView()
         {
             oGameForm = new GameForm();
             oGameForm.Paint += GameRenderer;
             tileManager = new TileManager();
+            model = new GameModel();
         }
 
         public void Show()
@@ -73,21 +60,7 @@ namespace GEI797Labo
 
             e.Graphics.DrawImage(tileManager.getImage("Title").bitmap, 20, 48);
 
-
-            /*
-            // Afficher un carré jaune de 20x20px
-            using (Brush yellowBrush = new SolidBrush(Color.Yellow))
-            {
-                e.Graphics.FillRectangle(yellowBrush, new Rectangle((int)playerPosX, (int)playerPosY, 20, 20));
-            }
-            */
-
-
-            /*e.Graphics.DrawImage(tileManager.getImage("Right1").bitmap, 0, 0);*/
-
-
-
-
+            int[,] labyrinth = model.GetLabyrinth();
 
 
             for (int i = 0; i < labyrinth.GetLength(1); i++)
@@ -124,10 +97,6 @@ namespace GEI797Labo
             }
 
 
-        }
-        public void moveRight(double elapsedTime)
-        {
-            playerPosX += elapsedTime / 1000 * playerVelocity;
         }
     }
 }
