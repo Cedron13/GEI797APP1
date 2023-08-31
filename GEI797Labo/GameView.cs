@@ -1,10 +1,12 @@
-﻿using System;
+﻿using GEI797Labo.Models;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 
 namespace GEI797Labo
@@ -12,11 +14,10 @@ namespace GEI797Labo
     internal class GameView
     {
         private GameForm oGameForm; // Supposons que GameForm est une classe existante
-        private double playerPosX = 0;
-        private double playerPosY = 0;
-        private float playerVelocity = 10; // in pixels per second
         private TileManager tileManager;
         private Controller controller;
+        private GameModel model;
+
 
         public GameView()
         {
@@ -26,6 +27,8 @@ namespace GEI797Labo
             oGameForm.FormClosing += CloseWindowEvent;
             tileManager = new TileManager();
             controller = new Controller();
+            model = new GameModel();
+
         }
 
         public void Show()
@@ -57,16 +60,48 @@ namespace GEI797Labo
 
         private void GameRenderer(object sender, PaintEventArgs e)
         {
+
             Graphics g = e.Graphics;
             // Mettre l'arrière-plan en noir
             g.Clear(Color.Black);
 
-            // Afficher un carré jaune de 20x20px
-            using (Brush yellowBrush = new SolidBrush(Color.Yellow))
+            g.DrawImage(tileManager.getImage("Title").bitmap, 20, 48);
+
+            int[,] labyrinth = model.GetLabyrinth();
+
+
+            for (int i = 0; i < labyrinth.GetLength(1); i++)
             {
-                e.Graphics.FillRectangle(yellowBrush, new Rectangle((int)playerPosX, (int)playerPosY, 20, 20));
+                for (int j = 0; j < labyrinth.GetLength(0); j++)
+                {
+                    if (labyrinth[j,i] == 1)
+                    {
+                        g.DrawImage(tileManager.getImage("Wall").bitmap, 96 * i+20, 96*j+144);
+                    }
+                    else if (labyrinth[j, i] == 2)
+                    {
+                        g.DrawImage(tileManager.getImage("Wall").bitmap, 96 * i + 20, 96 * j + 144);
+                        //TODO : modify transparency
+                        using (Brush yellowBrush = new SolidBrush(Color.FromArgb(150, Color.Black)))
+                        {
+                            g.FillRectangle(yellowBrush, new Rectangle(96 * i + 20, 96 * j + 144, 96, 96));
+                        }
+                    }
+                    else if (labyrinth[j, i] == 3)
+                    {
+                        g.DrawImage(tileManager.getImage("Down1").bitmap, 96 * i + 20, 96 * j + 144);
+                    }
+                    else if (labyrinth[j, i] == 4)
+                    {
+                        g.DrawImage(   tileManager.getImage("Gem").bitmap, 96 * i + 20 + 24, 96 * j + 144 + 24);
+                    }
+                    else if (labyrinth[j, i] == 5)
+                    {
+                        g.DrawImage(tileManager.getImage("MiniSlime").bitmap, 96 * i + 20 + 24, 96 * j + 144 + 24);
+                    }
+                }
+
             }
-            g.DrawImage(tileManager.getImage("Wall").bitmap, 0, 0);
         }
 
         private void KeyDownEvent(object sender, PreviewKeyDownEventArgs e)
@@ -80,9 +115,5 @@ namespace GEI797Labo
             Console.WriteLine("Close");
         }
 
-        public void moveRight(double elapsedTime)
-        {
-            playerPosX += elapsedTime/1000 * playerVelocity;
-        }
     }
 }
