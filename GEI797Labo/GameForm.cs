@@ -16,6 +16,7 @@ namespace GEI797Labo
         {
             InitializeComponent();
             this.DoubleBuffered = true;
+            this.KeyPreview = true;
         }
     }
 }

@@ -13,11 +13,21 @@ namespace GEI797Labo
     internal class GameEngine
     {
         private GameView oView;
+        private Sprite player;
 
 
         public GameEngine()
         {
             oView = new GameView();
+
+            TileManager tileManager = new TileManager();
+            coord coordPlayerInit = new coord
+            {
+                x = 0,
+                y = 0
+            };
+            player = new Sprite(tileManager.getImage("Wall"), coordPlayerInit, 0, 1000);
+
             Thread thread = new Thread(new ThreadStart(GameLoop));
             thread.Start();
             oView.Show();
@@ -29,6 +39,7 @@ namespace GEI797Labo
             double lag = 0.0;
             float MS_PER_FRAME = 16.67f; // 1000/FPS
             float fps = 1;
+
             while (true)
             {
                 double current = GetCurrentTimeMillis();
@@ -38,7 +49,7 @@ namespace GEI797Labo
                 if (lag >= MS_PER_FRAME)
                 {
                     fps = (float)(1000f / lag);
-                    Console.WriteLine(fps);
+                    //Console.WriteLine(fps);
 
                     ProcessInput();
 
@@ -70,5 +81,7 @@ namespace GEI797Labo
             TimeSpan elapsedTime = DateTime.UtcNow - epochStart;
             return elapsedTime.TotalMilliseconds;
         }
+
+        public Sprite GetPlayer() => player;
     }
 }

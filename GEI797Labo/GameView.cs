@@ -15,14 +15,20 @@ namespace GEI797Labo
     {
         private GameForm oGameForm; // Supposons que GameForm est une classe existante
         private TileManager tileManager;
+        private Controller controller;
         private GameModel model;
+
 
         public GameView()
         {
             oGameForm = new GameForm();
             oGameForm.Paint += GameRenderer;
+            oGameForm.PreviewKeyDown += KeyDownEvent;
+            oGameForm.FormClosing += CloseWindowEvent;
             tileManager = new TileManager();
+            controller = new Controller();
             model = new GameModel();
+
         }
 
         public void Show()
@@ -55,10 +61,11 @@ namespace GEI797Labo
         private void GameRenderer(object sender, PaintEventArgs e)
         {
 
+            Graphics g = e.Graphics;
             // Mettre l'arrière-plan en noir
-            e.Graphics.Clear(Color.Black);
+            g.Clear(Color.Black);
 
-            e.Graphics.DrawImage(tileManager.getImage("Title").bitmap, 20, 48);
+            g.DrawImage(tileManager.getImage("Title").bitmap, 20, 48);
 
             int[,] labyrinth = model.GetLabyrinth();
 
@@ -69,34 +76,44 @@ namespace GEI797Labo
                 {
                     if (labyrinth[j,i] == 1)
                     {
-                        e.Graphics.DrawImage(tileManager.getImage("Wall").bitmap, 96 * i+20, 96*j+144);
+                        g.DrawImage(tileManager.getImage("Wall").bitmap, 96 * i+20, 96*j+144);
                     }
                     else if (labyrinth[j, i] == 2)
                     {
-                        e.Graphics.DrawImage(tileManager.getImage("Wall").bitmap, 96 * i + 20, 96 * j + 144);
+                        g.DrawImage(tileManager.getImage("Wall").bitmap, 96 * i + 20, 96 * j + 144);
                         //TODO : modify transparency
                         using (Brush yellowBrush = new SolidBrush(Color.FromArgb(150, Color.Black)))
                         {
-                            e.Graphics.FillRectangle(yellowBrush, new Rectangle(96 * i + 20, 96 * j + 144, 96, 96));
+                            g.FillRectangle(yellowBrush, new Rectangle(96 * i + 20, 96 * j + 144, 96, 96));
                         }
                     }
                     else if (labyrinth[j, i] == 3)
                     {
-                        e.Graphics.DrawImage(tileManager.getImage("Down1").bitmap, 96 * i + 20, 96 * j + 144);
+                        g.DrawImage(tileManager.getImage("Down1").bitmap, 96 * i + 20, 96 * j + 144);
                     }
                     else if (labyrinth[j, i] == 4)
                     {
-                        e.Graphics.DrawImage(   tileManager.getImage("Gem").bitmap, 96 * i + 20 + 24, 96 * j + 144 + 24);
+                        g.DrawImage(   tileManager.getImage("Gem").bitmap, 96 * i + 20 + 24, 96 * j + 144 + 24);
                     }
                     else if (labyrinth[j, i] == 5)
                     {
-                        e.Graphics.DrawImage(tileManager.getImage("MiniSlime").bitmap, 96 * i + 20 + 24, 96 * j + 144 + 24);
+                        g.DrawImage(tileManager.getImage("MiniSlime").bitmap, 96 * i + 20 + 24, 96 * j + 144 + 24);
                     }
                 }
 
             }
-
-
         }
+
+        private void KeyDownEvent(object sender, PreviewKeyDownEventArgs e)
+        {
+            controller.SendKeyPressedEvent(e);
+        }
+
+        private void CloseWindowEvent(object sender, FormClosingEventArgs e)
+        {
+            controller.CloseEvent();
+            Console.WriteLine("Close");
+        }
+
     }
 }
