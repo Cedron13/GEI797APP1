@@ -14,12 +14,23 @@ namespace GEI797Labo
     internal class GameEngine
     {
         private IController controller;
-
+        private bool isAlive = true;
+        private readonly object lockObject = new object();
+        private Thread gameThread;
         public GameEngine(IController c)
         {
             controller = c;
-            Thread thread = new Thread(new ThreadStart(GameLoop));
-            thread.Start();
+            gameThread = new Thread(new ThreadStart(GameLoop));
+            gameThread.Start();
+        }
+
+        public void KillEngine()
+        {
+            lock (lockObject)
+            {
+                isAlive = false;
+            }
+            gameThread.Join();
         }
 
         private void GameLoop()
@@ -31,6 +42,13 @@ namespace GEI797Labo
 
             while (true)
             {
+                lock (lockObject)
+                {
+                    if (!isAlive)
+                    {
+                        break;
+                    }
+                }
                 double current = GetCurrentTimeMillis();
                 double elapsed = current - previous;
                 previous = current;

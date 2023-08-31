@@ -19,14 +19,14 @@ namespace GEI797Labo
             model = new GameModel(this);
             view = new GameView(this);
             engine = new GameEngine(this);
-
         }
 
         //IController
 
         public void ViewCloseEvent()
         {
-
+            //Engine est null. À investiguer
+            //engine.KillEngine();
         }
         public void ViewKeyReleasedEvent()
         {
