@@ -17,17 +17,13 @@ namespace GEI797Labo
         private GameView view;
         private GameModel model;
 
-        private Sprite player;
 
         private List<Keys> inputList;
-
-        private int TILE_SIZE;
 
         public Controller()
         {
             model = new GameModel(this);
             inputList = new List<Keys>();
-            TILE_SIZE = 96;
             tileManager = new TileManager();
             InitGame();
 
@@ -63,10 +59,7 @@ namespace GEI797Labo
         }
         public void EngineUpdateEvent(double lag)
         {
-            if (!player.IsMovementOver())
-            {
-                player.Update((int)lag);
-            }
+            model.Update(lag);
         }
         public void EngineProcessInputEvent() {
             foreach(Keys e in inputList)
@@ -75,30 +68,22 @@ namespace GEI797Labo
                 {
                     case Keys.Down:
                         {
-                            coord playerCoord = player.GetPosition();
-                            playerCoord.y += TILE_SIZE;
-                            if(player.IsMovementOver()) player.StartMovement(playerCoord);
+                            model.MoveDown();
                             break;
                         }
                     case Keys.Up:
                         {
-                            coord playerCoord = player.GetPosition();
-                            playerCoord.y -= TILE_SIZE;
-                            if (player.IsMovementOver()) player.StartMovement(playerCoord);
+                            model.MoveUp();
                             break;
                         }
                     case Keys.Right:
                         {
-                            coord playerCoord = player.GetPosition();
-                            playerCoord.x += TILE_SIZE;
-                            if (player.IsMovementOver()) player.StartMovement(playerCoord);
+                            model.MoveRight();
                             break;
                         }
                     case Keys.Left:
                         {
-                            coord playerCoord = player.GetPosition();
-                            playerCoord.x -= TILE_SIZE;
-                            if (player.IsMovementOver()) player.StartMovement(playerCoord);
+                            model.MoveLeft();
                             break;
                         }
                 }
@@ -108,8 +93,7 @@ namespace GEI797Labo
 
         public void InitGame()
         {
-            //Initiate Slimus
-            player = new Sprite(
+            Sprite player = new Sprite(
                 tileManager.getImage("Down1"),
                 new coord()
                 {
@@ -119,6 +103,7 @@ namespace GEI797Labo
                 0,
                 500
             );
+            model.InitPlayer(player);
         }
 
         //TEMP
@@ -126,7 +111,7 @@ namespace GEI797Labo
             return model.GetLabyrinth();
         }
 
-        public Sprite GetPlayer() => player;
+        public Sprite GetPlayer() => model.GetPlayer();
 
 
     }

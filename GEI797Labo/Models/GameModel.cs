@@ -10,9 +10,12 @@ namespace GEI797Labo.Models
     internal class GameModel
     {
         private IController controller;
+        private Sprite player;
+        private int TILE_SIZE;
         public GameModel(IController c) {
 
             controller = c;
+            TILE_SIZE = 96;
 
         }
         
@@ -32,6 +35,51 @@ namespace GEI797Labo.Models
         {
             return labyrinth;
         }
+
+        public void Update(double lag)
+        {
+            if (!player.IsMovementOver())
+            {
+                player.Update((int)lag);
+            }
+        }
+
+        public bool MoveRight()
+        {
+            coord playerDestCoord = player.GetPosition();
+            playerDestCoord.x += TILE_SIZE;
+            if (player.IsMovementOver()) player.StartMovement(playerDestCoord);
+            return true;
+        }
+        public bool MoveLeft()
+        {
+            coord playerDestCoord = player.GetPosition();
+            playerDestCoord.x -= TILE_SIZE;
+            if (player.IsMovementOver()) player.StartMovement(playerDestCoord);
+            return true;
+        }
+        public bool MoveUp()
+        {
+            coord playerDestCoord = player.GetPosition();
+            playerDestCoord.y -= TILE_SIZE;
+            if (player.IsMovementOver()) player.StartMovement(playerDestCoord);
+            return true;
+        }
+        public bool MoveDown()
+        {
+            coord playerDestCoord = player.GetPosition();
+            playerDestCoord.y += TILE_SIZE;
+            if (player.IsMovementOver()) player.StartMovement(playerDestCoord);
+            return true;
+        }
+
+
+        public void InitPlayer(Sprite p)
+        {
+            player = p;
+        }
+
+        public Sprite GetPlayer() { return player; }
 
     }
 }
