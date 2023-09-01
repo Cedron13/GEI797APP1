@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -18,6 +19,8 @@ namespace GEI797Labo
         private TileManager tileManager;
         private IController controller;
 
+        private Thread windowThread;
+
 
         public GameView(IController c)
         {
@@ -27,7 +30,9 @@ namespace GEI797Labo
             oGameForm.PreviewKeyDown += KeyDownEvent;
             oGameForm.FormClosing += CloseWindowEvent;
             tileManager = new TileManager();
-            Show();
+
+            windowThread = new Thread(new ThreadStart(Show)); //New thread because "Application.run()" blocks the actual thread and prevents the engine to run
+            windowThread.Start();
 
         }
 
@@ -90,7 +95,7 @@ namespace GEI797Labo
                     }
                     else if (labyrinth[j, i] == 3)
                     {
-                        g.DrawImage(tileManager.getImage("Down1").bitmap, 96 * i + 20, 96 * j + 144);
+                        //g.DrawImage(tileManager.getImage("Down1").bitmap, 96 * i + 20, 96 * j + 144);
                     }
                     else if (labyrinth[j, i] == 4)
                     {
@@ -103,6 +108,10 @@ namespace GEI797Labo
                 }
 
             }
+
+            //Display player, independant from the maze
+            spriteState playerStatus = ((Controller)controller).GetPlayer().GetCurrentRenderInfo();
+            g.DrawImage(((Controller)controller).GetPlayer().GetImage().bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y);
         }
 
         private void KeyDownEvent(object sender, PreviewKeyDownEventArgs e)
@@ -115,6 +124,8 @@ namespace GEI797Labo
             controller.ViewCloseEvent();
             Console.WriteLine("Close");
         }
+
+        public TileManager GetTileManager() => tileManager;
 
     }
 }

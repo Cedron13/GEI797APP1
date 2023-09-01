@@ -27,9 +27,11 @@ namespace GEI797Labo
         private double timeToMove;// Ms
         private double timeElapsed = 0;
 
-        public Sprite(Image2D i, coord pos, int index, double timeMove) {
+        public Sprite(Image2D i, coord pos, int index, double timeMove)
+        {
             image = i;
             currentPos = pos;
+            destinationPos = pos;
             imageIndex = index;
             timeToMove = timeMove;
         }
@@ -55,7 +57,7 @@ namespace GEI797Labo
         {
             timeElapsed += elapsedMs;
             double ratio = timeElapsed / timeToMove;
-            if(ratio >1)
+            if (ratio > 1)
             {
                 ratio = 1;
             }
@@ -65,5 +67,7 @@ namespace GEI797Labo
         }
 
         public coord GetPosition() => currentPos;
+
+        public Image2D GetImage() => image;
     }
 }
