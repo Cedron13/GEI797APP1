@@ -94,14 +94,11 @@ namespace GEI797Labo
         public void InitGame()
         {
             Sprite player = new Sprite(
-                tileManager.getImage("Down1"),
                 new coord()
                 {
                     x = 96 * 4 + 20, //Place holder coordinates, TODO: adapt with screen size and initial placement
                     y = 96 * 7 + 144
-                },
-                0,
-                500
+                }
             );
             model.InitPlayer(player);
         }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace GEI797Labo
 {
+    //Make into Singleton
     internal class TileManager
     {
         private Dictionary<string, Image2D> images;

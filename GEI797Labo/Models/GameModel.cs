@@ -48,28 +48,28 @@ namespace GEI797Labo.Models
         {
             coord playerDestCoord = player.GetPosition();
             playerDestCoord.x += TILE_SIZE;
-            if (player.IsMovementOver()) player.StartMovement(playerDestCoord);
+            if (player.IsMovementOver()) player.StartMovement(playerDestCoord , Direction.RIGHT);
             return true;
         }
         public bool MoveLeft()
         {
             coord playerDestCoord = player.GetPosition();
             playerDestCoord.x -= TILE_SIZE;
-            if (player.IsMovementOver()) player.StartMovement(playerDestCoord);
+            if (player.IsMovementOver()) player.StartMovement(playerDestCoord , Direction.LEFT);
             return true;
         }
         public bool MoveUp()
         {
             coord playerDestCoord = player.GetPosition();
             playerDestCoord.y -= TILE_SIZE;
-            if (player.IsMovementOver()) player.StartMovement(playerDestCoord);
+            if (player.IsMovementOver()) player.StartMovement(playerDestCoord, Direction.UP);
             return true;
         }
         public bool MoveDown()
         {
             coord playerDestCoord = player.GetPosition();
             playerDestCoord.y += TILE_SIZE;
-            if (player.IsMovementOver()) player.StartMovement(playerDestCoord);
+            if (player.IsMovementOver()) player.StartMovement(playerDestCoord, Direction.DOWN);
             return true;
         }
 

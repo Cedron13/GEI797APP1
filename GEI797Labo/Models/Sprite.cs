@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace GEI797Labo
 {
+    public enum Direction
+    {
+        DOWN, RIGHT, UP, LEFT, IDLE
+    }
     public struct coord
     {
         public int x { get; set; }
@@ -19,25 +23,23 @@ namespace GEI797Labo
     }
     internal class Sprite
     {
-        private Image2D image;
         private coord initialPos;
         private coord currentPos;
         private coord destinationPos;
         private int imageIndex;
-        private double timeToMove;// Ms
+        private Direction dir;
+        private double timeToMove = 500;// Ms
         private double timeElapsed = 0;
 
-        public Sprite(Image2D i, coord pos, int index, double timeMove)
+        public Sprite(coord pos)
         {
-            image = i;
             currentPos = pos;
             destinationPos = pos;
-            imageIndex = index;
-            timeToMove = timeMove;
         }
 
-        public void StartMovement(coord finalPos)
+        public void StartMovement(coord finalPos, Direction d)
         {
+            dir = d;
             initialPos = currentPos;
             destinationPos = finalPos;
             timeElapsed = 0;
@@ -64,10 +66,19 @@ namespace GEI797Labo
             currentPos.x = (int)((destinationPos.x - initialPos.x) * ratio + initialPos.x);
             currentPos.y = (int)((destinationPos.y - initialPos.y) * ratio + initialPos.y);
             imageIndex = (int)(5 * ratio);
+            if (imageIndex == 3) { imageIndex = 1; }
+            if (imageIndex >= 4) {  imageIndex = 0; }
         }
 
         public coord GetPosition() => currentPos;
 
-        public Image2D GetImage() => image;
+        public String GetImageName()
+        {
+            if (dir == Direction.UP) return "Up" + (imageIndex + 1).ToString();
+            else if (dir == Direction.DOWN) return "Down" + (imageIndex + 1).ToString();
+            else if (dir == Direction.RIGHT) return "Right" + (imageIndex + 1).ToString();
+            else if (dir == Direction.LEFT) return "Left" + (imageIndex + 1).ToString();
+            else return "Idle";
+        }
     }
 }

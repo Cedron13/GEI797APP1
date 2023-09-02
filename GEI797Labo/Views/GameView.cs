@@ -111,7 +111,8 @@ namespace GEI797Labo
 
             //Display player, independant from the maze
             spriteState playerStatus = ((Controller)controller).GetPlayer().GetCurrentRenderInfo();
-            g.DrawImage(((Controller)controller).GetPlayer().GetImage().bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y);
+
+            g.DrawImage(tileManager.getImage(((Controller)controller).GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y);
         }
 
         private void KeyDownEvent(object sender, PreviewKeyDownEventArgs e)

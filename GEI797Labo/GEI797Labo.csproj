@@ -49,6 +49,7 @@
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="GameEngine.cs" />
+    <Compile Include="Models\PlayerSprite.cs" />
     <Compile Include="Views\GameForm.cs">
       <SubType>Form</SubType>
     </Compile>
