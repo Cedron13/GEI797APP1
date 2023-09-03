@@ -72,94 +72,108 @@ namespace GEI797Labo.Models
         
         public bool MoveRight(int top, int left, int brick)
         {
-            if (labyrinth[gridPosY, gridPosX+1] == 1 || labyrinth[gridPosY, gridPosX + 1] == 2)
+            if (player.IsMovementOver())
             {
-                return false;
-            }
-            else
-            {
-                if (labyrinth[gridPosY, gridPosX] == 4)
+                if (labyrinth[gridPosY, gridPosX + 1] == 1 || labyrinth[gridPosY, gridPosX + 1] == 2)
                 {
-                    labyrinth[gridPosY, gridPosX] = 0;
+                    return false;
                 }
-                gridPosX++;
-                coord playerDestCoord = new coord()
+                else
                 {
-                    x = left + brick * gridPosX,
-                    y = top + brick * (gridPosY + 1)
-                };
-                if (player.IsMovementOver()) player.StartMovement(playerDestCoord, Direction.RIGHT);
-                return true;
+                    if (labyrinth[gridPosY, gridPosX] == 4)
+                    {
+                        labyrinth[gridPosY, gridPosX] = 0;
+                    }
+                    gridPosX++;
+                    coord playerDestCoord = new coord()
+                    {
+                        x = left + brick * gridPosX,
+                        y = top + brick * (gridPosY + 1)
+                    };
+                    player.StartMovement(playerDestCoord, Direction.RIGHT);
+                    return true;
+                }
             }
+            return false;
 
         }
         public bool MoveLeft(int top, int left, int brick)
         {
-            if (labyrinth[gridPosY, gridPosX - 1] == 1 || labyrinth[gridPosY, gridPosX - 1] == 2)
+            if (player.IsMovementOver())
             {
-                return false;
-            }
-            else
-            {
-                if (labyrinth[gridPosY, gridPosX] == 4)
+                if (labyrinth[gridPosY, gridPosX - 1] == 1 || labyrinth[gridPosY, gridPosX - 1] == 2)
                 {
-                    labyrinth[gridPosY, gridPosX] = 0;
+                    return false;
                 }
-                gridPosX--;
-                coord playerDestCoord = new coord()
+                else
                 {
-                    x = left + brick * gridPosX,
-                    y = top + brick * (gridPosY + 1)
-                };
-                if (player.IsMovementOver()) player.StartMovement(playerDestCoord, Direction.LEFT);
-                return true;
+                    if (labyrinth[gridPosY, gridPosX] == 4)
+                    {
+                        labyrinth[gridPosY, gridPosX] = 0;
+                    }
+                    gridPosX--;
+                    coord playerDestCoord = new coord()
+                    {
+                        x = left + brick * gridPosX,
+                        y = top + brick * (gridPosY + 1)
+                    };
+                    player.StartMovement(playerDestCoord, Direction.LEFT);
+                    return true;
+                }
             }
+            return false;
         }
         public bool MoveUp(int top, int left, int brick)
         {
-            if (labyrinth[gridPosY - 1, gridPosX] == 1 || labyrinth[gridPosY - 1, gridPosX] == 2)
+            if (player.IsMovementOver())
             {
-                return false;
-            }
-            else
-            {
-                if (labyrinth[gridPosY, gridPosX] == 4)
+                if (labyrinth[gridPosY - 1, gridPosX] == 1 || labyrinth[gridPosY - 1, gridPosX] == 2)
                 {
-                    labyrinth[gridPosY, gridPosX] = 0;
+                    return false;
                 }
-                gridPosY--;
-                coord playerDestCoord = new coord()
+                else
                 {
-                    x = left + brick * gridPosX,
-                    y = top + brick * (gridPosY + 1)
-                };
-                if (player.IsMovementOver()) player.StartMovement(playerDestCoord, Direction.UP);
-                return true;
+                    if (labyrinth[gridPosY, gridPosX] == 4)
+                    {
+                        labyrinth[gridPosY, gridPosX] = 0;
+                    }
+                    gridPosY--;
+                    coord playerDestCoord = new coord()
+                    {
+                        x = left + brick * gridPosX,
+                        y = top + brick * (gridPosY + 1)
+                    };
+                    player.StartMovement(playerDestCoord, Direction.UP);
+                    return true;
+                }
             }
-            
+            return false;
         }
         public bool MoveDown(int top, int left, int brick)
         {
-            if (labyrinth[gridPosY + 1, gridPosX] == 1 || labyrinth[gridPosY + 1, gridPosX] == 2)
+            if (player.IsMovementOver())
             {
-                return false;
-            }
-            else
-            {
-                if (labyrinth[gridPosY, gridPosX] == 4)
+                if (labyrinth[gridPosY + 1, gridPosX] == 1 || labyrinth[gridPosY + 1, gridPosX] == 2)
                 {
-                    labyrinth[gridPosY, gridPosX] = 0;
+                    return false;
                 }
-                gridPosY++;
-                coord playerDestCoord = new coord()
+                else
                 {
-                    x = left + brick * gridPosX,
-                    y = top + brick * (gridPosY + 1)
-                };
-                if (player.IsMovementOver()) player.StartMovement(playerDestCoord, Direction.DOWN);
-                return true;
+                    if (labyrinth[gridPosY, gridPosX] == 4)
+                    {
+                        labyrinth[gridPosY, gridPosX] = 0;
+                    }
+                    gridPosY++;
+                    coord playerDestCoord = new coord()
+                    {
+                        x = left + brick * gridPosX,
+                        y = top + brick * (gridPosY + 1)
+                    };
+                    player.StartMovement(playerDestCoord, Direction.DOWN);
+                    return true;
+                }
             }
-            
+            return false;
         }
 
 
