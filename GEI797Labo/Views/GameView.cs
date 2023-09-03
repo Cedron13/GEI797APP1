@@ -77,27 +77,27 @@ namespace GEI797Labo
             // Black background and menu
             g.Clear(Color.Black);
 
-            g.DrawImage(tileManager.getImage("Title").bitmap, leftMargin, topMargin, brickSize * 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("Title").bitmap, leftMargin + brickSize /2 , topMargin, brickSize * 2, brickSize / 2);
 
-            g.DrawImage(tileManager.getImage("Heart").bitmap, leftMargin + brickSize * 11 /4, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("BeginBar").bitmap, leftMargin + brickSize * 3, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("RedFull").bitmap, leftMargin + brickSize * 7/2, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("RedHalf").bitmap, leftMargin + brickSize * 4, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("EndBar").bitmap, leftMargin + brickSize * 9/2, topMargin, brickSize / 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("Heart").bitmap, leftMargin + brickSize * 12 /4, topMargin, brickSize / 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("BeginBar").bitmap, leftMargin + brickSize * 13/4, topMargin, brickSize / 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("RedFull").bitmap, leftMargin + brickSize * 15/4, topMargin, brickSize / 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("RedHalf").bitmap, leftMargin + brickSize * 17/4, topMargin, brickSize / 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("EndBar").bitmap, leftMargin + brickSize * 19/4, topMargin, brickSize / 2, brickSize / 2);
 
-            g.DrawImage(tileManager.getImage("BigBubble").bitmap, leftMargin + brickSize * 21/4, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("BeginBar").bitmap, leftMargin + brickSize * 11/2, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("BlueFull").bitmap, leftMargin + brickSize * 6, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("BlueHalf").bitmap, leftMargin + brickSize * 13/2, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("EndBar").bitmap, leftMargin + brickSize * 7, topMargin, brickSize / 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("BigBubble").bitmap, leftMargin + brickSize * 22/4, topMargin, brickSize / 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("BeginBar").bitmap, leftMargin + brickSize * 23/4, topMargin, brickSize / 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("BlueFull").bitmap, leftMargin + brickSize * 25/4, topMargin, brickSize / 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("BlueHalf").bitmap, leftMargin + brickSize * 27/4, topMargin, brickSize / 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("EndBar").bitmap, leftMargin + brickSize * 29/4, topMargin, brickSize / 2, brickSize / 2);
 
-            g.DrawImage(tileManager.getImage("Gem").bitmap, leftMargin + brickSize * 31/4, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("BeginBar").bitmap, leftMargin + brickSize * 8, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("YellowFull").bitmap, leftMargin + brickSize * 17/2, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("YellowHalf").bitmap, leftMargin + brickSize * 9, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("EndBar").bitmap, leftMargin + brickSize * 19/2, topMargin, brickSize / 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("Gem").bitmap, leftMargin + brickSize * 32/4, topMargin, brickSize / 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("BeginBar").bitmap, leftMargin + brickSize * 33/4, topMargin, brickSize / 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("YellowFull").bitmap, leftMargin + brickSize * 35/4, topMargin, brickSize / 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("YellowHalf").bitmap, leftMargin + brickSize * 37/4, topMargin, brickSize / 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("EndBar").bitmap, leftMargin + brickSize * 39/4, topMargin, brickSize / 2, brickSize / 2);
 
-            //g.DrawImage(tileManager.getImage("Key").bitmap, leftMargin + brickSize * 10, topMargin, brickSize / 2, brickSize / 2);
+            g.DrawImage(tileManager.getImage("Key").bitmap, leftMargin + brickSize * 40/4, topMargin, brickSize / 2, brickSize / 2);
 
 
             //Calls Lab from another thread, lock may be needed
@@ -110,15 +110,15 @@ namespace GEI797Labo
                 {
                     if (labyrinth[j, i] == 1)
                     {
-                        g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * i + leftMargin, brickSize * j + 2 * topMargin + brickSize/2, brickSize, brickSize);
+                        g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * i + leftMargin, brickSize * j + topMargin + brickSize, brickSize, brickSize);
                     }
                     else if (labyrinth[j, i] == 2)
                     {
-                        g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * i + leftMargin, brickSize * j + 2 * topMargin + brickSize / 2, brickSize, brickSize);
+                        g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * i + leftMargin, brickSize * j + topMargin + brickSize, brickSize, brickSize);
 
                         using (Brush yellowBrush = new SolidBrush(Color.FromArgb(150, Color.Black)))
                         {
-                            g.FillRectangle(yellowBrush, new Rectangle(brickSize * i + leftMargin, brickSize * j + 2 * topMargin + brickSize / 2, brickSize, brickSize));
+                            g.FillRectangle(yellowBrush, new Rectangle(brickSize * i + leftMargin, brickSize * j + topMargin + brickSize, brickSize, brickSize));
                         }
                     }
                     else if (labyrinth[j, i] == 3)
@@ -127,11 +127,11 @@ namespace GEI797Labo
                     }
                     else if (labyrinth[j, i] == 4)
                     {
-                        g.DrawImage(tileManager.getImage("Gem").bitmap, brickSize * i + leftMargin + brickMiddle, brickSize * j + 2 * topMargin + brickSize / 2 + brickMiddle, brickSize / 2, brickSize / 2);
+                        g.DrawImage(tileManager.getImage("Gem").bitmap, brickSize * i + leftMargin + brickMiddle, brickSize * j + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
                     }
                     else if (labyrinth[j, i] == 5)
                     {
-                        g.DrawImage(tileManager.getImage("MiniSlime").bitmap, brickSize * i + leftMargin + brickMiddle, brickSize * j + 2 * topMargin + brickSize / 2 + brickMiddle, brickSize / 2, brickSize / 2);
+                        g.DrawImage(tileManager.getImage("MiniSlime").bitmap, brickSize * i + leftMargin + brickMiddle, brickSize * j + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
                     }
                 }
 
@@ -158,13 +158,15 @@ namespace GEI797Labo
 
         private void GameForm_SizeChanged(object sender, EventArgs e)
         {
+
+            int[,] labyrinth = controller.GetLabyrinth();
             //Console.WriteLine("coco");
             displayHeight = oGameForm.Size.Height;
             displayWidth = oGameForm.Size.Width;
             minSize = Math.Min(displayHeight, displayWidth); // Smaller size is the priority
             brickSize = (int)((minSize / 600.0) * 50); // Adapting brick sizes
-            leftMargin = (int)(brickSize / 2);
-            topMargin = (int)(brickSize / 2);
+            leftMargin = (int)((displayWidth - labyrinth.GetLength(1)*(brickSize+3/2))/2);
+            topMargin = (int)((displayHeight - (labyrinth.GetLength(0)*(brickSize+3/2) + brickSize * 3/2))/2) ;
             brickMiddle = (int)(brickSize / 4);
 
         }
