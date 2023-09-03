@@ -72,45 +72,58 @@ namespace GEI797Labo.Models
         
         public bool MoveRight(int top, int left, int brick)
         {
-            gridPosX++;
-            coord playerDestCoord = new coord() {
-                x = left + brick * gridPosX,
-                y = top + brick * (gridPosY + 1)
-            };
-            if (player.IsMovementOver()) player.StartMovement(playerDestCoord , Direction.RIGHT);
+            if (player.IsMovementOver())
+            {
+                gridPosX++;
+                coord playerDestCoord = new coord() {
+                    x = left + brick * gridPosX,
+                    y = top + brick * (gridPosY + 1)
+                };
+                player.StartMovement(playerDestCoord , Direction.RIGHT);
+
+            }
             return true;
         }
         public bool MoveLeft(int top, int left, int brick)
         {
-            gridPosX--;
-            coord playerDestCoord = new coord()
+            if (player.IsMovementOver())
             {
-                x = left + brick * gridPosX,
-                y = top + brick * (gridPosY + 1)
-            };
-            if (player.IsMovementOver()) player.StartMovement(playerDestCoord , Direction.LEFT);
+                gridPosX--;
+                coord playerDestCoord = new coord()
+                {
+                    x = left + brick * gridPosX,
+                    y = top + brick * (gridPosY + 1)
+                };
+                player.StartMovement(playerDestCoord , Direction.LEFT);
+            }
             return true;
         }
         public bool MoveUp(int top, int left, int brick)
         {
-            gridPosY--;
-            coord playerDestCoord = new coord()
+            if (player.IsMovementOver())
             {
-                x = left + brick * gridPosX,
-                y = top + brick * (gridPosY + 1)
-            };
-            if (player.IsMovementOver()) player.StartMovement(playerDestCoord, Direction.UP);
+                gridPosY--;
+                coord playerDestCoord = new coord()
+                {
+                    x = left + brick * gridPosX,
+                    y = top + brick * (gridPosY + 1)
+                };
+                player.StartMovement(playerDestCoord, Direction.UP);
+            }
             return true;
         }
         public bool MoveDown(int top, int left, int brick)
         {
-            gridPosY++;
-            coord playerDestCoord = new coord()
+            if (player.IsMovementOver())
             {
-                x = left + brick * gridPosX,
-                y = top + brick * (gridPosY + 1)
-            };
-            if (player.IsMovementOver()) player.StartMovement(playerDestCoord, Direction.DOWN);
+                gridPosY++;
+                coord playerDestCoord = new coord()
+                {
+                    x = left + brick * gridPosX,
+                    y = top + brick * (gridPosY + 1)
+                };
+                player.StartMovement(playerDestCoord, Direction.DOWN);
+            }
             return true;
         }
 
