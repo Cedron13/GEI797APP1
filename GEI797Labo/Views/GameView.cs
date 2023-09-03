@@ -22,8 +22,8 @@ namespace GEI797Labo
         private int displayHeight;
         private int brickSize = 50;
         private int minSize;
-        private int leftMargin = 25;
-        private int topMargin = 25;
+        private int leftMargin = 19;
+        private int topMargin = 33;
         private int brickMiddle = 12;
         private Thread windowThread;
 
