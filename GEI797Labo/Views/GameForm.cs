@@ -12,11 +12,15 @@ namespace GEI797Labo
 {
     public partial class GameForm : Form
     {
+        private int beginwidth = 600;
+        private int beginheight = 600;
         public GameForm()
         {
             InitializeComponent();
             this.DoubleBuffered = true;
             this.KeyPreview = true;
+            this.Size = new Size(beginwidth, beginheight); //Init display dimensions 600*600
+
         }
     }
 }

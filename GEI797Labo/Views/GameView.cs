@@ -18,7 +18,13 @@ namespace GEI797Labo
         private GameForm oGameForm; // Supposons que GameForm est une classe existante
         private TileManager tileManager;
         private IController controller;
-
+        private int displaywidth;
+        private int displayheight;
+        private int tailletuile = 50;
+        private int taillemin;
+        private int leftmargin = 25;
+        private int topmargin = 100;
+        private int middletuile = 12;
         private Thread windowThread;
 
 
@@ -29,6 +35,7 @@ namespace GEI797Labo
             oGameForm.Paint += GameRenderer;
             oGameForm.PreviewKeyDown += KeyDownEvent;
             oGameForm.FormClosing += CloseWindowEvent;
+            oGameForm.SizeChanged += GameForm_SizeChanged;
             tileManager = new TileManager();
 
             windowThread = new Thread(new ThreadStart(Show)); //New thread because "Application.run()" blocks the actual thread and prevents the engine to run
@@ -70,7 +77,7 @@ namespace GEI797Labo
             // Mettre l'arrière-plan en noir
             g.Clear(Color.Black);
 
-            g.DrawImage(tileManager.getImage("Title").bitmap, 20, 48);
+            //g.DrawImage(tileManager.getImage("Title").bitmap, 20, 48);
 
             //Calls Lab from another thread, lock may be needed
             int[,] labyrinth = controller.GetLabyrinth();
@@ -80,17 +87,17 @@ namespace GEI797Labo
             {
                 for (int j = 0; j < labyrinth.GetLength(0); j++)
                 {
-                    if (labyrinth[j,i] == 1)
+                    if (labyrinth[j, i] == 1)
                     {
-                        g.DrawImage(tileManager.getImage("Wall").bitmap, 96 * i+20, 96*j+144);
+                        g.DrawImage(tileManager.getImage("Wall").bitmap, tailletuile * i + leftmargin, tailletuile * j + topmargin, tailletuile, tailletuile);
                     }
                     else if (labyrinth[j, i] == 2)
                     {
-                        g.DrawImage(tileManager.getImage("Wall").bitmap, 96 * i + 20, 96 * j + 144);
+                        g.DrawImage(tileManager.getImage("Wall").bitmap, tailletuile * i + leftmargin, tailletuile * j + topmargin, tailletuile, tailletuile);
                         //TODO : modify transparency
                         using (Brush yellowBrush = new SolidBrush(Color.FromArgb(150, Color.Black)))
                         {
-                            g.FillRectangle(yellowBrush, new Rectangle(96 * i + 20, 96 * j + 144, 96, 96));
+                            g.FillRectangle(yellowBrush, new Rectangle(tailletuile * i + leftmargin, tailletuile * j + topmargin, tailletuile, tailletuile));
                         }
                     }
                     else if (labyrinth[j, i] == 3)
@@ -99,11 +106,11 @@ namespace GEI797Labo
                     }
                     else if (labyrinth[j, i] == 4)
                     {
-                        g.DrawImage(   tileManager.getImage("Gem").bitmap, 96 * i + 20 + 24, 96 * j + 144 + 24);
+                        g.DrawImage(tileManager.getImage("Gem").bitmap, tailletuile * i + leftmargin + middletuile, tailletuile * j + topmargin + middletuile, tailletuile / 2, tailletuile / 2);
                     }
                     else if (labyrinth[j, i] == 5)
                     {
-                        g.DrawImage(tileManager.getImage("MiniSlime").bitmap, 96 * i + 20 + 24, 96 * j + 144 + 24);
+                        g.DrawImage(tileManager.getImage("MiniSlime").bitmap, tailletuile * i + leftmargin + middletuile, tailletuile * j + topmargin + middletuile, tailletuile / 2, tailletuile / 2);
                     }
                 }
 
@@ -127,6 +134,19 @@ namespace GEI797Labo
         }
 
         public TileManager GetTileManager() => tileManager;
+
+        private void GameForm_SizeChanged(object sender, EventArgs e)
+        {
+            //Console.WriteLine("coco");
+            displayheight = oGameForm.Size.Height;
+            displaywidth = oGameForm.Size.Width;
+            taillemin = Math.Min(displayheight, displaywidth); // On priorise la taille la plus faible
+            tailletuile = (int)((taillemin / 600.0) * 50); // Adaptation taille des tuiles
+            leftmargin = (int)(tailletuile / 2);
+            topmargin = (int)(tailletuile * 2);
+            middletuile = (int)(tailletuile / 4);
+
+        }
 
     }
 }
