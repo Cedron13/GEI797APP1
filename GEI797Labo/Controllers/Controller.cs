@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Media;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,6 +17,8 @@ namespace GEI797Labo
         private TileManager tileManager;
         private GameView view;
         private GameModel model;
+        private int initPosX;
+        private int initPosY;
 
 
         private List<Keys> inputList;
@@ -25,9 +28,9 @@ namespace GEI797Labo
             model = new GameModel(this);
             inputList = new List<Keys>();
             tileManager = new TileManager();
+            view = new GameView(this);
             InitGame();
 
-            view = new GameView(this);
             engine = new GameEngine(this);
             //Order is very important due to dependencies between each oject, this order works 👍
         }
@@ -93,11 +96,25 @@ namespace GEI797Labo
 
         public void InitGame()
         {
+            for (int i = 0; i < model.GetLabyrinth().GetLength(0); i++)
+            {
+                for (int j = 0; j < model.GetLabyrinth().GetLength(1); j++)
+                {
+
+                    if (model.GetLabyrinth()[i, j] == 3)
+                    {
+                        initPosX = view.GetBrickSize() * j + view.GetLeftMargin();
+                        initPosY = view.GetBrickSize() * i + view.GetTopMargin() + view.GetBrickSize();
+                    }
+
+                }
+
+            }
             Sprite player = new Sprite(
                 new coord()
                 {
-                    x = 96 * 4 + 20, //Place holder coordinates, TODO: adapt with screen size and initial placement
-                    y = 96 * 7 + 144
+                    x = initPosX, //Place holder coordinates, TODO: adapt with screen size 
+                    y = initPosY    
                 }
             );
             model.InitPlayer(player);
@@ -109,6 +126,7 @@ namespace GEI797Labo
         }
 
         public Sprite GetPlayer() => model.GetPlayer();
+
 
 
     }

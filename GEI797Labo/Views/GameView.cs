@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,6 +29,21 @@ namespace GEI797Labo
         private Thread windowThread;
 
 
+        public int GetTopMargin() 
+        { 
+            return topMargin; 
+        }
+        public int GetLeftMargin() 
+        { 
+            return leftMargin; 
+        }
+        public int GetBrickSize() 
+        { 
+            return brickSize; 
+        }
+
+        
+
         public GameView(IController c)
         {
             controller = c;
@@ -42,6 +58,7 @@ namespace GEI797Labo
             windowThread.Start();
 
         }
+
 
         public void Show()
         {
@@ -97,7 +114,7 @@ namespace GEI797Labo
             g.DrawImage(tileManager.getImage("YellowHalf").bitmap, leftMargin + brickSize * 37/4, topMargin, brickSize / 2, brickSize / 2);
             g.DrawImage(tileManager.getImage("EndBar").bitmap, leftMargin + brickSize * 39/4, topMargin, brickSize / 2, brickSize / 2);
 
-            g.DrawImage(tileManager.getImage("Key").bitmap, leftMargin + brickSize * 40/4, topMargin, brickSize / 2, brickSize / 2);
+            //g.DrawImage(tileManager.getImage("Key").bitmap, leftMargin + brickSize * 40/4, topMargin, brickSize / 2, brickSize / 2);
 
 
             //Calls Lab from another thread, lock may be needed
@@ -123,7 +140,7 @@ namespace GEI797Labo
                     }
                     else if (labyrinth[j, i] == 3)
                     {
-                        //g.DrawImage(tileManager.getImage("Down1").bitmap, 96 * i + 20, 96 * j + 144);
+                        
                     }
                     else if (labyrinth[j, i] == 4)
                     {
@@ -140,7 +157,7 @@ namespace GEI797Labo
             //Display player, independant from the maze
             spriteState playerStatus = ((Controller)controller).GetPlayer().GetCurrentRenderInfo();
 
-            g.DrawImage(tileManager.getImage(((Controller)controller).GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y);
+            g.DrawImage(tileManager.getImage(((Controller)controller).GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
         }
 
         private void KeyDownEvent(object sender, PreviewKeyDownEventArgs e)
@@ -160,7 +177,6 @@ namespace GEI797Labo
         {
 
             int[,] labyrinth = controller.GetLabyrinth();
-            //Console.WriteLine("coco");
             displayHeight = oGameForm.Size.Height;
             displayWidth = oGameForm.Size.Width;
             minSize = Math.Min(displayHeight, displayWidth); // Smaller size is the priority
