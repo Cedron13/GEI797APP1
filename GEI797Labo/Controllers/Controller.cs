@@ -146,6 +146,5 @@ namespace GEI797Labo
         public Sprite GetPlayer() => model.GetPlayer();
 
 
-
     }
 }
