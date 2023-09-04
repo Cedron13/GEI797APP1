@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GEI797Labo
 {
-    
+
     internal class GameEngine
     {
         private IController controller;
@@ -18,6 +18,8 @@ namespace GEI797Labo
         private readonly object lockObject = new object();
         private Thread gameThread;
         public GameEngine(IController c)
+        
+
         {
             controller = c;
             gameThread = new Thread(new ThreadStart(GameLoop));
@@ -49,44 +51,61 @@ namespace GEI797Labo
                         break;
                     }
                 }
-                double current = GetCurrentTimeMillis();
-                double elapsed = current - previous;
-                previous = current;
-                lag += elapsed;
-                if (lag >= MS_PER_FRAME)
+
+
+                if (!controller.IsPaused)
                 {
-                    fps = (float)(1000f / lag);
-                    //Console.WriteLine(fps);
-
-                    ProcessInput();
-
-                    while (lag >= MS_PER_FRAME)
+                    double current = GetCurrentTimeMillis();
+                    double elapsed = current - previous;
+                    previous = current;
+                    lag += elapsed;
+                    if (lag >= MS_PER_FRAME)
                     {
-                        Update(MS_PER_FRAME); //Should be Update(lag)? To verify
-                        lag -= MS_PER_FRAME;
+                        fps = (float)(1000f / lag);
+                        //Console.WriteLine(fps);
+
+                        ProcessInput();
+
+                        while (lag >= MS_PER_FRAME)
+                        {
+                            Update(MS_PER_FRAME); //Should be Update(lag)? To verify
+                            lag -= MS_PER_FRAME;
+                        }
+                        Render(lag / MS_PER_FRAME);
+                        Thread.Sleep(1);
                     }
-                    Render(lag / MS_PER_FRAME);
-                    Thread.Sleep(1);
+
                 }
+                else
+                {
+                    Render(0);
+                    // Le jeu est en pause, attendez un peu pour économiser les ressources du processeur
+                    Thread.Sleep(100);
+                   
+
+                }
+
             }
         }
 
-        private void Render(double frameAhead) {
-            controller.EngineRenderEvent(); // Appel initial de la méthode Render
-        }
-        private void Update(double lag)
-        {
-            controller.EngineUpdateEvent(lag);
-        }
-        private void ProcessInput()
-        {
-            controller.EngineProcessInputEvent();
-        }
-        private double GetCurrentTimeMillis()
-        {
-            DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            TimeSpan elapsedTime = DateTime.UtcNow - epochStart;
-            return elapsedTime.TotalMilliseconds;
-        }
-    }
+
+            private void Render(double frameAhead) {
+                controller.EngineRenderEvent(); // Appel initial de la méthode Render
+            }
+            private void Update(double lag)
+            {
+                controller.EngineUpdateEvent(lag);
+            }
+            private void ProcessInput()
+            {
+                controller.EngineProcessInputEvent();
+            }
+            private double GetCurrentTimeMillis()
+            {
+                DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                TimeSpan elapsedTime = DateTime.UtcNow - epochStart;
+                return elapsedTime.TotalMilliseconds;
+            }
+        
+    } 
 }

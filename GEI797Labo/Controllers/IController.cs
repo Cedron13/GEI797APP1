@@ -26,6 +26,8 @@ namespace GEI797Labo.Controllers
 
         //TEMP
         int[,] GetLabyrinth();
-
+        bool IsPaused { get; set; }
+        void InitGame();
+        void PositionUpdate();
     }
 }
