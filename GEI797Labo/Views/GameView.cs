@@ -27,6 +27,7 @@ namespace GEI797Labo
         private int topMargin = 33;
         private int brickMiddle = 12;
         private Thread windowThread;
+        //private bool isPaused = false;
 
 
         public int GetTopMargin() 
@@ -56,7 +57,7 @@ namespace GEI797Labo
 
             windowThread = new Thread(new ThreadStart(Show)); //New thread because "Application.run()" blocks the actual thread and prevents the engine to run
             windowThread.Start();
-
+            
         }
 
 
@@ -93,76 +94,96 @@ namespace GEI797Labo
             Graphics g = e.Graphics;
             // Black background and menu
             g.Clear(Color.Black);
-
-            g.DrawImage(tileManager.getImage("Title").bitmap, leftMargin + brickSize /2 , topMargin, brickSize * 2, brickSize / 2);
-
-            g.DrawImage(tileManager.getImage("Heart").bitmap, leftMargin + brickSize * 12 /4, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("BeginBar").bitmap, leftMargin + brickSize * 13/4, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("RedFull").bitmap, leftMargin + brickSize * 15/4, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("RedHalf").bitmap, leftMargin + brickSize * 17/4, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("EndBar").bitmap, leftMargin + brickSize * 19/4, topMargin, brickSize / 2, brickSize / 2);
-
-            g.DrawImage(tileManager.getImage("BigBubble").bitmap, leftMargin + brickSize * 22/4, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("BeginBar").bitmap, leftMargin + brickSize * 23/4, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("BlueFull").bitmap, leftMargin + brickSize * 25/4, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("BlueHalf").bitmap, leftMargin + brickSize * 27/4, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("EndBar").bitmap, leftMargin + brickSize * 29/4, topMargin, brickSize / 2, brickSize / 2);
-
-            g.DrawImage(tileManager.getImage("Gem").bitmap, leftMargin + brickSize * 32/4, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("BeginBar").bitmap, leftMargin + brickSize * 33/4, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("YellowFull").bitmap, leftMargin + brickSize * 35/4, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("YellowHalf").bitmap, leftMargin + brickSize * 37/4, topMargin, brickSize / 2, brickSize / 2);
-            g.DrawImage(tileManager.getImage("EndBar").bitmap, leftMargin + brickSize * 39/4, topMargin, brickSize / 2, brickSize / 2);
-
-            //g.DrawImage(tileManager.getImage("Key").bitmap, leftMargin + brickSize * 40/4, topMargin, brickSize / 2, brickSize / 2);
-
-
-            //Calls Lab from another thread, lock may be needed
-            int[,] labyrinth = controller.GetLabyrinth();
-
-
-            for (int i = 0; i < labyrinth.GetLength(0); i++)
+            
+            if (controller.IsPaused == true)
             {
-                for (int j = 0; j < labyrinth.GetLength(1); j++)
+                
+                using (Font font = new Font("Arial", 24, FontStyle.Bold))
+                using (Brush brush = new SolidBrush(Color.White))
                 {
-                    if (labyrinth[i, j] == 1)
-                    {
-                        g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize);
-                    }
-                    else if (labyrinth[i, j] == 2)
-                    {
-                        g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize);
+                    string pauseText = "Pause";
+                    SizeF textSize = g.MeasureString(pauseText, font);
+                    float x = (oGameForm.ClientSize.Width - textSize.Width) / 2;
+                    float y = (oGameForm.ClientSize.Height - textSize.Height) / 2;
+                    g.DrawString(pauseText, font, brush, x, y);
+                }
+            }
+            else
+            {
+                g.DrawImage(tileManager.getImage("Title").bitmap, leftMargin + brickSize / 2, topMargin, brickSize * 2, brickSize / 2);
 
-                        using (Brush yellowBrush = new SolidBrush(Color.FromArgb(150, Color.Black)))
+                g.DrawImage(tileManager.getImage("Heart").bitmap, leftMargin + brickSize * 12 / 4, topMargin, brickSize / 2, brickSize / 2);
+                g.DrawImage(tileManager.getImage("BeginBar").bitmap, leftMargin + brickSize * 13 / 4, topMargin, brickSize / 2, brickSize / 2);
+                g.DrawImage(tileManager.getImage("RedFull").bitmap, leftMargin + brickSize * 15 / 4, topMargin, brickSize / 2, brickSize / 2);
+                g.DrawImage(tileManager.getImage("RedHalf").bitmap, leftMargin + brickSize * 17 / 4, topMargin, brickSize / 2, brickSize / 2);
+                g.DrawImage(tileManager.getImage("EndBar").bitmap, leftMargin + brickSize * 19 / 4, topMargin, brickSize / 2, brickSize / 2);
+
+                g.DrawImage(tileManager.getImage("BigBubble").bitmap, leftMargin + brickSize * 22 / 4, topMargin, brickSize / 2, brickSize / 2);
+                g.DrawImage(tileManager.getImage("BeginBar").bitmap, leftMargin + brickSize * 23 / 4, topMargin, brickSize / 2, brickSize / 2);
+                g.DrawImage(tileManager.getImage("BlueFull").bitmap, leftMargin + brickSize * 25 / 4, topMargin, brickSize / 2, brickSize / 2);
+                g.DrawImage(tileManager.getImage("BlueHalf").bitmap, leftMargin + brickSize * 27 / 4, topMargin, brickSize / 2, brickSize / 2);
+                g.DrawImage(tileManager.getImage("EndBar").bitmap, leftMargin + brickSize * 29 / 4, topMargin, brickSize / 2, brickSize / 2);
+
+                g.DrawImage(tileManager.getImage("Gem").bitmap, leftMargin + brickSize * 32 / 4, topMargin, brickSize / 2, brickSize / 2);
+                g.DrawImage(tileManager.getImage("BeginBar").bitmap, leftMargin + brickSize * 33 / 4, topMargin, brickSize / 2, brickSize / 2);
+                g.DrawImage(tileManager.getImage("YellowFull").bitmap, leftMargin + brickSize * 35 / 4, topMargin, brickSize / 2, brickSize / 2);
+                g.DrawImage(tileManager.getImage("YellowHalf").bitmap, leftMargin + brickSize * 37 / 4, topMargin, brickSize / 2, brickSize / 2);
+                g.DrawImage(tileManager.getImage("EndBar").bitmap, leftMargin + brickSize * 39 / 4, topMargin, brickSize / 2, brickSize / 2);
+
+                //g.DrawImage(tileManager.getImage("Key").bitmap, leftMargin + brickSize * 40/4, topMargin, brickSize / 2, brickSize / 2);
+
+
+                //Calls Lab from another thread, lock may be needed
+                int[,] labyrinth = controller.GetLabyrinth();
+
+
+                for (int i = 0; i < labyrinth.GetLength(0); i++)
+                {
+                    for (int j = 0; j < labyrinth.GetLength(1); j++)
+                    {
+                        if (labyrinth[i, j] == 1)
                         {
-                            g.FillRectangle(yellowBrush, new Rectangle(brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize));
+                            g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize);
+                        }
+                        else if (labyrinth[i, j] == 2)
+                        {
+                            g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize);
+
+                            using (Brush yellowBrush = new SolidBrush(Color.FromArgb(150, Color.Black)))
+                            {
+                                g.FillRectangle(yellowBrush, new Rectangle(brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize));
+                            }
+                        }
+                        else if (labyrinth[i, j] == 3)
+                        {
+
+                        }
+                        else if (labyrinth[i, j] == 4)
+                        {
+                            g.DrawImage(tileManager.getImage("Gem").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
+                        }
+                        else if (labyrinth[i, j] == 5)
+                        {
+                            g.DrawImage(tileManager.getImage("MiniSlime").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
                         }
                     }
-                    else if (labyrinth[i, j] == 3)
-                    {
-                        
-                    }
-                    else if (labyrinth[i, j] == 4)
-                    {
-                        g.DrawImage(tileManager.getImage("Gem").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
-                    }
-                    else if (labyrinth[i, j] == 5)
-                    {
-                        g.DrawImage(tileManager.getImage("MiniSlime").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
-                    }
+
                 }
 
+                //Display player, independant from the maze
+                spriteState playerStatus = ((Controller)controller).GetPlayer().GetCurrentRenderInfo();
+
+                g.DrawImage(tileManager.getImage(((Controller)controller).GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
             }
-
-            //Display player, independant from the maze
-            spriteState playerStatus = ((Controller)controller).GetPlayer().GetCurrentRenderInfo();
-
-            g.DrawImage(tileManager.getImage(((Controller)controller).GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
         }
 
         private void KeyDownEvent(object sender, PreviewKeyDownEventArgs e)
+
         {
-            controller.ViewKeyPressedEvent(e);
+           
+         controller.ViewKeyPressedEvent(e);
+            
+            
         }
 
         private void CloseWindowEvent(object sender, FormClosingEventArgs e)

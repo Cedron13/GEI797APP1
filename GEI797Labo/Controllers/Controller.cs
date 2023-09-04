@@ -20,6 +20,13 @@ namespace GEI797Labo
         private int topMargin;
         private int leftmargin;
         private int brickSize;
+       
+        private bool isPaused = false;
+        public bool IsPaused
+        {
+            get { return isPaused; }
+            set { isPaused = value; }
+        }
 
         private List<Keys> inputList;
 
@@ -54,10 +61,22 @@ namespace GEI797Labo
         {
             //To avoid similar inputs between two frames
             if(!inputList.Contains(e.KeyCode)){
-                if (!inputList.Contains(Keys.Down) && !inputList.Contains(Keys.Up) && !inputList.Contains(Keys.Right) && !inputList.Contains(Keys.Left)) //Checking if a directional input is already registred
+                if (!inputList.Contains(Keys.Down) && !inputList.Contains(Keys.Up) && !inputList.Contains(Keys.Right) && !inputList.Contains(Keys.Left) && !inputList.Contains(Keys.P) && !inputList.Contains(Keys.R)) //Checking if a directional input is already registred
                 {
                     inputList.Add(e.KeyCode);
                 }
+            }
+            if (e.KeyCode == Keys.P && !isPaused)
+            {
+                isPaused = true;
+                
+            }
+
+            // Check for 'R' key to resume the game
+            if (e.KeyCode == Keys.R && isPaused)
+            {
+                isPaused = false;
+                
             }
         }
         public void EngineRenderEvent() {
@@ -84,32 +103,39 @@ namespace GEI797Labo
 
         }
         public void EngineProcessInputEvent() {
-            foreach(Keys e in inputList)
-            {
-                switch (e)
+            
+                foreach (Keys e in inputList)
                 {
-                    case Keys.Down:
-                        {
-                            model.MoveDown(topMargin, leftmargin, brickSize);
-                            break;
-                        }
-                    case Keys.Up:
-                        {
-                            model.MoveUp(topMargin, leftmargin, brickSize);
-                            break;
-                        }
-                    case Keys.Right:
-                        {
-                            model.MoveRight(topMargin, leftmargin, brickSize);
-                            break;
-                        }
-                    case Keys.Left:
-                        {
-                            model.MoveLeft(topMargin, leftmargin, brickSize);
-                            break;
-                        }
+                    switch (e)
+                    {
+                          
+                        case Keys.Down:
+                            {
+                            model.MoveDown(topMargin, leftmargin, brickSize);  
+                                break;
+                            }
+                        case Keys.Up:
+                            {
+                                model.MoveUp(topMargin, leftmargin, brickSize);
+                                break;
+                            }
+                        case Keys.Right:
+                            {
+                                model.MoveRight(topMargin, leftmargin, brickSize);
+                                break;
+                            }
+                        case Keys.Left:
+                            {
+                                model.MoveLeft(topMargin, leftmargin, brickSize);
+                                break;
+                            }
+                        
+
+                    }
                 }
-            }
+            
+             
+            
             inputList.Clear(); //For next frame
         }
 
@@ -143,7 +169,10 @@ namespace GEI797Labo
             return model.GetLabyrinth();
         }
 
+
         public Sprite GetPlayer() => model.GetPlayer();
+
+        
 
 
     }
