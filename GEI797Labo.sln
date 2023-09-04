@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GEI797Labo", "GEI797Labo\GEI797Labo.csproj", "{60733935-32D0-4085-9004-8DE6C5241BBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "TestSprite\Tests.csproj", "{3BC3180D-AD7E-4DFC-A95B-9069ED1368DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{3BC3180D-AD7E-4DFC-A95B-9069ED1368DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

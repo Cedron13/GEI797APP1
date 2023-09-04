@@ -1,3 +1,6 @@
 GEI797Labo/bin/*
 GEI797Labo/obj/*
+Tests/bin/*
+Tests/obj/*
+TestsResults/*
 .vs
