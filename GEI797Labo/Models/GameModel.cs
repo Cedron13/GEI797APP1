@@ -15,10 +15,30 @@ namespace GEI797Labo.Models
         private Sprite player;
         private int TILE_SIZE;
         private GameView view;
+        private int gridPosX;
+        private int gridPosY;
+        private Controller cont;
+
+        public void SetGridPosX(int posX){
+            gridPosX = posX;
+        }
+
+        public int GetGridPosX(){  
+            return gridPosX; 
+        }
+
+        public void SetGridPosY(int posY){
+            gridPosY = posY;
+        }
+
+        public int GetGridPosY(){  
+            return gridPosY; }
+
+
         public GameModel(IController c) {
 
             controller = c;
-            TILE_SIZE = 50; 
+
         }
         
         private int[,] labyrinth = {
@@ -32,6 +52,7 @@ namespace GEI797Labo.Models
                 {1, 0, 0, 0, 3, 1, 0, 0, 4, 0, 1},
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                 };
+        
 
 
         public int[,] GetLabyrinth()
@@ -48,31 +69,47 @@ namespace GEI797Labo.Models
             }
         }
 
-        public bool MoveRight()
+        
+        public bool MoveRight(int top, int left, int brick)
         {
-            coord playerDestCoord = player.GetPosition();
-            playerDestCoord.x += TILE_SIZE;
+            gridPosX++;
+            coord playerDestCoord = new coord() {
+                x = left + brick * gridPosX,
+                y = top + brick * (gridPosY + 1)
+            };
             if (player.IsMovementOver()) player.StartMovement(playerDestCoord , Direction.RIGHT);
             return true;
         }
-        public bool MoveLeft()
+        public bool MoveLeft(int top, int left, int brick)
         {
-            coord playerDestCoord = player.GetPosition();
-            playerDestCoord.x -= TILE_SIZE;
+            gridPosX--;
+            coord playerDestCoord = new coord()
+            {
+                x = left + brick * gridPosX,
+                y = top + brick * (gridPosY + 1)
+            };
             if (player.IsMovementOver()) player.StartMovement(playerDestCoord , Direction.LEFT);
             return true;
         }
-        public bool MoveUp()
+        public bool MoveUp(int top, int left, int brick)
         {
-            coord playerDestCoord = player.GetPosition();
-            playerDestCoord.y -= TILE_SIZE;
+            gridPosY--;
+            coord playerDestCoord = new coord()
+            {
+                x = left + brick * gridPosX,
+                y = top + brick * (gridPosY + 1)
+            };
             if (player.IsMovementOver()) player.StartMovement(playerDestCoord, Direction.UP);
             return true;
         }
-        public bool MoveDown()
+        public bool MoveDown(int top, int left, int brick)
         {
-            coord playerDestCoord = player.GetPosition();
-            playerDestCoord.y += TILE_SIZE;
+            gridPosY++;
+            coord playerDestCoord = new coord()
+            {
+                x = left + brick * gridPosX,
+                y = top + brick * (gridPosY + 1)
+            };
             if (player.IsMovementOver()) player.StartMovement(playerDestCoord, Direction.DOWN);
             return true;
         }
@@ -85,10 +122,7 @@ namespace GEI797Labo.Models
 
         public Sprite GetPlayer() { return player; }
 
-        private void GameForm_SizeChanged(object sender, EventArgs e)
-        {
-            TILE_SIZE = view.GetBrickSize();
-        }
+    
 
     }
 }

@@ -121,34 +121,34 @@ namespace GEI797Labo
             int[,] labyrinth = controller.GetLabyrinth();
 
 
-            for (int i = 0; i < labyrinth.GetLength(1); i++)
+            for (int i = 0; i < labyrinth.GetLength(0); i++)
             {
-                for (int j = 0; j < labyrinth.GetLength(0); j++)
+                for (int j = 0; j < labyrinth.GetLength(1); j++)
                 {
-                    if (labyrinth[j, i] == 1)
+                    if (labyrinth[i, j] == 1)
                     {
-                        g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * i + leftMargin, brickSize * j + topMargin + brickSize, brickSize, brickSize);
+                        g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize);
                     }
-                    else if (labyrinth[j, i] == 2)
+                    else if (labyrinth[i, j] == 2)
                     {
-                        g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * i + leftMargin, brickSize * j + topMargin + brickSize, brickSize, brickSize);
+                        g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize);
 
                         using (Brush yellowBrush = new SolidBrush(Color.FromArgb(150, Color.Black)))
                         {
-                            g.FillRectangle(yellowBrush, new Rectangle(brickSize * i + leftMargin, brickSize * j + topMargin + brickSize, brickSize, brickSize));
+                            g.FillRectangle(yellowBrush, new Rectangle(brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize));
                         }
                     }
-                    else if (labyrinth[j, i] == 3)
+                    else if (labyrinth[i, j] == 3)
                     {
                         
                     }
-                    else if (labyrinth[j, i] == 4)
+                    else if (labyrinth[i, j] == 4)
                     {
-                        g.DrawImage(tileManager.getImage("Gem").bitmap, brickSize * i + leftMargin + brickMiddle, brickSize * j + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
+                        g.DrawImage(tileManager.getImage("Gem").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
                     }
-                    else if (labyrinth[j, i] == 5)
+                    else if (labyrinth[i, j] == 5)
                     {
-                        g.DrawImage(tileManager.getImage("MiniSlime").bitmap, brickSize * i + leftMargin + brickMiddle, brickSize * j + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
+                        g.DrawImage(tileManager.getImage("MiniSlime").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
                     }
                 }
 
@@ -175,7 +175,6 @@ namespace GEI797Labo
 
         private void GameForm_SizeChanged(object sender, EventArgs e)
         {
-
             int[,] labyrinth = controller.GetLabyrinth();
             displayHeight = oGameForm.Size.Height;
             displayWidth = oGameForm.Size.Width;
@@ -185,6 +184,7 @@ namespace GEI797Labo
             topMargin = (int)((displayHeight - (labyrinth.GetLength(0)*(brickSize+3/2) + brickSize * 3/2))/2) ;
             brickMiddle = (int)(brickSize / 4);
 
+            controller.PositionUpdate();
         }
 
     }

@@ -27,5 +27,6 @@ namespace GEI797Labo.Controllers
         //TEMP
         int[,] GetLabyrinth();
         void InitGame();
+        void PositionUpdate();
     }
 }

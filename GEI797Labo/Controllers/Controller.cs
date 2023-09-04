@@ -17,9 +17,9 @@ namespace GEI797Labo
         private TileManager tileManager;
         private GameView view;
         private GameModel model;
-        private int initPosX;
-        private int initPosY;
-
+        private int topMargin;
+        private int leftmargin;
+        private int brickSize;
 
         private List<Keys> inputList;
 
@@ -29,6 +29,9 @@ namespace GEI797Labo
             inputList = new List<Keys>();
             tileManager = new TileManager();
             view = new GameView(this);
+            topMargin = view.GetTopMargin();
+            leftmargin = view.GetLeftMargin();
+            brickSize = view.GetBrickSize();
             InitGame();
 
             engine = new GameEngine(this);
@@ -64,6 +67,22 @@ namespace GEI797Labo
         {
             model.Update(lag);
         }
+        public void PositionUpdate()
+        {
+            topMargin = view.GetTopMargin();
+            leftmargin = view.GetLeftMargin();
+            brickSize = view.GetBrickSize();
+            Sprite player = new Sprite(
+                new coord()
+                {
+                    x = view.GetLeftMargin() + view.GetBrickSize() * model.GetGridPosX(), //Place holder coordinates, TODO: adapt with screen size 
+                    y = view.GetTopMargin() + view.GetBrickSize() * (model.GetGridPosY() + 1)
+                }
+            );
+
+            model.InitPlayer(player);
+
+        }
         public void EngineProcessInputEvent() {
             foreach(Keys e in inputList)
             {
@@ -71,22 +90,22 @@ namespace GEI797Labo
                 {
                     case Keys.Down:
                         {
-                            model.MoveDown();
+                            model.MoveDown(topMargin, leftmargin, brickSize);
                             break;
                         }
                     case Keys.Up:
                         {
-                            model.MoveUp();
+                            model.MoveUp(topMargin, leftmargin, brickSize);
                             break;
                         }
                     case Keys.Right:
                         {
-                            model.MoveRight();
+                            model.MoveRight(topMargin, leftmargin, brickSize);
                             break;
                         }
                     case Keys.Left:
                         {
-                            model.MoveLeft();
+                            model.MoveLeft(topMargin, leftmargin, brickSize);
                             break;
                         }
                 }
@@ -100,23 +119,22 @@ namespace GEI797Labo
             {
                 for (int j = 0; j < model.GetLabyrinth().GetLength(1); j++)
                 {
-
                     if (model.GetLabyrinth()[i, j] == 3)
                     {
-                        initPosX = view.GetBrickSize() * j + view.GetLeftMargin();
-                        initPosY = view.GetBrickSize() * i + view.GetTopMargin() + view.GetBrickSize();
+                        model.SetGridPosX(j);
+                        model.SetGridPosY(i);
                     }
-
                 }
-
             }
+
             Sprite player = new Sprite(
                 new coord()
                 {
-                    x = initPosX, //Place holder coordinates, TODO: adapt with screen size 
-                    y = initPosY    
+                    x = view.GetLeftMargin() + view.GetBrickSize() * model.GetGridPosX(), //Place holder coordinates, TODO: adapt with screen size 
+                    y = view.GetTopMargin() + view.GetBrickSize() * (model.GetGridPosY() + 1)
                 }
-            );
+            ) ;
+           
             model.InitPlayer(player);
         }
 
