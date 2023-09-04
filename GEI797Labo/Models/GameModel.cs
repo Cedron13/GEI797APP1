@@ -78,6 +78,10 @@ namespace GEI797Labo.Models
             }
             else
             {
+                if (labyrinth[gridPosY, gridPosX] == 4)
+                {
+                    labyrinth[gridPosY, gridPosX] = 0;
+                }
                 gridPosX++;
                 coord playerDestCoord = new coord()
                 {
@@ -97,6 +101,10 @@ namespace GEI797Labo.Models
             }
             else
             {
+                if (labyrinth[gridPosY, gridPosX] == 4)
+                {
+                    labyrinth[gridPosY, gridPosX] = 0;
+                }
                 gridPosX--;
                 coord playerDestCoord = new coord()
                 {
@@ -115,6 +123,10 @@ namespace GEI797Labo.Models
             }
             else
             {
+                if (labyrinth[gridPosY, gridPosX] == 4)
+                {
+                    labyrinth[gridPosY, gridPosX] = 0;
+                }
                 gridPosY--;
                 coord playerDestCoord = new coord()
                 {
@@ -134,6 +146,10 @@ namespace GEI797Labo.Models
             }
             else
             {
+                if (labyrinth[gridPosY, gridPosX] == 4)
+                {
+                    labyrinth[gridPosY, gridPosX] = 0;
+                }
                 gridPosY++;
                 coord playerDestCoord = new coord()
                 {
