@@ -80,7 +80,7 @@ namespace GEI797Labo.Models
                 }
                 else
                 {
-                    if (labyrinth[gridPosY, gridPosX] == 4)
+                    if (labyrinth[gridPosY, gridPosX] == 4 || labyrinth[gridPosY, gridPosX] == 5)
                     {
                         labyrinth[gridPosY, gridPosX] = 0;
                     }
@@ -107,7 +107,7 @@ namespace GEI797Labo.Models
                 }
                 else
                 {
-                    if (labyrinth[gridPosY, gridPosX] == 4)
+                    if (labyrinth[gridPosY, gridPosX] == 4 || labyrinth[gridPosY, gridPosX] == 5)
                     {
                         labyrinth[gridPosY, gridPosX] = 0;
                     }
@@ -133,7 +133,7 @@ namespace GEI797Labo.Models
                 }
                 else
                 {
-                    if (labyrinth[gridPosY, gridPosX] == 4)
+                    if (labyrinth[gridPosY, gridPosX] == 4 || labyrinth[gridPosY, gridPosX] == 5)
                     {
                         labyrinth[gridPosY, gridPosX] = 0;
                     }
@@ -159,7 +159,7 @@ namespace GEI797Labo.Models
                 }
                 else
                 {
-                    if (labyrinth[gridPosY, gridPosX] == 4)
+                    if (labyrinth[gridPosY, gridPosX] == 4 || labyrinth[gridPosY, gridPosX] == 5)
                     {
                         labyrinth[gridPosY, gridPosX] = 0;
                     }
