@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static GEI797Labo.Models.GameModel;
+﻿using System.Windows.Forms;
 
 namespace GEI797Labo.Controllers
 {

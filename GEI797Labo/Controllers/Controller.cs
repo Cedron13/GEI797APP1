@@ -1,12 +1,6 @@
 ﻿using GEI797Labo.Controllers;
 using GEI797Labo.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Media;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GEI797Labo

@@ -1,12 +1,4 @@
 ﻿using GEI797Labo.Controllers;
-using System;
-using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace GEI797Labo.Models
 {
@@ -75,7 +67,7 @@ namespace GEI797Labo.Models
         {
             if (player.IsMovementOver())
             {
-                if (labyrinth[gridPosY, gridPosX + 1] == 1 || labyrinth[gridPosY, gridPosX + 1] == 2)
+                if (labyrinth[gridPosY, gridPosX + 1] == 1)
                 {
                     coord playerDestCoord = new coord()
                     {
@@ -85,6 +77,31 @@ namespace GEI797Labo.Models
                     player.StartMovement(playerDestCoord, Direction.RIGHT);
                     return true;
                 }
+                else if (labyrinth[gridPosY, gridPosX + 1] == 2)
+                {
+                    if (counter == 3)
+                    {
+                        labyrinth[4, 7] = 0;
+                        gridPosX++;
+                        coord playerDestCoord = new coord()
+                        {
+                            x = left + brick * gridPosX,
+                            y = top + brick * (gridPosY + 1)
+                        };
+                        player.StartMovement(playerDestCoord, Direction.RIGHT);
+                        return true;
+                    }
+                    else
+                    {
+                        coord playerDestCoord = new coord()
+                        {
+                            x = left + brick * gridPosX,
+                            y = top + brick * (gridPosY + 1)
+                        };
+                        player.StartMovement(playerDestCoord, Direction.RIGHT);
+                        return true;
+                    }
+                }
                 else
                 {
                     if (labyrinth[gridPosY, gridPosX] == 4 || labyrinth[gridPosY, gridPosX] == 5)
@@ -92,10 +109,7 @@ namespace GEI797Labo.Models
                         labyrinth[gridPosY, gridPosX] = 0;
                         counter++;
                         controller.SetGemCounter(counter);
-                        if (counter == 3)
-                        {
-                            labyrinth[4, 7] = 0;
-                        }
+                        
                         if (counter == 4)
                         {
                             controller.SetEndGame(true);
@@ -118,7 +132,7 @@ namespace GEI797Labo.Models
         {
             if (player.IsMovementOver())
             {
-                if (labyrinth[gridPosY, gridPosX - 1] == 1 || labyrinth[gridPosY, gridPosX - 1] == 2)
+                if (labyrinth[gridPosY, gridPosX - 1] == 1)
                 {
                     coord playerDestCoord = new coord()
                     {
@@ -128,6 +142,31 @@ namespace GEI797Labo.Models
                     player.StartMovement(playerDestCoord, Direction.LEFT);
                     return true;
                 }
+                else if (labyrinth[gridPosY, gridPosX - 1] == 2)
+                {
+                    if (counter == 3)
+                    {
+                        labyrinth[4, 7] = 0;
+                        gridPosX--;
+                        coord playerDestCoord = new coord()
+                        {
+                            x = left + brick * gridPosX,
+                            y = top + brick * (gridPosY + 1)
+                        };
+                        player.StartMovement(playerDestCoord, Direction.LEFT);
+                        return true;
+                    }
+                    else
+                    {
+                        coord playerDestCoord = new coord()
+                        {
+                            x = left + brick * gridPosX,
+                            y = top + brick * (gridPosY + 1)
+                        };
+                        player.StartMovement(playerDestCoord, Direction.LEFT);
+                        return true;
+                    }
+                }
                 else
                 {
                     if (labyrinth[gridPosY, gridPosX] == 4 || labyrinth[gridPosY, gridPosX] == 5)
@@ -135,10 +174,7 @@ namespace GEI797Labo.Models
                         labyrinth[gridPosY, gridPosX] = 0;
                         counter++;
                         controller.SetGemCounter(counter);
-                        if (counter == 3)
-                        {
-                            labyrinth[4, 7] = 0;
-                        }
+                        
                         if (counter == 4)
                         {
                             controller.SetEndGame(true);
@@ -160,7 +196,7 @@ namespace GEI797Labo.Models
         {
             if (player.IsMovementOver())
             {
-                if (labyrinth[gridPosY - 1, gridPosX] == 1 || labyrinth[gridPosY - 1, gridPosX] == 2)
+                if (labyrinth[gridPosY - 1, gridPosX] == 1)
                 {
                     coord playerDestCoord = new coord()
                     {
@@ -170,6 +206,32 @@ namespace GEI797Labo.Models
                     player.StartMovement(playerDestCoord, Direction.UP);
                     return true;
                 }
+                else if (labyrinth[gridPosY - 1, gridPosX] == 2)
+                {
+                    if (counter == 3)
+                    {
+                        labyrinth[4, 7] = 0;
+                        gridPosY--;
+                        coord playerDestCoord = new coord()
+                        {
+                            x = left + brick * gridPosX,
+                            y = top + brick * (gridPosY + 1)
+                        };
+                        player.StartMovement(playerDestCoord, Direction.UP);
+                        return true;
+                    }
+                    else
+                    {
+                        coord playerDestCoord = new coord()
+                        {
+                            x = left + brick * gridPosX,
+                            y = top + brick * (gridPosY + 1)
+                        };
+                        player.StartMovement(playerDestCoord, Direction.UP);
+                        return true;
+                    }
+
+                }
                 else
                 {
                     if (labyrinth[gridPosY, gridPosX] == 4 || labyrinth[gridPosY, gridPosX] == 5)
@@ -177,10 +239,7 @@ namespace GEI797Labo.Models
                         labyrinth[gridPosY, gridPosX] = 0;
                         counter++;
                         controller.SetGemCounter(counter);
-                        if (counter == 3)
-                        {
-                            labyrinth[4, 7] = 0;
-                        }
+                        
                         if (counter == 4)
                         {
                             controller.SetEndGame(true);
@@ -202,7 +261,7 @@ namespace GEI797Labo.Models
         {
             if (player.IsMovementOver())
             {
-                if (labyrinth[gridPosY + 1, gridPosX] == 1 || labyrinth[gridPosY + 1, gridPosX] == 2)
+                if (labyrinth[gridPosY + 1, gridPosX] == 1)
                 {
                     coord playerDestCoord = new coord()
                     {
@@ -212,6 +271,31 @@ namespace GEI797Labo.Models
                     player.StartMovement(playerDestCoord, Direction.DOWN);
                     return true;
                 }
+                else if (labyrinth[gridPosY + 1, gridPosX] == 2)
+                {
+                    if (counter == 3)
+                    {
+                        labyrinth[4, 7] = 0;
+                        gridPosY++;
+                        coord playerDestCoord = new coord()
+                        {
+                            x = left + brick * gridPosX,
+                            y = top + brick * (gridPosY + 1)
+                        };
+                        player.StartMovement(playerDestCoord, Direction.DOWN);
+                        return true;
+                    }
+                    else
+                    {
+                        coord playerDestCoord = new coord()
+                        {
+                            x = left + brick * gridPosX,
+                            y = top + brick * (gridPosY + 1)
+                        };
+                        player.StartMovement(playerDestCoord, Direction.DOWN);
+                        return true;
+                    }
+                }
                 else
                 {
                     if (labyrinth[gridPosY, gridPosX] == 4 || labyrinth[gridPosY, gridPosX] == 5)
@@ -219,13 +303,11 @@ namespace GEI797Labo.Models
                         labyrinth[gridPosY, gridPosX] = 0;
                         counter++;
                         controller.SetGemCounter(counter);
-                        if (counter == 3)
-                        {
-                            labyrinth[4, 7] = 0;
-                        }
+                        
                         if (counter == 4)
                         {
                             controller.SetEndGame(true);
+
                         }
                     }
                     gridPosY++;
