@@ -77,7 +77,13 @@ namespace GEI797Labo.Models
             {
                 if (labyrinth[gridPosY, gridPosX + 1] == 1 || labyrinth[gridPosY, gridPosX + 1] == 2)
                 {
-                    return false;
+                    coord playerDestCoord = new coord()
+                    {
+                        x = left + brick * gridPosX,
+                        y = top + brick * (gridPosY + 1)
+                    };
+                    player.StartMovement(playerDestCoord, Direction.RIGHT);
+                    return true;
                 }
                 else
                 {
@@ -114,7 +120,13 @@ namespace GEI797Labo.Models
             {
                 if (labyrinth[gridPosY, gridPosX - 1] == 1 || labyrinth[gridPosY, gridPosX - 1] == 2)
                 {
-                    return false;
+                    coord playerDestCoord = new coord()
+                    {
+                        x = left + brick * gridPosX,
+                        y = top + brick * (gridPosY + 1)
+                    };
+                    player.StartMovement(playerDestCoord, Direction.LEFT);
+                    return true;
                 }
                 else
                 {
@@ -150,7 +162,13 @@ namespace GEI797Labo.Models
             {
                 if (labyrinth[gridPosY - 1, gridPosX] == 1 || labyrinth[gridPosY - 1, gridPosX] == 2)
                 {
-                    return false;
+                    coord playerDestCoord = new coord()
+                    {
+                        x = left + brick * gridPosX,
+                        y = top + brick * (gridPosY + 1)
+                    };
+                    player.StartMovement(playerDestCoord, Direction.UP);
+                    return true;
                 }
                 else
                 {
@@ -186,7 +204,13 @@ namespace GEI797Labo.Models
             {
                 if (labyrinth[gridPosY + 1, gridPosX] == 1 || labyrinth[gridPosY + 1, gridPosX] == 2)
                 {
-                    return false;
+                    coord playerDestCoord = new coord()
+                    {
+                        x = left + brick * gridPosX,
+                        y = top + brick * (gridPosY + 1)
+                    };
+                    player.StartMovement(playerDestCoord, Direction.DOWN);
+                    return true;
                 }
                 else
                 {
