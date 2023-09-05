@@ -21,7 +21,7 @@ namespace GEI797Labo
         public int imageIndex { get; set; }
         public coord spriteCoord { get; set; }
     }
-    internal class Sprite
+    public class Sprite
     {
         private coord initialPos;
         private coord currentPos;
