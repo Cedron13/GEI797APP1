@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GEI797Labo.Models
 {
-    internal class GameModel
+    public class GameModel
     {
         private IController controller;
         private Sprite player;
@@ -40,6 +40,8 @@ namespace GEI797Labo.Models
             controller = c;
 
         }
+
+        public GameModel(){}
         
         private int[,] labyrinth = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
@@ -84,7 +86,9 @@ namespace GEI797Labo.Models
                     {
                         labyrinth[gridPosY, gridPosX] = 0;
                     }
+                    labyrinth[gridPosY, gridPosX] = 0;
                     gridPosX++;
+                    labyrinth[gridPosY, gridPosX] = 3;
                     coord playerDestCoord = new coord()
                     {
                         x = left + brick * gridPosX,
@@ -111,7 +115,9 @@ namespace GEI797Labo.Models
                     {
                         labyrinth[gridPosY, gridPosX] = 0;
                     }
+                    labyrinth[gridPosY, gridPosX] = 0;
                     gridPosX--;
+                    labyrinth[gridPosY, gridPosX] = 3;
                     coord playerDestCoord = new coord()
                     {
                         x = left + brick * gridPosX,
@@ -137,7 +143,9 @@ namespace GEI797Labo.Models
                     {
                         labyrinth[gridPosY, gridPosX] = 0;
                     }
+                    labyrinth[gridPosY, gridPosX] = 0;
                     gridPosY--;
+                    labyrinth[gridPosY, gridPosX] = 3;
                     coord playerDestCoord = new coord()
                     {
                         x = left + brick * gridPosX,
@@ -163,7 +171,9 @@ namespace GEI797Labo.Models
                     {
                         labyrinth[gridPosY, gridPosX] = 0;
                     }
+                    labyrinth[gridPosY, gridPosX] = 0;
                     gridPosY++;
+                    labyrinth[gridPosY, gridPosX] = 3;
                     coord playerDestCoord = new coord()
                     {
                         x = left + brick * gridPosX,
