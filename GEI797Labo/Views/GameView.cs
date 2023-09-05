@@ -27,6 +27,7 @@ namespace GEI797Labo
         private int topMargin = 33;
         private int brickMiddle = 12;
         private bool allGemsIn = false;
+        private bool endGame = false;
         private Thread windowThread;
 
 
@@ -46,6 +47,10 @@ namespace GEI797Labo
         public void SetAllGemsIn(bool b)
         {
             allGemsIn=b;
+        }
+        public void SetEndgame(bool b)
+        {
+            endGame = b;
         }
 
         
@@ -110,6 +115,18 @@ namespace GEI797Labo
                 using (Brush brush = new SolidBrush(Color.White))
                 {
                     string pauseText = "Pause";
+                    SizeF textSize = g.MeasureString(pauseText, font);
+                    float x = (oGameForm.ClientSize.Width - textSize.Width) / 2;
+                    float y = (oGameForm.ClientSize.Height - textSize.Height) / 2;
+                    g.DrawString(pauseText, font, brush, x, y);
+                }
+            }
+            else if (endGame)
+            {
+                using (Font font = new Font("Arial", 24, FontStyle.Bold))
+                using (Brush brush = new SolidBrush(Color.White))
+                {
+                    string pauseText = "Congratulations!";
                     SizeF textSize = g.MeasureString(pauseText, font);
                     float x = (oGameForm.ClientSize.Width - textSize.Width) / 2;
                     float y = (oGameForm.ClientSize.Height - textSize.Height) / 2;

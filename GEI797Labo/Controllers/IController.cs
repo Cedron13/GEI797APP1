@@ -32,5 +32,6 @@ namespace GEI797Labo.Controllers
 
 
         void SetAllGemsIn(bool b);
+        void SetEndGame(bool b);
     }
 }

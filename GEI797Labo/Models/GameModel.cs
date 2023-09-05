@@ -77,7 +77,15 @@ namespace GEI797Labo.Models
             {
                 if (labyrinth[gridPosY, gridPosX + 1] == 1 || labyrinth[gridPosY, gridPosX + 1] == 2)
                 {
-                    return false;
+                    if (counter == 4)
+                    {
+                        controller.SetEndGame(true);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
@@ -89,6 +97,10 @@ namespace GEI797Labo.Models
                         {
                             labyrinth[4, 7] = 0;
                             controller.SetAllGemsIn(true);
+                        }
+                        if (counter == 4)
+                        {
+                            controller.SetEndGame(true);
                         }
                     }
                     gridPosX++;
@@ -110,7 +122,15 @@ namespace GEI797Labo.Models
             {
                 if (labyrinth[gridPosY, gridPosX - 1] == 1 || labyrinth[gridPosY, gridPosX - 1] == 2)
                 {
-                    return false;
+                    if (counter == 4)
+                    {
+                        controller.SetEndGame(true);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
@@ -122,6 +142,10 @@ namespace GEI797Labo.Models
                         {
                             labyrinth[4, 7] = 0;
                             controller.SetAllGemsIn(true);
+                        }
+                        if (counter == 4)
+                        {
+                            controller.SetEndGame(true);
                         }
                     }
                     gridPosX--;
@@ -142,7 +166,15 @@ namespace GEI797Labo.Models
             {
                 if (labyrinth[gridPosY - 1, gridPosX] == 1 || labyrinth[gridPosY - 1, gridPosX] == 2)
                 {
-                    return false;
+                    if (counter == 4)
+                    {
+                        controller.SetEndGame(true);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
@@ -154,6 +186,10 @@ namespace GEI797Labo.Models
                         {
                             labyrinth[4, 7] = 0;
                             controller.SetAllGemsIn(true);
+                        }
+                        if (counter == 4)
+                        {
+                            controller.SetEndGame(true);
                         }
                     }
                     gridPosY--;
@@ -174,7 +210,15 @@ namespace GEI797Labo.Models
             {
                 if (labyrinth[gridPosY + 1, gridPosX] == 1 || labyrinth[gridPosY + 1, gridPosX] == 2)
                 {
-                    return false;
+                    if (counter == 4)
+                    {
+                        controller.SetEndGame(true);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
@@ -186,6 +230,10 @@ namespace GEI797Labo.Models
                         {
                             labyrinth[4, 7] = 0;
                             controller.SetAllGemsIn(true);
+                        }
+                        if (counter == 4)
+                        {
+                            controller.SetEndGame(true);
                         }
                     }
                     gridPosY++;

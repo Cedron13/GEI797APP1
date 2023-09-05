@@ -169,6 +169,11 @@ namespace GEI797Labo
             view.SetAllGemsIn(true);
         }
 
+        public void SetEndGame(bool b)
+        {
+            view.SetEndgame(b);
+        }
+
         //TEMP
         public int[,] GetLabyrinth() { 
             return model.GetLabyrinth();
