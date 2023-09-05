@@ -17,7 +17,7 @@ namespace GEI797Labo.Models
         private GameView view;
         private int gridPosX;
         private int gridPosY;
-        private Controller cont;
+        private int counter = 0;
 
         public void SetGridPosX(int posX){
             gridPosX = posX;
@@ -83,6 +83,11 @@ namespace GEI797Labo.Models
                     if (labyrinth[gridPosY, gridPosX] == 4 || labyrinth[gridPosY, gridPosX] == 5)
                     {
                         labyrinth[gridPosY, gridPosX] = 0;
+                        counter++;
+                        if (counter == 3)
+                        {
+                            labyrinth[4, 7] = 0;
+                        }
                     }
                     gridPosX++;
                     coord playerDestCoord = new coord()
@@ -110,6 +115,11 @@ namespace GEI797Labo.Models
                     if (labyrinth[gridPosY, gridPosX] == 4 || labyrinth[gridPosY, gridPosX] == 5)
                     {
                         labyrinth[gridPosY, gridPosX] = 0;
+                        counter++;
+                        if (counter == 3)
+                        {
+                            labyrinth[4, 7] = 0;
+                        }
                     }
                     gridPosX--;
                     coord playerDestCoord = new coord()
@@ -136,6 +146,11 @@ namespace GEI797Labo.Models
                     if (labyrinth[gridPosY, gridPosX] == 4 || labyrinth[gridPosY, gridPosX] == 5)
                     {
                         labyrinth[gridPosY, gridPosX] = 0;
+                        counter++;
+                        if (counter == 3)
+                        {
+                            labyrinth[4, 7] = 0;
+                        }
                     }
                     gridPosY--;
                     coord playerDestCoord = new coord()
@@ -162,6 +177,11 @@ namespace GEI797Labo.Models
                     if (labyrinth[gridPosY, gridPosX] == 4 || labyrinth[gridPosY, gridPosX] == 5)
                     {
                         labyrinth[gridPosY, gridPosX] = 0;
+                        counter++;
+                        if (counter == 3)
+                        {
+                            labyrinth[4, 7] = 0;
+                        }
                     }
                     gridPosY++;
                     coord playerDestCoord = new coord()
