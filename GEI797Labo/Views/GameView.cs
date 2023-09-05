@@ -26,8 +26,8 @@ namespace GEI797Labo
         private int leftMargin = 19;
         private int topMargin = 33;
         private int brickMiddle = 12;
+        private bool allGemsIn = false;
         private Thread windowThread;
-        //private bool isPaused = false;
 
 
         public int GetTopMargin() 
@@ -41,6 +41,11 @@ namespace GEI797Labo
         public int GetBrickSize() 
         { 
             return brickSize; 
+        }
+
+        public void SetAllGemsIn(bool b)
+        {
+            allGemsIn=b;
         }
 
         
@@ -88,11 +93,14 @@ namespace GEI797Labo
             }
         }
 
+
         private void GameRenderer(object sender, PaintEventArgs e)
         {
 
             Graphics g = e.Graphics;
+
             // Black background and menu
+
             g.Clear(Color.Black);
             
             if (controller.IsPaused == true)
@@ -130,7 +138,13 @@ namespace GEI797Labo
                 g.DrawImage(tileManager.getImage("YellowHalf").bitmap, leftMargin + brickSize * 37 / 4, topMargin, brickSize / 2, brickSize / 2);
                 g.DrawImage(tileManager.getImage("EndBar").bitmap, leftMargin + brickSize * 39 / 4, topMargin, brickSize / 2, brickSize / 2);
 
-                //g.DrawImage(tileManager.getImage("Key").bitmap, leftMargin + brickSize * 40/4, topMargin, brickSize / 2, brickSize / 2);
+                if (allGemsIn)
+                {
+                    g.DrawImage(tileManager.getImage("Key").bitmap, leftMargin + brickSize * 40 / 4, topMargin, brickSize / 2, brickSize / 2);
+
+                }
+
+
 
 
                 //Calls Lab from another thread, lock may be needed
@@ -149,9 +163,9 @@ namespace GEI797Labo
                         {
                             g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize);
 
-                            using (Brush yellowBrush = new SolidBrush(Color.FromArgb(150, Color.Black)))
+                            using (Brush transparencyBrush = new SolidBrush(Color.FromArgb(150, Color.Black)))
                             {
-                                g.FillRectangle(yellowBrush, new Rectangle(brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize));
+                                g.FillRectangle(transparencyBrush, new Rectangle(brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize));
                             }
                         }
                         else if (labyrinth[i, j] == 3)
@@ -176,6 +190,7 @@ namespace GEI797Labo
                 g.DrawImage(tileManager.getImage(((Controller)controller).GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
             }
         }
+
 
         private void KeyDownEvent(object sender, PreviewKeyDownEventArgs e)
 

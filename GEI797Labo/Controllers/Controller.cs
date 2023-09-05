@@ -164,6 +164,11 @@ namespace GEI797Labo
             model.InitPlayer(player);
         }
 
+        public void SetAllGemsIn(bool b)
+        {
+            view.SetAllGemsIn(true);
+        }
+
         //TEMP
         public int[,] GetLabyrinth() { 
             return model.GetLabyrinth();

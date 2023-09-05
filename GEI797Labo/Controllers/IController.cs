@@ -29,5 +29,8 @@ namespace GEI797Labo.Controllers
         bool IsPaused { get; set; }
         void InitGame();
         void PositionUpdate();
+
+
+        void SetAllGemsIn(bool b);
     }
 }

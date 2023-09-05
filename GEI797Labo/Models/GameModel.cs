@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace GEI797Labo.Models
 {
@@ -87,6 +88,7 @@ namespace GEI797Labo.Models
                         if (counter == 3)
                         {
                             labyrinth[4, 7] = 0;
+                            controller.SetAllGemsIn(true);
                         }
                     }
                     gridPosX++;
@@ -119,6 +121,7 @@ namespace GEI797Labo.Models
                         if (counter == 3)
                         {
                             labyrinth[4, 7] = 0;
+                            controller.SetAllGemsIn(true);
                         }
                     }
                     gridPosX--;
@@ -150,6 +153,7 @@ namespace GEI797Labo.Models
                         if (counter == 3)
                         {
                             labyrinth[4, 7] = 0;
+                            controller.SetAllGemsIn(true);
                         }
                     }
                     gridPosY--;
@@ -181,6 +185,7 @@ namespace GEI797Labo.Models
                         if (counter == 3)
                         {
                             labyrinth[4, 7] = 0;
+                            controller.SetAllGemsIn(true);
                         }
                     }
                     gridPosY++;
