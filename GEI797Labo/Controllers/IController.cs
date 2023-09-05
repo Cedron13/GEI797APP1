@@ -31,7 +31,7 @@ namespace GEI797Labo.Controllers
         void PositionUpdate();
 
 
-        void SetAllGemsIn(bool b);
+        void SetGemCounter(int i);
         void SetEndGame(bool b);
     }
 }

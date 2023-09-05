@@ -77,15 +77,7 @@ namespace GEI797Labo.Models
             {
                 if (labyrinth[gridPosY, gridPosX + 1] == 1 || labyrinth[gridPosY, gridPosX + 1] == 2)
                 {
-                    if (counter == 4)
-                    {
-                        controller.SetEndGame(true);
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return false;
                 }
                 else
                 {
@@ -93,10 +85,10 @@ namespace GEI797Labo.Models
                     {
                         labyrinth[gridPosY, gridPosX] = 0;
                         counter++;
+                        controller.SetGemCounter(counter);
                         if (counter == 3)
                         {
                             labyrinth[4, 7] = 0;
-                            controller.SetAllGemsIn(true);
                         }
                         if (counter == 4)
                         {
@@ -122,15 +114,7 @@ namespace GEI797Labo.Models
             {
                 if (labyrinth[gridPosY, gridPosX - 1] == 1 || labyrinth[gridPosY, gridPosX - 1] == 2)
                 {
-                    if (counter == 4)
-                    {
-                        controller.SetEndGame(true);
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return false;
                 }
                 else
                 {
@@ -138,10 +122,10 @@ namespace GEI797Labo.Models
                     {
                         labyrinth[gridPosY, gridPosX] = 0;
                         counter++;
+                        controller.SetGemCounter(counter);
                         if (counter == 3)
                         {
                             labyrinth[4, 7] = 0;
-                            controller.SetAllGemsIn(true);
                         }
                         if (counter == 4)
                         {
@@ -166,15 +150,7 @@ namespace GEI797Labo.Models
             {
                 if (labyrinth[gridPosY - 1, gridPosX] == 1 || labyrinth[gridPosY - 1, gridPosX] == 2)
                 {
-                    if (counter == 4)
-                    {
-                        controller.SetEndGame(true);
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return false;
                 }
                 else
                 {
@@ -182,10 +158,10 @@ namespace GEI797Labo.Models
                     {
                         labyrinth[gridPosY, gridPosX] = 0;
                         counter++;
+                        controller.SetGemCounter(counter);
                         if (counter == 3)
                         {
                             labyrinth[4, 7] = 0;
-                            controller.SetAllGemsIn(true);
                         }
                         if (counter == 4)
                         {
@@ -210,15 +186,7 @@ namespace GEI797Labo.Models
             {
                 if (labyrinth[gridPosY + 1, gridPosX] == 1 || labyrinth[gridPosY + 1, gridPosX] == 2)
                 {
-                    if (counter == 4)
-                    {
-                        controller.SetEndGame(true);
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return false;
                 }
                 else
                 {
@@ -226,10 +194,10 @@ namespace GEI797Labo.Models
                     {
                         labyrinth[gridPosY, gridPosX] = 0;
                         counter++;
+                        controller.SetGemCounter(counter);
                         if (counter == 3)
                         {
                             labyrinth[4, 7] = 0;
-                            controller.SetAllGemsIn(true);
                         }
                         if (counter == 4)
                         {

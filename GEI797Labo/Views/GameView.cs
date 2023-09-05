@@ -26,7 +26,7 @@ namespace GEI797Labo
         private int leftMargin = 19;
         private int topMargin = 33;
         private int brickMiddle = 12;
-        private bool allGemsIn = false;
+        private int gemCounter = 0;
         private bool endGame = false;
         private Thread windowThread;
 
@@ -44,9 +44,9 @@ namespace GEI797Labo
             return brickSize; 
         }
 
-        public void SetAllGemsIn(bool b)
+        public void SetGemCounter(int i)
         {
-            allGemsIn=b;
+            gemCounter=i;
         }
         public void SetEndgame(bool b)
         {
@@ -151,14 +151,35 @@ namespace GEI797Labo
 
                 g.DrawImage(tileManager.getImage("Gem").bitmap, leftMargin + brickSize * 32 / 4, topMargin, brickSize / 2, brickSize / 2);
                 g.DrawImage(tileManager.getImage("BeginBar").bitmap, leftMargin + brickSize * 33 / 4, topMargin, brickSize / 2, brickSize / 2);
-                g.DrawImage(tileManager.getImage("YellowFull").bitmap, leftMargin + brickSize * 35 / 4, topMargin, brickSize / 2, brickSize / 2);
-                g.DrawImage(tileManager.getImage("YellowHalf").bitmap, leftMargin + brickSize * 37 / 4, topMargin, brickSize / 2, brickSize / 2);
-                g.DrawImage(tileManager.getImage("EndBar").bitmap, leftMargin + brickSize * 39 / 4, topMargin, brickSize / 2, brickSize / 2);
+                g.DrawImage(tileManager.getImage("EndBar").bitmap, leftMargin + brickSize * 41 / 4, topMargin, brickSize / 2, brickSize / 2);
 
-                if (allGemsIn)
+                if (gemCounter == 0)
                 {
-                    g.DrawImage(tileManager.getImage("Key").bitmap, leftMargin + brickSize * 40 / 4, topMargin, brickSize / 2, brickSize / 2);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, leftMargin + brickSize * 35 / 4, topMargin, brickSize / 2, brickSize / 2);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, leftMargin + brickSize * 37 / 4, topMargin, brickSize / 2, brickSize / 2);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, leftMargin + brickSize * 39 / 4, topMargin, brickSize / 2, brickSize / 2);
+                }
 
+                if (gemCounter == 1)
+                {
+                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, leftMargin + brickSize * 35 / 4, topMargin, brickSize / 2, brickSize / 2);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, leftMargin + brickSize * 37 / 4, topMargin, brickSize / 2, brickSize / 2);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, leftMargin + brickSize * 39 / 4, topMargin, brickSize / 2, brickSize / 2);
+                }
+
+                if (gemCounter == 2)
+                {
+                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, leftMargin + brickSize * 35 / 4, topMargin, brickSize / 2, brickSize / 2);
+                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, leftMargin + brickSize * 37 / 4, topMargin, brickSize / 2, brickSize / 2);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, leftMargin + brickSize * 39 / 4, topMargin, brickSize / 2, brickSize / 2);
+                }
+
+                if (gemCounter == 3)
+                {
+                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, leftMargin + brickSize * 35 / 4, topMargin, brickSize / 2, brickSize / 2);
+                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, leftMargin + brickSize * 37 / 4, topMargin, brickSize / 2, brickSize / 2);
+                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, leftMargin + brickSize * 39 / 4, topMargin, brickSize / 2, brickSize / 2);
+                    g.DrawImage(tileManager.getImage("Key").bitmap, leftMargin + brickSize * 42 / 4, topMargin, brickSize / 2, brickSize / 2);
                 }
 
 

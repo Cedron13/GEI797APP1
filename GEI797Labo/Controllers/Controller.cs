@@ -164,9 +164,9 @@ namespace GEI797Labo
             model.InitPlayer(player);
         }
 
-        public void SetAllGemsIn(bool b)
+        public void SetGemCounter(int i)
         {
-            view.SetAllGemsIn(true);
+            view.SetGemCounter(i);
         }
 
         public void SetEndGame(bool b)
