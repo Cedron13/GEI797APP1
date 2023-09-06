@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GEI797Labo.Models
 {
-    public class GameModel
+    internal class GameModel
     {
         private IController controller;
         private Sprite player;

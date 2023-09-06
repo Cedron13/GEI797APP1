@@ -14,7 +14,7 @@ namespace GEI797Labo.Controllers
         //playerSprite
         //enemiesSpriteArray
     }
-    public interface IController
+    internal interface IController
     {
         void EngineRenderEvent();
         void EngineUpdateEvent(double lag);
