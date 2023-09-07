@@ -41,6 +41,8 @@ namespace GEI797Labo.Models
             controller = c;
 
         }
+
+        public GameModel() { }
         
         private int[,] labyrinth = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)

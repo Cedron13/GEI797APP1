@@ -30,8 +30,8 @@ namespace Tests
             };
             coord start = new coord()
             {
-                x = 5,
-                y = 5
+                x = 25,
+                y = 45
             };
             Sprite s = new Sprite(start);
             GameModel gm = new GameModel();
@@ -59,8 +59,8 @@ namespace Tests
             };
             coord start = new coord()
             {
-                x = 5,
-                y = 5
+                x = 25,
+                y = 45
             };
             Sprite s = new Sprite(start);
             GameModel gm = new GameModel();
@@ -88,8 +88,8 @@ namespace Tests
             };
             coord start = new coord()
             {
-                x = 5,
-                y = 5
+                x = 25,
+                y = 45
             };
             Sprite s = new Sprite(start);
             GameModel gm = new GameModel();
@@ -117,8 +117,8 @@ namespace Tests
             };
             coord start = new coord()
             {
-                x = 5,
-                y = 5
+                x = 25,
+                y = 45
             };
             Sprite s = new Sprite(start);
             GameModel gm = new GameModel();
