@@ -101,8 +101,10 @@ namespace Tests
             string expectedImage = { "Right1", "Right2", "Right3", "Right2", "Right1" };
             string image = "";
             s.Update(50);
+            int updateVal = 0;
             while (updateVal < 500)
             {
+                updateVal += 100;
                 expectedIndex++;
                 s.Update(100);
                 image = s.GetImageName();
