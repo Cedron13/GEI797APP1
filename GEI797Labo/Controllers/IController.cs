@@ -24,7 +24,7 @@ namespace GEI797Labo.Controllers
         void InitGame();
         void PositionUpdate();
 
-
+        Sprite GetPlayer();
         void SetGemCounter(int i);
         void SetEndGame(bool b);
     }

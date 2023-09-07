@@ -67,6 +67,11 @@ namespace GEI797Labo
 
         public coord GetPosition() => currentPos;
 
+        public Direction GetDirection() => dir;
+        public void SetDirection(Direction d)
+        {
+            dir = d;
+        }
         public String GetImageName()
         {
             if (dir == Direction.UP) return "Up" + (imageIndex + 1).ToString();

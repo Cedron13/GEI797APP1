@@ -224,9 +224,9 @@ namespace GEI797Labo
                 }
 
                 //Display player, independant from the maze
-                spriteState playerStatus = ((Controller)controller).GetPlayer().GetCurrentRenderInfo();
+                spriteState playerStatus = controller.GetPlayer().GetCurrentRenderInfo();
 
-                g.DrawImage(tileManager.getImage(((Controller)controller).GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
+                g.DrawImage(tileManager.getImage(controller.GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
             }
         }
 
