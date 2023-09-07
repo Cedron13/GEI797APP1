@@ -98,7 +98,7 @@ namespace Tests
             s.StartMovement(dest, Direction.RIGHT);
             bool success = true;
             int expectedIndex = 0;
-            string expectedImage = { "Right1", "Right2", "Right3", "Right2", "Right1" };
+            string[] expectedImage = { "Right1", "Right2", "Right3", "Right2", "Right1" };
             string image = "";
             s.Update(50);
             int updateVal = 0;
@@ -108,7 +108,7 @@ namespace Tests
                 expectedIndex++;
                 s.Update(100);
                 image = s.GetImageName();
-                if(image != expectedImage[expectedIndex])
+                if(image.Equals(expectedImage[expectedIndex]))
                 {
                     success = false;
                 }
