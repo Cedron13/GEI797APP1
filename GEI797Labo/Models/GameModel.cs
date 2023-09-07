@@ -104,9 +104,9 @@ namespace GEI797Labo.Models
                 }
                 else
                 {
-                    if (labyrinth[gridPosY, gridPosX] == 4 || labyrinth[gridPosY, gridPosX] == 5)
+                    if (labyrinth[gridPosY, gridPosX + 1] == 4 || labyrinth[gridPosY, gridPosX + 1] == 5)
                     {
-                        labyrinth[gridPosY, gridPosX] = 0;
+                        labyrinth[gridPosY, gridPosX + 1] = 0;
                         counter++;
                         controller.SetGemCounter(counter);
                         
@@ -169,9 +169,9 @@ namespace GEI797Labo.Models
                 }
                 else
                 {
-                    if (labyrinth[gridPosY, gridPosX] == 4 || labyrinth[gridPosY, gridPosX] == 5)
+                    if (labyrinth[gridPosY, gridPosX - 1] == 4 || labyrinth[gridPosY, gridPosX - 1] == 5)
                     {
-                        labyrinth[gridPosY, gridPosX] = 0;
+                        labyrinth[gridPosY, gridPosX - 1] = 0;
                         counter++;
                         controller.SetGemCounter(counter);
                         
@@ -234,9 +234,9 @@ namespace GEI797Labo.Models
                 }
                 else
                 {
-                    if (labyrinth[gridPosY, gridPosX] == 4 || labyrinth[gridPosY, gridPosX] == 5)
+                    if (labyrinth[gridPosY - 1, gridPosX] == 4 || labyrinth[gridPosY - 1, gridPosX] == 5)
                     {
-                        labyrinth[gridPosY, gridPosX] = 0;
+                        labyrinth[gridPosY - 1, gridPosX] = 0;
                         counter++;
                         controller.SetGemCounter(counter);
                         
@@ -298,9 +298,9 @@ namespace GEI797Labo.Models
                 }
                 else
                 {
-                    if (labyrinth[gridPosY, gridPosX] == 4 || labyrinth[gridPosY, gridPosX] == 5)
+                    if (labyrinth[gridPosY + 1, gridPosX] == 4 || labyrinth[gridPosY + 1, gridPosX] == 5)
                     {
-                        labyrinth[gridPosY, gridPosX] = 0;
+                        labyrinth[gridPosY + 1, gridPosX] = 0;
                         counter++;
                         controller.SetGemCounter(counter);
                         
