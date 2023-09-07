@@ -74,5 +74,36 @@ namespace Tests
             s.Update(450);
             Assert.IsFalse(s.IsMovementOver());
         }
+        [TestMethod]
+        public void TestMovementAnimation()
+        {
+            Sprite s = new Sprite(new coord()
+            {
+                x = 5,
+                y = 5
+            });
+            coord dest = new coord()
+            {
+                x = 10,
+                y = 5
+            };
+            s.StartMovement(dest, Direction.RIGHT);
+            bool success = true;
+            int expectedIndex = 0;
+            string expectedImage = { "Right1", "Right2", "Right3", "Right2", "Right1" };
+            string image = "";
+            s.Update(50);
+            while (updateVal < 500)
+            {
+                expectedIndex++;
+                s.Update(100);
+                image = s.GetImageName();
+                if(image != expectedImage[expectedIndex])
+                {
+                    success = false;
+                }
+            }
+            Assert.IsTrue(success);
+        }
     }
 }
