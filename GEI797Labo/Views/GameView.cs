@@ -4,6 +4,13 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 
+/* EXPLORUS-E
+ * Alexis BLATRIX (blaa1406)
+ * Cédric CHARRON (chac0902)
+ * Audric DAVID (dava1302)
+ * Matthieu JEHANNE (jehm1701)
+ * Cloé LEGLISE (legc1001)
+ */
 
 namespace GEI797Labo
 {
@@ -62,7 +69,7 @@ namespace GEI797Labo
             oGameForm.PreviewKeyDown += KeyDownEvent;
             oGameForm.FormClosing += CloseWindowEvent;
             oGameForm.SizeChanged += GameForm_SizeChanged;
-            tileManager = new TileManager();
+            tileManager = TileManager.GetInstance();
 
             windowThread = new Thread(new ThreadStart(Show)); //New thread because "Application.run()" blocks the actual thread and prevents the engine to run
             windowThread.Start();
@@ -245,8 +252,6 @@ namespace GEI797Labo
             controller.ViewCloseEvent();
             Console.WriteLine("Close");
         }
-
-        public TileManager GetTileManager() => tileManager;
 
         private void GameForm_SizeChanged(object sender, EventArgs e)
         {
