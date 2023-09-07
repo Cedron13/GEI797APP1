@@ -48,7 +48,7 @@
   <ItemGroup>
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\IController.cs" />
-    <Compile Include="GameEngine.cs" />
+    <Compile Include="Controllers\GameEngine.cs" />
     <Compile Include="Models\PlayerSprite.cs" />
     <Compile Include="Views\GameForm.cs">
       <SubType>Form</SubType>
@@ -62,7 +62,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Sprite.cs" />
-    <Compile Include="TileManager.cs" />
+    <Compile Include="Models\TileManager.cs" />
     <EmbeddedResource Include="Views\GameForm.resx">
       <DependentUpon>GameForm.cs</DependentUpon>
     </EmbeddedResource>

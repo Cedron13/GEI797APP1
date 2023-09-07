@@ -28,7 +28,7 @@ namespace GEI797Labo
         {
             model = new GameModel(this);
             inputList = new List<Keys>();
-            tileManager = new TileManager();
+            tileManager = TileManager.GetInstance();
             view = new GameView(this);
             topMargin = view.GetTopMargin();
             leftmargin = view.GetLeftMargin();
