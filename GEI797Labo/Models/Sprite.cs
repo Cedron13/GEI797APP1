@@ -16,7 +16,7 @@ namespace GEI797Labo
         public int imageIndex { get; set; }
         public coord spriteCoord { get; set; }
     }
-    public class Sprite
+    internal class Sprite
     {
         private coord initialPos;
         private coord currentPos;
@@ -67,6 +67,11 @@ namespace GEI797Labo
 
         public coord GetPosition() => currentPos;
 
+        public Direction GetDirection() => dir;
+        public void SetDirection(Direction d)
+        {
+            dir = d;
+        }
         public String GetImageName()
         {
             if (dir == Direction.UP) return "Up" + (imageIndex + 1).ToString();

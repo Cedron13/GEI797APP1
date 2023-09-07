@@ -6,8 +6,6 @@ namespace GEI797Labo.Models
     {
         private IController controller;
         private Sprite player;
-        private int TILE_SIZE;
-        private GameView view;
         private int gridPosX;
         private int gridPosY;
         private int counter = 0;
@@ -33,6 +31,8 @@ namespace GEI797Labo.Models
             controller = c;
 
         }
+
+        public GameModel(){}
         
         private int[,] labyrinth = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
@@ -115,7 +115,9 @@ namespace GEI797Labo.Models
                             controller.SetEndGame(true);
                         }
                     }
+                    labyrinth[gridPosY, gridPosX] = 0;
                     gridPosX++;
+                    labyrinth[gridPosY, gridPosX] = 3;
                     coord playerDestCoord = new coord()
                     {
                         x = left + brick * gridPosX,
@@ -180,7 +182,9 @@ namespace GEI797Labo.Models
                             controller.SetEndGame(true);
                         }
                     }
+                    labyrinth[gridPosY, gridPosX] = 0;
                     gridPosX--;
+                    labyrinth[gridPosY, gridPosX] = 3;
                     coord playerDestCoord = new coord()
                     {
                         x = left + brick * gridPosX,
@@ -245,7 +249,9 @@ namespace GEI797Labo.Models
                             controller.SetEndGame(true);
                         }
                     }
+                    labyrinth[gridPosY, gridPosX] = 0;
                     gridPosY--;
+                    labyrinth[gridPosY, gridPosX] = 3;
                     coord playerDestCoord = new coord()
                     {
                         x = left + brick * gridPosX,
@@ -310,7 +316,9 @@ namespace GEI797Labo.Models
 
                         }
                     }
+                    labyrinth[gridPosY, gridPosX] = 0;
                     gridPosY++;
+                    labyrinth[gridPosY, gridPosX] = 3;
                     coord playerDestCoord = new coord()
                     {
                         x = left + brick * gridPosX,
@@ -326,7 +334,16 @@ namespace GEI797Labo.Models
 
         public void InitPlayer(Sprite p)
         {
-            player = p;
+            if(player == null)
+            {
+                player = p;
+            }
+            else
+            {
+                p.SetDirection(player.GetDirection());
+                player = p;
+            }
+            
         }
 
         public Sprite GetPlayer() { return player; }
