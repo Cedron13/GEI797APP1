@@ -16,7 +16,6 @@ namespace GEI797Labo
     internal class Controller : IController
     {
         private GameEngine engine;
-        private TileManager tileManager;
         private GameView view;
         private GameModel model;
         private int topMargin;
@@ -36,7 +35,6 @@ namespace GEI797Labo
         {
             model = new GameModel(this);
             inputList = new List<Keys>();
-            tileManager = TileManager.GetInstance();
             view = new GameView(this);
             topMargin = view.GetTopMargin();
             leftmargin = view.GetLeftMargin();
@@ -51,7 +49,6 @@ namespace GEI797Labo
 
         public void ViewCloseEvent()
         {
-            //Engine est null. À investiguer
             engine.KillEngine(); //Marche 👍
         }
         public void ViewKeyReleasedEvent()
