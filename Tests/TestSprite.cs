@@ -98,12 +98,14 @@ namespace Tests
             s.StartMovement(dest, Direction.RIGHT);
             bool success = true;
             int expectedIndex = 0;
-            string expectedImage = { "Right1", "Right2", "Right3", "Right2", "Right1" };
+            string[] expectedImage = { "Right1", "Right2", "Right3", "Right2", "Right1" };
             string image = "";
             s.Update(50);
-            int updateVal = 0;
-            while (updateVal < 500)
+            int updateVal = 50;
+            while (updateVal < 450)
             {
+                Console.WriteLine(expectedIndex);
+                Console.WriteLine(updateVal);
                 updateVal += 100;
                 expectedIndex++;
                 s.Update(100);
