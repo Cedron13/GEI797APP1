@@ -3,6 +3,14 @@ using GEI797Labo.Models;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
+/* EXPLORUS-E
+ * Alexis BLATRIX (blaa1406)
+ * Cédric CHARRON (chac0902)
+ * Audric DAVID (dava1302)
+ * Matthieu JEHANNE (jehm1701)
+ * Cloé LEGLISE (legc1001)
+ */
+
 namespace GEI797Labo
 {
     internal class Controller : IController
