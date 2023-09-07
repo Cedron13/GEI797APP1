@@ -137,50 +137,50 @@ namespace GEI797Labo
                 g.DrawImage(tileManager.getImage("Title").bitmap, leftMargin + brickSize / 2, topMargin, brickSize * 2, brickSize / 2);
 
                 g.DrawImage(tileManager.getImage("Heart").bitmap, beginTaskBar, topMargin, menuItemWidth, brickSize / 2);
-                g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 1, topMargin, menuItemWidth, brickSize / 2);
-                g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 2, topMargin, menuItemWidth, brickSize / 2);
-                g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 3, topMargin, menuItemWidth, brickSize / 2);
-                g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 4, topMargin, menuItemWidth, brickSize / 2); 
-                g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 5, topMargin, menuItemWidth, brickSize / 2);
+                g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 1, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 2, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 3, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 4, topMargin, menuItemWidth, menuItemWidth); 
+                g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 5, topMargin, menuItemWidth, menuItemWidth);
 
-                g.DrawImage(tileManager.getImage("BigBubble").bitmap, beginTaskBar + menuItemWidth * 6, topMargin, menuItemWidth, brickSize / 2);
-                g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 7, topMargin, menuItemWidth, brickSize / 2);
-                g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, brickSize / 2);
-                g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, brickSize / 2); 
-                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 10, topMargin, menuItemWidth, brickSize / 2);
-                g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 11, topMargin, brickSize / 2, brickSize / 2);
+                g.DrawImage(tileManager.getImage("BigBubble").bitmap, beginTaskBar + menuItemWidth * 6, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 7, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth); 
+                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 10, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 11, topMargin, menuItemWidth, menuItemWidth);
 
-                g.DrawImage(tileManager.getImage("Gem").bitmap, beginTaskBar + menuItemWidth * 12, topMargin, menuItemWidth, brickSize / 2);
-                g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 13, topMargin, menuItemWidth, brickSize / 2);
-                g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 17, topMargin, menuItemWidth, brickSize / 2);
+                g.DrawImage(tileManager.getImage("Gem").bitmap, beginTaskBar + menuItemWidth * 12, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 13, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 17, topMargin, menuItemWidth, menuItemWidth);
 
                 if (gemCounter == 0)
                 {
-                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, brickSize / 2);
-                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, brickSize / 2);
-                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, brickSize / 2);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
                 }
 
                 if (gemCounter == 1)
                 {
-                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, brickSize / 2);
-                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, brickSize / 2);
-                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, brickSize / 2);
+                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
                 }
 
                 if (gemCounter == 2)
                 {
-                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, brickSize / 2);
-                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, brickSize / 2);
-                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, brickSize / 2);
+                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
                 }
 
                 if (gemCounter == 3)
                 {
-                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, brickSize / 2);
-                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, brickSize / 2);
-                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, brickSize / 2);
-                    g.DrawImage(tileManager.getImage("Key").bitmap, beginTaskBar + menuItemWidth * 17 + 10, topMargin, menuItemWidth, brickSize / 2);
+                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("Key").bitmap, beginTaskBar + menuItemWidth * 17 + 10, topMargin, menuItemWidth, menuItemWidth);
                 }
 
 
