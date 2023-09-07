@@ -31,6 +31,8 @@ namespace GEI797Labo.Models
             controller = c;
 
         }
+
+        public GameModel(){}
         
         private int[,] labyrinth = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
@@ -113,7 +115,9 @@ namespace GEI797Labo.Models
                             controller.SetEndGame(true);
                         }
                     }
+                    labyrinth[gridPosY, gridPosX] = 0;
                     gridPosX++;
+                    labyrinth[gridPosY, gridPosX] = 3;
                     coord playerDestCoord = new coord()
                     {
                         x = left + brick * gridPosX,
@@ -178,7 +182,9 @@ namespace GEI797Labo.Models
                             controller.SetEndGame(true);
                         }
                     }
+                    labyrinth[gridPosY, gridPosX] = 0;
                     gridPosX--;
+                    labyrinth[gridPosY, gridPosX] = 3;
                     coord playerDestCoord = new coord()
                     {
                         x = left + brick * gridPosX,
@@ -243,7 +249,9 @@ namespace GEI797Labo.Models
                             controller.SetEndGame(true);
                         }
                     }
+                    labyrinth[gridPosY, gridPosX] = 0;
                     gridPosY--;
+                    labyrinth[gridPosY, gridPosX] = 3;
                     coord playerDestCoord = new coord()
                     {
                         x = left + brick * gridPosX,
@@ -308,7 +316,9 @@ namespace GEI797Labo.Models
 
                         }
                     }
+                    labyrinth[gridPosY, gridPosX] = 0;
                     gridPosY++;
+                    labyrinth[gridPosY, gridPosX] = 3;
                     coord playerDestCoord = new coord()
                     {
                         x = left + brick * gridPosX,
