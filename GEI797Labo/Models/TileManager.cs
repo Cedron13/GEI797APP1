@@ -2,13 +2,23 @@
 using System.Collections.Generic;
 using System.Drawing;
 
+/* EXPLORUS-E
+ * Alexis BLATRIX (blaa1406)
+ * Cédric CHARRON (chac0902)
+ * Audric DAVID (dava1302)
+ * Matthieu JEHANNE (jehm1701)
+ * Cloé LEGLISE (legc1001)
+ */
+
 namespace GEI797Labo
 {
-    //Make into Singleton
     internal class TileManager
     {
+        private static TileManager instance; 
+        private static readonly object lockObject = new object();
         private Dictionary<string, Image2D> images;
-        public TileManager() { 
+
+        private TileManager() { 
             
             images = new Dictionary<string, Image2D>();
             Bitmap tilesheet = Properties.Resources.TilesSheet;
@@ -145,6 +155,22 @@ namespace GEI797Labo
             images.Add("Left3", new Image2D(30, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
 
         }
+
+        public static TileManager GetInstance()
+        {
+            if (instance == null)
+            {
+                lock (lockObject)
+                {
+                    if (instance == null)
+                    {
+                        instance = new TileManager();
+                    }
+                }
+            }
+            return instance;
+        }
+
         public Image2D getImage(string name)
         {
             Image2D image = images[name];
