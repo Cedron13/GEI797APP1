@@ -30,7 +30,7 @@ namespace GEI797Labo
         private bool endGame = false;
         private Thread windowThread;
 
-        //Alexis Modification
+        
         private int taskBarWidth; 
         private int menuItemWidth = 21; 
         private int beginTaskBar = 100+25+19+25;
@@ -264,8 +264,8 @@ namespace GEI797Labo
             topMargin = (int)((displayHeight - (labyrinth.GetLength(0)*(brickSize+3/2) + brickSize * 3/2))/2) ;
             brickMiddle = (int)(brickSize / 4);
 
-            // Partie modifiée Alexis
-            beginTaskBar = brickSize * 2 + leftMargin + 2*(brickSize / 2); // GOOD
+            
+            beginTaskBar = brickSize * 2 + leftMargin + 2*(brickSize / 2); 
             afterTaskBar = brickSize / 2 + leftMargin;
             taskBarWidth = displayWidth - beginTaskBar - afterTaskBar; // Size of the taskbar (without the title, margins)
             menuItemWidth = (int)(taskBarWidth / 18); // Size of each "item" of the taskbar
