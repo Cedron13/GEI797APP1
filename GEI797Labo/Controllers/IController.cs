@@ -13,8 +13,6 @@ namespace GEI797Labo.Controllers
     public struct RenderData
     {
         public int[,] lab;
-        //playerSprite
-        //enemiesSpriteArray
     }
     internal interface IController
     {

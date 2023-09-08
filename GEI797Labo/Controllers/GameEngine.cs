@@ -64,13 +64,12 @@ namespace GEI797Labo
                     if (lag >= MS_PER_FRAME)
                     {
                         fps = (float)(1000f / lag);
-                        //Console.WriteLine(fps);
 
                         ProcessInput();
 
                         while (lag >= MS_PER_FRAME)
                         {
-                            Update(MS_PER_FRAME); //Should be Update(lag)? To verify
+                            Update(MS_PER_FRAME); 
                             lag -= MS_PER_FRAME;
                         }
                         Render(lag / MS_PER_FRAME);
@@ -81,7 +80,7 @@ namespace GEI797Labo
                 else
                 {
                     Render(0);
-                    // Le jeu est en pause, attendez un peu pour économiser les ressources du processeur
+                    // The game is paused, wait to economise processor ressources 
                     Thread.Sleep(100);
                    
 
@@ -92,7 +91,7 @@ namespace GEI797Labo
 
 
             private void Render(double frameAhead) {
-                controller.EngineRenderEvent(); // Appel initial de la méthode Render
+                controller.EngineRenderEvent(); // Initial call of Render method
             }
             private void Update(double lag)
             {

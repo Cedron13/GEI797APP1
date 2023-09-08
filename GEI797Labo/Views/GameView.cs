@@ -32,7 +32,7 @@ namespace GEI797Labo
 
         //Alexis Modification
         private int taskBarWidth; 
-        private int menuItemWidth = 21; // (We take the taskBarWidth and we divide by the number of items or empty space of this taskbar). I count 18 items/empty space. Come to me if you have a question.
+        private int menuItemWidth = 21; 
         private int beginTaskBar = 100+25+19+25;
         private int afterTaskBar = 25 + 19;
 

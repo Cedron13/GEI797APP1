@@ -49,7 +49,7 @@ namespace GEI797Labo
 
         public void ViewCloseEvent()
         {
-            engine.KillEngine(); //Marche 👍
+            engine.KillEngine(); //Works 👍
         }
         public void ViewKeyReleasedEvent()
         {
@@ -93,7 +93,7 @@ namespace GEI797Labo
             Sprite player = new Sprite(
                 new coord()
                 {
-                    x = view.GetLeftMargin() + view.GetBrickSize() * model.GetGridPosX(), //Place holder coordinates, TODO: adapt with screen size 
+                    x = view.GetLeftMargin() + view.GetBrickSize() * model.GetGridPosX(), 
                     y = view.GetTopMargin() + view.GetBrickSize() * (model.GetGridPosY() + 1)
                 }
             );
@@ -155,7 +155,7 @@ namespace GEI797Labo
             Sprite player = new Sprite(
                 new coord()
                 {
-                    x = view.GetLeftMargin() + view.GetBrickSize() * model.GetGridPosX(), //Place holder coordinates, TODO: adapt with screen size 
+                    x = view.GetLeftMargin() + view.GetBrickSize() * model.GetGridPosX(), //Place holder coordinates
                     y = view.GetTopMargin() + view.GetBrickSize() * (model.GetGridPosY() + 1)
                 }
             ) ;

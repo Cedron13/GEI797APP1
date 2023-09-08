@@ -31,7 +31,7 @@ namespace GEI797Labo
         private coord destinationPos;
         private int imageIndex;
         private Direction dir;
-        private double timeToMove = 500;// Ms
+        private double timeToMove = 500; // ms
         private double timeElapsed = 0;
 
         public Sprite(coord pos)
