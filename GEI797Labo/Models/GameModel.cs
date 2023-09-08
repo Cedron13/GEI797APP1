@@ -14,8 +14,6 @@ namespace GEI797Labo.Models
     {
         private IController controller;
         private Sprite player;
-        private int TILE_SIZE;
-        private GameView view;
         private int gridPosX;
         private int gridPosY;
         private int newPosX;
@@ -158,7 +156,15 @@ namespace GEI797Labo.Models
 
         public void InitPlayer(Sprite p)
         {
-            player = p;
+            if (player == null)
+            {
+                player = p;
+            }
+            else
+            {
+                p.SetDirection(player.GetDirection());
+                player = p;
+            }
         }
 
         public Sprite GetPlayer() { return player; }
