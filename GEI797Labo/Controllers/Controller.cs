@@ -9,6 +9,7 @@ using System.Windows.Forms;
  * Audric DAVID (dava1302)
  * Matthieu JEHANNE (jehm1701)
  * Cloé LEGLISE (legc1001)
+ * Mahdi Majdoub (majm2404)
  */
 
 namespace GEI797Labo
@@ -49,7 +50,7 @@ namespace GEI797Labo
 
         public void ViewCloseEvent()
         {
-            engine.KillEngine(); //Marche 👍
+            engine.KillEngine(); //Works 👍
         }
         public void ViewKeyReleasedEvent()
         {
@@ -93,7 +94,7 @@ namespace GEI797Labo
             Sprite player = new Sprite(
                 new coord()
                 {
-                    x = view.GetLeftMargin() + view.GetBrickSize() * model.GetGridPosX(), //Place holder coordinates, TODO: adapt with screen size 
+                    x = view.GetLeftMargin() + view.GetBrickSize() * model.GetGridPosX(), 
                     y = view.GetTopMargin() + view.GetBrickSize() * (model.GetGridPosY() + 1)
                 }
             );
@@ -155,7 +156,7 @@ namespace GEI797Labo
             Sprite player = new Sprite(
                 new coord()
                 {
-                    x = view.GetLeftMargin() + view.GetBrickSize() * model.GetGridPosX(), //Place holder coordinates, TODO: adapt with screen size 
+                    x = view.GetLeftMargin() + view.GetBrickSize() * model.GetGridPosX(), //Place holder coordinates
                     y = view.GetTopMargin() + view.GetBrickSize() * (model.GetGridPosY() + 1)
                 }
             ) ;

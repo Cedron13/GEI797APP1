@@ -6,7 +6,8 @@ using System.Windows.Forms;
  * Cédric CHARRON (chac0902)
  * Audric DAVID (dava1302)
  * Matthieu JEHANNE (jehm1701)
- * Cloé LEGLISE (legc1001)
+ * Cloé LEGLISE (legc1001) 
+ * Mahdi Majdoub (majm2404)
  */
 
 namespace GEI797Labo
@@ -20,7 +21,7 @@ namespace GEI797Labo
             InitializeComponent();
             this.DoubleBuffered = true;
             this.KeyPreview = true;
-            this.Size = new Size(beginWidth, beginHeight); //Init display dimensions 600*600
+            this.Size = new Size(beginWidth, beginHeight); //Init display dimensions 600*600 px
             this.MinimumSize = new Size(beginWidth, beginHeight);
             this.Text = "Explorus-E";
 

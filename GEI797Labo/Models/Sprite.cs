@@ -4,6 +4,7 @@
  * Audric DAVID (dava1302)
  * Matthieu JEHANNE (jehm1701)
  * Cloé LEGLISE (legc1001)
+ * Mahdi Majdoub (majm2404)
  */
 
 using System;
@@ -31,7 +32,7 @@ namespace GEI797Labo
         private coord destinationPos;
         private int imageIndex;
         private Direction dir;
-        private double timeToMove = 500;// Ms
+        private double timeToMove = 500; // ms
         private double timeElapsed = 0;
 
         public Sprite(coord pos)
