@@ -26,30 +26,21 @@ namespace GEI797Labo.Controllers.States
             {
                 switch (e)
                 {
-                    case Keys.Down:
-                        {
-                            model.MoveDown(topMargin, leftmargin, brickSize);
-                            break;
-                        }
-                    case Keys.Up:
-                        {
-                            model.MoveUp(topMargin, leftmargin, brickSize);
-                            break;
-                        }
                     case Keys.Right:
                         {
-                            model.MoveRight(topMargin, leftmargin, brickSize);
+                            //Redo Logic
                             break;
                         }
                     case Keys.Left:
                         {
-                            model.MoveLeft(topMargin, leftmargin, brickSize);
+                            //Undo Logic
                             break;
                         }
                     case Keys.R:
                         {
                             nextState = new TransitionState(controller);
                             //Unpause Logic
+                            controller.IsPaused = false;
                             break;
                         }
                 }

@@ -51,6 +51,7 @@ namespace GEI797Labo.Controllers.States
                         {
                             nextState = new PausedState(controller);
                             //Enter Pause Logic
+                            controller.IsPaused = true;
                             break;
                         }
                 }
