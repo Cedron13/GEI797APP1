@@ -78,13 +78,13 @@ namespace GEI797Labo
             model.Update(lag);
         }
 
-        public void AddSubscriber(ref IResizeEventSubscriber sub)
+        public void AddSubscriber(IResizeEventSubscriber sub)
         {
-            resizeSubscribers.Append(sub);
+            resizeSubscribers.Add(sub);
         }
         public void PositionUpdate()
         {
-            Console.WriteLine(resizeSubscribers.Count());
+
             foreach (IResizeEventSubscriber s in resizeSubscribers)
             {
                 
@@ -120,6 +120,7 @@ namespace GEI797Labo
                 }, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize()
             ) ;
             model.InitPlayer(player);
+            AddSubscriber(model.GetPlayer());
         }
 
         public void SetGemCounter(int i)
