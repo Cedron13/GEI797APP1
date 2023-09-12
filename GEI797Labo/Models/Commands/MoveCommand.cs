@@ -12,7 +12,6 @@ namespace GEI797Labo.Models.Commands
         public MoveCommand(Direction d) {
             dir = d;
         }
-
         public void Execute() { }
     }
 }

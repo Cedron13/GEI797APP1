@@ -35,6 +35,10 @@ namespace GEI797Labo
         private double timeToMove = 500; // ms
         private double timeElapsed = 0;
 
+        private int topMargin;
+        private int leftmargin;
+        private int brickSize;
+
         public Sprite(coord pos)
         {
             currentPos = pos;

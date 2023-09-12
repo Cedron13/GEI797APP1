@@ -17,28 +17,26 @@ namespace GEI797Labo.Models
     {
         private IController controller;
         private Sprite player;
-        private int gridPosX;
-        private int gridPosY;
-        private int newPosX;
-        private int newPosY;
+        private coord gridPos;
+        private coord newPos;
         private int counter = 0;
 
         private IGameCommand[] commandHistory;
 
         public void SetGridPosX(int posX){
-            gridPosX = posX;
+            gridPos.x = posX;
         }
 
         public int GetGridPosX(){  
-            return gridPosX; 
+            return gridPos.x; 
         }
 
         public void SetGridPosY(int posY){
-            gridPosY = posY;
+            gridPos.y = posY;
         }
 
         public int GetGridPosY(){  
-            return gridPosY; }
+            return gridPos.y; }
 
 
         public GameModel(IController c) {
@@ -82,8 +80,8 @@ namespace GEI797Labo.Models
         {
             coord playerDestCoord = new coord()
             {
-                x = left + brick * gridPosX,
-                y = top + brick * (gridPosY + 1)
+                x = left + brick * gridPos.x,
+                y = top + brick * (gridPos.y + 1)
             };
             player.StartMovement(playerDestCoord, d);
         }
@@ -93,17 +91,17 @@ namespace GEI797Labo.Models
         {
             if (player.IsMovementOver())
             {
-                if (labyrinth[newPosY, newPosX] == 1)
+                if (labyrinth[newPos.y, newPos.x] == 1)
                 {
                     GoTo(d, top, left, brick);
                 }
-                else if (labyrinth[newPosY, newPosX] == 2)
+                else if (labyrinth[newPos.y, newPos.x] == 2)
                 {
                     if (counter == 3)
                     {
                         labyrinth[4, 7] = 0;
-                        SetGridPosX(newPosX);
-                        SetGridPosY(newPosY);
+                        SetGridPosX(newPos.x);
+                        SetGridPosY(newPos.y);
                         GoTo(d, top, left, brick);
                     }
                     else
@@ -113,9 +111,9 @@ namespace GEI797Labo.Models
                 }
                 else
                 {
-                    if (labyrinth[newPosY, newPosX] == 4 || labyrinth[newPosY, newPosX] == 5)
+                    if (labyrinth[newPos.y, newPos.x] == 4 || labyrinth[newPos.y, newPos.x] == 5)
                     {
-                        labyrinth[newPosY, newPosX] = 0;
+                        labyrinth[newPos.y, newPos.x] = 0;
                         counter++;
                         controller.SetGemCounter(counter);
 
@@ -124,10 +122,10 @@ namespace GEI797Labo.Models
                             controller.SetEndGame(true);
                         }
                     }
-                    labyrinth[gridPosY, gridPosX] = 0;
-                    SetGridPosX(newPosX);
-                    SetGridPosY(newPosY);
-                    labyrinth[gridPosY, gridPosX] = 3;
+                    labyrinth[gridPos.y, gridPos.x] = 0;
+                    SetGridPosX(newPos.x);
+                    SetGridPosY(newPos.y);
+                    labyrinth[gridPos.y, gridPos.x] = 3;
                     GoTo(d, top, left, brick);
                 }
             }
@@ -136,27 +134,27 @@ namespace GEI797Labo.Models
 
         public void MoveRight(int top, int left, int brick)
         {
-            newPosX = gridPosX + 1;
-            newPosY = gridPosY;
+            newPos.x = gridPos.x + 1;
+            newPos.y = gridPos.y;
             MakeMovement(Direction.RIGHT, top, left, brick); 
         }
         public void MoveLeft(int top, int left, int brick)
         {
-            newPosX = gridPosX - 1;
-            newPosY = gridPosY;
+            newPos.x = gridPos.x - 1;
+            newPos.y = gridPos.y;
             MakeMovement(Direction.LEFT, top, left, brick);
         }
 
         public void MoveUp(int top, int left, int brick)
         {
-            newPosX = gridPosX;
-            newPosY = gridPosY - 1;
+            newPos.x = gridPos.x;
+            newPos.y = gridPos.y - 1;
             MakeMovement(Direction.UP, top, left, brick);
         }
         public void MoveDown(int top, int left, int brick)
         {
-            newPosX = gridPosX;
-            newPosY = gridPosY + 1;
+            newPos.x = gridPos.x;
+            newPos.y = gridPos.y + 1;
             MakeMovement(Direction.DOWN, top, left, brick);
         }
 
