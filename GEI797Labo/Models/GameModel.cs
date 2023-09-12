@@ -3,6 +3,7 @@ using System.Windows.Input;
 using GEI797Labo.Models.Commands;
 using System;
 using GEI797Labo.Observer;
+using System.Collections.Generic;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -23,7 +24,7 @@ namespace GEI797Labo.Models
         private coord newPos;
         private int counter = 0;
 
-        private IGameCommand[] commandHistory;
+        private List<IGameCommand> commandHistory = new List<IGameCommand>();
 
         public void SetGridPosX(int posX){
             gridPos.x = posX;
@@ -40,6 +41,8 @@ namespace GEI797Labo.Models
         public int GetGridPosY(){  
             return gridPos.y; }
 
+        public int GetCounter() => counter;
+        public void SetCounter(int c) { counter = c; }
 
         public GameModel(IController c) {
 
@@ -47,7 +50,7 @@ namespace GEI797Labo.Models
 
         }
 
-        public GameModel() { }
+    public GameModel() { }
         
         private int[,] labyrinth = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
@@ -77,86 +80,40 @@ namespace GEI797Labo.Models
             }
         }
 
-        private void GoTo(Direction d)
+        public void GoTo(Direction d, coord dest)
         {
-            coord playerDestCoord = new coord()
-            {
-                x = gridPos.x,
-                y = gridPos.y
-            };
-            player.StartMovement(playerDestCoord, d);
+            player.StartMovement(dest, d);
         }
-
-
-        private void MakeMovement(Direction d)
-        {
-            if (player.IsMovementOver())
-            {
-                if (labyrinth[newPos.y, newPos.x] == 1)
-                {
-                    GoTo(d);
-                }
-                else if (labyrinth[newPos.y, newPos.x] == 2)
-                {
-                    if (counter == 3)
-                    {
-                        labyrinth[4, 7] = 0;
-                        SetGridPosX(newPos.x);
-                        SetGridPosY(newPos.y);
-                        GoTo(d);
-                    }
-                    else
-                    {
-                        GoTo(d);
-                    }
-                }
-                else
-                {
-                    if (labyrinth[newPos.y, newPos.x] == 4 || labyrinth[newPos.y, newPos.x] == 5)
-                    {
-                        labyrinth[newPos.y, newPos.x] = 0;
-                        counter++;
-                        controller.SetGemCounter(counter);
-
-                        if (counter == 4)
-                        {
-                            controller.SetEndGame(true);
-                        }
-                    }
-                    labyrinth[gridPos.y, gridPos.x] = 0;
-                    SetGridPosX(newPos.x);
-                    SetGridPosY(newPos.y);
-                    labyrinth[gridPos.y, gridPos.x] = 3;
-                    GoTo(d);
-                }
-            }
-        }
-
 
         public void MoveRight()
         {
             newPos.x = gridPos.x + 1;
             newPos.y = gridPos.y;
-            MakeMovement(Direction.RIGHT); 
+            MoveCommand com = new MoveCommand(Direction.RIGHT, gridPos, newPos);
+            com.Execute(this);
+
         }
         public void MoveLeft()
         {
             newPos.x = gridPos.x - 1;
             newPos.y = gridPos.y;
-            MakeMovement(Direction.LEFT);
+            MoveCommand com = new MoveCommand(Direction.LEFT, gridPos, newPos);
+            com.Execute(this);
         }
 
         public void MoveUp()
         {
             newPos.x = gridPos.x;
             newPos.y = gridPos.y - 1;
-            MakeMovement(Direction.UP);
+            MoveCommand com = new MoveCommand(Direction.UP, gridPos, newPos);
+            com.Execute(this);
         }
         public void MoveDown()
         {
             newPos.x = gridPos.x;
             newPos.y = gridPos.y + 1;
-            MakeMovement(Direction.DOWN);
+            MoveCommand com = new MoveCommand(Direction.DOWN, gridPos, newPos);
+            com.Execute(this);
         }
 
 
@@ -174,6 +131,8 @@ namespace GEI797Labo.Models
         }
 
         public Sprite GetPlayer() { return player; }
+
+        public IController GetController() { return controller; }
 
         public IResizeEventSubscriber GetPlayerResizeSub()
         {

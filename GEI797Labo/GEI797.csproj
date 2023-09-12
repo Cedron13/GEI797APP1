@@ -55,8 +55,6 @@
     <Compile Include="Controllers\States\TransitionState.cs" />
     <Compile Include="Models\Commands\IGameCommand.cs" />
     <Compile Include="Models\Commands\MoveCommand.cs" />
-    <Compile Include="Models\Commands\RedoCommand.cs" />
-    <Compile Include="Models\Commands\UndoCommand.cs" />
     <Compile Include="Observer\IResizeEventPublisher.cs" />
     <Compile Include="Observer\IResizeEventSubscriber.cs" />
     <Compile Include="Views\GameForm.cs">

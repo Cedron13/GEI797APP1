@@ -8,6 +8,7 @@ namespace GEI797Labo.Models.Commands
 {
     internal interface IGameCommand
     {
-        void Execute();
+        void Execute(GameModel model);
+        void Undo(GameModel model);
     }
 }
