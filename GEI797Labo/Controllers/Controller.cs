@@ -1,7 +1,10 @@
 ﻿using GEI797Labo.Controllers;
 using GEI797Labo.Controllers.States;
 using GEI797Labo.Models;
+using GEI797Labo.Observer;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 /* EXPLORUS-E
@@ -15,15 +18,14 @@ using System.Windows.Forms;
 
 namespace GEI797Labo
 {
-    internal class Controller : IController
+    internal class Controller : IController, IResizeEventPublisher
     {
         private GameEngine engine;
         private GameView view;
         private GameModel model;
         private IState currentState;
-        private int topMargin;
-        private int leftmargin;
-        private int brickSize;
+        private List<IResizeEventSubscriber> resizeSubscribers;
+
        
         private bool isPaused = false;
         public bool IsPaused
@@ -38,10 +40,8 @@ namespace GEI797Labo
         {
             model = new GameModel(this);
             inputList = new List<Keys>();
+            resizeSubscribers = new List<IResizeEventSubscriber>();
             view = new GameView(this);
-            topMargin = view.GetTopMargin();
-            leftmargin = view.GetLeftMargin();
-            brickSize = view.GetBrickSize();
             currentState = new PlayState(this);
             InitGame();
 
@@ -77,21 +77,19 @@ namespace GEI797Labo
         {
             model.Update(lag);
         }
+
+        public void AddSubscriber(ref IResizeEventSubscriber sub)
+        {
+            resizeSubscribers.Append(sub);
+        }
         public void PositionUpdate()
         {
-            topMargin = view.GetTopMargin();
-            leftmargin = view.GetLeftMargin();
-            brickSize = view.GetBrickSize();
-            Sprite player = new Sprite(
-                new coord()
-                {
-                    x = view.GetLeftMargin() + view.GetBrickSize() * model.GetGridPosX(), 
-                    y = view.GetTopMargin() + view.GetBrickSize() * (model.GetGridPosY() + 1)
-                }
-            );
-
-            model.InitPlayer(player);
-
+            Console.WriteLine(resizeSubscribers.Count());
+            foreach (IResizeEventSubscriber s in resizeSubscribers)
+            {
+                
+                s.NotifyResize(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+            }
         }
         public void EngineProcessInputEvent() {
 
@@ -117,11 +115,10 @@ namespace GEI797Labo
             Sprite player = new Sprite(
                 new coord()
                 {
-                    x = view.GetLeftMargin() + view.GetBrickSize() * model.GetGridPosX(), //Place holder coordinates
-                    y = view.GetTopMargin() + view.GetBrickSize() * (model.GetGridPosY() + 1)
-                }
+                    x = model.GetGridPosX(), //Place holder coordinates
+                    y = model.GetGridPosY()
+                }, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize()
             ) ;
-           
             model.InitPlayer(player);
         }
 
@@ -144,9 +141,6 @@ namespace GEI797Labo
         public Sprite GetPlayer() => model.GetPlayer();
         public GameModel GetGameModel() => model;
 
-        public int GetTopMargin() => topMargin;
-        public int GetLeftMargin() => leftmargin;
-        public int GetBrickSize() => brickSize;
 
 
     }

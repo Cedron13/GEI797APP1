@@ -20,31 +20,28 @@ namespace GEI797Labo.Controllers.States
         }
         public void ProcessInput(List<Keys> keys) {
             GameModel model = controller.GetGameModel();
-            int topMargin = controller.GetTopMargin();
-            int leftmargin = controller.GetLeftMargin();
-            int brickSize = controller.GetBrickSize();
             foreach (Keys e in keys)
             {
                 switch (e)
                 {
                     case Keys.Down:
                         {
-                            model.MoveDown(topMargin, leftmargin, brickSize);
+                            model.MoveDown();
                             break;
                         }
                     case Keys.Up:
                         {
-                            model.MoveUp(topMargin, leftmargin, brickSize);
+                            model.MoveUp();
                             break;
                         }
                     case Keys.Right:
                         {
-                            model.MoveRight(topMargin, leftmargin, brickSize);
+                            model.MoveRight();
                             break;
                         }
                     case Keys.Left:
                         {
-                            model.MoveLeft(topMargin, leftmargin, brickSize);
+                            model.MoveLeft();
                             break;
                         }
                     case Keys.P:

@@ -55,8 +55,6 @@ namespace GEI797Labo
                     }
                 }
 
-
-                
                 double current = GetCurrentTimeMillis();
                 double elapsed = current - previous;
                 previous = current;
@@ -75,32 +73,26 @@ namespace GEI797Labo
                     Render(lag / MS_PER_FRAME);
                     Thread.Sleep(1);
                 }
-
-                
-                
-                
-
             }
         }
 
-
-            private void Render(double frameAhead) {
-                controller.EngineRenderEvent(); // Initial call of Render method
-            }
-            private void Update(double lag)
-            {
-                controller.EngineUpdateEvent(lag);
-            }
-            private void ProcessInput()
-            {
-                controller.EngineProcessInputEvent();
-            }
-            private double GetCurrentTimeMillis()
-            {
-                DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-                TimeSpan elapsedTime = DateTime.UtcNow - epochStart;
-                return elapsedTime.TotalMilliseconds;
-            }
+        private void Render(double frameAhead) {
+            controller.EngineRenderEvent(); // Initial call of Render method
+        }
+        private void Update(double lag)
+        {
+            controller.EngineUpdateEvent(lag);
+        }
+        private void ProcessInput()
+        {
+            controller.EngineProcessInputEvent();
+        }
+        private double GetCurrentTimeMillis()
+        {
+            DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            TimeSpan elapsedTime = DateTime.UtcNow - epochStart;
+            return elapsedTime.TotalMilliseconds;
+        }
         
     } 
 }

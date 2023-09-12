@@ -19,9 +19,6 @@ namespace GEI797Labo.Controllers.States
         }
         public void ProcessInput(List<Keys> keys) {
             GameModel model = controller.GetGameModel();
-            int topMargin = controller.GetTopMargin();
-            int leftmargin = controller.GetLeftMargin();
-            int brickSize = controller.GetBrickSize();
             foreach (Keys e in keys)
             {
                 switch (e)

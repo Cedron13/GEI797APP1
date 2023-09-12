@@ -1,6 +1,8 @@
 ﻿using GEI797Labo.Controllers;
 using System.Windows.Input;
 using GEI797Labo.Models.Commands;
+using System;
+using GEI797Labo.Observer;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -75,25 +77,24 @@ namespace GEI797Labo.Models
             }
         }
 
-
-        private void GoTo(Direction d, int top, int left, int brick)
+        private void GoTo(Direction d)
         {
             coord playerDestCoord = new coord()
             {
-                x = left + brick * gridPos.x,
-                y = top + brick * (gridPos.y + 1)
+                x = gridPos.x,
+                y = gridPos.y
             };
             player.StartMovement(playerDestCoord, d);
         }
 
 
-        private void MakeMovement(Direction d, int top, int left, int brick)
+        private void MakeMovement(Direction d)
         {
             if (player.IsMovementOver())
             {
                 if (labyrinth[newPos.y, newPos.x] == 1)
                 {
-                    GoTo(d, top, left, brick);
+                    GoTo(d);
                 }
                 else if (labyrinth[newPos.y, newPos.x] == 2)
                 {
@@ -102,11 +103,11 @@ namespace GEI797Labo.Models
                         labyrinth[4, 7] = 0;
                         SetGridPosX(newPos.x);
                         SetGridPosY(newPos.y);
-                        GoTo(d, top, left, brick);
+                        GoTo(d);
                     }
                     else
                     {
-                        GoTo(d, top, left, brick);
+                        GoTo(d);
                     }
                 }
                 else
@@ -126,36 +127,36 @@ namespace GEI797Labo.Models
                     SetGridPosX(newPos.x);
                     SetGridPosY(newPos.y);
                     labyrinth[gridPos.y, gridPos.x] = 3;
-                    GoTo(d, top, left, brick);
+                    GoTo(d);
                 }
             }
         }
 
 
-        public void MoveRight(int top, int left, int brick)
+        public void MoveRight()
         {
             newPos.x = gridPos.x + 1;
             newPos.y = gridPos.y;
-            MakeMovement(Direction.RIGHT, top, left, brick); 
+            MakeMovement(Direction.RIGHT); 
         }
-        public void MoveLeft(int top, int left, int brick)
+        public void MoveLeft()
         {
             newPos.x = gridPos.x - 1;
             newPos.y = gridPos.y;
-            MakeMovement(Direction.LEFT, top, left, brick);
+            MakeMovement(Direction.LEFT);
         }
 
-        public void MoveUp(int top, int left, int brick)
+        public void MoveUp()
         {
             newPos.x = gridPos.x;
             newPos.y = gridPos.y - 1;
-            MakeMovement(Direction.UP, top, left, brick);
+            MakeMovement(Direction.UP);
         }
-        public void MoveDown(int top, int left, int brick)
+        public void MoveDown()
         {
             newPos.x = gridPos.x;
             newPos.y = gridPos.y + 1;
-            MakeMovement(Direction.DOWN, top, left, brick);
+            MakeMovement(Direction.DOWN);
         }
 
 
@@ -174,6 +175,10 @@ namespace GEI797Labo.Models
 
         public Sprite GetPlayer() { return player; }
 
+        public IResizeEventSubscriber GetPlayerResizeSub()
+        {
+            return player;
+        }
     
 
     }

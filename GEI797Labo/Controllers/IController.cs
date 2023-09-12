@@ -35,11 +35,6 @@ namespace GEI797Labo.Controllers
         GameModel GetGameModel();
 
         Sprite GetPlayer();
-
-        int GetTopMargin();
-        int GetLeftMargin();
-        int GetBrickSize();
-
         void SetGemCounter(int i);
         void SetEndGame(bool b);
     }
