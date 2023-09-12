@@ -56,36 +56,29 @@ namespace GEI797Labo
                 }
 
 
-                if (!controller.IsPaused)
+                
+                double current = GetCurrentTimeMillis();
+                double elapsed = current - previous;
+                previous = current;
+                lag += elapsed;
+                if (lag >= MS_PER_FRAME)
                 {
-                    double current = GetCurrentTimeMillis();
-                    double elapsed = current - previous;
-                    previous = current;
-                    lag += elapsed;
-                    if (lag >= MS_PER_FRAME)
+                    fps = (float)(1000f / lag);
+
+                    ProcessInput();
+
+                    while (lag >= MS_PER_FRAME)
                     {
-                        fps = (float)(1000f / lag);
-
-                        ProcessInput();
-
-                        while (lag >= MS_PER_FRAME)
-                        {
-                            Update(MS_PER_FRAME); 
-                            lag -= MS_PER_FRAME;
-                        }
-                        Render(lag / MS_PER_FRAME);
-                        Thread.Sleep(1);
+                        Update(MS_PER_FRAME); 
+                        lag -= MS_PER_FRAME;
                     }
-
+                    Render(lag / MS_PER_FRAME);
+                    Thread.Sleep(1);
                 }
-                else
-                {
-                    Render(0);
-                    // The game is paused, wait to economise processor ressources 
-                    Thread.Sleep(100);
-                   
 
-                }
+                
+                
+                
 
             }
         }

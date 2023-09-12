@@ -1,4 +1,5 @@
 ﻿using GEI797Labo.Controllers;
+using GEI797Labo.Controllers.States;
 using GEI797Labo.Models;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -19,6 +20,7 @@ namespace GEI797Labo
         private GameEngine engine;
         private GameView view;
         private GameModel model;
+        private IState currentState;
         private int topMargin;
         private int leftmargin;
         private int brickSize;
@@ -40,6 +42,7 @@ namespace GEI797Labo
             topMargin = view.GetTopMargin();
             leftmargin = view.GetLeftMargin();
             brickSize = view.GetBrickSize();
+            currentState = new PlayState(this);
             InitGame();
 
             engine = new GameEngine(this);
@@ -66,18 +69,6 @@ namespace GEI797Labo
                     inputList.Add(e.KeyCode);
                 }
             }
-            if (e.KeyCode == Keys.P && !isPaused)
-            {
-                isPaused = true;
-                
-            }
-
-            // Check for 'R' key to resume the game
-            if (e.KeyCode == Keys.R && isPaused)
-            {
-                isPaused = false;
-                
-            }
         }
         public void EngineRenderEvent() {
             view.Render();
@@ -103,39 +94,9 @@ namespace GEI797Labo
 
         }
         public void EngineProcessInputEvent() {
-            
-                foreach (Keys e in inputList)
-                {
-                    switch (e)
-                    {
-                          
-                        case Keys.Down:
-                            {
-                            model.MoveDown(topMargin, leftmargin, brickSize);  
-                                break;
-                            }
-                        case Keys.Up:
-                            {
-                                model.MoveUp(topMargin, leftmargin, brickSize);
-                                break;
-                            }
-                        case Keys.Right:
-                            {
-                                model.MoveRight(topMargin, leftmargin, brickSize);
-                                break;
-                            }
-                        case Keys.Left:
-                            {
-                                model.MoveLeft(topMargin, leftmargin, brickSize);
-                                break;
-                            }
-                        
 
-                    }
-                }
-            
-             
-            
+            currentState.ProcessInput(inputList);
+            currentState = currentState.GetNextState();
             inputList.Clear(); //For next frame
         }
 
@@ -181,8 +142,11 @@ namespace GEI797Labo
 
 
         public Sprite GetPlayer() => model.GetPlayer();
+        public GameModel GetGameModel() => model;
 
-        
+        public int GetTopMargin() => topMargin;
+        public int GetLeftMargin() => leftmargin;
+        public int GetBrickSize() => brickSize;
 
 
     }

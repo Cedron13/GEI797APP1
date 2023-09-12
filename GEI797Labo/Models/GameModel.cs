@@ -1,4 +1,6 @@
 ﻿using GEI797Labo.Controllers;
+using System.Windows.Input;
+using GEI797Labo.Models.Commands;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -20,6 +22,8 @@ namespace GEI797Labo.Models
         private int newPosX;
         private int newPosY;
         private int counter = 0;
+
+        private IGameCommand[] commandHistory;
 
         public void SetGridPosX(int posX){
             gridPosX = posX;

@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using GEI797Labo.Models;
+using System.Windows.Forms;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -31,7 +32,14 @@ namespace GEI797Labo.Controllers
         void InitGame();
         void PositionUpdate();
 
+        GameModel GetGameModel();
+
         Sprite GetPlayer();
+
+        int GetTopMargin();
+        int GetLeftMargin();
+        int GetBrickSize();
+
         void SetGemCounter(int i);
         void SetEndGame(bool b);
     }
