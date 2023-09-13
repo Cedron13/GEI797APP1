@@ -13,6 +13,7 @@ namespace GEI797Labo.Models.Commands
         private Direction dir;
         private coord initialPos;
         private coord newPos;
+        private bool gemFound = false;
         public MoveCommand(Direction d, coord initial, coord dest)
         {
             dir = d;
@@ -63,6 +64,18 @@ namespace GEI797Labo.Models.Commands
                 model.GoTo(dir, newPos);
             }
         }
-        public void Undo(GameModel model) { }
+        public void Undo(GameModel model) {
+
+            int[,] labyrinth = model.GetLabyrinth();
+            if(gemFound)
+            {
+                labyrinth[newPos.y, newPos.x] = 4;
+            }
+            model.SetGridPosX(initialPos.x);
+            model.SetGridPosY(initialPos.y);
+            model.GoTo(dir, initialPos);
+        }
+
+        
     }
 }
