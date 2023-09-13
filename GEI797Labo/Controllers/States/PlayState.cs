@@ -1,4 +1,5 @@
 ﻿using GEI797Labo.Models;
+using GEI797Labo.Models.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,28 +21,53 @@ namespace GEI797Labo.Controllers.States
         }
         public void ProcessInput(List<Keys> keys) {
             GameModel model = controller.GetGameModel();
+            coord initialCoord = model.GetGridCoord();
             foreach (Keys e in keys)
             {
                 switch (e)
                 {
                     case Keys.Down:
                         {
-                            model.MoveDown();
+                            coord dest = new coord()
+                            {
+                                x = initialCoord.x,
+                                y = initialCoord.y+1
+                            };
+                            MoveCommand com = new MoveCommand(Direction.DOWN, initialCoord, dest);
+                            model.InvokeCommand(com);
                             break;
                         }
                     case Keys.Up:
                         {
-                            model.MoveUp();
+                            coord dest = new coord()
+                            {
+                                x = initialCoord.x, 
+                                y = initialCoord.y -1
+                            };
+                            MoveCommand com = new MoveCommand(Direction.UP, initialCoord, dest);
+                            model.InvokeCommand(com);
                             break;
                         }
                     case Keys.Right:
                         {
-                            model.MoveRight();
+                            coord dest = new coord()
+                            {
+                                x = initialCoord.x+1, 
+                                y = initialCoord.y
+                            };
+                            MoveCommand com = new MoveCommand(Direction.RIGHT, initialCoord, dest);
+                            model.InvokeCommand(com);
                             break;
                         }
                     case Keys.Left:
                         {
-                            model.MoveLeft();
+                            coord dest = new coord()
+                            {
+                                x = initialCoord.x-1, 
+                                y = initialCoord.y
+                            };
+                            MoveCommand com = new MoveCommand(Direction.LEFT, initialCoord, dest);
+                            model.InvokeCommand(com);
                             break;
                         }
                     case Keys.P:

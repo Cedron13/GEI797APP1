@@ -114,7 +114,7 @@ namespace GEI797Labo
             // Black background and menu
 
             g.Clear(Color.Black);
-            
+            /*
             if (controller.IsPaused == true)
             {
                 
@@ -127,8 +127,8 @@ namespace GEI797Labo
                     float y = (oGameForm.ClientSize.Height - textSize.Height) / 2;
                     g.DrawString(pauseText, font, brush, x, y);
                 }
-            }
-            else if (endGame)
+            }*/
+            if (endGame)
             {
                 using (Font font = new Font("Arial", 24, FontStyle.Bold))
                 using (Brush brush = new SolidBrush(Color.White))

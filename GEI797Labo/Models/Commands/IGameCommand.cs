@@ -10,5 +10,6 @@ namespace GEI797Labo.Models.Commands
     {
         void Execute(GameModel model);
         void Undo(GameModel model);
+        bool IsHistoryAction();
     }
 }

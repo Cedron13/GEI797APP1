@@ -4,6 +4,7 @@ using GEI797Labo.Models.Commands;
 using System;
 using GEI797Labo.Observer;
 using System.Collections.Generic;
+using System.Linq;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -21,10 +22,16 @@ namespace GEI797Labo.Models
         private IController controller;
         private Sprite player;
         private coord gridPos;
-        private coord newPos;
         private int counter = 0;
+        private int commandIndex = 0;
 
         private List<IGameCommand> commandHistory = new List<IGameCommand>();
+
+        public GameModel(IController c)
+        {
+            controller = c;
+            InvokeCommand(new StartGameCommand());
+        }
 
         public void SetGridPosX(int posX){
             gridPos.x = posX;
@@ -43,14 +50,6 @@ namespace GEI797Labo.Models
 
         public int GetCounter() => counter;
         public void SetCounter(int c) { counter = c; }
-
-        public GameModel(IController c) {
-
-            controller = c;
-
-        }
-
-    public GameModel() { }
         
         private int[,] labyrinth = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
@@ -85,37 +84,39 @@ namespace GEI797Labo.Models
             player.StartMovement(dest, d);
         }
 
-        public void MoveRight()
+        public void InvokeCommand(IGameCommand command)
         {
-            newPos.x = gridPos.x + 1;
-            newPos.y = gridPos.y;
-            MoveCommand com = new MoveCommand(Direction.RIGHT, gridPos, newPos);
-            com.Execute(this);
-
-        }
-        public void MoveLeft()
-        {
-            newPos.x = gridPos.x - 1;
-            newPos.y = gridPos.y;
-            MoveCommand com = new MoveCommand(Direction.LEFT, gridPos, newPos);
-            com.Execute(this);
+            command.Execute(this);
+            if(command.IsHistoryAction())
+            {
+                commandHistory.Add(command);
+                commandIndex++;
+            }
+            
         }
 
-        public void MoveUp()
+        public void UndoLastCommand()
         {
-            newPos.x = gridPos.x;
-            newPos.y = gridPos.y - 1;
-            MoveCommand com = new MoveCommand(Direction.UP, gridPos, newPos);
-            com.Execute(this);
-        }
-        public void MoveDown()
-        {
-            newPos.x = gridPos.x;
-            newPos.y = gridPos.y + 1;
-            MoveCommand com = new MoveCommand(Direction.DOWN, gridPos, newPos);
-            com.Execute(this);
+            if (commandIndex>1)
+            {
+                commandHistory.ElementAt(commandIndex-1).Undo(this);
+                commandIndex--;
+            }
         }
 
+        public void RedoNextCommand()
+        {
+            int len = commandHistory.Count;
+            if(len > commandIndex)
+            {
+                commandIndex++;
+                commandHistory.ElementAt(commandIndex-1).Execute(this);
+            }
+        }
+        public void ClearAfterCurrentActionIndex()
+        {
+            commandHistory = commandHistory.GetRange(0, commandIndex);
+        }
 
         public void InitPlayer(Sprite p)
         {
@@ -132,13 +133,14 @@ namespace GEI797Labo.Models
 
         public Sprite GetPlayer() { return player; }
 
-        public IController GetController() { return controller; }
-
-        public IResizeEventSubscriber GetPlayerResizeSub()
+        public void SetLabyrinth(int[,] lab)
         {
-            return player;
+            labyrinth = lab;
         }
-    
+
+        public IController GetController() { return controller; }
+        
+        public coord GetGridCoord() { return gridPos; }
 
     }
 }

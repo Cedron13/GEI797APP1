@@ -14,6 +14,9 @@ namespace GEI797Labo.Models.Commands
         private coord initialPos;
         private coord newPos;
         private bool gemFound = false;
+        private bool doorUnlocked = false;
+        private bool isEndGame = false;
+        private bool isHistoryAction = false;
         public MoveCommand(Direction d, coord initial, coord dest)
         {
             dir = d;
@@ -23,59 +26,88 @@ namespace GEI797Labo.Models.Commands
         //TODO: Add movement to history if there is no collision with wall
         public void Execute(GameModel model)
         {
-
-            int[,] labyrinth = model.GetLabyrinth();
-
-            if (labyrinth[newPos.y, newPos.x] == 1)
+            if (model.GetPlayer().IsMovementOver())
             {
-                model.GoTo(dir, initialPos);
-            }
-            else if (labyrinth[newPos.y, newPos.x] == 2)
-            {
-                if (model.GetCounter() == 3)
-                {
-                    labyrinth[4, 7] = 0;
-                    model.SetGridPosX(newPos.x);
-                    model.SetGridPosY(newPos.y);
-                    model.GoTo(dir, newPos);
-                }
-                else
+                int[,] labyrinth = model.GetLabyrinth();
+
+                if (labyrinth[newPos.y, newPos.x] == 1)
                 {
                     model.GoTo(dir, initialPos);
                 }
-            }
-            else
-            {
-                if (labyrinth[newPos.y, newPos.x] == 4 || labyrinth[newPos.y, newPos.x] == 5)
+                else if (labyrinth[newPos.y, newPos.x] == 2)
                 {
-                    labyrinth[newPos.y, newPos.x] = 0;
-                    model.SetCounter(model.GetCounter() + 1);
-                    model.GetController().SetGemCounter(model.GetCounter());
-
-                    if (model.GetCounter() == 4)
+                    if (model.GetCounter() == 3)
                     {
-                        model.GetController().SetEndGame(true);
+                        doorUnlocked = true;
+                        isHistoryAction = true;
+                        labyrinth[4, 7] = 0;
+                        model.SetGridPosX(newPos.x);
+                        model.SetGridPosY(newPos.y);
+                        model.GoTo(dir, newPos); 
+                    }
+                    else
+                    {
+                        model.GoTo(dir, initialPos);
                     }
                 }
-                labyrinth[initialPos.y, initialPos.x] = 0;
-                model.SetGridPosX(newPos.x);
-                model.SetGridPosY(newPos.y);
-                labyrinth[newPos.y, newPos.x] = 3;
-                model.GoTo(dir, newPos);
+                else
+                {
+                    isHistoryAction = true;
+                    if (labyrinth[newPos.y, newPos.x] == 4 || labyrinth[newPos.y, newPos.x] == 5)
+                    {
+                        labyrinth[newPos.y, newPos.x] = 0;
+                        gemFound = true;
+                        model.SetCounter(model.GetCounter() + 1);
+                        model.GetController().SetGemCounter(model.GetCounter());
+
+                        if (model.GetCounter() == 4)
+                        {
+                            model.GetController().SetEndGame(true);
+                            isEndGame = true;
+                        }
+                    }
+                    labyrinth[initialPos.y, initialPos.x] = 0;
+                    model.SetGridPosX(newPos.x);
+                    model.SetGridPosY(newPos.y);
+                    labyrinth[newPos.y, newPos.x] = 3;
+                    model.GoTo(dir, newPos);
+                }
             }
         }
         public void Undo(GameModel model) {
-
+            
             int[,] labyrinth = model.GetLabyrinth();
             if(gemFound)
             {
                 labyrinth[newPos.y, newPos.x] = 4;
+                model.SetCounter(model.GetCounter() - 1);
+                model.GetController().SetGemCounter(model.GetCounter());
+                if(isEndGame)
+                {
+                    model.GetController().SetEndGame(false);
+                    isEndGame = false;
+                }
+                gemFound = false;
             }
+            else
+            {
+                labyrinth[newPos.y, newPos.x] = 0;
+            }
+
+            if (doorUnlocked)
+            {
+                labyrinth[4, 7] = 2;
+            }
+            
+
+            labyrinth[initialPos.y, initialPos.x] = 3;
             model.SetGridPosX(initialPos.x);
             model.SetGridPosY(initialPos.y);
             model.GoTo(dir, initialPos);
         }
-
-        
+        public bool IsHistoryAction()
+        {
+            return isHistoryAction;
+        }
     }
 }

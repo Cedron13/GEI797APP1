@@ -19,22 +19,26 @@ namespace GEI797Labo.Controllers.States
         }
         public void ProcessInput(List<Keys> keys) {
             GameModel model = controller.GetGameModel();
+            Sprite player = model.GetPlayer();
             foreach (Keys e in keys)
             {
                 switch (e)
                 {
                     case Keys.Right:
                         {
-                            //Redo Logic
+                            if(player.IsMovementOver())
+                                model.RedoNextCommand();
                             break;
                         }
                     case Keys.Left:
                         {
-                            
+                            if (player.IsMovementOver())
+                                model.UndoLastCommand();
                             break;
                         }
                     case Keys.R:
                         {
+                            model.ClearAfterCurrentActionIndex();
                             nextState = new TransitionState(controller);
                             //Unpause Logic
                             controller.IsPaused = false;
