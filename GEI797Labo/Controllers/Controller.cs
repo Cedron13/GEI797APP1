@@ -137,6 +137,13 @@ namespace GEI797Labo
             return model.GetLabyrinth();
         }
 
+        public void ProcessMinimize()
+        {
+            IsPaused = true;
+            currentState = new PausedState(this);
+            Console.WriteLine("minimize ok");
+        }
+
 
         public Sprite GetPlayer() => model.GetPlayer();
         public GameModel GetGameModel() => model;

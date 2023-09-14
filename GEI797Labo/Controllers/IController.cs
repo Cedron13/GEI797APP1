@@ -24,6 +24,7 @@ namespace GEI797Labo.Controllers
         void ViewKeyPressedEvent(PreviewKeyDownEventArgs e);
         void ViewCloseEvent();
         void ViewKeyReleasedEvent();
+        void ProcessMinimize();
 
         //TEMP
         int[,] GetLabyrinth();

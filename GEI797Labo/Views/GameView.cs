@@ -286,10 +286,7 @@ namespace GEI797Labo
         {
            if (oGameForm.WindowState == FormWindowState.Minimized) // Marche mais ne comprend pas pourquoi 
             {
-                
-                controller.IsPaused = true;
-                //nextState = new PausedState(controller);
-                Console.WriteLine("minimize ok");
+                controller.ProcessMinimize();
             }
            else
             {
