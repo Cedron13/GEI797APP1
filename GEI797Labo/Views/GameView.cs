@@ -249,8 +249,9 @@ namespace GEI797Labo
                     using (Brush brush = new SolidBrush(Color.Yellow))
                     {
                         string pauseText = "PAUSE";
-                        float x = leftMargin + brickSize *21/30;
-                        float y = topMargin + brickSize * 51/40;
+                        SizeF textSize = g.MeasureString(pauseText, font);
+                        float x = (leftMargin + brickSize / 3) + (brickSize * 7 / 3 - textSize.Width) / 2;
+                        float y = (topMargin + brickSize * 6/5) + (brickSize * 3 / 5 - textSize.Height) / 2;
                         g.DrawString(pauseText, font, brush, x, y);
                     }
                 }
