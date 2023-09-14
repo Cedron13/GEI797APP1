@@ -132,11 +132,11 @@ namespace GEI797Labo
                 using (Font font = new Font("Arial", 24, FontStyle.Bold))
                 using (Brush brush = new SolidBrush(Color.White))
                 {
-                    string pauseText = "Congratulations!";
-                    SizeF textSize = g.MeasureString(pauseText, font);
+                    string endText = "Congratulations!";
+                    SizeF textSize = g.MeasureString(endText, font);
                     float x = (oGameForm.ClientSize.Width - textSize.Width) / 2;
                     float y = (oGameForm.ClientSize.Height - textSize.Height) / 2;
-                    g.DrawString(pauseText, font, brush, x, y);
+                    g.DrawString(endText, font, brush, x, y);
                 }
             }
             else
@@ -234,6 +234,28 @@ namespace GEI797Labo
                 spriteState playerStatus = controller.GetPlayer().GetCurrentRenderInfo();
 
                 g.DrawImage(tileManager.getImage(controller.GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
+
+
+                if (controller.IsPaused == true)
+                {
+
+                    using (Brush blackBrush = new SolidBrush(Color.Black))
+                    {
+                        e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize/3, topMargin + brickSize * 6/5, brickSize *7/3, brickSize *3/5));
+                    }
+
+
+                    using (Font font = new Font("Arial", 16))
+                    using (Brush brush = new SolidBrush(Color.Yellow))
+                    {
+                        string pauseText = "PAUSE";
+                        float x = leftMargin + brickSize *21/30;
+                        float y = topMargin + brickSize * 51/40;
+                        g.DrawString(pauseText, font, brush, x, y);
+                    }
+                }
+
+
             }
         }
 
