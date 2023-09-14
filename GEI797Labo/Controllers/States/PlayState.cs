@@ -14,6 +14,7 @@ namespace GEI797Labo.Controllers.States
     {
         IState nextState = null;
         IController controller;
+
         public PlayState(IController c)
         {
             nextState = this;

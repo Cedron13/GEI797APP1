@@ -1,4 +1,5 @@
 ﻿using GEI797Labo.Controllers;
+using GEI797Labo.Controllers.States;
 using System;
 using System.Drawing;
 using System.Threading;
@@ -29,14 +30,19 @@ namespace GEI797Labo
         private int gemCounter = 0;
         private bool endGame = false;
         private Thread windowThread;
+     
 
         
         private int taskBarWidth; 
         private int menuItemWidth = 21; 
         private int beginTaskBar = 100+25+19+25;
         private int afterTaskBar = 25 + 19;
+        private FormWindowState WindowState; //TEEEEST
+        private PausedState nextState;
 
 
+        
+        
         public int GetTopMargin() 
         { 
             return topMargin; 
@@ -70,6 +76,7 @@ namespace GEI797Labo
             oGameForm.FormClosing += CloseWindowEvent;
             oGameForm.SizeChanged += GameForm_SizeChanged;
             tileManager = TileManager.GetInstance();
+
 
             windowThread = new Thread(new ThreadStart(Show)); //New thread because "Application.run()" blocks the actual thread and prevents the engine to run
             windowThread.Start();
@@ -277,22 +284,38 @@ namespace GEI797Labo
 
         private void GameForm_SizeChanged(object sender, EventArgs e)
         {
-            int[,] labyrinth = controller.GetLabyrinth();
-            displayHeight = oGameForm.Size.Height;
-            displayWidth = oGameForm.Size.Width;
-            minSize = Math.Min(displayHeight, displayWidth); // Smaller size is the priority
-            brickSize = (int)((minSize / 600.0) * 50); // Adapting brick sizes
-            leftMargin = (int)((displayWidth - labyrinth.GetLength(1)*(brickSize+3/2))/2);
-            topMargin = (int)((displayHeight - (labyrinth.GetLength(0)*(brickSize+3/2) + brickSize * 3/2))/2) ;
-            brickMiddle = (int)(brickSize / 4);
+           if (oGameForm.WindowState == FormWindowState.Minimized) // Marche mais ne comprend pas pourquoi 
+            {
+                
+                controller.IsPaused = true;
+                //nextState = new PausedState(controller);
+                Console.WriteLine("minimize ok");
+            }
+           else
+            {
+                int[,] labyrinth = controller.GetLabyrinth();
+                displayHeight = oGameForm.Size.Height;
+                displayWidth = oGameForm.Size.Width;
+                minSize = Math.Min(displayHeight, displayWidth); // Smaller size is the priority
+                brickSize = (int)((minSize / 600.0) * 50); // Adapting brick sizes
+                leftMargin = (int)((displayWidth - labyrinth.GetLength(1) * (brickSize + 3 / 2)) / 2);
+                topMargin = (int)((displayHeight - (labyrinth.GetLength(0) * (brickSize + 3 / 2) + brickSize * 3 / 2)) / 2);
+                brickMiddle = (int)(brickSize / 4);
 
-            
-            beginTaskBar = brickSize * 2 + leftMargin + 2*(brickSize / 2); 
-            afterTaskBar = brickSize / 2 + leftMargin;
-            taskBarWidth = displayWidth - beginTaskBar - afterTaskBar; // Size of the taskbar (without the title, margins)
-            menuItemWidth = (int)(taskBarWidth / 18); // Size of each "item" of the taskbar
+
+                beginTaskBar = brickSize * 2 + leftMargin + 2 * (brickSize / 2);
+                afterTaskBar = brickSize / 2 + leftMargin;
+                taskBarWidth = displayWidth - beginTaskBar - afterTaskBar; // Size of the taskbar (without the title, margins)
+                menuItemWidth = (int)(taskBarWidth / 18); // Size of each "item" of the taskbar
+
+
+            }
+
             controller.PositionUpdate();
         }
+
+
+
 
     }
 }

@@ -36,6 +36,7 @@ namespace GEI797Labo.Controllers.States
                                 model.UndoLastCommand();
                             break;
                         }
+
                     case Keys.R:
                         {
                             model.ClearAfterCurrentActionIndex();
