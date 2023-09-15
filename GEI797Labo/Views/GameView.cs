@@ -29,6 +29,7 @@ namespace GEI797Labo
         private int brickMiddle = 12;
         private int gemCounter = 0;
         private bool endGame = false;
+        private bool isFirstLoad = true;
         private Thread windowThread;
      
 
@@ -75,6 +76,7 @@ namespace GEI797Labo
             oGameForm.SizeChanged += SizeChangedEvent;
             oGameForm.LostFocus += LostFocusEvent;
             oGameForm.GotFocus += GotFocusEvent;
+            oGameForm.Shown += FirstLoadEvent;
             tileManager = TileManager.GetInstance();
 
 
@@ -289,7 +291,21 @@ namespace GEI797Labo
 
         private void GotFocusEvent(object sender, EventArgs e) // Not the "EVENT" in the ending of the method name
         {
-            controller.EndProcessLostFocus();
+            if (isFirstLoad == true)
+            {
+                Console.WriteLine("Premier affichage de la fenêtre");
+            }
+            else
+            {
+                controller.EndProcessLostFocus();
+            }
+            
+        }
+
+        private void FirstLoadEvent(object sender, EventArgs e)
+        {
+            oGameForm.ActiveControl = null;
+            isFirstLoad = false;
         }
 
         private void SizeChangedEvent(object sender, EventArgs e) // Not the "EVENT" in the ending of the method name
