@@ -29,6 +29,7 @@ namespace GEI797Labo
         private int brickMiddle = 12;
         private int gemCounter = 0;
         private bool endGame = false;
+        private bool isFirstLoad = true;
         private Thread windowThread;
      
 
@@ -75,6 +76,7 @@ namespace GEI797Labo
             oGameForm.SizeChanged += SizeChangedEvent;
             oGameForm.LostFocus += LostFocusEvent;
             oGameForm.GotFocus += GotFocusEvent;
+            oGameForm.Shown += FirstLoadEvent;
             tileManager = TileManager.GetInstance();
 
 
@@ -305,7 +307,21 @@ namespace GEI797Labo
 
         private void GotFocusEvent(object sender, EventArgs e) // Not the "EVENT" in the ending of the method name
         {
-            controller.EndProcessLostFocus();
+            if (isFirstLoad == true)
+            {
+                Console.WriteLine("Premier affichage de la fenêtre");
+            }
+            else
+            {
+                controller.EndProcessLostFocus();
+            }
+            
+        }
+
+        private void FirstLoadEvent(object sender, EventArgs e)
+        {
+            oGameForm.ActiveControl = null;
+            isFirstLoad = false;
         }
 
         private void SizeChangedEvent(object sender, EventArgs e) // Not the "EVENT" in the ending of the method name
@@ -328,15 +344,15 @@ namespace GEI797Labo
                 brickMiddle = (int)(brickSize / 4);
 
 
-                beginTaskBar = brickSize * 2 + leftMargin + 2 * (brickSize / 2);
-                afterTaskBar = brickSize / 2 + leftMargin;
-                taskBarWidth = displayWidth - beginTaskBar - afterTaskBar; // Size of the taskbar (without the title, margins)
-                menuItemWidth = (int)(taskBarWidth / 18); // Size of each "item" of the taskbar
-
-
-            }
-
+            beginTaskBar = brickSize * 2 + leftMargin + 2 * (brickSize / 2);
+            afterTaskBar = brickSize / 2 + leftMargin;
+            taskBarWidth = displayWidth - beginTaskBar - afterTaskBar; // Size of the taskbar (without the title, margins)
+            menuItemWidth = (int)(taskBarWidth / 18); // Size of each "item" of the taskbar
             controller.PositionUpdate();
+
+
+
+
         }
 
 
