@@ -245,7 +245,7 @@ namespace GEI797Labo
                 g.DrawImage(tileManager.getImage(controller.GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
 
 
-                if (controller.IsPaused == true)
+                if (controller.GetState() is PausedState)
                 {
 
                     using (Brush blackBrush = new SolidBrush(Color.Black))
@@ -260,6 +260,22 @@ namespace GEI797Labo
                         string pauseText = "PAUSE";
                         float x = leftMargin + brickSize *21/30;
                         float y = topMargin + brickSize * 51/40;
+                        g.DrawString(pauseText, font, brush, x, y);
+                    }
+                } else if(controller.GetState() is TransitionState)
+                {
+                    using (Brush blackBrush = new SolidBrush(Color.Black))
+                    {
+                        e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize / 3, topMargin + brickSize * 6 / 5, brickSize * 7 / 3, brickSize * 3 / 5));
+                    }
+
+
+                    using (Font font = new Font("Arial", 16))
+                    using (Brush brush = new SolidBrush(Color.Yellow))
+                    {
+                        string pauseText = ((int)(4000-controller.GetTransitionTime())/1000).ToString(); //
+                        float x = leftMargin + brickSize * 21 / 30;
+                        float y = topMargin + brickSize * 51 / 40;
                         g.DrawString(pauseText, font, brush, x, y);
                     }
                 }
@@ -314,15 +330,18 @@ namespace GEI797Labo
             {
                 controller.ProcessMinimize();
             }
-            // controller.EndProcessMinimize()
-            int[,] labyrinth = controller.GetLabyrinth();
-            displayHeight = oGameForm.Size.Height;
-            displayWidth = oGameForm.Size.Width;
-            minSize = Math.Min(displayHeight, displayWidth); // Smaller size is the priority
-            brickSize = (int)((minSize / 600.0) * 50); // Adapting brick sizes
-            leftMargin = (int)((displayWidth - labyrinth.GetLength(1) * (brickSize + 3 / 2)) / 2);
-            topMargin = (int)((displayHeight - (labyrinth.GetLength(0) * (brickSize + 3 / 2) + brickSize * 3 / 2)) / 2);
-            brickMiddle = (int)(brickSize / 4);
+
+            else
+            {
+                //controller.EndProcessMinimize();
+                int[,] labyrinth = controller.GetLabyrinth();
+                displayHeight = oGameForm.Size.Height;
+                displayWidth = oGameForm.Size.Width;
+                minSize = Math.Min(displayHeight, displayWidth); // Smaller size is the priority
+                brickSize = (int)((minSize / 600.0) * 50); // Adapting brick sizes
+                leftMargin = (int)((displayWidth - labyrinth.GetLength(1) * (brickSize + 3 / 2)) / 2);
+                topMargin = (int)((displayHeight - (labyrinth.GetLength(0) * (brickSize + 3 / 2) + brickSize * 3 / 2)) / 2);
+                brickMiddle = (int)(brickSize / 4);
 
 
             beginTaskBar = brickSize * 2 + leftMargin + 2 * (brickSize / 2);

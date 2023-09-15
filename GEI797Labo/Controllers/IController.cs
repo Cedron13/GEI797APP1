@@ -1,4 +1,5 @@
-﻿using GEI797Labo.Models;
+﻿using GEI797Labo.Controllers.States;
+using GEI797Labo.Models;
 using System.Windows.Forms;
 
 /* EXPLORUS-E
@@ -42,5 +43,8 @@ namespace GEI797Labo.Controllers
         Sprite GetPlayer();
         void SetGemCounter(int i);
         void SetEndGame(bool b);
+        IState GetState();
+        int GetTransitionTime();
+        void ExitPause();
     }
 }

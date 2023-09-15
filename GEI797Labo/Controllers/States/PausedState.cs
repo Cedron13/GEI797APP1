@@ -42,7 +42,7 @@ namespace GEI797Labo.Controllers.States
                             model.ClearAfterCurrentActionIndex();
                             nextState = new TransitionState(controller);
                             //Unpause Logic
-                            controller.IsPaused = false;
+                            controller.ExitPause();
                             break;
                         }
                 }

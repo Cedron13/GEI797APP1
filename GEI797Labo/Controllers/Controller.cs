@@ -24,6 +24,7 @@ namespace GEI797Labo
         private GameModel model;
         private IState currentState;
         private List<IResizeEventSubscriber> resizeSubscribers;
+        private double transitionTime = 0;
 
        
         private bool isPaused = false;
@@ -75,6 +76,15 @@ namespace GEI797Labo
         public void EngineUpdateEvent(double lag)
         {
             model.Update(lag);
+            if(currentState is TransitionState)
+            {
+                Console.WriteLine(lag);
+                transitionTime += lag;
+                if(transitionTime > 3000)
+                {
+                    currentState = new PlayState(this);
+                }
+            }
         }
 
         public void AddSubscriber(IResizeEventSubscriber sub)
@@ -139,14 +149,14 @@ namespace GEI797Labo
 
         public void ProcessMinimize()
         {
-            IsPaused = true;
+            isPaused = true;
             currentState = new PausedState(this);
             Console.WriteLine("minimize ok");
         }
 
         public void EndProcessMinimize()
         {
-            IsPaused = false;
+            ExitPause();
             currentState = new TransitionState(this);
             Console.WriteLine("reprise du jeu");
         }
@@ -160,14 +170,22 @@ namespace GEI797Labo
 
         public void EndProcessLostFocus()
         {
-            isPaused = false;
+            ExitPause();
             currentState = new TransitionState(this);
             Console.WriteLine("fin perte focus");
+        }
+
+        public void ExitPause()
+        {
+            isPaused = false;
+            transitionTime = 0;
         }
 
 
         public Sprite GetPlayer() => model.GetPlayer();
         public GameModel GetGameModel() => model;
+        public IState GetState() => currentState;
+        public int GetTransitionTime() => (int)transitionTime;
 
 
 
