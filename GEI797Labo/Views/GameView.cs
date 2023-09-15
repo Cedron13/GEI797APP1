@@ -314,29 +314,26 @@ namespace GEI797Labo
             {
                 controller.ProcessMinimize();
             }
-
-            else
-            {
-                controller.EndProcessMinimize();
-                int[,] labyrinth = controller.GetLabyrinth();
-                displayHeight = oGameForm.Size.Height;
-                displayWidth = oGameForm.Size.Width;
-                minSize = Math.Min(displayHeight, displayWidth); // Smaller size is the priority
-                brickSize = (int)((minSize / 600.0) * 50); // Adapting brick sizes
-                leftMargin = (int)((displayWidth - labyrinth.GetLength(1) * (brickSize + 3 / 2)) / 2);
-                topMargin = (int)((displayHeight - (labyrinth.GetLength(0) * (brickSize + 3 / 2) + brickSize * 3 / 2)) / 2);
-                brickMiddle = (int)(brickSize / 4);
+            // controller.EndProcessMinimize()
+            int[,] labyrinth = controller.GetLabyrinth();
+            displayHeight = oGameForm.Size.Height;
+            displayWidth = oGameForm.Size.Width;
+            minSize = Math.Min(displayHeight, displayWidth); // Smaller size is the priority
+            brickSize = (int)((minSize / 600.0) * 50); // Adapting brick sizes
+            leftMargin = (int)((displayWidth - labyrinth.GetLength(1) * (brickSize + 3 / 2)) / 2);
+            topMargin = (int)((displayHeight - (labyrinth.GetLength(0) * (brickSize + 3 / 2) + brickSize * 3 / 2)) / 2);
+            brickMiddle = (int)(brickSize / 4);
 
 
-                beginTaskBar = brickSize * 2 + leftMargin + 2 * (brickSize / 2);
-                afterTaskBar = brickSize / 2 + leftMargin;
-                taskBarWidth = displayWidth - beginTaskBar - afterTaskBar; // Size of the taskbar (without the title, margins)
-                menuItemWidth = (int)(taskBarWidth / 18); // Size of each "item" of the taskbar
-
-
-            }
-
+            beginTaskBar = brickSize * 2 + leftMargin + 2 * (brickSize / 2);
+            afterTaskBar = brickSize / 2 + leftMargin;
+            taskBarWidth = displayWidth - beginTaskBar - afterTaskBar; // Size of the taskbar (without the title, margins)
+            menuItemWidth = (int)(taskBarWidth / 18); // Size of each "item" of the taskbar
             controller.PositionUpdate();
+
+
+
+
         }
 
 
