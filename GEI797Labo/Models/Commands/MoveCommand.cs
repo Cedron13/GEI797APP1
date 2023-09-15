@@ -40,7 +40,7 @@ namespace GEI797Labo.Models.Commands
                     {
                         doorUnlocked = true;
                         isHistoryAction = true;
-                        labyrinth[4, 7] = 0;
+                        labyrinth[4, 7] = 0; // TODO : automatically locate (coordX coordY)
                         model.SetGridPosX(newPos.x);
                         model.SetGridPosY(newPos.y);
                         model.GoTo(dir, newPos); 
