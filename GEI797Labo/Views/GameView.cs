@@ -344,15 +344,15 @@ namespace GEI797Labo
                 brickMiddle = (int)(brickSize / 4);
 
 
-            beginTaskBar = brickSize * 2 + leftMargin + 2 * (brickSize / 2);
-            afterTaskBar = brickSize / 2 + leftMargin;
-            taskBarWidth = displayWidth - beginTaskBar - afterTaskBar; // Size of the taskbar (without the title, margins)
-            menuItemWidth = (int)(taskBarWidth / 18); // Size of each "item" of the taskbar
-            controller.PositionUpdate();
+                beginTaskBar = brickSize * 2 + leftMargin + 2 * (brickSize / 2);
+                afterTaskBar = brickSize / 2 + leftMargin;
+                taskBarWidth = displayWidth - beginTaskBar - afterTaskBar; // Size of the taskbar (without the title, margins)
+                menuItemWidth = (int)(taskBarWidth / 18); // Size of each "item" of the taskbar
+                controller.PositionUpdate();
 
 
 
-
+            }
         }
 
 
