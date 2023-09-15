@@ -1,4 +1,5 @@
 ﻿using GEI797Labo.Controllers;
+using GEI797Labo.Controllers.States;
 using System;
 using System.Drawing;
 using System.Threading;
@@ -10,7 +11,6 @@ using System.Windows.Forms;
  * Audric DAVID (dava1302)
  * Matthieu JEHANNE (jehm1701)
  * Cloé LEGLISE (legc1001)
- * Mahdi Majdoub (majm2404)
  */
 
 namespace GEI797Labo
@@ -30,6 +30,7 @@ namespace GEI797Labo
         private int gemCounter = 0;
         private bool endGame = false;
         private Thread windowThread;
+     
 
         
         private int taskBarWidth; 
@@ -38,6 +39,8 @@ namespace GEI797Labo
         private int afterTaskBar = 25 + 19;
 
 
+        
+        
         public int GetTopMargin() 
         { 
             return topMargin; 
@@ -69,8 +72,11 @@ namespace GEI797Labo
             oGameForm.Paint += GameRenderer;
             oGameForm.PreviewKeyDown += KeyDownEvent;
             oGameForm.FormClosing += CloseWindowEvent;
-            oGameForm.SizeChanged += GameForm_SizeChanged;
+            oGameForm.SizeChanged += SizeChangedEvent;
+            oGameForm.LostFocus += LostFocusEvent;
+            oGameForm.GotFocus += GotFocusEvent;
             tileManager = TileManager.GetInstance();
+
 
             windowThread = new Thread(new ThreadStart(Show)); //New thread because "Application.run()" blocks the actual thread and prevents the engine to run
             windowThread.Start();
@@ -114,7 +120,7 @@ namespace GEI797Labo
             // Black background and menu
 
             g.Clear(Color.Black);
-            
+            /*
             if (controller.IsPaused == true)
             {
                 
@@ -127,17 +133,17 @@ namespace GEI797Labo
                     float y = (oGameForm.ClientSize.Height - textSize.Height) / 2;
                     g.DrawString(pauseText, font, brush, x, y);
                 }
-            }
-            else if (endGame)
+            }*/
+            if (endGame)
             {
                 using (Font font = new Font("Arial", 24, FontStyle.Bold))
                 using (Brush brush = new SolidBrush(Color.White))
                 {
-                    string pauseText = "Congratulations!";
-                    SizeF textSize = g.MeasureString(pauseText, font);
+                    string endText = "Congratulations!";
+                    SizeF textSize = g.MeasureString(endText, font);
                     float x = (oGameForm.ClientSize.Width - textSize.Width) / 2;
                     float y = (oGameForm.ClientSize.Height - textSize.Height) / 2;
-                    g.DrawString(pauseText, font, brush, x, y);
+                    g.DrawString(endText, font, brush, x, y);
                 }
             }
             else
@@ -235,6 +241,28 @@ namespace GEI797Labo
                 spriteState playerStatus = controller.GetPlayer().GetCurrentRenderInfo();
 
                 g.DrawImage(tileManager.getImage(controller.GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
+
+
+                if (controller.IsPaused == true)
+                {
+
+                    using (Brush blackBrush = new SolidBrush(Color.Black))
+                    {
+                        e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize/3, topMargin + brickSize * 6/5, brickSize *7/3, brickSize *3/5));
+                    }
+
+
+                    using (Font font = new Font("Arial", 16))
+                    using (Brush brush = new SolidBrush(Color.Yellow))
+                    {
+                        string pauseText = "PAUSE";
+                        float x = leftMargin + brickSize *21/30;
+                        float y = topMargin + brickSize * 51/40;
+                        g.DrawString(pauseText, font, brush, x, y);
+                    }
+                }
+
+
             }
         }
 
@@ -254,24 +282,49 @@ namespace GEI797Labo
             Console.WriteLine("Close");
         }
 
-        private void GameForm_SizeChanged(object sender, EventArgs e)
+        private void LostFocusEvent(object sender, EventArgs e) // Not the "EVENT" in the ending of the method name
         {
-            int[,] labyrinth = controller.GetLabyrinth();
-            displayHeight = oGameForm.Size.Height;
-            displayWidth = oGameForm.Size.Width;
-            minSize = Math.Min(displayHeight, displayWidth); // Smaller size is the priority
-            brickSize = (int)((minSize / 600.0) * 50); // Adapting brick sizes
-            leftMargin = (int)((displayWidth - labyrinth.GetLength(1)*(brickSize+3/2))/2);
-            topMargin = (int)((displayHeight - (labyrinth.GetLength(0)*(brickSize+3/2) + brickSize * 3/2))/2) ;
-            brickMiddle = (int)(brickSize / 4);
+            controller.ProcessLostFocus();
+        }
 
-            
-            beginTaskBar = brickSize * 2 + leftMargin + 2*(brickSize / 2); 
-            afterTaskBar = brickSize / 2 + leftMargin;
-            taskBarWidth = displayWidth - beginTaskBar - afterTaskBar; // Size of the taskbar (without the title, margins)
-            menuItemWidth = (int)(taskBarWidth / 18); // Size of each "item" of the taskbar
+        private void GotFocusEvent(object sender, EventArgs e) // Not the "EVENT" in the ending of the method name
+        {
+            controller.EndProcessLostFocus();
+        }
+
+        private void SizeChangedEvent(object sender, EventArgs e) // Not the "EVENT" in the ending of the method name
+        {
+            if (oGameForm.WindowState == FormWindowState.Minimized)
+            {
+                controller.ProcessMinimize();
+            }
+
+            else
+            {
+                controller.EndProcessMinimize();
+                int[,] labyrinth = controller.GetLabyrinth();
+                displayHeight = oGameForm.Size.Height;
+                displayWidth = oGameForm.Size.Width;
+                minSize = Math.Min(displayHeight, displayWidth); // Smaller size is the priority
+                brickSize = (int)((minSize / 600.0) * 50); // Adapting brick sizes
+                leftMargin = (int)((displayWidth - labyrinth.GetLength(1) * (brickSize + 3 / 2)) / 2);
+                topMargin = (int)((displayHeight - (labyrinth.GetLength(0) * (brickSize + 3 / 2) + brickSize * 3 / 2)) / 2);
+                brickMiddle = (int)(brickSize / 4);
+
+
+                beginTaskBar = brickSize * 2 + leftMargin + 2 * (brickSize / 2);
+                afterTaskBar = brickSize / 2 + leftMargin;
+                taskBarWidth = displayWidth - beginTaskBar - afterTaskBar; // Size of the taskbar (without the title, margins)
+                menuItemWidth = (int)(taskBarWidth / 18); // Size of each "item" of the taskbar
+
+
+            }
+
             controller.PositionUpdate();
         }
+
+
+
 
     }
 }

@@ -8,7 +8,6 @@ using System.Threading;
  * Audric DAVID (dava1302)
  * Matthieu JEHANNE (jehm1701)
  * Cloé LEGLISE (legc1001)
- * Mahdi Majdoub (majm2404)
  */
 
 namespace GEI797Labo
@@ -55,59 +54,44 @@ namespace GEI797Labo
                     }
                 }
 
-
-                if (!controller.IsPaused)
+                double current = GetCurrentTimeMillis();
+                double elapsed = current - previous;
+                previous = current;
+                lag += elapsed;
+                if (lag >= MS_PER_FRAME)
                 {
-                    double current = GetCurrentTimeMillis();
-                    double elapsed = current - previous;
-                    previous = current;
-                    lag += elapsed;
-                    if (lag >= MS_PER_FRAME)
+                    fps = (float)(1000f / lag);
+
+                    ProcessInput();
+
+                    while (lag >= MS_PER_FRAME)
                     {
-                        fps = (float)(1000f / lag);
-
-                        ProcessInput();
-
-                        while (lag >= MS_PER_FRAME)
-                        {
-                            Update(MS_PER_FRAME); 
-                            lag -= MS_PER_FRAME;
-                        }
-                        Render(lag / MS_PER_FRAME);
-                        Thread.Sleep(1);
+                        Update(MS_PER_FRAME); 
+                        lag -= MS_PER_FRAME;
                     }
-
+                    Render(lag / MS_PER_FRAME);
+                    Thread.Sleep(1);
                 }
-                else
-                {
-                    Render(0);
-                    // The game is paused, wait to economise processor ressources 
-                    Thread.Sleep(100);
-                   
-
-                }
-
             }
         }
 
-
-            private void Render(double frameAhead) {
-                controller.EngineRenderEvent(); // Initial call of Render method
-            }
-            private void Update(double lag)
-            {
-                controller.EngineUpdateEvent(lag);
-            }
-            private void ProcessInput()
-            {
-                controller.EngineProcessInputEvent();
-            }
-            private double GetCurrentTimeMillis()
-            {
-                DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-                TimeSpan elapsedTime = DateTime.UtcNow - epochStart;
-                return elapsedTime.TotalMilliseconds;
-            }
+        private void Render(double frameAhead) {
+            controller.EngineRenderEvent(); // Initial call of Render method
+        }
+        private void Update(double lag)
+        {
+            controller.EngineUpdateEvent(lag);
+        }
+        private void ProcessInput()
+        {
+            controller.EngineProcessInputEvent();
+        }
+        private double GetCurrentTimeMillis()
+        {
+            DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            TimeSpan elapsedTime = DateTime.UtcNow - epochStart;
+            return elapsedTime.TotalMilliseconds;
+        }
         
     } 
 }

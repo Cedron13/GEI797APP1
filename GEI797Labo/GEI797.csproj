@@ -49,6 +49,15 @@
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="Controllers\GameEngine.cs" />
+    <Compile Include="Controllers\States\IState.cs" />
+    <Compile Include="Controllers\States\PausedState.cs" />
+    <Compile Include="Controllers\States\PlayState.cs" />
+    <Compile Include="Controllers\States\TransitionState.cs" />
+    <Compile Include="Models\Commands\IGameCommand.cs" />
+    <Compile Include="Models\Commands\MoveCommand.cs" />
+    <Compile Include="Models\Commands\StartGameCommand.cs" />
+    <Compile Include="Observer\IResizeEventPublisher.cs" />
+    <Compile Include="Observer\IResizeEventSubscriber.cs" />
     <Compile Include="Views\GameForm.cs">
       <SubType>Form</SubType>
     </Compile>

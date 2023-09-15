@@ -6,7 +6,6 @@ using GEI797Labo;
  * Audric DAVID (dava1302)
  * Matthieu JEHANNE (jehm1701)
  * Cloé LEGLISE (legc1001)
- * Mahdi Majdoub (majm2404)
  */
 
 namespace Tests
@@ -111,7 +110,7 @@ namespace Tests
                 expectedIndex++;
                 s.Update(100);
                 image = s.GetImageName();
-                if(image != expectedImage[expectedIndex])
+                if(image.Equals(expectedImage[expectedIndex]))
                 {
                     success = false;
                 }

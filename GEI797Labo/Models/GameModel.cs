@@ -1,4 +1,10 @@
 ﻿using GEI797Labo.Controllers;
+using System.Windows.Input;
+using GEI797Labo.Models.Commands;
+using System;
+using GEI797Labo.Observer;
+using System.Collections.Generic;
+using System.Linq;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -6,7 +12,6 @@
  * Audric DAVID (dava1302)
  * Matthieu JEHANNE (jehm1701)
  * Cloé LEGLISE (legc1001)
- * Mahdi Majdoub (majm2404)
  */
 
 namespace GEI797Labo.Models
@@ -15,35 +20,35 @@ namespace GEI797Labo.Models
     {
         private IController controller;
         private Sprite player;
-        private int gridPosX;
-        private int gridPosY;
-        private int newPosX;
-        private int newPosY;
+        private coord gridPos;
         private int counter = 0;
+        private int commandIndex = 0;
+
+        private List<IGameCommand> commandHistory = new List<IGameCommand>();
+
+        public GameModel(IController c)
+        {
+            controller = c;
+            InvokeCommand(new StartGameCommand());
+        }
 
         public void SetGridPosX(int posX){
-            gridPosX = posX;
+            gridPos.x = posX;
         }
 
         public int GetGridPosX(){  
-            return gridPosX; 
+            return gridPos.x; 
         }
 
         public void SetGridPosY(int posY){
-            gridPosY = posY;
+            gridPos.y = posY;
         }
 
         public int GetGridPosY(){  
-            return gridPosY; }
+            return gridPos.y; }
 
-
-        public GameModel(IController c) {
-
-            controller = c;
-
-        }
-
-        public GameModel() { }
+        public int GetCounter() => counter;
+        public void SetCounter(int c) { counter = c; }
         
         private int[,] labyrinth = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
@@ -73,89 +78,44 @@ namespace GEI797Labo.Models
             }
         }
 
-
-        private void GoTo(Direction d, int top, int left, int brick)
+        public void GoTo(Direction d, coord dest)
         {
-            coord playerDestCoord = new coord()
-            {
-                x = left + brick * gridPosX,
-                y = top + brick * (gridPosY + 1)
-            };
-            player.StartMovement(playerDestCoord, d);
+            player.StartMovement(dest, d);
         }
 
-
-        private void MakeMovement(Direction d, int top, int left, int brick)
+        public void InvokeCommand(IGameCommand command)
         {
-            if (player.IsMovementOver())
+            command.Execute(this);
+            if(command.IsHistoryAction())
             {
-                if (labyrinth[newPosY, newPosX] == 1)
-                {
-                    GoTo(d, top, left, brick);
-                }
-                else if (labyrinth[newPosY, newPosX] == 2)
-                {
-                    if (counter == 3)
-                    {
-                        labyrinth[4, 7] = 0;
-                        SetGridPosX(newPosX);
-                        SetGridPosY(newPosY);
-                        GoTo(d, top, left, brick);
-                    }
-                    else
-                    {
-                        GoTo(d, top, left, brick);
-                    }
-                }
-                else
-                {
-                    if (labyrinth[newPosY, newPosX] == 4 || labyrinth[newPosY, newPosX] == 5)
-                    {
-                        labyrinth[newPosY, newPosX] = 0;
-                        counter++;
-                        controller.SetGemCounter(counter);
+                commandHistory.Add(command);
+                commandIndex++;
+            }
+            
+        }
 
-                        if (counter == 4)
-                        {
-                            controller.SetEndGame(true);
-                        }
-                    }
-                    labyrinth[gridPosY, gridPosX] = 0;
-                    SetGridPosX(newPosX);
-                    SetGridPosY(newPosY);
-                    labyrinth[gridPosY, gridPosX] = 3;
-                    GoTo(d, top, left, brick);
-                }
+        public void UndoLastCommand()
+        {
+            if (commandIndex>1)
+            {
+                commandHistory.ElementAt(commandIndex-1).Undo(this);
+                commandIndex--;
             }
         }
 
-
-        public void MoveRight(int top, int left, int brick)
+        public void RedoNextCommand()
         {
-            newPosX = gridPosX + 1;
-            newPosY = gridPosY;
-            MakeMovement(Direction.RIGHT, top, left, brick); 
+            int len = commandHistory.Count;
+            if(len > commandIndex)
+            {
+                commandIndex++;
+                commandHistory.ElementAt(commandIndex-1).Execute(this);
+            }
         }
-        public void MoveLeft(int top, int left, int brick)
+        public void ClearAfterCurrentActionIndex()
         {
-            newPosX = gridPosX - 1;
-            newPosY = gridPosY;
-            MakeMovement(Direction.LEFT, top, left, brick);
+            commandHistory = commandHistory.GetRange(0, commandIndex);
         }
-
-        public void MoveUp(int top, int left, int brick)
-        {
-            newPosX = gridPosX;
-            newPosY = gridPosY - 1;
-            MakeMovement(Direction.UP, top, left, brick);
-        }
-        public void MoveDown(int top, int left, int brick)
-        {
-            newPosX = gridPosX;
-            newPosY = gridPosY + 1;
-            MakeMovement(Direction.DOWN, top, left, brick);
-        }
-
 
         public void InitPlayer(Sprite p)
         {
@@ -172,7 +132,14 @@ namespace GEI797Labo.Models
 
         public Sprite GetPlayer() { return player; }
 
-    
+        public void SetLabyrinth(int[,] lab)
+        {
+            labyrinth = lab;
+        }
+
+        public IController GetController() { return controller; }
+        
+        public coord GetGridCoord() { return gridPos; }
 
     }
 }

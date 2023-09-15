@@ -1,6 +1,10 @@
 ﻿using GEI797Labo.Controllers;
+using GEI797Labo.Controllers.States;
 using GEI797Labo.Models;
+using GEI797Labo.Observer;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 /* EXPLORUS-E
@@ -9,19 +13,18 @@ using System.Windows.Forms;
  * Audric DAVID (dava1302)
  * Matthieu JEHANNE (jehm1701)
  * Cloé LEGLISE (legc1001)
- * Mahdi Majdoub (majm2404)
  */
 
 namespace GEI797Labo
 {
-    internal class Controller : IController
+    internal class Controller : IController, IResizeEventPublisher
     {
         private GameEngine engine;
         private GameView view;
         private GameModel model;
-        private int topMargin;
-        private int leftmargin;
-        private int brickSize;
+        private IState currentState;
+        private List<IResizeEventSubscriber> resizeSubscribers;
+
        
         private bool isPaused = false;
         public bool IsPaused
@@ -36,10 +39,9 @@ namespace GEI797Labo
         {
             model = new GameModel(this);
             inputList = new List<Keys>();
+            resizeSubscribers = new List<IResizeEventSubscriber>();
             view = new GameView(this);
-            topMargin = view.GetTopMargin();
-            leftmargin = view.GetLeftMargin();
-            brickSize = view.GetBrickSize();
+            currentState = new PlayState(this);
             InitGame();
 
             engine = new GameEngine(this);
@@ -66,18 +68,6 @@ namespace GEI797Labo
                     inputList.Add(e.KeyCode);
                 }
             }
-            if (e.KeyCode == Keys.P && !isPaused)
-            {
-                isPaused = true;
-                
-            }
-
-            // Check for 'R' key to resume the game
-            if (e.KeyCode == Keys.R && isPaused)
-            {
-                isPaused = false;
-                
-            }
         }
         public void EngineRenderEvent() {
             view.Render();
@@ -86,56 +76,24 @@ namespace GEI797Labo
         {
             model.Update(lag);
         }
+
+        public void AddSubscriber(IResizeEventSubscriber sub)
+        {
+            resizeSubscribers.Add(sub);
+        }
         public void PositionUpdate()
         {
-            topMargin = view.GetTopMargin();
-            leftmargin = view.GetLeftMargin();
-            brickSize = view.GetBrickSize();
-            Sprite player = new Sprite(
-                new coord()
-                {
-                    x = view.GetLeftMargin() + view.GetBrickSize() * model.GetGridPosX(), 
-                    y = view.GetTopMargin() + view.GetBrickSize() * (model.GetGridPosY() + 1)
-                }
-            );
 
-            model.InitPlayer(player);
-
+            foreach (IResizeEventSubscriber s in resizeSubscribers)
+            {
+                
+                s.NotifyResize(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+            }
         }
         public void EngineProcessInputEvent() {
-            
-                foreach (Keys e in inputList)
-                {
-                    switch (e)
-                    {
-                          
-                        case Keys.Down:
-                            {
-                            model.MoveDown(topMargin, leftmargin, brickSize);  
-                                break;
-                            }
-                        case Keys.Up:
-                            {
-                                model.MoveUp(topMargin, leftmargin, brickSize);
-                                break;
-                            }
-                        case Keys.Right:
-                            {
-                                model.MoveRight(topMargin, leftmargin, brickSize);
-                                break;
-                            }
-                        case Keys.Left:
-                            {
-                                model.MoveLeft(topMargin, leftmargin, brickSize);
-                                break;
-                            }
-                        
 
-                    }
-                }
-            
-             
-            
+            currentState.ProcessInput(inputList);
+            currentState = currentState.GetNextState();
             inputList.Clear(); //For next frame
         }
 
@@ -156,12 +114,12 @@ namespace GEI797Labo
             Sprite player = new Sprite(
                 new coord()
                 {
-                    x = view.GetLeftMargin() + view.GetBrickSize() * model.GetGridPosX(), //Place holder coordinates
-                    y = view.GetTopMargin() + view.GetBrickSize() * (model.GetGridPosY() + 1)
-                }
+                    x = model.GetGridPosX(), //Place holder coordinates
+                    y = model.GetGridPosY()
+                }, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize()
             ) ;
-           
             model.InitPlayer(player);
+            AddSubscriber(model.GetPlayer());
         }
 
         public void SetGemCounter(int i)
@@ -179,10 +137,38 @@ namespace GEI797Labo
             return model.GetLabyrinth();
         }
 
+        public void ProcessMinimize()
+        {
+            IsPaused = true;
+            currentState = new PausedState(this);
+            Console.WriteLine("minimize ok");
+        }
+
+        public void EndProcessMinimize()
+        {
+            IsPaused = false;
+            currentState = new TransitionState(this);
+            Console.WriteLine("reprise du jeu");
+        }
+
+        public void ProcessLostFocus()
+        {
+            isPaused = true;
+            currentState = new PausedState(this);
+            Console.WriteLine("perte focus");
+        }
+
+        public void EndProcessLostFocus()
+        {
+            isPaused = false;
+            currentState = new TransitionState(this);
+            Console.WriteLine("fin perte focus");
+        }
+
 
         public Sprite GetPlayer() => model.GetPlayer();
+        public GameModel GetGameModel() => model;
 
-        
 
 
     }
