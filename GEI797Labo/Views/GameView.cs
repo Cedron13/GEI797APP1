@@ -243,7 +243,7 @@ namespace GEI797Labo
                 g.DrawImage(tileManager.getImage(controller.GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
 
 
-                if (controller.IsPaused == true)
+                if (controller.GetState() is PausedState)
                 {
 
                     using (Brush blackBrush = new SolidBrush(Color.Black))
@@ -258,6 +258,22 @@ namespace GEI797Labo
                         string pauseText = "PAUSE";
                         float x = leftMargin + brickSize *21/30;
                         float y = topMargin + brickSize * 51/40;
+                        g.DrawString(pauseText, font, brush, x, y);
+                    }
+                } else if(controller.GetState() is TransitionState)
+                {
+                    using (Brush blackBrush = new SolidBrush(Color.Black))
+                    {
+                        e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize / 3, topMargin + brickSize * 6 / 5, brickSize * 7 / 3, brickSize * 3 / 5));
+                    }
+
+
+                    using (Font font = new Font("Arial", 16))
+                    using (Brush brush = new SolidBrush(Color.Yellow))
+                    {
+                        string pauseText = ((int)(4000-controller.GetTransitionTime())/1000).ToString(); //
+                        float x = leftMargin + brickSize * 21 / 30;
+                        float y = topMargin + brickSize * 51 / 40;
                         g.DrawString(pauseText, font, brush, x, y);
                     }
                 }
@@ -301,7 +317,7 @@ namespace GEI797Labo
 
             else
             {
-                controller.EndProcessMinimize();
+                //controller.EndProcessMinimize();
                 int[,] labyrinth = controller.GetLabyrinth();
                 displayHeight = oGameForm.Size.Height;
                 displayWidth = oGameForm.Size.Width;
