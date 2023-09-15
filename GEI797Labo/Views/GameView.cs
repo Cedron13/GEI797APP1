@@ -37,8 +37,6 @@ namespace GEI797Labo
         private int menuItemWidth = 21; 
         private int beginTaskBar = 100+25+19+25;
         private int afterTaskBar = 25 + 19;
-        private FormWindowState WindowState; //TEEEEST
-        private PausedState nextState;
 
 
         
@@ -74,7 +72,9 @@ namespace GEI797Labo
             oGameForm.Paint += GameRenderer;
             oGameForm.PreviewKeyDown += KeyDownEvent;
             oGameForm.FormClosing += CloseWindowEvent;
-            oGameForm.SizeChanged += GameForm_SizeChanged;
+            oGameForm.SizeChanged += SizeChangedEvent;
+            oGameForm.LostFocus += LostFocusEvent;
+            oGameForm.GotFocus += GotFocusEvent;
             tileManager = TileManager.GetInstance();
 
 
@@ -282,14 +282,26 @@ namespace GEI797Labo
             Console.WriteLine("Close");
         }
 
-        private void GameForm_SizeChanged(object sender, EventArgs e)
+        private void LostFocusEvent(object sender, EventArgs e) // Not the "EVENT" in the ending of the method name
         {
-           if (oGameForm.WindowState == FormWindowState.Minimized) // Marche mais ne comprend pas pourquoi 
+            controller.ProcessLostFocus();
+        }
+
+        private void GotFocusEvent(object sender, EventArgs e) // Not the "EVENT" in the ending of the method name
+        {
+            controller.EndProcessLostFocus();
+        }
+
+        private void SizeChangedEvent(object sender, EventArgs e) // Not the "EVENT" in the ending of the method name
+        {
+            if (oGameForm.WindowState == FormWindowState.Minimized)
             {
                 controller.ProcessMinimize();
             }
-           else
+
+            else
             {
+                controller.EndProcessMinimize();
                 int[,] labyrinth = controller.GetLabyrinth();
                 displayHeight = oGameForm.Size.Height;
                 displayWidth = oGameForm.Size.Width;

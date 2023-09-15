@@ -144,6 +144,27 @@ namespace GEI797Labo
             Console.WriteLine("minimize ok");
         }
 
+        public void EndProcessMinimize()
+        {
+            IsPaused = false;
+            currentState = new TransitionState(this);
+            Console.WriteLine("reprise du jeu");
+        }
+
+        public void ProcessLostFocus()
+        {
+            isPaused = true;
+            currentState = new PausedState(this);
+            Console.WriteLine("perte focus");
+        }
+
+        public void EndProcessLostFocus()
+        {
+            isPaused = false;
+            currentState = new TransitionState(this);
+            Console.WriteLine("fin perte focus");
+        }
+
 
         public Sprite GetPlayer() => model.GetPlayer();
         public GameModel GetGameModel() => model;
