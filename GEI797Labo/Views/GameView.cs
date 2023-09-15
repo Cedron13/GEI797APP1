@@ -30,6 +30,7 @@ namespace GEI797Labo
         private int gemCounter = 0;
         private bool endGame = false;
         private bool isFirstLoad = true;
+        private int levelNumber = 1;
         private Thread windowThread;
      
 
@@ -122,20 +123,8 @@ namespace GEI797Labo
             // Black background and menu
 
             g.Clear(Color.Black);
-            /*
-            if (controller.IsPaused == true)
-            {
-                
-                using (Font font = new Font("Arial", 24, FontStyle.Bold))
-                using (Brush brush = new SolidBrush(Color.White))
-                {
-                    string pauseText = "Pause";
-                    SizeF textSize = g.MeasureString(pauseText, font);
-                    float x = (oGameForm.ClientSize.Width - textSize.Width) / 2;
-                    float y = (oGameForm.ClientSize.Height - textSize.Height) / 2;
-                    g.DrawString(pauseText, font, brush, x, y);
-                }
-            }*/
+
+
             if (endGame)
             {
                 using (Font font = new Font("Arial", 24, FontStyle.Bold))
@@ -202,6 +191,7 @@ namespace GEI797Labo
 
 
 
+
                 //Calls Lab from another thread, lock may be needed
                 int[,] labyrinth = controller.GetLabyrinth();
 
@@ -239,11 +229,32 @@ namespace GEI797Labo
 
                 }
 
+
+
+                
+
+
+
                 //Display player, independant from the maze
                 spriteState playerStatus = controller.GetPlayer().GetCurrentRenderInfo();
 
                 g.DrawImage(tileManager.getImage(controller.GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
 
+
+                using (Brush blackBrush = new SolidBrush(Color.Black))
+                {
+                    e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 41/4, topMargin + brickSize * 62/50, brickSize * 11/20, brickSize * 11/20));
+                }
+
+                using (Font font = new Font("Arial", 16))
+                using (Brush brush = new SolidBrush(Color.Yellow))
+                {
+                    string pauseText = Convert.ToString(levelNumber);
+                    SizeF textSize = g.MeasureString(pauseText, font);
+                    float x = (leftMargin + brickSize * 41 / 4) + (brickSize * 11 / 20 - textSize.Width) / 2;
+                    float y = (topMargin + brickSize * 62 / 50) + (brickSize * 11 / 20 - textSize.Height) / 2;
+                    g.DrawString(pauseText, font, brush, x, y);
+                }
 
                 if (controller.GetState() is PausedState)
                 {
@@ -257,9 +268,10 @@ namespace GEI797Labo
                     using (Font font = new Font("Arial", 16))
                     using (Brush brush = new SolidBrush(Color.Yellow))
                     {
-                        string pauseText = "PAUSE";
-                        float x = leftMargin + brickSize *21/30;
-                        float y = topMargin + brickSize * 51/40;
+                        string pauseText = "PAUSE"; 
+                        SizeF textSize = g.MeasureString(pauseText, font);
+                        float x = (leftMargin + brickSize / 3) + (brickSize * 7 / 3 - textSize.Width) / 2;
+                        float y = (topMargin + brickSize * 6 / 5) + (brickSize * 3 / 5 - textSize.Height) / 2;
                         g.DrawString(pauseText, font, brush, x, y);
                     }
                 } else if(controller.GetState() is TransitionState)
@@ -273,9 +285,10 @@ namespace GEI797Labo
                     using (Font font = new Font("Arial", 16))
                     using (Brush brush = new SolidBrush(Color.Yellow))
                     {
-                        string pauseText = ((int)(4000-controller.GetTransitionTime())/1000).ToString(); //
-                        float x = leftMargin + brickSize * 21 / 30;
-                        float y = topMargin + brickSize * 51 / 40;
+                        string pauseText = ((int)(4000-controller.GetTransitionTime())/1000).ToString();
+                        SizeF textSize = g.MeasureString(pauseText, font);
+                        float x = (leftMargin + brickSize / 3) + (brickSize * 7 / 3 - textSize.Width) / 2;
+                        float y = (topMargin + brickSize * 6 / 5) + (brickSize * 3 / 5 - textSize.Height) / 2;
                         g.DrawString(pauseText, font, brush, x, y);
                     }
                 }
