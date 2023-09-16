@@ -155,13 +155,6 @@ namespace GEI797Labo.Controllers
             Console.WriteLine("minimize ok");
         }
 
-        public void EndProcessMinimize()
-        {
-            ExitPause();
-            currentState = new TransitionState(this);
-            Console.WriteLine("reprise du jeu");
-        }
-
         public void ProcessLostFocus()
         {
             isPaused = true;
@@ -173,7 +166,7 @@ namespace GEI797Labo.Controllers
         {
             ExitPause();
             currentState = new TransitionState(this);
-            Console.WriteLine("fin perte focus");
+            Console.WriteLine("fin perte focus ou fenêtre réaffichée");
         }
 
         public void ExitPause()

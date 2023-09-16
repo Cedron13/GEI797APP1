@@ -27,8 +27,6 @@ namespace GEI797Labo.Controllers
         void ViewKeyReleasedEvent();
         void ProcessMinimize();
 
-        void EndProcessMinimize();
-
         void ProcessLostFocus();
 
         void EndProcessLostFocus();
