@@ -32,6 +32,7 @@ namespace GEI797Labo
         private int levelNumber = 1;
         private int initPosX;
         private int initPosY;
+        private string statusText;
         private Thread windowThread;
      
 
@@ -260,41 +261,32 @@ namespace GEI797Labo
                 g.DrawString(pauseText, font, brush, x, y);
             }
 
+            using (Brush blackBrush = new SolidBrush(Color.Black))
+            {
+                e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize / 3, topMargin + brickSize * 6 / 5, brickSize * 7 / 3, brickSize * 3 / 5));
+            }
+            using (Font font = new Font("Arial", 16))
+            using (Brush brush = new SolidBrush(Color.Yellow))
+            {
+                SizeF textSize = g.MeasureString(statusText, font);
+                float x = (leftMargin + brickSize / 3) + (brickSize * 7 / 3 - textSize.Width) / 2;
+                float y = (topMargin + brickSize * 6 / 5) + (brickSize * 3 / 5 - textSize.Height) / 2;
+                g.DrawString(statusText, font, brush, x, y);
+            }
+
             if (controller.GetState() is PausedState)
             {
-
-                using (Brush blackBrush = new SolidBrush(Color.Black))
-                {
-                    e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize/3, topMargin + brickSize * 6/5, brickSize *7/3, brickSize *3/5));
-                }
-
-
-                using (Font font = new Font("Arial", 16))
-                using (Brush brush = new SolidBrush(Color.Yellow))
-                {
-                    string pauseText = "PAUSE"; 
-                    SizeF textSize = g.MeasureString(pauseText, font);
-                    float x = (leftMargin + brickSize / 3) + (brickSize * 7 / 3 - textSize.Width) / 2;
-                    float y = (topMargin + brickSize * 6 / 5) + (brickSize * 3 / 5 - textSize.Height) / 2;
-                    g.DrawString(pauseText, font, brush, x, y);
-                }
-            } else if(controller.GetState() is TransitionState)
+                statusText = "PAUSE";
+            } 
+            else if(controller.GetState() is TransitionState)
             {
-                using (Brush blackBrush = new SolidBrush(Color.Black))
-                {
-                    e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize / 3, topMargin + brickSize * 6 / 5, brickSize * 7 / 3, brickSize * 3 / 5));
-                }
-
-
-                using (Font font = new Font("Arial", 16))
-                using (Brush brush = new SolidBrush(Color.Yellow))
-                {
-                    string pauseText = ((int)(4000-controller.GetTransitionTime())/1000).ToString();
-                    SizeF textSize = g.MeasureString(pauseText, font);
-                    float x = (leftMargin + brickSize / 3) + (brickSize * 7 / 3 - textSize.Width) / 2;
-                    float y = (topMargin + brickSize * 6 / 5) + (brickSize * 3 / 5 - textSize.Height) / 2;
-                    g.DrawString(pauseText, font, brush, x, y);
-                }
+                
+                statusText = "Resume ("+((int)(4000-controller.GetTransitionTime())/1000).ToString()+")";
+                 
+            }
+            else
+            {
+                statusText = "PLAY";
             }
 
 
