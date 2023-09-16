@@ -2,6 +2,7 @@
 using GEI797Labo.Controllers.States;
 using GEI797Labo.Models;
 using GEI797Labo.Observer;
+using GEI797Labo.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ using System.Windows.Forms;
  * Cloé LEGLISE (legc1001)
  */
 
-namespace GEI797Labo
+namespace GEI797Labo.Controllers
 {
     internal class Controller : IController, IResizeEventPublisher
     {
@@ -154,13 +155,6 @@ namespace GEI797Labo
             Console.WriteLine("minimize ok");
         }
 
-        public void EndProcessMinimize()
-        {
-            ExitPause();
-            currentState = new TransitionState(this);
-            Console.WriteLine("reprise du jeu");
-        }
-
         public void ProcessLostFocus()
         {
             isPaused = true;
@@ -172,7 +166,7 @@ namespace GEI797Labo
         {
             ExitPause();
             currentState = new TransitionState(this);
-            Console.WriteLine("fin perte focus");
+            Console.WriteLine("fin perte focus ou fenêtre réaffichée");
         }
 
         public void ExitPause()

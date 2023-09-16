@@ -1,4 +1,4 @@
-﻿namespace GEI797Labo
+﻿namespace GEI797Labo.Views
 {
     partial class GameForm
     {
