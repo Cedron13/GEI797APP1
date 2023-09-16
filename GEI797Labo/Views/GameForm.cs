@@ -9,7 +9,7 @@ using System.Windows.Forms;
  * Cloé LEGLISE (legc1001) 
  */
 
-namespace GEI797Labo
+namespace GEI797Labo.Views
 {
     public partial class GameForm : Form
     {

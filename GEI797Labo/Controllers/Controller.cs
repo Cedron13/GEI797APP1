@@ -2,6 +2,7 @@
 using GEI797Labo.Controllers.States;
 using GEI797Labo.Models;
 using GEI797Labo.Observer;
+using GEI797Labo.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ using System.Windows.Forms;
  * Cloé LEGLISE (legc1001)
  */
 
-namespace GEI797Labo
+namespace GEI797Labo.Controllers
 {
     internal class Controller : IController, IResizeEventPublisher
     {
