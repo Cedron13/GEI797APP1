@@ -5,6 +5,7 @@ using System;
 using GEI797Labo.Observer;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -116,6 +117,11 @@ namespace GEI797Labo.Models
         {
             commandHistory = commandHistory.GetRange(0, commandIndex);
         }
+        public void ClearCommandHistory()
+        {
+            commandHistory = new List<IGameCommand>();
+            commandIndex = 0;
+        }
 
         public void InitPlayer(Sprite p)
         {
@@ -140,6 +146,12 @@ namespace GEI797Labo.Models
         public IController GetController() { return controller; }
         
         public coord GetGridCoord() { return gridPos; }
+        public void SetGridCoord(coord coord) {  gridPos = coord; }
 
+        public void EndLevel()
+        {
+            controller.NewLevel();
+        }
     }
 }
+

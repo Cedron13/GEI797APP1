@@ -26,7 +26,19 @@ namespace GEI797Labo
         private List<IResizeEventSubscriber> resizeSubscribers;
         private double transitionTime = 0;
 
-       
+        private int[,] level1 = {
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
+                {1, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1},  // 1 = display wall
+                {1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1},  // 2 = display door
+                {1, 0, 0, 0, 0, 0, 1, 5, 1, 0, 1},  // 3 = display Slimus
+                {1, 0, 1, 0, 1, 1, 1, 2, 1, 0, 1},  // 4 = display gem
+                {1, 0, 1, 0, 1, 4, 0, 0, 0, 0, 1},  // 5 = display mini-slime
+                {1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1},
+                {1, 0, 0, 0, 3, 1, 0, 0, 4, 0, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                };
+
+
         private bool isPaused = false;
         public bool IsPaused
         {
@@ -137,10 +149,6 @@ namespace GEI797Labo
             view.SetGemCounter(i);
         }
 
-        public void SetEndGame(bool b)
-        {
-            view.SetEndgame(b);
-        }
 
         //TEMP
         public int[,] GetLabyrinth() { 
@@ -179,6 +187,20 @@ namespace GEI797Labo
         {
             isPaused = false;
             transitionTime = 0;
+        }
+
+        public void NewLevel()
+        {
+            model.ClearCommandHistory();
+            model.SetLabyrinth(level1);
+            view.SetGemCounter(0);
+            view.SetLevelNumber(view.GetLevelNumber()+1);
+            model.SetGridCoord(new coord()
+            {
+                x = view.GetInitPosX(), //Place holder coordinates
+                y = view.GetInitPosY()
+            });
+            model.GoTo(Direction.DOWN, model.GetGridCoord());
         }
 
 

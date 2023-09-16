@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace GEI797Labo.Models.Commands
 {
@@ -43,48 +44,67 @@ namespace GEI797Labo.Models.Commands
                         labyrinth[4, 7] = 0; // TODO : automatically locate (coordX coordY)
                         model.SetGridPosX(newPos.x);
                         model.SetGridPosY(newPos.y);
-                        model.GoTo(dir, newPos); 
+                        model.GoTo(dir, newPos);
                     }
                     else
                     {
                         model.GoTo(dir, initialPos);
                     }
+                    
                 }
                 else
                 {
                     isHistoryAction = true;
-                    if (labyrinth[newPos.y, newPos.x] == 4 || labyrinth[newPos.y, newPos.x] == 5)
+                    if (labyrinth[newPos.y, newPos.x] == 4)
                     {
                         labyrinth[newPos.y, newPos.x] = 0;
                         gemFound = true;
                         model.SetCounter(model.GetCounter() + 1);
                         model.GetController().SetGemCounter(model.GetCounter());
 
-                        if (model.GetCounter() == 4)
-                        {
-                            model.GetController().SetEndGame(true);
-                            isEndGame = true;
-                        }
+                        labyrinth[initialPos.y, initialPos.x] = 0;
+                        model.SetGridPosX(newPos.x);
+                        model.SetGridPosY(newPos.y);
+                        labyrinth[newPos.y, newPos.x] = 3;
+                        model.GoTo(dir, newPos);
+
                     }
-                    labyrinth[initialPos.y, initialPos.x] = 0;
-                    model.SetGridPosX(newPos.x);
-                    model.SetGridPosY(newPos.y);
-                    labyrinth[newPos.y, newPos.x] = 3;
-                    model.GoTo(dir, newPos);
+
+                    else if (labyrinth[newPos.y, newPos.x] == 5)
+                    {
+                        labyrinth[initialPos.y, initialPos.x] = 0;
+                        model.SetGridPosX(newPos.x);
+                        model.SetGridPosY(newPos.y);
+                        labyrinth[newPos.y, newPos.x] = 3;
+                        model.GoTo(dir, newPos);
+
+                        labyrinth[newPos.y, newPos.x] = 0;
+                        model.SetCounter(0);
+                        isEndGame = true;
+                        model.EndLevel();
+                    }
+                    else
+                    {
+                        labyrinth[initialPos.y, initialPos.x] = 0;
+                        model.SetGridPosX(newPos.x);
+                        model.SetGridPosY(newPos.y);
+                        labyrinth[newPos.y, newPos.x] = 3;
+                        model.GoTo(dir, newPos);
+                    }
                 }
             }
         }
-        public void Undo(GameModel model) {
-            
+        public void Undo(GameModel model)
+        {
+
             int[,] labyrinth = model.GetLabyrinth();
-            if(gemFound)
+            if (gemFound)
             {
                 labyrinth[newPos.y, newPos.x] = 4;
                 model.SetCounter(model.GetCounter() - 1);
                 model.GetController().SetGemCounter(model.GetCounter());
-                if(isEndGame)
+                if (isEndGame)
                 {
-                    model.GetController().SetEndGame(false);
                     isEndGame = false;
                 }
                 gemFound = false;
@@ -98,7 +118,7 @@ namespace GEI797Labo.Models.Commands
             {
                 labyrinth[4, 7] = 2;
             }
-            
+
 
             labyrinth[initialPos.y, initialPos.x] = 3;
             model.SetGridPosX(initialPos.x);
@@ -109,5 +129,6 @@ namespace GEI797Labo.Models.Commands
         {
             return isHistoryAction;
         }
+
     }
 }

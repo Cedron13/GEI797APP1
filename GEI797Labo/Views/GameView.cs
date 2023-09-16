@@ -28,9 +28,10 @@ namespace GEI797Labo
         private int topMargin = 33;
         private int brickMiddle = 12;
         private int gemCounter = 0;
-        private bool endGame = false;
         private bool isFirstLoad = true;
         private int levelNumber = 1;
+        private int initPosX;
+        private int initPosY;
         private Thread windowThread;
      
 
@@ -60,9 +61,24 @@ namespace GEI797Labo
         {
             gemCounter=i;
         }
-        public void SetEndgame(bool b)
+
+
+        public void SetLevelNumber(int i)
         {
-            endGame = b;
+            levelNumber = i;
+        }
+        public int GetLevelNumber()
+        {
+            return levelNumber;
+        }
+
+        public int GetInitPosX()
+        {
+            return initPosX;
+        }
+        public int GetInitPosY()
+        {
+            return initPosY;
         }
 
         
@@ -125,109 +141,97 @@ namespace GEI797Labo
             g.Clear(Color.Black);
 
 
-            if (endGame)
+            
+            g.DrawImage(tileManager.getImage("Title").bitmap, leftMargin + brickSize / 2, topMargin, brickSize * 2, brickSize / 2);
+
+            g.DrawImage(tileManager.getImage("Heart").bitmap, beginTaskBar, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 1, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 2, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 3, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 4, topMargin, menuItemWidth, menuItemWidth); 
+            g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 5, topMargin, menuItemWidth, menuItemWidth);
+
+            g.DrawImage(tileManager.getImage("BigBubble").bitmap, beginTaskBar + menuItemWidth * 6, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 7, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth); 
+            g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 10, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 11, topMargin, menuItemWidth, menuItemWidth);
+
+            g.DrawImage(tileManager.getImage("Gem").bitmap, beginTaskBar + menuItemWidth * 12, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 13, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 17, topMargin, menuItemWidth, menuItemWidth);
+
+            if (gemCounter == 0)
             {
-                using (Font font = new Font("Arial", 24, FontStyle.Bold))
-                using (Brush brush = new SolidBrush(Color.White))
-                {
-                    string endText = "Congratulations!";
-                    SizeF textSize = g.MeasureString(endText, font);
-                    float x = (oGameForm.ClientSize.Width - textSize.Width) / 2;
-                    float y = (oGameForm.ClientSize.Height - textSize.Height) / 2;
-                    g.DrawString(endText, font, brush, x, y);
-                }
+                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
             }
-            else
+
+            if (gemCounter == 1)
             {
-                g.DrawImage(tileManager.getImage("Title").bitmap, leftMargin + brickSize / 2, topMargin, brickSize * 2, brickSize / 2);
+                g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
+            }
 
-                g.DrawImage(tileManager.getImage("Heart").bitmap, beginTaskBar, topMargin, menuItemWidth, menuItemWidth);
-                g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 1, topMargin, menuItemWidth, menuItemWidth);
-                g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 2, topMargin, menuItemWidth, menuItemWidth);
-                g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 3, topMargin, menuItemWidth, menuItemWidth);
-                g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 4, topMargin, menuItemWidth, menuItemWidth); 
-                g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 5, topMargin, menuItemWidth, menuItemWidth);
+            if (gemCounter == 2)
+            {
+                g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
+            }
 
-                g.DrawImage(tileManager.getImage("BigBubble").bitmap, beginTaskBar + menuItemWidth * 6, topMargin, menuItemWidth, menuItemWidth);
-                g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 7, topMargin, menuItemWidth, menuItemWidth);
-                g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, menuItemWidth);
-                g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth); 
-                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 10, topMargin, menuItemWidth, menuItemWidth);
-                g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 11, topMargin, menuItemWidth, menuItemWidth);
+            if (gemCounter == 3)
+            {
+                g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("Key").bitmap, beginTaskBar + menuItemWidth * 17 + 10, topMargin, menuItemWidth, menuItemWidth);
+            }
 
-                g.DrawImage(tileManager.getImage("Gem").bitmap, beginTaskBar + menuItemWidth * 12, topMargin, menuItemWidth, menuItemWidth);
-                g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 13, topMargin, menuItemWidth, menuItemWidth);
-                g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 17, topMargin, menuItemWidth, menuItemWidth);
 
-                if (gemCounter == 0)
+
+
+
+            //Calls Lab from another thread, lock may be needed
+            int[,] labyrinth = controller.GetLabyrinth();
+
+
+            for (int i = 0; i < labyrinth.GetLength(0); i++)
+            {
+                for (int j = 0; j < labyrinth.GetLength(1); j++)
                 {
-                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
-                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
-                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
-                }
-
-                if (gemCounter == 1)
-                {
-                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
-                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
-                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
-                }
-
-                if (gemCounter == 2)
-                {
-                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
-                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
-                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
-                }
-
-                if (gemCounter == 3)
-                {
-                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
-                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
-                    g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
-                    g.DrawImage(tileManager.getImage("Key").bitmap, beginTaskBar + menuItemWidth * 17 + 10, topMargin, menuItemWidth, menuItemWidth);
-                }
-
-
-
-
-
-                //Calls Lab from another thread, lock may be needed
-                int[,] labyrinth = controller.GetLabyrinth();
-
-
-                for (int i = 0; i < labyrinth.GetLength(0); i++)
-                {
-                    for (int j = 0; j < labyrinth.GetLength(1); j++)
+                    if (labyrinth[i, j] == 1)
                     {
-                        if (labyrinth[i, j] == 1)
-                        {
-                            g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize);
-                        }
-                        else if (labyrinth[i, j] == 2)
-                        {
-                            g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize);
+                        g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize);
+                    }
+                    else if (labyrinth[i, j] == 2)
+                    {
+                        g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize);
 
-                            using (Brush transparencyBrush = new SolidBrush(Color.FromArgb(150, Color.Black)))
-                            {
-                                g.FillRectangle(transparencyBrush, new Rectangle(brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize));
-                            }
-                        }
-                        else if (labyrinth[i, j] == 3)
+                        using (Brush transparencyBrush = new SolidBrush(Color.FromArgb(150, Color.Black)))
                         {
-
-                        }
-                        else if (labyrinth[i, j] == 4)
-                        {
-                            g.DrawImage(tileManager.getImage("Gem").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
-                        }
-                        else if (labyrinth[i, j] == 5)
-                        {
-                            g.DrawImage(tileManager.getImage("MiniSlime").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
+                            g.FillRectangle(transparencyBrush, new Rectangle(brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize));
                         }
                     }
-
+                    else if (labyrinth[i, j] == 3)
+                    {
+                        initPosX = i - 1;
+                        initPosY = j;
+                    }
+                    else if (labyrinth[i, j] == 4)
+                    {
+                        g.DrawImage(tileManager.getImage("Gem").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
+                    }
+                    else if (labyrinth[i, j] == 5)
+                    {
+                        g.DrawImage(tileManager.getImage("MiniSlime").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
+                    }
                 }
+
+            }
 
 
 
@@ -235,66 +239,66 @@ namespace GEI797Labo
 
 
 
-                //Display player, independant from the maze
-                spriteState playerStatus = controller.GetPlayer().GetCurrentRenderInfo();
+            //Display player, independant from the maze
+            spriteState playerStatus = controller.GetPlayer().GetCurrentRenderInfo();
 
-                g.DrawImage(tileManager.getImage(controller.GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
+            g.DrawImage(tileManager.getImage(controller.GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
 
+
+            using (Brush blackBrush = new SolidBrush(Color.Black))
+            {
+                e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 41/4, topMargin + brickSize * 62/50, brickSize * 11/20, brickSize * 11/20));
+            }
+
+            using (Font font = new Font("Arial", 16))
+            using (Brush brush = new SolidBrush(Color.Yellow))
+            {
+                string pauseText = Convert.ToString(levelNumber);
+                SizeF textSize = g.MeasureString(pauseText, font);
+                float x = (leftMargin + brickSize * 41 / 4) + (brickSize * 11 / 20 - textSize.Width) / 2;
+                float y = (topMargin + brickSize * 62 / 50) + (brickSize * 11 / 20 - textSize.Height) / 2;
+                g.DrawString(pauseText, font, brush, x, y);
+            }
+
+            if (controller.GetState() is PausedState)
+            {
 
                 using (Brush blackBrush = new SolidBrush(Color.Black))
                 {
-                    e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 41/4, topMargin + brickSize * 62/50, brickSize * 11/20, brickSize * 11/20));
+                    e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize/3, topMargin + brickSize * 6/5, brickSize *7/3, brickSize *3/5));
                 }
+
 
                 using (Font font = new Font("Arial", 16))
                 using (Brush brush = new SolidBrush(Color.Yellow))
                 {
-                    string pauseText = Convert.ToString(levelNumber);
+                    string pauseText = "PAUSE"; 
                     SizeF textSize = g.MeasureString(pauseText, font);
-                    float x = (leftMargin + brickSize * 41 / 4) + (brickSize * 11 / 20 - textSize.Width) / 2;
-                    float y = (topMargin + brickSize * 62 / 50) + (brickSize * 11 / 20 - textSize.Height) / 2;
+                    float x = (leftMargin + brickSize / 3) + (brickSize * 7 / 3 - textSize.Width) / 2;
+                    float y = (topMargin + brickSize * 6 / 5) + (brickSize * 3 / 5 - textSize.Height) / 2;
                     g.DrawString(pauseText, font, brush, x, y);
                 }
-
-                if (controller.GetState() is PausedState)
+            } else if(controller.GetState() is TransitionState)
+            {
+                using (Brush blackBrush = new SolidBrush(Color.Black))
                 {
-
-                    using (Brush blackBrush = new SolidBrush(Color.Black))
-                    {
-                        e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize/3, topMargin + brickSize * 6/5, brickSize *7/3, brickSize *3/5));
-                    }
-
-
-                    using (Font font = new Font("Arial", 16))
-                    using (Brush brush = new SolidBrush(Color.Yellow))
-                    {
-                        string pauseText = "PAUSE"; 
-                        SizeF textSize = g.MeasureString(pauseText, font);
-                        float x = (leftMargin + brickSize / 3) + (brickSize * 7 / 3 - textSize.Width) / 2;
-                        float y = (topMargin + brickSize * 6 / 5) + (brickSize * 3 / 5 - textSize.Height) / 2;
-                        g.DrawString(pauseText, font, brush, x, y);
-                    }
-                } else if(controller.GetState() is TransitionState)
-                {
-                    using (Brush blackBrush = new SolidBrush(Color.Black))
-                    {
-                        e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize / 3, topMargin + brickSize * 6 / 5, brickSize * 7 / 3, brickSize * 3 / 5));
-                    }
-
-
-                    using (Font font = new Font("Arial", 16))
-                    using (Brush brush = new SolidBrush(Color.Yellow))
-                    {
-                        string pauseText = ((int)(4000-controller.GetTransitionTime())/1000).ToString();
-                        SizeF textSize = g.MeasureString(pauseText, font);
-                        float x = (leftMargin + brickSize / 3) + (brickSize * 7 / 3 - textSize.Width) / 2;
-                        float y = (topMargin + brickSize * 6 / 5) + (brickSize * 3 / 5 - textSize.Height) / 2;
-                        g.DrawString(pauseText, font, brush, x, y);
-                    }
+                    e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize / 3, topMargin + brickSize * 6 / 5, brickSize * 7 / 3, brickSize * 3 / 5));
                 }
 
 
+                using (Font font = new Font("Arial", 16))
+                using (Brush brush = new SolidBrush(Color.Yellow))
+                {
+                    string pauseText = ((int)(4000-controller.GetTransitionTime())/1000).ToString();
+                    SizeF textSize = g.MeasureString(pauseText, font);
+                    float x = (leftMargin + brickSize / 3) + (brickSize * 7 / 3 - textSize.Width) / 2;
+                    float y = (topMargin + brickSize * 6 / 5) + (brickSize * 3 / 5 - textSize.Height) / 2;
+                    g.DrawString(pauseText, font, brush, x, y);
+                }
             }
+
+
+            
         }
 
 

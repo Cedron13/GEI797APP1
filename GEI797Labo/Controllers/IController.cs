@@ -42,9 +42,10 @@ namespace GEI797Labo.Controllers
 
         Sprite GetPlayer();
         void SetGemCounter(int i);
-        void SetEndGame(bool b);
         IState GetState();
         int GetTransitionTime();
         void ExitPause();
+        void NewLevel(); 
+
     }
 }
