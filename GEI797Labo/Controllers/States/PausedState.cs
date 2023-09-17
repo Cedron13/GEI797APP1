@@ -12,8 +12,8 @@ namespace GEI797Labo.Controllers.States
 {
     internal class PausedState: IState
     {
-        IState nextState = null;
-        IController controller;
+        private IState nextState = null;
+        private IController controller;
         public PausedState(IController c) { 
             nextState = this;
             controller = c;

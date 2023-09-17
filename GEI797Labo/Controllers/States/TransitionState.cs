@@ -10,8 +10,8 @@ namespace GEI797Labo.Controllers.States
 {
     internal class TransitionState : IState
     {
-        IState nextState = null;
-        IController controller;
+        private IState nextState = null;
+        private IController controller;
         public TransitionState(IController c)
         {
             nextState = this;

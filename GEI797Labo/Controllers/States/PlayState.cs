@@ -13,8 +13,8 @@ namespace GEI797Labo.Controllers.States
 {
     internal class PlayState: IState
     {
-        IState nextState = null;
-        IController controller;
+        private IState nextState = null;
+        private IController controller;
 
         public PlayState(IController c)
         {
