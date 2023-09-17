@@ -57,7 +57,7 @@ namespace GEI797Labo.Controllers.States
             switch (state)
             {
                 //List here the possible output states
-                case GameStates.RESUME: nextState = new TransitionState(controller); break;
+                case GameStates.RESUME: nextState = new ResumeState(controller); break;
                 default: break;
             }
         }

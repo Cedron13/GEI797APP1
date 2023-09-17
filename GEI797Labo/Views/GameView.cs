@@ -1,5 +1,6 @@
 ﻿using GEI797Labo.Controllers;
 using GEI797Labo.Controllers.States;
+using GEI797Labo.Models;
 using System;
 using System.Drawing;
 using System.Threading;
@@ -13,7 +14,7 @@ using System.Windows.Forms;
  * Cloé LEGLISE (legc1001)
  */
 
-namespace GEI797Labo
+namespace GEI797Labo.Views
 {
     internal class GameView
     {

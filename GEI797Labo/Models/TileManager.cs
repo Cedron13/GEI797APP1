@@ -10,7 +10,7 @@ using System.Drawing;
  * Cloé LEGLISE (legc1001)
  */
 
-namespace GEI797Labo
+namespace GEI797Labo.Models
 {
     internal class TileManager
     {

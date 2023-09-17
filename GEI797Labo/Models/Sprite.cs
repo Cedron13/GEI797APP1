@@ -11,7 +11,7 @@ using System;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace GEI797Labo
+namespace GEI797Labo.Models
 {
     public enum Direction
     {
