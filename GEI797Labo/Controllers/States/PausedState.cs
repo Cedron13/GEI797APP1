@@ -40,7 +40,7 @@ namespace GEI797Labo.Controllers.States
                     case Keys.R:
                         {
                             model.ClearAfterCurrentActionIndex();
-                            nextState = new TransitionState(controller);
+                            nextState = new ResumeState(controller);
                             //Unpause Logic
                             controller.ExitPause();
                             break;

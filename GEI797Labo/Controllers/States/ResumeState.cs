@@ -7,11 +7,11 @@ using System.Windows.Forms;
 
 namespace GEI797Labo.Controllers.States
 {
-    internal class TransitionState : IState
+    internal class ResumeState : IState
     {
         IState nextState = null;
         IController controller;
-        public TransitionState(IController c)
+        public ResumeState(IController c)
         {
             nextState = this;
             controller = c;

@@ -263,7 +263,7 @@ namespace GEI797Labo.Views
                         float y = topMargin + brickSize * 51/40;
                         g.DrawString(pauseText, font, brush, x, y);
                     }
-                } else if(controller.GetState() is TransitionState)
+                } else if(controller.GetState() is ResumeState)
                 {
                     using (Brush blackBrush = new SolidBrush(Color.Black))
                     {
