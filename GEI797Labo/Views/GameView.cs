@@ -279,7 +279,7 @@ namespace GEI797Labo.Views
             {
                 statusText = "PAUSE";
             } 
-            else if(controller.GetState() is TransitionState)
+            else if(controller.GetState() is ResumeState)
             {
                 
                 statusText = "Resume ("+((int)(4000-controller.GetTransitionTime())/1000).ToString()+")";
