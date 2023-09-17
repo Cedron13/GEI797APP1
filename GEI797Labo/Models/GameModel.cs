@@ -5,6 +5,7 @@ using System;
 using GEI797Labo.Observer;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -23,6 +24,18 @@ namespace GEI797Labo.Models
         private coord gridPos;
         private int counter = 0;
         private int commandIndex = 0;
+        private int[,] originalLabyrinthCopy;
+        private int[,] labyrinth = {
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
+                {1, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1},  // 1 = display wall
+                {1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1},  // 2 = display door
+                {1, 0, 0, 0, 0, 0, 1, 5, 1, 0, 1},  // 3 = display Slimus
+                {1, 0, 1, 0, 1, 1, 1, 2, 1, 0, 1},  // 4 = display gem
+                {1, 0, 1, 0, 1, 4, 0, 0, 0, 0, 1},  // 5 = display mini-slime
+                {1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1},
+                {1, 0, 0, 0, 3, 1, 0, 0, 4, 0, 1},
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                };
 
         private List<IGameCommand> commandHistory = new List<IGameCommand>();
 
@@ -30,6 +43,8 @@ namespace GEI797Labo.Models
         {
             controller = c;
             InvokeCommand(new StartGameCommand());
+            originalLabyrinthCopy = new int[labyrinth.GetLength(0), labyrinth.GetLength(1)];
+            Array.Copy(labyrinth, originalLabyrinthCopy, labyrinth.Length);
         }
 
         public void SetGridPosX(int posX){
@@ -49,20 +64,11 @@ namespace GEI797Labo.Models
 
         public int GetCounter() => counter;
         public void SetCounter(int c) { counter = c; }
-        
-        private int[,] labyrinth = {
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
-                {1, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1},  // 1 = display wall
-                {1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1},  // 2 = display door
-                {1, 0, 0, 0, 0, 0, 1, 5, 1, 0, 1},  // 3 = display Slimus
-                {1, 0, 1, 0, 1, 1, 1, 2, 1, 0, 1},  // 4 = display gem
-                {1, 0, 1, 0, 1, 4, 0, 0, 0, 0, 1},  // 5 = display mini-slime
-                {1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1},
-                {1, 0, 0, 0, 3, 1, 0, 0, 4, 0, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                };
-        
 
+
+    
+
+  
 
         public int[,] GetLabyrinth()
         {
@@ -116,6 +122,11 @@ namespace GEI797Labo.Models
         {
             commandHistory = commandHistory.GetRange(0, commandIndex);
         }
+        public void ClearCommandHistory()
+        {
+            commandHistory = new List<IGameCommand>();
+            commandIndex = 0;
+        }
 
         public void InitPlayer(Sprite p)
         {
@@ -140,6 +151,20 @@ namespace GEI797Labo.Models
         public IController GetController() { return controller; }
         
         public coord GetGridCoord() { return gridPos; }
+        public void SetGridCoord(coord coord) {  gridPos = coord; }
+
+        public void EndLevel()
+        {
+            ReinitialiserLabyrinthe();
+            controller.NewLevel();
+        }
+
+        private void ReinitialiserLabyrinthe()
+        {
+            Array.Copy(originalLabyrinthCopy, labyrinth, originalLabyrinthCopy.Length);
+        }
+
 
     }
 }
+

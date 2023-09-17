@@ -26,8 +26,6 @@ namespace GEI797Labo.Controllers
         private IState currentState;
         private List<IResizeEventSubscriber> resizeSubscribers;
         private double transitionTime = 0;
-
-       
         private bool isPaused = false;
         public bool IsPaused
         {
@@ -83,7 +81,8 @@ namespace GEI797Labo.Controllers
                 transitionTime += lag;
                 if(transitionTime > 3000)
                 {
-                    currentState = new PlayState(this);
+                    currentState.PrepareNextState();
+                    currentState.GetNextState();
                 }
             }
         }
@@ -138,10 +137,6 @@ namespace GEI797Labo.Controllers
             view.SetGemCounter(i);
         }
 
-        public void SetEndGame(bool b)
-        {
-            view.SetEndgame(b);
-        }
 
         //TEMP
         public int[,] GetLabyrinth() { 
@@ -151,28 +146,52 @@ namespace GEI797Labo.Controllers
         public void ProcessMinimize()
         {
             isPaused = true;
-            currentState = new PausedState(this);
+            currentState.PrepareNextState(Constants.GameStates.PAUSE);
+            currentState = currentState.GetNextState();
             Console.WriteLine("minimize ok");
+        }
+
+        public void EndProcessMinimize()
+        {
+            ExitPause();
+            currentState = new ResumeState(this);
+            Console.WriteLine("reprise du jeu");
         }
 
         public void ProcessLostFocus()
         {
             isPaused = true;
-            currentState = new PausedState(this);
+            currentState.PrepareNextState(Constants.GameStates.PAUSE);
+            currentState = currentState.GetNextState();
             Console.WriteLine("perte focus");
         }
 
         public void EndProcessLostFocus()
         {
             ExitPause();
-            currentState = new ResumeState(this);
-            Console.WriteLine("fin perte focus ou fenêtre réaffichée");
+            currentState.PrepareNextState();
+            currentState = currentState.GetNextState();
+            Console.WriteLine("fin perte focus");
         }
 
         public void ExitPause()
         {
             isPaused = false;
             transitionTime = 0;
+        }
+
+        public void NewLevel()
+        {
+            model.ClearCommandHistory();
+            model.SetLabyrinth(GetLabyrinth());
+            view.SetGemCounter(0);
+            view.SetLevelNumber(view.GetLevelNumber()+1);
+            model.SetGridCoord(new coord()
+            {
+                x = view.GetInitPosX(), //Place holder coordinates
+                y = view.GetInitPosY()
+            });
+            model.GoTo(Direction.DOWN, model.GetGridCoord());
         }
 
 

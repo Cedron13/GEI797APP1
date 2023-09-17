@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GEI797Labo.Constants;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,8 @@ namespace GEI797Labo.Controllers.States
         void ProcessInput(List<Keys> keys);
 
         IState GetNextState();
+
+        void PrepareNextState(GameStates nextState = GameStates.UNKNOWN); //Let the classes decide on their own default case
         
     }
 }

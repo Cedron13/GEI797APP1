@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GEI797Labo.Constants;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,18 @@ namespace GEI797Labo.Controllers.States
             //Temporarily, changing state directly to Play
             //nextState = new PlayState(controller);
         }
-        public IState GetNextState() { return nextState; }
+        public IState GetNextState() => nextState;
+
+        public void PrepareNextState(GameStates state = GameStates.PLAY) //Default next state is PLAY
+        {
+            if (state == GameStates.UNKNOWN) state = GameStates.PLAY; //If the method is called from the interface IState
+            switch (state)
+            {
+                //List here the possible output states
+                case GameStates.PLAY: nextState = new PlayState(controller); break;
+                case GameStates.PAUSE: nextState = new PausedState(controller); break;
+                default: break;
+            }
+        }
     }
 }
