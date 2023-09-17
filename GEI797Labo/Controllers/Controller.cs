@@ -77,7 +77,7 @@ namespace GEI797Labo.Controllers
         public void EngineUpdateEvent(double lag)
         {
             model.Update(lag);
-            if(currentState is TransitionState)
+            if(currentState is ResumeState)
             {
                 Console.WriteLine(lag);
                 transitionTime += lag;
@@ -165,7 +165,7 @@ namespace GEI797Labo.Controllers
         public void EndProcessLostFocus()
         {
             ExitPause();
-            currentState = new TransitionState(this);
+            currentState = new ResumeState(this);
             Console.WriteLine("fin perte focus ou fenêtre réaffichée");
         }
 
