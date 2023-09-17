@@ -1,4 +1,5 @@
-﻿using GEI797Labo.Models;
+﻿using GEI797Labo.Constants;
+using GEI797Labo.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,7 @@ namespace GEI797Labo.Controllers.States
                     case Keys.R:
                         {
                             model.ClearAfterCurrentActionIndex();
-                            nextState = new TransitionState(controller);
+                            PrepareNextState();
                             //Unpause Logic
                             controller.ExitPause();
                             break;
@@ -49,6 +50,16 @@ namespace GEI797Labo.Controllers.States
             }
 
         }
-        public IState GetNextState() { return nextState; }
+        public IState GetNextState() => nextState;
+        public void PrepareNextState(GameStates state = GameStates.RESUME) //Default next state is RESUME
+        {
+            if (state == GameStates.UNKNOWN) state = GameStates.RESUME; //If the method is called from the interface IState
+            switch (state)
+            {
+                //List here the possible output states
+                case GameStates.RESUME: nextState = new TransitionState(controller); break;
+                default: break;
+            }
+        }
     }
 }

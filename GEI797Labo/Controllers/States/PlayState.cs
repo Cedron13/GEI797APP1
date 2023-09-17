@@ -1,4 +1,5 @@
-﻿using GEI797Labo.Models;
+﻿using GEI797Labo.Constants;
+using GEI797Labo.Models;
 using GEI797Labo.Models.Commands;
 using System;
 using System.Collections.Generic;
@@ -73,7 +74,7 @@ namespace GEI797Labo.Controllers.States
                         }
                     case Keys.P:
                         {
-                            nextState = new PausedState(controller);
+                            PrepareNextState();
                             //Enter Pause Logic
                             controller.IsPaused = true;
                             break;
@@ -81,6 +82,18 @@ namespace GEI797Labo.Controllers.States
                 }
             }
         }
-        public IState GetNextState() { return nextState; }
+
+        public IState GetNextState() => nextState;
+
+        public void PrepareNextState(GameStates state = GameStates.PAUSE) //Default next state is PAUSE
+        {
+            if (state == GameStates.UNKNOWN) state = GameStates.PAUSE; //If the method is called from the interface IState
+            switch (state)
+            {
+                //List here the possible output states
+                case GameStates.PAUSE: nextState = new PausedState(controller); break;
+                default: break;
+            }
+        }
     }
 }

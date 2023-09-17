@@ -80,7 +80,8 @@ namespace GEI797Labo
                 transitionTime += lag;
                 if(transitionTime > 3000)
                 {
-                    currentState = new PlayState(this);
+                    currentState.PrepareNextState();
+                    currentState.GetNextState();
                 }
             }
         }
@@ -144,28 +145,32 @@ namespace GEI797Labo
         public void ProcessMinimize()
         {
             isPaused = true;
-            currentState = new PausedState(this);
+            currentState.PrepareNextState(Constants.GameStates.PAUSE);
+            currentState = currentState.GetNextState();
             Console.WriteLine("minimize ok");
         }
 
         public void EndProcessMinimize()
         {
             ExitPause();
-            currentState = new TransitionState(this);
+            currentState.PrepareNextState();
+            currentState = currentState.GetNextState();
             Console.WriteLine("reprise du jeu");
         }
 
         public void ProcessLostFocus()
         {
             isPaused = true;
-            currentState = new PausedState(this);
+            currentState.PrepareNextState(Constants.GameStates.PAUSE);
+            currentState = currentState.GetNextState();
             Console.WriteLine("perte focus");
         }
 
         public void EndProcessLostFocus()
         {
             ExitPause();
-            currentState = new TransitionState(this);
+            currentState.PrepareNextState();
+            currentState = currentState.GetNextState();
             Console.WriteLine("fin perte focus");
         }
 
