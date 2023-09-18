@@ -97,39 +97,40 @@ namespace Tests
             Assert.IsFalse(s.IsMovementOver());
         }
         /*[TestMethod]
-       public void TestMovementAnimation()
-       {
-           Sprite s = new Sprite(new coord()
-           {
-               x = 5,
-               y = 5
-           }, 0, 0, 0);
-           coord dest = new coord()
-           {
-               x = 10,
-               y = 5
-           };
-           s.StartMovement(dest, Direction.RIGHT);
-           bool success = true;
-           int expectedIndex = 0;
-           string[] expectedImage = { "Right1", "Right2", "Right3", "Right2", "Right1" };
-           string image = "";
-           s.Update(50);
-           int updateVal = 50;
-           while (updateVal < 450)
-           {
-               Console.WriteLine(expectedIndex);
-               Console.WriteLine(updateVal);
-               updateVal += 100;
-               expectedIndex++;
-               s.Update(100);
-               image = s.GetImageName();
-               if (image.Equals(expectedImage[expectedIndex]))
-               {
-                   success = false;
-               }
-           }
-           Assert.IsTrue(success);
-       }*/
+        public void TestMovementAnimation()
+        {
+            Sprite s = new Sprite(new coord()
+            {
+                x = 5,
+                y = 5
+            }, 0, 0, 0);
+            coord dest = new coord()
+            {
+                x = 10,
+                y = 5
+            };
+            s.StartMovement(dest, Direction.RIGHT);
+            bool success = true;
+            int expectedIndex = 0;
+            string[] expectedImage = { "Right1", "Right2", "Right3", "Right2", "Right1" };
+            string image = "";
+            s.Update(50);
+            int updateVal = 50;
+            while (updateVal < 450)
+            {
+                Console.WriteLine(expectedIndex);
+                Console.WriteLine(updateVal);
+                updateVal += 100;
+                expectedIndex++;
+                s.Update(100);
+                image = s.GetImageName();
+                if (image.Equals(expectedImage[expectedIndex]))
+                {
+                    success = false;
+                }
+            }
+            Assert.IsTrue(success);
+        }
+        */
     }
 }
