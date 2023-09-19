@@ -54,10 +54,7 @@ namespace GEI797Labo.Controllers
         {
             engine.KillEngine(); //Works 👍
         }
-        public void ViewKeyReleasedEvent()
-        {
 
-        }
 
         public void ViewKeyPressedEvent(PreviewKeyDownEventArgs e)
         {
