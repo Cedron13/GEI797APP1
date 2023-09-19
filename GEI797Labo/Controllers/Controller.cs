@@ -151,7 +151,8 @@ namespace GEI797Labo.Controllers
         public void EndProcessMinimize()
         {
             ExitPause();
-            currentState = new ResumeState(this);
+            currentState.PrepareNextState();
+            currentState = currentState.GetNextState();
             Console.WriteLine("reprise du jeu");
         }
 
