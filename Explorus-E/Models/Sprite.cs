@@ -1,4 +1,5 @@
 ﻿using ExplorusE.Observer;
+using ExplorusE.Constants;
 using System;
 
 /* EXPLORUS-E
@@ -11,25 +12,6 @@ using System;
 
 namespace ExplorusE.Models
 {
-    public enum Direction
-    {
-        DOWN, RIGHT, UP, LEFT, IDLE
-    }
-    public struct coord
-    {
-        public int x { get; set; }
-        public int y { get; set; }
-    }
-    public struct coordF //float version of coord
-    {
-        public double x { get; set; }
-        public double y { get; set; }
-    }
-    public struct spriteState
-    {
-        public int imageIndex { get; set; }
-        public coord spriteCoord { get; set; }
-    }
     internal class Sprite : IResizeEventSubscriber
     {
         private coord initialPos;

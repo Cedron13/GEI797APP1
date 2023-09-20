@@ -1,4 +1,6 @@
-﻿/* EXPLORUS-E
+﻿using ExplorusE.Constants;
+
+/* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
  * Cédric CHARRON (chac0902)
  * Audric DAVID (dava1302)

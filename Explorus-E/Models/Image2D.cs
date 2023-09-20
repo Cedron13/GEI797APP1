@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using ExplorusE.Constants;
+using System.Drawing;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -10,14 +11,6 @@
 
 namespace ExplorusE.Models
 {
-    public enum ImageType
-    {
-        Wall,
-        Player,
-        Collectible,
-        Other
-    };
-
     internal class Image2D
     {
         public int id;

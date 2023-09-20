@@ -15,4 +15,21 @@ namespace ExplorusE.Constants
         PAUSE,
         RESUME
     }
+
+    public enum ImageType
+    {
+        Wall,
+        Player,
+        Collectible,
+        Other
+    }
+
+    public enum Direction
+    {
+        DOWN,
+        RIGHT,
+        UP,
+        LEFT,
+        IDLE
+    }
 }

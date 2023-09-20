@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ExplorusE.Constants;
+using System.Collections.Generic;
 using System.Drawing;
 
 /* EXPLORUS-E

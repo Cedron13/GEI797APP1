@@ -12,10 +12,6 @@ using System.Windows.Forms;
 
 namespace ExplorusE.Controllers
 {
-    public struct RenderData
-    {
-        public int[,] lab;
-    }
     internal interface IController
     {
         void EngineRenderEvent();
