@@ -11,9 +11,9 @@ namespace ExplorusE.Models.Commands
     internal class StartGameCommand : IGameCommand
     {
         public void Execute(GameModel model) { }
+
         public void Undo(GameModel model) { }
-        public bool IsHistoryAction() {
-            return true;
-        }
+
+        public bool IsHistoryAction() => true;
     }
 }

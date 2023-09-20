@@ -45,34 +45,31 @@ namespace ExplorusE.Models
             Array.Copy(labyrinth, originalLabyrinthCopy, labyrinth.Length);
         }
 
-        public void SetGridPosX(int posX){
+        public void SetGridPosX(int posX)
+        {
             gridPos.x = posX;
         }
 
-        public int GetGridPosX(){  
+        public int GetGridPosX()
+        {  
             return gridPos.x; 
         }
 
-        public void SetGridPosY(int posY){
+        public void SetGridPosY(int posY)
+        {
             gridPos.y = posY;
         }
 
-        public int GetGridPosY(){  
-            return gridPos.y; }
+        public int GetGridPosY() => gridPos.y;
 
         public int GetCounter() => counter;
+
         public void SetCounter(int c) { counter = c; }
-
-
-    
-
-  
 
         public int[,] GetLabyrinth()
         {
             return labyrinth;
         }
-
 
         public void Update(double lag)
         {
@@ -95,7 +92,6 @@ namespace ExplorusE.Models
                 commandHistory.Add(command);
                 commandIndex++;
             }
-            
         }
 
         public void UndoLastCommand()
@@ -116,10 +112,12 @@ namespace ExplorusE.Models
                 commandHistory.ElementAt(commandIndex-1).Execute(this);
             }
         }
+
         public void ClearAfterCurrentActionIndex()
         {
             commandHistory = commandHistory.GetRange(0, commandIndex);
         }
+
         public void ClearCommandHistory()
         {
             commandHistory = new List<IGameCommand>();
@@ -139,7 +137,7 @@ namespace ExplorusE.Models
             }
         }
 
-        public Sprite GetPlayer() { return player; }
+        public Sprite GetPlayer() => player;
 
         public void SetLabyrinth(int[,] lab)
         {
@@ -148,21 +146,23 @@ namespace ExplorusE.Models
 
         public IController GetController() { return controller; }
         
-        public coord GetGridCoord() { return gridPos; }
-        public void SetGridCoord(coord coord) {  gridPos = coord; }
+        public coord GetGridCoord() => gridPos;
+
+        public void SetGridCoord(coord coord)
+        {  
+            gridPos = coord; 
+        }
 
         public void EndLevel()
         {
-            ReinitialiserLabyrinthe();
+            ResetLabyrinth();
             controller.NewLevel();
         }
 
-        private void ReinitialiserLabyrinthe()
+        private void ResetLabyrinth()
         {
             Array.Copy(originalLabyrinthCopy, labyrinth, originalLabyrinthCopy.Length);
         }
-
-
     }
 }
 

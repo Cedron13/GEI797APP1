@@ -19,7 +19,7 @@ namespace ExplorusE.Views
 {
     internal class GameView
     {
-        private GameForm oGameForm; // Let GameForm be an existing class
+        private GameForm oGameForm;
         private TileManager tileManager;
         private IController controller;
         private int displayWidth;
@@ -136,14 +136,10 @@ namespace ExplorusE.Views
 
         private void GameRenderer(object sender, PaintEventArgs e)
         {
-
             Graphics g = e.Graphics;
 
             // Black background and menu
-
             g.Clear(Color.Black);
-
-
             
             g.DrawImage(tileManager.getImage("Title").bitmap, leftMargin + brickSize / 2, topMargin, brickSize * 2, brickSize / 2);
 
@@ -194,10 +190,6 @@ namespace ExplorusE.Views
                 g.DrawImage(tileManager.getImage("Key").bitmap, beginTaskBar + menuItemWidth * 17 + 10, topMargin, menuItemWidth, menuItemWidth);
             }
 
-
-
-
-
             //Calls Lab from another thread, lock may be needed
             int[,] labyrinth = controller.GetLabyrinth();
 
@@ -236,12 +228,6 @@ namespace ExplorusE.Views
 
             }
 
-
-
-                
-
-
-
             //Display player, independant from the maze
             spriteState playerStatus = controller.GetPlayer().GetCurrentRenderInfo();
 
@@ -267,6 +253,12 @@ namespace ExplorusE.Views
             {
                 e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize / 3, topMargin + brickSize * 6 / 5, brickSize * 7 / 3, brickSize * 3 / 5));
             }
+
+            //Selection of the text displayed
+            if (controller.GetState() is PausedState) statusText = "PAUSE";
+            else if (controller.GetState() is ResumeState) statusText = "Resume (" + ((int)(4000 - controller.GetTransitionTime()) / 1000).ToString() + ")";
+            else statusText = "PLAY";
+
             using (Font font = new Font("Arial", 16))
             using (Brush brush = new SolidBrush(Color.Yellow))
             {
@@ -275,58 +267,26 @@ namespace ExplorusE.Views
                 float y = (topMargin + brickSize * 6 / 5) + (brickSize * 3 / 5 - textSize.Height) / 2;
                 g.DrawString(statusText, font, brush, x, y);
             }
-
-            if (controller.GetState() is PausedState)
-            {
-                statusText = "PAUSE";
-            } 
-            else if(controller.GetState() is ResumeState)
-            {
-                
-                statusText = "Resume ("+((int)(4000-controller.GetTransitionTime())/1000).ToString()+")";
-                 
-            }
-            else
-            {
-                statusText = "PLAY";
-            }
-
-
-            
         }
 
-
         private void KeyDownEvent(object sender, PreviewKeyDownEventArgs e)
-
         {
-           
-         controller.ViewKeyPressedEvent(e);
-            
-            
+            controller.ViewKeyPressedEvent(e);
         }
 
         private void CloseWindowEvent(object sender, FormClosingEventArgs e)
         {
             controller.ViewCloseEvent();
-            Console.WriteLine("Close");
         }
 
-        private void LostFocusEvent(object sender, EventArgs e) // Not the "EVENT" in the ending of the method name
+        private void LostFocusEvent(object sender, EventArgs e)
         {
             controller.ProcessLostFocus();
         }
 
-        private void GotFocusEvent(object sender, EventArgs e) // Not the "EVENT" in the ending of the method name
+        private void GotFocusEvent(object sender, EventArgs e)
         {
-            if (isFirstLoad == true)
-            {
-                Console.WriteLine("Premier affichage de la fenêtre");
-            }
-            else
-            {
-                controller.EndProcessLostFocus();
-            }
-            
+            if (!isFirstLoad) controller.EndProcessLostFocus(); //Prevent the game to pause on start up          
         }
 
         private void FirstLoadEvent(object sender, EventArgs e)
@@ -335,16 +295,14 @@ namespace ExplorusE.Views
             isFirstLoad = false;
         }
 
-        private void SizeChangedEvent(object sender, EventArgs e) // Not the "EVENT" in the ending of the method name
+        private void SizeChangedEvent(object sender, EventArgs e)
         {
             if (oGameForm.WindowState == FormWindowState.Minimized)
             {
                 controller.ProcessMinimize();
             }
-
             else
             {
-                //controller.EndProcessMinimize();
                 int[,] labyrinth = controller.GetLabyrinth();
                 displayHeight = oGameForm.Size.Height;
                 displayWidth = oGameForm.Size.Width;
@@ -359,10 +317,8 @@ namespace ExplorusE.Views
                 afterTaskBar = brickSize / 2 + leftMargin;
                 taskBarWidth = displayWidth - beginTaskBar - afterTaskBar; // Size of the taskbar (without the title, margins)
                 menuItemWidth = (int)(taskBarWidth / 18); // Size of each "item" of the taskbar
+
                 controller.PositionUpdate();
-
-
-
             }
         }
 

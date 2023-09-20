@@ -15,30 +15,40 @@ namespace ExplorusE.Controllers
     internal interface IController
     {
         void EngineRenderEvent();
+
         void EngineUpdateEvent(double lag);
+
         void EngineProcessInputEvent();
 
         void ViewKeyPressedEvent(PreviewKeyDownEventArgs e);
+
         void ViewCloseEvent();
+
         void ProcessMinimize();
 
         void ProcessLostFocus();
 
         void EndProcessLostFocus();
-        //TEMP
+
         int[,] GetLabyrinth();
+
         bool IsPaused { get; set; }
+
         void InitGame();
+
         void PositionUpdate();
 
         GameModel GetGameModel();
 
         Sprite GetPlayer();
         void SetGemCounter(int i);
-        IState GetState();
-        int GetTransitionTime();
-        void ExitPause();
-        void NewLevel(); 
 
+        IState GetState();
+
+        int GetTransitionTime();
+
+        void ExitPause();
+
+        void NewLevel(); 
     }
 }

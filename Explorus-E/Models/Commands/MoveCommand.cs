@@ -19,12 +19,14 @@ namespace ExplorusE.Models.Commands
         private bool doorUnlocked = false;
         private bool isEndGame = false;
         private bool isHistoryAction = false;
+
         public MoveCommand(Direction d, coord initial, coord dest)
         {
             dir = d;
             initialPos = initial;
             newPos = dest;
         }
+
         //TODO: Add movement to history if there is no collision with wall
         public void Execute(GameModel model)
         {
@@ -97,7 +99,6 @@ namespace ExplorusE.Models.Commands
         }
         public void Undo(GameModel model)
         {
-
             int[,] labyrinth = model.GetLabyrinth();
             if (gemFound)
             {
@@ -120,16 +121,12 @@ namespace ExplorusE.Models.Commands
                 labyrinth[4, 7] = 2;
             }
 
-
             labyrinth[initialPos.y, initialPos.x] = 3;
             model.SetGridPosX(initialPos.x);
             model.SetGridPosY(initialPos.y);
             model.GoTo(dir, initialPos);
         }
-        public bool IsHistoryAction()
-        {
-            return isHistoryAction;
-        }
+        public bool IsHistoryAction()=> isHistoryAction;
 
     }
 }

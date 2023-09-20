@@ -18,8 +18,8 @@ namespace ExplorusE.Models
         private static readonly object lockObject = new object();
         private Dictionary<string, Image2D> images;
 
-        private TileManager() { 
-            
+        private TileManager()
+        { 
             images = new Dictionary<string, Image2D>();
             Bitmap tilesheet = Properties.Resources.TilesSheet;
 
@@ -110,8 +110,6 @@ namespace ExplorusE.Models
 
 
 
-
-
             //Right1
             tileBounds = new Rectangle(96*3, 96, 96, 96);
             images.Add("Right1", new Image2D(22, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
@@ -153,7 +151,6 @@ namespace ExplorusE.Models
             //Left3
             tileBounds = new Rectangle(96 * 4, 96 * 2, 96, 96);
             images.Add("Left3", new Image2D(30, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
-
         }
 
         public static TileManager GetInstance()
@@ -176,6 +173,5 @@ namespace ExplorusE.Models
             Image2D image = images[name];
             return image;
         }
-
     }
 }

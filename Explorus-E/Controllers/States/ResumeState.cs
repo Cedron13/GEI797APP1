@@ -13,11 +13,11 @@ namespace ExplorusE.Controllers.States
             nextState = this;
             controller = c;
         }
-        public void ProcessInput(List<Keys> keys) {
-            //Do nothing on input, state should switch to play STate after delay
-            //Temporarily, changing state directly to Play
-            //nextState = new PlayState(controller);
+        public void ProcessInput(List<Keys> keys)
+        {
+            //Do nothing on input
         }
+
         public IState GetNextState() => nextState;
 
         public void PrepareNextState(GameStates state = GameStates.PLAY) //Default next state is PLAY

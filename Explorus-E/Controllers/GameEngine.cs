@@ -18,9 +18,8 @@ namespace ExplorusE.Controllers
         private bool isAlive = true;
         private readonly object lockObject = new object();
         private Thread gameThread;
-        public GameEngine(IController c)
-        
 
+        public GameEngine(IController c)
         {
             controller = c;
             gameThread = new Thread(new ThreadStart(GameLoop));
@@ -74,17 +73,21 @@ namespace ExplorusE.Controllers
             }
         }
 
-        private void Render(double frameAhead) {
+        private void Render(double frameAhead)
+        {
             controller.EngineRenderEvent(); // Initial call of Render method
         }
+
         private void Update(double lag)
         {
             controller.EngineUpdateEvent(lag);
         }
+
         private void ProcessInput()
         {
             controller.EngineProcessInputEvent();
         }
+
         private double GetCurrentTimeMillis()
         {
             DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);

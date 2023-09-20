@@ -16,6 +16,7 @@ namespace ExplorusE.Controllers.States
             nextState = this;
             controller = c;
         }
+
         public void ProcessInput(List<Keys> keys) {
             GameModel model = controller.GetGameModel();
             coord initialCoord = model.GetGridCoord();

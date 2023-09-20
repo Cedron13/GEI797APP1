@@ -19,8 +19,8 @@ namespace ExplorusE.Models
         private coord destinationPos;
         private int imageIndex;
         private Direction dir;
-        private double timeToMove = 500; // ms
-        private double timeElapsed = 0;
+        private double timeToMove = 500; //Time in ms
+        private double timeElapsed = 0; //Time in ms
 
         private int topMargin;
         private int leftMargin;
@@ -35,6 +35,7 @@ namespace ExplorusE.Models
             leftMargin = left;
             brickSize = brick;
         }
+
         //IResizeEventSubscriber
         public void NotifyResize(int top, int left, int brick)
         {
@@ -43,6 +44,7 @@ namespace ExplorusE.Models
             leftMargin = left;
             brickSize = brick;
         }
+
         //Sprite
         public void StartMovement(coord finalGridPos, Direction d)
         {
@@ -65,13 +67,14 @@ namespace ExplorusE.Models
         {
             return currentPos.x == destinationPos.x && currentPos.y == destinationPos.y;
         }
+
         public void Update(int elapsedMs)
         {
             timeElapsed += elapsedMs;
             double ratio = timeElapsed / timeToMove;
             if (ratio > 1)
             {
-                ratio = 1;
+                ratio = 1; //Avoid the position going further than it is supposed
             }
             currentPos.x = ((double)destinationPos.x - initialPos.x) * ratio + initialPos.x;
             currentPos.y = ((double)destinationPos.y - initialPos.y) * ratio + initialPos.y;
@@ -92,10 +95,12 @@ namespace ExplorusE.Models
             return playerCurrentPixelCoord;
         }
         public Direction GetDirection() => dir;
+
         public void SetDirection(Direction d)
         {
             dir = d;
         }
+
         public String GetImageName()
         {
             if (dir == Direction.UP) return "Up" + (imageIndex + 1).ToString();

@@ -26,6 +26,7 @@ namespace ExplorusE.Controllers
         private List<IResizeEventSubscriber> resizeSubscribers;
         private double transitionTime = 0;
         private bool isPaused = false;
+
         public bool IsPaused
         {
             get { return isPaused; }
@@ -44,16 +45,13 @@ namespace ExplorusE.Controllers
             InitGame();
 
             engine = new GameEngine(this);
-            //Order is very important due to dependencies between each oject, this order works 👍
+            //Order is very important due to dependencies between each object, this order works 👍
         }
-
-        //IController
 
         public void ViewCloseEvent()
         {
             engine.KillEngine(); //Works 👍
         }
-
 
         public void ViewKeyPressedEvent(PreviewKeyDownEventArgs e)
         {
@@ -65,9 +63,11 @@ namespace ExplorusE.Controllers
                 }
             }
         }
-        public void EngineRenderEvent() {
+        public void EngineRenderEvent()
+        {
             view.Render();
         }
+
         public void EngineUpdateEvent(double lag)
         {
             model.Update(lag);
@@ -87,6 +87,7 @@ namespace ExplorusE.Controllers
         {
             resizeSubscribers.Add(sub);
         }
+
         public void PositionUpdate()
         {
 
@@ -96,7 +97,9 @@ namespace ExplorusE.Controllers
                 s.NotifyResize(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
             }
         }
-        public void EngineProcessInputEvent() {
+
+        public void EngineProcessInputEvent()
+        {
 
             currentState.ProcessInput(inputList);
             currentState = currentState.GetNextState();
@@ -133,11 +136,7 @@ namespace ExplorusE.Controllers
             view.SetGemCounter(i);
         }
 
-
-        //TEMP
-        public int[,] GetLabyrinth() { 
-            return model.GetLabyrinth();
-        }
+        public int[,] GetLabyrinth() => model.GetLabyrinth();
 
         public void ProcessMinimize()
         {
