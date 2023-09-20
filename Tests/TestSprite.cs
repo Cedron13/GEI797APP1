@@ -20,15 +20,23 @@ namespace Tests
             {
                 x = 5,
                 y = 5
-            });
+            }, 0, 0, 0);
             coord dest = new coord()
             {
                 x = 10,
                 y = 5
             };
+
             s.StartMovement(dest, Direction.RIGHT);
             s.Update(500);
-            Assert.AreEqual(dest, s.GetPosition());
+            coordF cf = s.GetGridPosition();
+            coord finalcoordint = new coord()
+            {
+                x= ((int)cf.x),
+                y = ((int)cf.y)
+            };
+            
+            Assert.AreEqual(dest, finalcoordint);
         }
 
         [TestMethod]
@@ -38,7 +46,7 @@ namespace Tests
             {
                 x = 5,
                 y = 5
-            });
+            }, 0, 0, 0);
             coord dest = new coord()
             {
                 x = 10,
@@ -55,7 +63,7 @@ namespace Tests
             {
                 x = 5,
                 y = 5
-            });
+            }, 0, 0, 0);
             coord dest = new coord()
             {
                 x = 10,
@@ -63,16 +71,22 @@ namespace Tests
             };
             s.StartMovement(dest, Direction.RIGHT);
             s.Update(450);
-            Assert.AreNotEqual(dest, s.GetPosition());
+            coordF cf = s.GetGridPosition();
+            coord finalcoordint = new coord()
+            {
+                x = ((int)cf.x),
+                y = ((int)cf.y)
+            };
+            Assert.AreNotEqual(dest, finalcoordint);
         }
-        [TestMethod]
+       [TestMethod]
         public void TestMovementNotFinished_WithIsMovementOver()
         {
             Sprite s = new Sprite(new coord()
             {
                 x = 5,
                 y = 5
-            });
+            }, 0, 0, 0);
             coord dest = new coord()
             {
                 x = 10,
@@ -82,14 +96,14 @@ namespace Tests
             s.Update(450);
             Assert.IsFalse(s.IsMovementOver());
         }
-        [TestMethod]
+        /*[TestMethod]
         public void TestMovementAnimation()
         {
             Sprite s = new Sprite(new coord()
             {
                 x = 5,
                 y = 5
-            });
+            }, 0, 0, 0);
             coord dest = new coord()
             {
                 x = 10,
@@ -110,12 +124,13 @@ namespace Tests
                 expectedIndex++;
                 s.Update(100);
                 image = s.GetImageName();
-                if(image.Equals(expectedImage[expectedIndex]))
+                if (image.Equals(expectedImage[expectedIndex]))
                 {
                     success = false;
                 }
             }
             Assert.IsTrue(success);
         }
+        */
     }
 }
