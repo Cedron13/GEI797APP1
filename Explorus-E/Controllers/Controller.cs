@@ -166,13 +166,6 @@ namespace ExplorusE.Controllers
             
         }
 
-        public void EndProcessMinimize()
-        {
-            ExitPause();
-            currentState.PrepareNextState();
-            currentState = currentState.GetNextState();
-            Console.WriteLine("reprise du jeu");
-        }
 
         public void ProcessLostFocus()
         {
