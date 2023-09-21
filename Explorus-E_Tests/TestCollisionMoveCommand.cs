@@ -29,12 +29,9 @@ namespace Tests
             };
             coord start = new coord()
             {
-                //x = 25,
-                //y = 45
                 x = 4,
                 y = 7
             };
-            //Controller c = new Controller();
             Sprite s = new Sprite(start, 33, 19, 50);
             GameModel gm = new GameModel(null);
 
@@ -49,8 +46,6 @@ namespace Tests
             };
             MoveCommand com = new MoveCommand(Direction.RIGHT, start, dest);
             gm.InvokeCommand(com);
-
-            //gm.MoveRight(5,5,5);
             s.Update(500);
             Assert.AreEqual(start, gm.GetGridCoord());
         }
@@ -70,12 +65,8 @@ namespace Tests
             };
             coord start = new coord()
             {
-                //x = 25,
-                //y = 45
-                x = 4,
                 y = 7
             };
-            //Controller c = new Controller();
             Sprite s = new Sprite(start, 33, 19, 50);
             GameModel gm = new GameModel(null);
 
@@ -111,12 +102,9 @@ namespace Tests
             };
             coord start = new coord()
             {
-                //x = 25,
-                //y = 45
                 x = 1,
                 y = 7
             };
-            //Controller c = new Controller();
             Sprite s = new Sprite(start, 33, 19, 50);
             GameModel gm = new GameModel(null);
 
@@ -131,8 +119,6 @@ namespace Tests
             };
             MoveCommand com = new MoveCommand(Direction.LEFT, start, dest);
             gm.InvokeCommand(com);
-
-            //gm.MoveRight(5,5,5);
             s.Update(500);
             Assert.AreEqual(start, gm.GetGridCoord());
         }
@@ -141,12 +127,9 @@ namespace Tests
         {
             coord start = new coord()
             {
-                //x = 25,
-                //y = 45
                 x = 4,
                 y = 7
             };
-            //Controller c = new Controller();
             Sprite s = new Sprite(start, 33, 19, 50);
             GameModel gm = new GameModel(null);
 
@@ -161,8 +144,6 @@ namespace Tests
             };
             MoveCommand com = new MoveCommand(Direction.UP, start, dest);
             gm.InvokeCommand(com);
-
-            //gm.MoveRight(5,5,5);
             s.Update(500);
             Assert.AreEqual(start, gm.GetGridCoord());
         }
