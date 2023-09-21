@@ -65,6 +65,7 @@ namespace Tests
             };
             coord start = new coord()
             {
+                x = 4,
                 y = 7
             };
             Sprite s = new Sprite(start, 33, 19, 50);
@@ -81,8 +82,6 @@ namespace Tests
             };
             MoveCommand com = new MoveCommand(Direction.DOWN, start, dest);
             gm.InvokeCommand(com);
-
-            //gm.MoveRight(5,5,5);
             s.Update(500);
             Assert.AreEqual(start, gm.GetGridCoord());
         }
@@ -144,6 +143,7 @@ namespace Tests
             };
             MoveCommand com = new MoveCommand(Direction.UP, start, dest);
             gm.InvokeCommand(com);
+
             s.Update(500);
             Assert.AreEqual(start, gm.GetGridCoord());
         }
