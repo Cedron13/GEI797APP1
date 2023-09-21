@@ -7,8 +7,8 @@ namespace ExplorusE.Controllers.States
     internal class ResumeState : IState
     {
         IState nextState = null;
-        IController controller;
-        public ResumeState(IController c)
+        IControllerModel controller;
+        public ResumeState(IControllerModel c)
         {
             nextState = this;
             controller = c;

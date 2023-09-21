@@ -21,7 +21,7 @@ namespace ExplorusE.Views
     {
         private GameForm oGameForm;
         private TileManager tileManager;
-        private IController controller;
+        private IControllerView controller;
         private int displayWidth;
         private int displayHeight;
         private int brickSize = 50;
@@ -43,9 +43,6 @@ namespace ExplorusE.Views
         private int menuItemWidth = 21; 
         private int beginTaskBar = 100+25+19+25;
         private int afterTaskBar = 25 + 19;
-
-
-        
         
         public int GetTopMargin() 
         { 
@@ -86,7 +83,7 @@ namespace ExplorusE.Views
 
         
 
-        public GameView(IController c)
+        public GameView(IControllerView c)
         {
             controller = c;
             oGameForm = new GameForm();

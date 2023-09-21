@@ -50,7 +50,8 @@
     <Compile Include="Constants\Enums.cs" />
     <Compile Include="Constants\Structs.cs" />
     <Compile Include="Controllers\Controller.cs" />
-    <Compile Include="Controllers\IController.cs" />
+    <Compile Include="Controllers\IControllerModel.cs" />
+    <Compile Include="Controllers\IControllerView.cs" />
     <Compile Include="Controllers\GameEngine.cs" />
     <Compile Include="Controllers\States\IState.cs" />
     <Compile Include="Controllers\States\PausedState.cs" />

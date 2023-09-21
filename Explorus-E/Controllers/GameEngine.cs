@@ -14,12 +14,12 @@ namespace ExplorusE.Controllers
 
     internal class GameEngine
     {
-        private IController controller;
+        private IControllerModel controller;
         private bool isAlive = true;
         private readonly object lockObject = new object();
         private Thread gameThread;
 
-        public GameEngine(IController c)
+        public GameEngine(IControllerModel c)
         {
             controller = c;
             gameThread = new Thread(new ThreadStart(GameLoop));

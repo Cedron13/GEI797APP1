@@ -9,9 +9,9 @@ namespace ExplorusE.Controllers.States
     internal class PlayState: IState
     {
         private IState nextState = null;
-        private IController controller;
+        private IControllerModel controller;
 
-        public PlayState(IController c)
+        public PlayState(IControllerModel c)
         {
             nextState = this;
             controller = c;

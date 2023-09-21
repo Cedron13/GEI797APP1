@@ -8,8 +8,8 @@ namespace ExplorusE.Controllers.States
     internal class PausedState: IState
     {
         private IState nextState = null;
-        private IController controller;
-        public PausedState(IController c) { 
+        private IControllerModel controller;
+        public PausedState(IControllerModel c) { 
             nextState = this;
             controller = c;
         }

@@ -17,7 +17,7 @@ namespace ExplorusE.Models
 {
     internal class GameModel
     {
-        private IController controller;
+        private IControllerModel controller;
         private Sprite player;
         private coord gridPos;
         private int counter = 0;
@@ -37,7 +37,7 @@ namespace ExplorusE.Models
 
         private List<IGameCommand> commandHistory = new List<IGameCommand>();
 
-        public GameModel(IController c)
+        public GameModel(IControllerModel c)
         {
             controller = c;
             InvokeCommand(new StartGameCommand());
@@ -144,7 +144,7 @@ namespace ExplorusE.Models
             labyrinth = lab;
         }
 
-        public IController GetController() { return controller; }
+        public IControllerModel GetController() { return controller; }
         
         public coord GetGridCoord() => gridPos;
 

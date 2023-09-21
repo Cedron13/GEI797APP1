@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace ExplorusE.Controllers
 {
-    internal interface IController
+    internal interface IControllerModel
     {
         void EngineRenderEvent();
 
@@ -20,23 +20,11 @@ namespace ExplorusE.Controllers
 
         void EngineProcessInputEvent();
 
-        void ViewKeyPressedEvent(PreviewKeyDownEventArgs e);
-
-        void ViewCloseEvent();
-
-        void ProcessMinimize();
-
-        void ProcessLostFocus();
-
-        void EndProcessLostFocus();
-
         int[,] GetLabyrinth();
 
         bool IsPaused { get; set; }
 
         void InitGame();
-
-        void PositionUpdate();
 
         GameModel GetGameModel();
 

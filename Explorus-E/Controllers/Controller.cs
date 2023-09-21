@@ -17,7 +17,7 @@ using System.Windows.Forms;
 
 namespace ExplorusE.Controllers
 {
-    internal class Controller : IController, IResizeEventPublisher
+    internal class Controller : IControllerView, IControllerModel, IResizeEventPublisher
     {
         private GameEngine engine;
         private GameView view;
