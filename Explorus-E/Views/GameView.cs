@@ -134,26 +134,24 @@ namespace ExplorusE.Views
         }
 
 
-        private void GameRenderer(object sender, PaintEventArgs e)
+        private void TaskBarDisplay(Graphics g)
         {
-            Graphics g = e.Graphics;
-
             // Black background and menu
             g.Clear(Color.Black);
-            
+
             g.DrawImage(tileManager.getImage("Title").bitmap, leftMargin + brickSize / 2, topMargin, brickSize * 2, brickSize / 2);
 
             g.DrawImage(tileManager.getImage("Heart").bitmap, beginTaskBar, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 1, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 2, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 3, topMargin, menuItemWidth, menuItemWidth);
-            g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 4, topMargin, menuItemWidth, menuItemWidth); 
+            g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 4, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 5, topMargin, menuItemWidth, menuItemWidth);
 
             g.DrawImage(tileManager.getImage("BigBubble").bitmap, beginTaskBar + menuItemWidth * 6, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 7, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, menuItemWidth);
-            g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth); 
+            g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 10, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 11, topMargin, menuItemWidth, menuItemWidth);
 
@@ -189,7 +187,10 @@ namespace ExplorusE.Views
                 g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
                 g.DrawImage(tileManager.getImage("Key").bitmap, beginTaskBar + menuItemWidth * 17 + 10, topMargin, menuItemWidth, menuItemWidth);
             }
+        }
 
+        private void LabyrinthDisplay(Graphics g)
+        {
             //Calls Lab from another thread, lock may be needed
             int[,] labyrinth = controller.GetLabyrinth();
 
@@ -227,16 +228,21 @@ namespace ExplorusE.Views
                 }
 
             }
+        }
 
+        private void PlayerDisplay(Graphics g)
+        {
             //Display player, independant from the maze
             spriteState playerStatus = controller.GetPlayer().GetCurrentRenderInfo();
 
             g.DrawImage(tileManager.getImage(controller.GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
+        }
 
-
+        private void StatusBarDisplay(Graphics g, PaintEventArgs e)
+        {
             using (Brush blackBrush = new SolidBrush(Color.Black))
             {
-                e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 41/4, topMargin + brickSize * 62/50, brickSize * 11/20, brickSize * 11/20));
+                e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 41 / 4, topMargin + brickSize * 62 / 50, brickSize * 11 / 20, brickSize * 11 / 20));
             }
 
             using (Font font = new Font("Arial", 16))
@@ -267,6 +273,16 @@ namespace ExplorusE.Views
                 float y = (topMargin + brickSize * 6 / 5) + (brickSize * 3 / 5 - textSize.Height) / 2;
                 g.DrawString(statusText, font, brush, x, y);
             }
+        }
+
+        private void GameRenderer(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            TaskBarDisplay(g);
+            LabyrinthDisplay(g);
+            PlayerDisplay(g);
+            StatusBarDisplay(g, e);
+
         }
 
         private void KeyDownEvent(object sender, PreviewKeyDownEventArgs e)
