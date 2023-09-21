@@ -260,6 +260,7 @@ namespace ExplorusE.Views
             //Selection of the text displayed
             if (controller.GetState() is PausedState) statusText = "PAUSE";
             else if (controller.GetState() is ResumeState) statusText = "Resume (" + ((int)(4000 - controller.GetTransitionTime()) / 1000).ToString() + ")";
+            else if (controller.GetState() is StopState) statusText = "VICTORY";
             else statusText = "PLAY";
 
             using (Font font = new Font("Arial", 16))

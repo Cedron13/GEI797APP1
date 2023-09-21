@@ -26,7 +26,10 @@ namespace Tests
         {
 
         }
+        public void ModelCloseEvent()
+        {
 
+        }
         public int[,] GetLabyrinth()
         {
             return new int[,] { { 0 } };
@@ -35,6 +38,10 @@ namespace Tests
         public bool IsPaused { get; set; }
 
         public void InitGame()
+        {
+
+        }
+        public void EndGameReached()
         {
 
         }
@@ -68,9 +75,9 @@ namespace Tests
 
         }
 
-        public void NewLevel()
+        public int NewLevel()
         {
-
+            return 0;
         }
     }
 }

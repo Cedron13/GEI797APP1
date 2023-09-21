@@ -26,6 +26,10 @@ namespace ExplorusE.Controllers
 
         void InitGame();
 
+        void EndGameReached();
+
+        void ModelCloseEvent();
+
         GameModel GetGameModel();
 
         Sprite GetPlayer();
@@ -37,6 +41,6 @@ namespace ExplorusE.Controllers
 
         void ExitPause();
 
-        void NewLevel(); 
+        int NewLevel(); 
     }
 }
