@@ -97,19 +97,21 @@ namespace Tests
             s.Update(450);
             Assert.IsFalse(s.IsMovementOver());
         }
-        /*[TestMethod]
-        public void TestMovementAnimation()
+        [TestMethod]
+        public void TestGetImageName()
         {
-            Sprite s = new Sprite(new coord()
+            coord start = new coord()
             {
-                x = 5,
-                y = 5
-            }, 0, 0, 0);
+                x = 4,
+                y = 7
+            };
             coord dest = new coord()
             {
-                x = 10,
-                y = 5
+                x = 5,
+                y = 7
             };
+            Sprite s = new Sprite(start, 33, 19, 50);
+
             s.StartMovement(dest, Direction.RIGHT);
             bool success = true;
             int expectedIndex = 0;
@@ -123,15 +125,15 @@ namespace Tests
                 Console.WriteLine(updateVal);
                 updateVal += 100;
                 expectedIndex++;
-                s.Update(100);
                 image = s.GetImageName();
                 if (image.Equals(expectedImage[expectedIndex]))
                 {
                     success = false;
                 }
+                s.Update(100);
             }
             Assert.IsTrue(success);
         }
-        */
+        
     }
 }

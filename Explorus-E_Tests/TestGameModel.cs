@@ -405,5 +405,123 @@ namespace Tests
             s.Update(500);
             Assert.AreNotEqual(labyrinth[7, 4], gm.GetLabyrinth()[7, 4]);
         }
+        [TestMethod]
+        public void TestUndoLastCommand_WithMovement()
+        {
+            coord start = new coord()
+            {
+                x = 4,
+                y = 7
+            };
+            coord dest = new coord()
+            {
+                x = 3,
+                y = 7
+            };
+            Sprite s = new Sprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null);
+            gm.SetGridPosX(4);
+            gm.SetGridPosY(7);
+            gm.InitPlayer(s);
+            MoveCommand com = new MoveCommand(Direction.LEFT, start, dest);
+            gm.InvokeCommand(com);
+            s.Update(500);
+            gm.UndoLastCommand();
+            s.Update(500);
+            coord finalPos = new coord()
+            {
+                x = (int)s.GetGridPosition().x,
+                y = (int)s.GetGridPosition().y
+            };
+
+            Assert.AreEqual(finalPos, start);
+        }
+        [TestMethod]
+        public void TestRedoLastCommand_WithUndoBefore()
+        {
+            coord start = new coord()
+            {
+                x = 4,
+                y = 7
+            };
+            coord dest = new coord()
+            {
+                x = 3,
+                y = 7
+            };
+            Sprite s = new Sprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null);
+            gm.SetGridPosX(4);
+            gm.SetGridPosY(7);
+            gm.InitPlayer(s);
+            MoveCommand com = new MoveCommand(Direction.LEFT, start, dest);
+            gm.InvokeCommand(com);
+            s.Update(500);
+            gm.UndoLastCommand();
+            s.Update(500);
+            gm.RedoNextCommand();
+            s.Update(500);
+            coord finalPos = new coord()
+            {
+                x = (int)s.GetGridPosition().x,
+                y = (int)s.GetGridPosition().y
+            };
+
+            Assert.AreEqual(finalPos, dest);
+        }
+        [TestMethod]
+        public void TestUndoLastCommand_WithoutMoving()
+        {
+            coord start = new coord()
+            {
+                x = 4,
+                y = 7
+            };
+            Sprite s = new Sprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null);
+            gm.SetGridPosX(4);
+            gm.SetGridPosY(7);
+            gm.InitPlayer(s);
+            gm.UndoLastCommand();
+            s.Update(500);
+            coord finalPos = new coord()
+            {
+                x = (int)s.GetGridPosition().x,
+                y = (int)s.GetGridPosition().y
+            };
+
+            Assert.AreEqual(finalPos, start);
+        }
+        [TestMethod]
+        public void TestRedoNextCommand_WithoutUndoBefore()
+        {
+            coord start = new coord()
+            {
+                x = 4,
+                y = 7
+            };
+            coord dest = new coord()
+            {
+                x = 3,
+                y = 7
+            };
+            Sprite s = new Sprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null);
+            gm.SetGridPosX(4);
+            gm.SetGridPosY(7);
+            gm.InitPlayer(s);
+            MoveCommand com = new MoveCommand(Direction.LEFT, start, dest);
+            gm.InvokeCommand(com);
+            s.Update(500);
+            gm.RedoNextCommand();
+            s.Update(500);
+            coord finalPos = new coord()
+            {
+                x = (int)s.GetGridPosition().x,
+                y = (int)s.GetGridPosition().y
+            };
+
+            Assert.AreEqual(finalPos, dest);
+        }
     }
 }
