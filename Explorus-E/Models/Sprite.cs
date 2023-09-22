@@ -39,7 +39,6 @@ namespace ExplorusE.Models
         //IResizeEventSubscriber
         public void NotifyResize(int top, int left, int brick)
         {
-            Console.WriteLine("test");
             topMargin = top;
             leftMargin = left;
             brickSize = brick;

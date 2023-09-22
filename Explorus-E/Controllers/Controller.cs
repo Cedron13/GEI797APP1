@@ -78,7 +78,6 @@ namespace ExplorusE.Controllers
             model.Update(lag);
             if (currentState is ResumeState)
             {
-                Console.WriteLine(lag);
                 transitionTime += lag;
                 if (transitionTime > 3000)
                 {
@@ -156,7 +155,6 @@ namespace ExplorusE.Controllers
             isPaused = true;
             currentState.PrepareNextState(Constants.GameStates.PAUSE);
             currentState = currentState.GetNextState();
-            Console.WriteLine("minimize ok");
         }
 
         public void EndGameReached()
@@ -172,7 +170,6 @@ namespace ExplorusE.Controllers
             isPaused = true;
             currentState.PrepareNextState(Constants.GameStates.PAUSE);
             currentState = currentState.GetNextState();
-            Console.WriteLine("perte focus");
         }
 
         public void EndProcessLostFocus()
@@ -180,7 +177,6 @@ namespace ExplorusE.Controllers
             ExitPause();
             currentState.PrepareNextState();
             currentState = currentState.GetNextState();
-            Console.WriteLine("fin perte focus");
         }
 
         public void ExitPause()
