@@ -24,7 +24,7 @@ namespace ExplorusE.Views
         private IControllerView controller;
         private int displayWidth;
         private int displayHeight;
-        private int brickSize = 50;
+        private int brickSize = (int)(600.0 / 900.0 * 50);
         private int minSize;
         private int leftMargin = 19;
         private int topMargin = 33;
@@ -216,7 +216,7 @@ namespace ExplorusE.Views
                     }
                     else if (labyrinth[i, j] == 4)
                     {
-                        g.DrawImage(tileManager.getImage("ToxicDown1").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
+                        g.DrawImage(tileManager.getImage("ToxicDown1").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize);
                     }
                     else if (labyrinth[i, j] == 5)
                     {
@@ -242,7 +242,7 @@ namespace ExplorusE.Views
                 e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 41 / 4, topMargin + brickSize * 62 / 50, brickSize * 11 / 20, brickSize * 11 / 20));
             }
 
-            using (Font font = new Font("Arial", 16))
+            using (Font font = new Font("Arial", 14))
             using (Brush brush = new SolidBrush(Color.Yellow))
             {
                 string pauseText = Convert.ToString(levelNumber);
@@ -263,7 +263,7 @@ namespace ExplorusE.Views
             else if (controller.GetState() is StopState) statusText = "VICTORY";
             else statusText = "PLAY";
 
-            using (Font font = new Font("Arial", 16))
+            using (Font font = new Font("Arial", 14))
             using (Brush brush = new SolidBrush(Color.Yellow))
             {
                 SizeF textSize = g.MeasureString(statusText, font);
@@ -321,7 +321,7 @@ namespace ExplorusE.Views
                 displayHeight = oGameForm.Size.Height;
                 displayWidth = oGameForm.Size.Width;
                 minSize = Math.Min(displayHeight, displayWidth); // Smaller size is the priority
-                brickSize = (int)((minSize / 600.0) * 50); // Adapting brick sizes
+                brickSize = (int)((minSize / 900.0) * 50); // Adapting brick sizes
                 leftMargin = (int)((displayWidth - labyrinth.GetLength(1) * (brickSize + 3 / 2)) / 2);
                 topMargin = (int)((displayHeight - (labyrinth.GetLength(0) * (brickSize + 3 / 2) + brickSize * 3 / 2)) / 2);
                 brickMiddle = (int)(brickSize / 4);
