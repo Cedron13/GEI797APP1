@@ -1,0 +1,10 @@
+C:\Users\cloel\Documents\UdeS\blaa1406-chac0902-dava1302-jehm1701-legc1001\GEI797Labo\bin\Debug\GEI797Labo.exe.config
+C:\Users\cloel\Documents\UdeS\blaa1406-chac0902-dava1302-jehm1701-legc1001\GEI797Labo\bin\Debug\GEI797Labo.exe
+C:\Users\cloel\Documents\UdeS\blaa1406-chac0902-dava1302-jehm1701-legc1001\GEI797Labo\bin\Debug\GEI797Labo.pdb
+C:\Users\cloel\Documents\UdeS\blaa1406-chac0902-dava1302-jehm1701-legc1001\GEI797Labo\obj\Debug\GEI797.csproj.AssemblyReference.cache
+C:\Users\cloel\Documents\UdeS\blaa1406-chac0902-dava1302-jehm1701-legc1001\GEI797Labo\obj\Debug\GEI797Labo.Properties.Resources.resources
+C:\Users\cloel\Documents\UdeS\blaa1406-chac0902-dava1302-jehm1701-legc1001\GEI797Labo\obj\Debug\GEI797.csproj.GenerateResource.cache
+C:\Users\cloel\Documents\UdeS\blaa1406-chac0902-dava1302-jehm1701-legc1001\GEI797Labo\obj\Debug\GEI797.csproj.CoreCompileInputs.cache
+C:\Users\cloel\Documents\UdeS\blaa1406-chac0902-dava1302-jehm1701-legc1001\GEI797Labo\obj\Debug\GEI797Labo.exe
+C:\Users\cloel\Documents\UdeS\blaa1406-chac0902-dava1302-jehm1701-legc1001\GEI797Labo\obj\Debug\GEI797Labo.pdb
+C:\Users\cloel\Documents\UdeS\blaa1406-chac0902-dava1302-jehm1701-legc1001\GEI797Labo\obj\Debug\GEI797Labo.Views.GameForm.resources
