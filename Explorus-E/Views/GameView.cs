@@ -216,7 +216,7 @@ namespace ExplorusE.Views
                     }
                     else if (labyrinth[i, j] == 4)
                     {
-                        g.DrawImage(tileManager.getImage("Gem").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
+                        g.DrawImage(tileManager.getImage("ToxicDown1").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
                     }
                     else if (labyrinth[i, j] == 5)
                     {

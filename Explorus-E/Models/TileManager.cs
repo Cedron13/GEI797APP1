@@ -107,9 +107,6 @@ namespace ExplorusE.Models
             tileBounds = new Rectangle(96*2, 96, 96, 96);
             images.Add("Down3", new Image2D(21, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
 
-
-
-
             //Right1
             tileBounds = new Rectangle(96*3, 96, 96, 96);
             images.Add("Right1", new Image2D(22, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
@@ -121,9 +118,6 @@ namespace ExplorusE.Models
             //Right3
             tileBounds = new Rectangle(96 * 5, 96, 96, 96);
             images.Add("Right3", new Image2D(24, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
-
-
-
 
             //Up1
             tileBounds = new Rectangle(0, 96*2, 96, 96);
@@ -137,9 +131,6 @@ namespace ExplorusE.Models
             tileBounds = new Rectangle(96 * 2, 96 * 2, 96, 96);
             images.Add("Up3", new Image2D(27, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
 
-
-
-
             //Left1
             tileBounds = new Rectangle(96*3, 96 * 2, 96, 96);
             images.Add("Left1", new Image2D(28, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
@@ -151,6 +142,59 @@ namespace ExplorusE.Models
             //Left3
             tileBounds = new Rectangle(96 * 4, 96 * 2, 96, 96);
             images.Add("Left3", new Image2D(30, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+
+
+
+            //ToxicDown1
+            tileBounds = new Rectangle(0, 96 * 3, 96, 96);
+            images.Add("ToxicDown1", new Image2D(19, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //ToxicDown2
+            tileBounds = new Rectangle(96, 96 * 3, 96, 96);
+            images.Add("ToxicDown2", new Image2D(20, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //ToxicDown3
+            tileBounds = new Rectangle(96 * 2, 96 * 3, 96, 96);
+            images.Add("ToxicDown3", new Image2D(21, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //ToxicRight1
+            tileBounds = new Rectangle(96 * 3, 96 * 3, 96, 96);
+            images.Add("ToxicRight1", new Image2D(22, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //ToxicRight2
+            tileBounds = new Rectangle(96 * 4, 96 * 3, 96, 96);
+            images.Add("ToxicRight2", new Image2D(23, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //ToxicRight3
+            tileBounds = new Rectangle(96 * 5, 96 * 3, 96, 96);
+            images.Add("ToxicRight3", new Image2D(24, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //ToxicUp1
+            tileBounds = new Rectangle(0, 96 * 4, 96, 96);
+            images.Add("ToxicUp1", new Image2D(25, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //ToxicUp2
+            tileBounds = new Rectangle(96, 96 * 4, 96, 96);
+            images.Add("ToxicUp2", new Image2D(26, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //ToxicUp3
+            tileBounds = new Rectangle(96 * 2, 96 * 4, 96, 96);
+            images.Add("ToxicUp3", new Image2D(27, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //ToxicLeft1
+            tileBounds = new Rectangle(96 * 3, 96 * 4, 96, 96);
+            images.Add("ToxicLeft1", new Image2D(28, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //ToxicLeft2
+            tileBounds = new Rectangle(96 * 4, 96 *4, 96, 96);
+            images.Add("ToxicLeft2", new Image2D(29, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+            //ToxicLeft3
+            tileBounds = new Rectangle(96 * 4, 96 * 4, 96, 96);
+            images.Add("ToxicLeft3", new Image2D(30, ImageType.Player, tilesheet.Clone(tileBounds, tilesheet.PixelFormat)));
+
+
         }
 
         public static TileManager GetInstance()
