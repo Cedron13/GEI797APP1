@@ -4,6 +4,9 @@ using ExplorusE.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
+using System.Collections.Concurrent;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -19,6 +22,7 @@ namespace ExplorusE.Models
     {
         private IControllerModel controller;
         private Sprite player;
+        private ConcurrentBag<Sprite> toxicSlimes;
         private coord gridPos;
         private int counter = 0;
         private int commandIndex = 0;
@@ -36,6 +40,7 @@ namespace ExplorusE.Models
                 };
 
         private List<IGameCommand> commandHistory = new List<IGameCommand>();
+        private readonly object lockSprites = new object();
 
         public GameModel(IControllerModel c)
         {
@@ -43,6 +48,7 @@ namespace ExplorusE.Models
             InvokeCommand(new StartGameCommand());
             originalLabyrinthCopy = new int[labyrinth.GetLength(0), labyrinth.GetLength(1)];
             Array.Copy(labyrinth, originalLabyrinthCopy, labyrinth.Length);
+            toxicSlimes = new ConcurrentBag<Sprite>();
         }
 
         public void SetGridPosX(int posX)
@@ -76,6 +82,13 @@ namespace ExplorusE.Models
             if (!player.IsMovementOver())
             {
                 player.Update((int)lag);
+            }
+            foreach(Sprite slime in toxicSlimes)
+            {
+                if (!slime.IsMovementOver())
+                {
+                    slime.Update((int)lag);
+                }
             }
         }
 
@@ -136,8 +149,19 @@ namespace ExplorusE.Models
                 player = p;
             }
         }
-
-        public Sprite GetPlayer() => player;
+        public void InitToxicSlime(coord initialPos,string name, int top, int left, int brick)
+        {
+            Sprite toxicSlime = new Sprite(initialPos, top, left, brick);
+            toxicSlime.setName(name);
+            toxicSlimes.Add(toxicSlime);
+        }
+        public Sprite GetPlayer()
+        {
+            lock (lockSprites)
+            {
+                return player;
+            }
+        }
 
         public void SetLabyrinth(int[,] lab)
         {
@@ -165,10 +189,25 @@ namespace ExplorusE.Models
             }
             
         }
+        public ConcurrentBag<Sprite> GetToxicSlimes()
+        {
+            lock(lockSprites)
+            {
+                return toxicSlimes;
+            }
+        }
 
         private void ResetLabyrinth()
         {
             Array.Copy(originalLabyrinthCopy, labyrinth, originalLabyrinthCopy.Length);
+        }
+
+        public void checkCollision()
+        {
+            foreach(Sprite toxSlime  in toxicSlimes)
+            {
+                //Verify if they collide with Slimus
+            }
         }
     }
 }

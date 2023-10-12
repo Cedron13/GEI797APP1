@@ -21,6 +21,8 @@ namespace ExplorusE.Models
         private Direction dir;
         private double timeToMove = 500; //Time in ms
         private double timeElapsed = 0; //Time in ms
+        private string name = "Anonymous";
+        private readonly object coordlock = new object();
 
         private int topMargin;
         private int leftMargin;
@@ -35,7 +37,10 @@ namespace ExplorusE.Models
             leftMargin = left;
             brickSize = brick;
         }
-
+        public void setName(string n)
+        {
+            name = n;
+        }
         //IResizeEventSubscriber
         public void NotifyResize(int top, int left, int brick)
         {
