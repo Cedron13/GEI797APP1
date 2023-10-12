@@ -62,6 +62,7 @@
     <Compile Include="Models\Commands\StartGameCommand.cs" />
     <Compile Include="Observer\IResizeEventPublisher.cs" />
     <Compile Include="Observer\IResizeEventSubscriber.cs" />
+    <Compile Include="Threads\RenderThread.cs" />
     <Compile Include="Views\GameForm.cs">
       <SubType>Form</SubType>
     </Compile>
