@@ -52,6 +52,7 @@ namespace ExplorusE.Controllers
         public void ViewCloseEvent()
         {
             engine.KillEngine(); //Works 👍
+            view.Close();
         }
         public void ModelCloseEvent()
         {

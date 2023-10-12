@@ -96,10 +96,9 @@ namespace ExplorusE.Views
             oGameForm.Shown += FirstLoadEvent;
             tileManager = TileManager.GetInstance();
 
-
             windowThread = new Thread(new ThreadStart(Show)); //New thread because "Application.run()" blocks the actual thread and prevents the engine to run
+            windowThread.Name = "Window Thread";
             windowThread.Start();
-            
         }
 
 
@@ -280,7 +279,7 @@ namespace ExplorusE.Views
             LabyrinthDisplay(g);
             PlayerDisplay(g);
             StatusBarDisplay(g, e);
-
+            //Console.WriteLine(Thread.CurrentThread.Name);
         }
 
         private void KeyDownEvent(object sender, PreviewKeyDownEventArgs e)
