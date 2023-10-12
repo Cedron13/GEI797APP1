@@ -88,6 +88,7 @@ namespace ExplorusE.Controllers.States
             {
                 //List here the possible output states
                 case GameStates.PAUSE: nextState = new PausedState(controller); break;
+                case GameStates.STOP: nextState = new StopState(controller); break;
                 default: break;
             }
         }

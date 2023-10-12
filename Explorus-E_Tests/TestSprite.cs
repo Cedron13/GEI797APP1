@@ -121,8 +121,6 @@ namespace Tests
             int updateVal = 50;
             while (updateVal < 450)
             {
-                Console.WriteLine(expectedIndex);
-                Console.WriteLine(updateVal);
                 updateVal += 100;
                 expectedIndex++;
                 image = s.GetImageName();

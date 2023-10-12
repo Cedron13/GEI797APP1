@@ -1,11 +1,14 @@
 ﻿using ExplorusE.Controllers.States;
 using ExplorusE.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+
+
+/* EXPLORUS-E
+ * Alexis BLATRIX (blaa1406)
+ * Cédric CHARRON (chac0902)
+ * Audric DAVID (dava1302)
+ * Matthieu JEHANNE (jehm1701)
+ * Cloé LEGLISE (legc1001)
+ */
 
 namespace Tests
 {
@@ -26,7 +29,10 @@ namespace Tests
         {
 
         }
+        public void ModelCloseEvent()
+        {
 
+        }
         public int[,] GetLabyrinth()
         {
             return new int[,] { { 0 } };
@@ -35,6 +41,10 @@ namespace Tests
         public bool IsPaused { get; set; }
 
         public void InitGame()
+        {
+
+        }
+        public void EndGameReached()
         {
 
         }
@@ -68,9 +78,9 @@ namespace Tests
 
         }
 
-        public void NewLevel()
+        public int NewLevel()
         {
-
+            return 0;
         }
     }
 }

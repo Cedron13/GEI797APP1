@@ -155,8 +155,15 @@ namespace ExplorusE.Models
 
         public void EndLevel()
         {
-            ResetLabyrinth();
-            controller.NewLevel();
+            if(controller.NewLevel() != 3)
+            {
+                ResetLabyrinth();
+            }
+            else
+            {
+                controller.EndGameReached();
+            }
+            
         }
 
         private void ResetLabyrinth()

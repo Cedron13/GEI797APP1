@@ -25,6 +25,7 @@ namespace ExplorusE.Controllers
         private IState currentState;
         private List<IResizeEventSubscriber> resizeSubscribers;
         private double transitionTime = 0;
+        private double stopTime = 0;
         private bool isPaused = false;
 
         public bool IsPaused
@@ -53,6 +54,10 @@ namespace ExplorusE.Controllers
             engine.KillEngine(); //Works 👍
             view.Close();
         }
+        public void ModelCloseEvent()
+        {
+            view.Close();
+        }
 
         public void ViewKeyPressedEvent(PreviewKeyDownEventArgs e)
         {
@@ -72,14 +77,21 @@ namespace ExplorusE.Controllers
         public void EngineUpdateEvent(double lag)
         {
             model.Update(lag);
-            if(currentState is ResumeState)
+            if (currentState is ResumeState)
             {
-                Console.WriteLine(lag);
                 transitionTime += lag;
-                if(transitionTime > 3000)
+                if (transitionTime > 3000)
                 {
                     currentState.PrepareNextState();
                     currentState.GetNextState();
+                }
+            }
+            else if (currentState is StopState)
+            {
+                stopTime += lag;
+                if (stopTime > 3000)
+                {
+                    ModelCloseEvent();
                 }
             }
         }
@@ -144,15 +156,21 @@ namespace ExplorusE.Controllers
             isPaused = true;
             currentState.PrepareNextState(Constants.GameStates.PAUSE);
             currentState = currentState.GetNextState();
-            Console.WriteLine("minimize ok");
         }
+
+        public void EndGameReached()
+        {
+            currentState.PrepareNextState(Constants.GameStates.STOP);
+            currentState = currentState.GetNextState();
+            
+        }
+
 
         public void ProcessLostFocus()
         {
             isPaused = true;
             currentState.PrepareNextState(Constants.GameStates.PAUSE);
             currentState = currentState.GetNextState();
-            Console.WriteLine("perte focus");
         }
 
         public void EndProcessLostFocus()
@@ -160,7 +178,6 @@ namespace ExplorusE.Controllers
             ExitPause();
             currentState.PrepareNextState();
             currentState = currentState.GetNextState();
-            Console.WriteLine("fin perte focus");
         }
 
         public void ExitPause()
@@ -169,20 +186,26 @@ namespace ExplorusE.Controllers
             transitionTime = 0;
         }
 
-        public void NewLevel()
+        public int NewLevel()
         {
             model.ClearCommandHistory();
             model.SetLabyrinth(GetLabyrinth());
             view.SetGemCounter(0);
-            view.SetLevelNumber(view.GetLevelNumber()+1);
+            int currentLevel = view.GetLevelNumber();
+            if(currentLevel == 3)
+            {
+                return 3;
+            }
+            view.SetLevelNumber(currentLevel+1);
             model.SetGridCoord(new coord()
             {
                 x = view.GetInitPosX(), //Place holder coordinates
                 y = view.GetInitPosY()
             });
             model.GoTo(Direction.DOWN, model.GetGridCoord());
+            return currentLevel;
         }
-
+        
 
         public Sprite GetPlayer() => model.GetPlayer();
         public GameModel GetGameModel() => model;
