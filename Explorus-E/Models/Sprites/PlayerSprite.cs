@@ -16,6 +16,8 @@ namespace ExplorusE.Models
     internal class PlayerSprite : SlimeTypeSprite
     {
         bool isInvincible = false;
+        private readonly object lockInvincibleTimer = new object();
+        bool timeDone;
         public PlayerSprite(coord gridPos, int top, int left, int brick) : base(gridPos, top, left, brick)
         {
             timeToMove = 500;
@@ -25,6 +27,32 @@ namespace ExplorusE.Models
             //Partir Timer pour remettre invincible a false
             isInvincible=true;
         }
+        public override void Update(int elapsedMs)
+        {
+            lock(lockInvincibleTimer)
+            {
+                if (timeDone)
+                {
+                    isInvincible = false;
+                    timeDone = false;
+                }
+            }    
+            lock (coordlock)
+            {
+                timeElapsed += elapsedMs;
+                double ratio = timeElapsed / timeToMove;
+                if (ratio > 1)
+                {
+                    ratio = 1; //Avoid the position going further than it is supposed
+                }
+                currentPos.x = ((double)destinationPos.x - initialPos.x) * ratio + initialPos.x;
+                currentPos.y = ((double)destinationPos.y - initialPos.y) * ratio + initialPos.y;
+                imageIndex = (int)(5 * ratio);
+                if (imageIndex == 3) { imageIndex = 1; }
+                if (imageIndex >= 4) { imageIndex = 0; }
+            }
+        }
+
         public bool IsInvincible()
         {
             return isInvincible;
