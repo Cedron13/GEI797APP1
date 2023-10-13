@@ -61,6 +61,8 @@
     <Compile Include="Models\Commands\IGameCommand.cs" />
     <Compile Include="Models\Commands\MoveCommand.cs" />
     <Compile Include="Models\Commands\StartGameCommand.cs" />
+    <Compile Include="Models\Renderable.cs" />
+    <Compile Include="Models\RenderList.cs" />
     <Compile Include="Observer\IResizeEventPublisher.cs" />
     <Compile Include="Observer\IResizeEventSubscriber.cs" />
     <Compile Include="Threads\RenderThread.cs" />

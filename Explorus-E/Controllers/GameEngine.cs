@@ -19,15 +19,10 @@ namespace ExplorusE.Controllers
         private bool isAlive = true;
         private readonly object lockObject = new object();
         private Thread gameThread;
-        private RenderThread renderThread;
-        private Thread oui;
 
         public GameEngine(IControllerModel c)
         {
             controller = c;
-            renderThread = new RenderThread(c);
-            oui = new Thread(new ThreadStart(renderThread.Run));
-            oui.Name = "Render Thread";
             gameThread = new Thread(new ThreadStart(GameLoop));
             gameThread.Name = "GameLoop";
             gameThread.Start();
@@ -40,8 +35,6 @@ namespace ExplorusE.Controllers
                 isAlive = false;
             }
             gameThread.Join();
-            renderThread.Stop();
-            oui.Join();
         }
 
         private void GameLoop()
@@ -50,8 +43,6 @@ namespace ExplorusE.Controllers
             double lag = 0.0;
             float MS_PER_FRAME = 16.67f; // 1000/FPS
             float fps = 1;
-
-            oui.Start();
 
             while (true)
             {
@@ -79,10 +70,7 @@ namespace ExplorusE.Controllers
                         lag -= MS_PER_FRAME;
                     }
 
-                    //Render on another thread
-                    renderThread.ms = lag / MS_PER_FRAME;
-                    renderThread.changeRender(true);
-                    //Render(lag / MS_PER_FRAME);
+                    Render(lag / MS_PER_FRAME);
 
                     Thread.Sleep(1);
                 }

@@ -6,6 +6,8 @@ using ExplorusE.Constants;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using ExplorusE.Threads;
+using System.Threading;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -28,6 +30,9 @@ namespace ExplorusE.Controllers
         private double stopTime = 0;
         private bool isPaused = false;
 
+        private RenderThread oRenderThread;
+        private Thread renderThread;
+
         public bool IsPaused
         {
             get { return isPaused; }
@@ -38,12 +43,17 @@ namespace ExplorusE.Controllers
 
         public Controller()
         {
+            oRenderThread = new RenderThread(); //TODO: Look for which object needs an access to oRenderThread
             model = new GameModel(this);
             inputList = new List<Keys>();
             resizeSubscribers = new List<IResizeEventSubscriber>();
             view = new GameView(this);
             currentState = new PlayState(this);
             InitGame();
+
+            renderThread = new Thread(new ThreadStart(oRenderThread.Run));
+            renderThread.Name = "Render Thread";
+            renderThread.Start();
 
             engine = new GameEngine(this);
             //Order is very important due to dependencies between each object, this order works 👍
@@ -53,6 +63,9 @@ namespace ExplorusE.Controllers
         {
             engine.KillEngine(); //Works 👍
             view.Close();
+            oRenderThread.Stop();
+            renderThread.Join();
+
         }
         public void ModelCloseEvent()
         {

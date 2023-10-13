@@ -33,4 +33,10 @@ namespace ExplorusE.Constants
         LEFT,
         IDLE
     }
+
+    public enum RenderItemType
+    {
+        Permanent,
+        NonPermanent
+    }
 }
