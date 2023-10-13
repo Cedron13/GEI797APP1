@@ -21,8 +21,10 @@ namespace ExplorusE.Models
     internal class GameModel
     {
         private IControllerModel controller;
-        private Sprite player;
-        private ConcurrentBag<Sprite> toxicSlimes;
+        private PlayerSprite player;
+        private List<ToxicSprite> toxicSlimes;
+        private List<BubbleSprite> bubbles;
+        private List<GemSprite> gems;
         private coord gridPos;
         private int counter = 0;
         private int commandIndex = 0;
@@ -41,6 +43,7 @@ namespace ExplorusE.Models
 
         private List<IGameCommand> commandHistory = new List<IGameCommand>();
         private readonly object lockSprites = new object();
+        private readonly object lockCollision = new object();
 
         public GameModel(IControllerModel c)
         {
@@ -48,7 +51,7 @@ namespace ExplorusE.Models
             InvokeCommand(new StartGameCommand());
             originalLabyrinthCopy = new int[labyrinth.GetLength(0), labyrinth.GetLength(1)];
             Array.Copy(labyrinth, originalLabyrinthCopy, labyrinth.Length);
-            toxicSlimes = new ConcurrentBag<Sprite>();
+            toxicSlimes = new List<ToxicSprite>();
         }
 
         public void SetGridPosX(int posX)
@@ -90,6 +93,31 @@ namespace ExplorusE.Models
                     slime.Update((int)lag);
                 }
             }
+        }
+        private void ToxicBubbleCollision(ToxicSprite tox, BubbleSprite b)
+        {
+            bool death = tox.LoseLife();
+            if(death)
+            {
+                toxicSlimes.Remove(tox);
+                foreach(ToxicSprite slime in toxicSlimes)
+                {
+                    slime.IncreaseSpeed();
+                }
+            }
+            bubbles.Remove(b);
+        }
+        private void ToxicPlayerCollision(ToxicSprite tox)
+        {
+            if(!player.IsInvincible())
+            {
+                player.LoseLife();
+                player.SetInvincible();
+            }
+        }
+        private void PlayerGemCollision(GemSprite gem)
+        {
+            //ADD GEM COUNTER
         }
 
         public void GoTo(Direction d, coord dest)
@@ -137,7 +165,7 @@ namespace ExplorusE.Models
             commandIndex = 0;
         }
 
-        public void InitPlayer(Sprite p)
+        public void InitPlayer(PlayerSprite p)
         {
             if (player == null)
             {
@@ -151,7 +179,7 @@ namespace ExplorusE.Models
         }
         public void InitToxicSlime(coord initialPos,string name, int top, int left, int brick)
         {
-            Sprite toxicSlime = new Sprite(initialPos, top, left, brick);
+            ToxicSprite toxicSlime = new ToxicSprite(initialPos, top, left, brick);
             toxicSlime.setName(name);
             toxicSlimes.Add(toxicSlime);
         }
@@ -189,26 +217,53 @@ namespace ExplorusE.Models
             }
             
         }
-        public ConcurrentBag<Sprite> GetToxicSlimes()
-        {
-            lock(lockSprites)
-            {
-                return toxicSlimes;
-            }
-        }
 
         private void ResetLabyrinth()
         {
             Array.Copy(originalLabyrinthCopy, labyrinth, originalLabyrinthCopy.Length);
         }
 
+        private bool IsCollision(Sprite s1, Sprite s2)
+        {
+            double r1 = s1.GetBoundingRadius();
+            double r2 = s2.GetBoundingRadius();
+            coordF c1 = s1.GetGridPosition();
+            coordF c2 = s2.GetGridPosition();
+            double d = Math.Sqrt(Math.Pow(c2.x - c1.x, 2) + Math.Pow(c2.y - c1.y, 2));
+            if (r1 + r2 < d)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public void checkCollision()
         {
-            foreach(Sprite toxSlime  in toxicSlimes)
+            lock (lockSprites)
             {
-                //Verify if they collide with Slimus
+                foreach (ToxicSprite toxSlime in toxicSlimes)
+                {
+                    if(IsCollision(player, toxSlime))
+                    {
+                        ToxicPlayerCollision(toxSlime);
+                    }
+                    foreach (BubbleSprite bubble in bubbles)
+                    {
+                        if(IsCollision(toxSlime, bubble))
+                        {
+                            ToxicBubbleCollision(toxSlime, bubble);
+                        }    
+                    }
+                }
+                foreach(GemSprite gem in gems)
+                {
+                    if(IsCollision(player, gem))
+                    {
+                        PlayerGemCollision(gem);
+                    }
+                }
             }
         }
+
     }
 }
-

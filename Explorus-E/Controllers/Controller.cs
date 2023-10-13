@@ -133,7 +133,7 @@ namespace ExplorusE.Controllers
                 }
             }
 
-            Sprite player = new Sprite(
+            PlayerSprite player = new PlayerSprite(
                 new coord()
                 {
                     x = model.GetGridPosX(), //Place holder coordinates
