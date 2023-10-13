@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using System.Collections.Concurrent;
+
 
 namespace ExplorusE.Threads
 {
@@ -15,6 +15,8 @@ namespace ExplorusE.Threads
     {
         private string threadName;
         GameModel model;
+        Sprite player;
+        ConcurrentBag<Sprite> toxicSlimes;
         private bool isRunning = true;
         private readonly object lockObj = new object();
 
@@ -33,19 +35,18 @@ namespace ExplorusE.Threads
         public void Run()
         {
             isRunning = true;
-            int index = 1;
 
             Console.WriteLine("START - " + threadName);
 
             while (isRunning)
             {
-                string value = threadName + " " + index;
-
+                player = model.GetPlayer();
+                toxicSlimes = model.GetToxicSlimes();
                 try
                 {
                     do
                     {
-                        
+                        model.checkCollision();
                     }
                     while (isRunning);
                 }

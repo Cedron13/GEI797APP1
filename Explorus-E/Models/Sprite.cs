@@ -52,13 +52,16 @@ namespace ExplorusE.Models
         //Sprite
         public void StartMovement(coord finalGridPos, Direction d)
         {
-            dir = d;
-            initialPos.x = (int)currentPos.x;
-            initialPos.y = (int)currentPos.y;
-            currentPos.x = (int)currentPos.x;
-            currentPos.y = (int)currentPos.y;
-            destinationPos = finalGridPos;
-            timeElapsed = 0;
+            lock (coordlock)
+            {
+                dir = d;
+                initialPos.x = (int)currentPos.x;
+                initialPos.y = (int)currentPos.y;
+                currentPos.x = (int)currentPos.x;
+                currentPos.y = (int)currentPos.y;
+                destinationPos = finalGridPos;
+                timeElapsed = 0;
+            }
         }
         public spriteState GetCurrentRenderInfo()
         {
@@ -69,34 +72,43 @@ namespace ExplorusE.Models
         }
         public bool IsMovementOver()
         {
-            return currentPos.x == destinationPos.x && currentPos.y == destinationPos.y;
+            lock (coordlock)
+            {
+                return currentPos.x == destinationPos.x && currentPos.y == destinationPos.y;
+            }
         }
 
         public void Update(int elapsedMs)
         {
-            timeElapsed += elapsedMs;
-            double ratio = timeElapsed / timeToMove;
-            if (ratio > 1)
+            lock (coordlock)
             {
-                ratio = 1; //Avoid the position going further than it is supposed
+                timeElapsed += elapsedMs;
+                double ratio = timeElapsed / timeToMove;
+                if (ratio > 1)
+                {
+                    ratio = 1; //Avoid the position going further than it is supposed
+                }
+                currentPos.x = ((double)destinationPos.x - initialPos.x) * ratio + initialPos.x;
+                currentPos.y = ((double)destinationPos.y - initialPos.y) * ratio + initialPos.y;
+                imageIndex = (int)(5 * ratio);
+                if (imageIndex == 3) { imageIndex = 1; }
+                if (imageIndex >= 4) { imageIndex = 0; }
             }
-            currentPos.x = ((double)destinationPos.x - initialPos.x) * ratio + initialPos.x;
-            currentPos.y = ((double)destinationPos.y - initialPos.y) * ratio + initialPos.y;
-            imageIndex = (int)(5 * ratio);
-            if (imageIndex == 3) { imageIndex = 1; }
-            if (imageIndex >= 4) {  imageIndex = 0; }
         }
 
         public coordF GetGridPosition() => currentPos;
 
         public coord GetPixelPosition()
         {
-            coord playerCurrentPixelCoord = new coord()
+            lock (coordlock)
             {
-                x = (int)(leftMargin + brickSize * currentPos.x),
-                y = (int)(topMargin + brickSize * (currentPos.y + 1))
-            };
-            return playerCurrentPixelCoord;
+                coord playerCurrentPixelCoord = new coord()
+                {
+                    x = (int)(leftMargin + brickSize * currentPos.x),
+                    y = (int)(topMargin + brickSize * (currentPos.y + 1))
+                };
+                return playerCurrentPixelCoord;
+            }
         }
         public Direction GetDirection() => dir;
 
