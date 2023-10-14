@@ -144,7 +144,7 @@ namespace ExplorusE.Views
             g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 4, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 5, topMargin, menuItemWidth, menuItemWidth);
 
-            g.DrawImage(tileManager.getImage("BigBubble").bitmap, beginTaskBar + menuItemWidth * 6, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("Bubble1").bitmap, beginTaskBar + menuItemWidth * 6, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 7, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth);

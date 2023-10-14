@@ -16,7 +16,7 @@ namespace ExplorusE.Threads
         private string threadName;
         GameModel model;
         Sprite player;
-        ConcurrentBag<Sprite> toxicSlimes;
+        ConcurrentBag<ToxicSprite> toxicSlimes;
         private bool isRunning = true;
         private readonly object lockObj = new object();
 

@@ -190,6 +190,13 @@ namespace ExplorusE.Models
                 return player;
             }
         }
+        public ConcurrentBag<ToxicSprite> GetToxicSlimes()
+        {
+            lock (lockSprites)
+            {
+                return new ConcurrentBag<ToxicSprite>(toxicSlimes); ;
+            }
+        }
 
         public void SetLabyrinth(int[,] lab)
         {
