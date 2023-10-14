@@ -148,19 +148,7 @@ namespace ExplorusE.Controllers
         {
             view.SetGemCounter(i);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public void SetBubbleShoot(bool b)
-        {
-            view.SetBubbleshoot(b);
-        }
-
-        public void SetCoordBubble(coord coord)
-        {
-            view.SetCoordBubble(coord);
-        }
+        
 
         public int[,] GetLabyrinth() => model.GetLabyrinth();
 

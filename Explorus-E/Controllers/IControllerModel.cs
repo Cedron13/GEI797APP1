@@ -45,8 +45,7 @@ namespace ExplorusE.Controllers
 
         int NewLevel();
 
-        void SetBubbleShoot(bool b);
-        void SetCoordBubble(coord coord);
+       
         
     }
 }
