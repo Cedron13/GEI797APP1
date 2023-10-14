@@ -71,7 +71,6 @@
     <Compile Include="Observer\IResizeEventSubscriber.cs" />
     <Compile Include="Threads\PhysicsThread.cs" />
     <Compile Include="Threads\RenderThread.cs" />
-    <Compile Include="Threads\PhysicsThread.cs" />
     <Compile Include="Views\GameForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -17,7 +17,7 @@ namespace Tests
         [TestMethod]
         public void TestMovementFinished_WithPos_Equal()
         {
-            Sprite s = new Sprite(new coord()
+            Sprite s = new PlayerSprite(new coord()
             {
                 x = 5,
                 y = 5
@@ -43,7 +43,7 @@ namespace Tests
         [TestMethod]
         public void TestMovementFinished_WithIsMovementOver_MoreThanNecessary()
         {
-            Sprite s = new Sprite(new coord()
+            Sprite s = new PlayerSprite(new coord()
             {
                 x = 5,
                 y = 5
@@ -60,7 +60,7 @@ namespace Tests
         [TestMethod]
         public void TestMovementNotFinished_WithPos()
         {
-            Sprite s = new Sprite(new coord()
+            Sprite s = new PlayerSprite(new coord()
             {
                 x = 5,
                 y = 5
@@ -83,7 +83,7 @@ namespace Tests
        [TestMethod]
         public void TestMovementNotFinished_WithIsMovementOver()
         {
-            Sprite s = new Sprite(new coord()
+            Sprite s = new PlayerSprite(new coord()
             {
                 x = 5,
                 y = 5
@@ -110,7 +110,7 @@ namespace Tests
                 x = 5,
                 y = 7
             };
-            Sprite s = new Sprite(start, 33, 19, 50);
+            Sprite s = new PlayerSprite(start, 33, 19, 50);
 
             s.StartMovement(dest, Direction.RIGHT);
             bool success = true;

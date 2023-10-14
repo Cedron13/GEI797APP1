@@ -24,11 +24,11 @@ namespace ExplorusE.Views
         private IControllerView controller;
         private int displayWidth;
         private int displayHeight;
-        private int brickSize = 50;
+        private int brickSize = (int)(600.0 / 900.0 * 50);
         private int minSize;
-        private int leftMargin = 19;
-        private int topMargin = 33;
-        private int brickMiddle = 12;
+        private int leftMargin = 11;
+        private int topMargin = 20;
+        private int brickMiddle = (int)((600.0 / 900.0 * 50)/4);
         private int gemCounter = 0;
         private bool isFirstLoad = true;
         private int levelNumber = 1;
@@ -40,8 +40,8 @@ namespace ExplorusE.Views
 
         
         private int taskBarWidth; 
-        private int menuItemWidth = 21; 
-        private int beginTaskBar = 100+25+19+25;
+        private int menuItemWidth = 25; 
+        private int beginTaskBar = 109;
         private int afterTaskBar = 25 + 19;
         
         public int GetTopMargin() 
@@ -164,7 +164,7 @@ namespace ExplorusE.Views
 
             else if (gemCounter == 1)
             {
-                g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("YellowHalf").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
                 g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
                 g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
             }
@@ -172,11 +172,32 @@ namespace ExplorusE.Views
             else if (gemCounter == 2)
             {
                 g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
-                g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
                 g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
             }
 
             else if (gemCounter == 3)
+            {
+                g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("YellowHalf").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
+            }
+
+            else if (gemCounter == 4)
+            {
+                g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
+            }
+
+            else if (gemCounter == 5)
+            {
+                g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("YellowHalf").bitmap, beginTaskBar + menuItemWidth * 16, topMargin, menuItemWidth, menuItemWidth);
+            }
+
+            else if (gemCounter == 6)
             {
                 g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 14, topMargin, menuItemWidth, menuItemWidth);
                 g.DrawImage(tileManager.getImage("YellowFull").bitmap, beginTaskBar + menuItemWidth * 15, topMargin, menuItemWidth, menuItemWidth);
@@ -215,7 +236,7 @@ namespace ExplorusE.Views
                     }
                     else if (labyrinth[i, j] == 4)
                     {
-                        g.DrawImage(tileManager.getImage("Gem").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
+                        g.DrawImage(tileManager.getImage("ToxicDown1").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize , brickSize);
                     }
                     else if (labyrinth[i, j] == 5)
                     {
@@ -241,7 +262,7 @@ namespace ExplorusE.Views
                 e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 41 / 4, topMargin + brickSize * 62 / 50, brickSize * 11 / 20, brickSize * 11 / 20));
             }
 
-            using (Font font = new Font("Arial", 16))
+            using (Font font = new Font("Arial", 14))
             using (Brush brush = new SolidBrush(Color.Yellow))
             {
                 string pauseText = Convert.ToString(levelNumber);
@@ -262,7 +283,7 @@ namespace ExplorusE.Views
             else if (controller.GetState() is StopState) statusText = "VICTORY";
             else statusText = "PLAY";
 
-            using (Font font = new Font("Arial", 16))
+            using (Font font = new Font("Arial", 14))
             using (Brush brush = new SolidBrush(Color.Yellow))
             {
                 SizeF textSize = g.MeasureString(statusText, font);
@@ -320,10 +341,11 @@ namespace ExplorusE.Views
                 displayHeight = oGameForm.Size.Height;
                 displayWidth = oGameForm.Size.Width;
                 minSize = Math.Min(displayHeight, displayWidth); // Smaller size is the priority
-                brickSize = (int)((minSize / 600.0) * 50); // Adapting brick sizes
+                brickSize = (int)((minSize / 900.0) * 50); // Adapting brick sizes
                 leftMargin = (int)((displayWidth - labyrinth.GetLength(1) * (brickSize + 3 / 2)) / 2);
                 topMargin = (int)((displayHeight - (labyrinth.GetLength(0) * (brickSize + 3 / 2) + brickSize * 3 / 2)) / 2);
                 brickMiddle = (int)(brickSize / 4);
+
 
 
                 beginTaskBar = brickSize * 2 + leftMargin + 2 * (brickSize / 2);
@@ -331,6 +353,7 @@ namespace ExplorusE.Views
                 taskBarWidth = displayWidth - beginTaskBar - afterTaskBar; // Size of the taskbar (without the title, margins)
                 menuItemWidth = (int)(taskBarWidth / 18); // Size of each "item" of the taskbar
 
+                Console.WriteLine("menuItemWidth = " + menuItemWidth + ", beginTaskBar = " + beginTaskBar + ", afterTaskBar = ", afterTaskBar);
                 controller.PositionUpdate();
             }
         }
