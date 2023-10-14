@@ -46,5 +46,10 @@ namespace ExplorusE.Models
             }
             return false;
         }
+
+        public int GetLives()
+        {
+            return lives;
+        }
     }
 }

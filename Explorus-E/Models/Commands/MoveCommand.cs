@@ -60,15 +60,15 @@ namespace ExplorusE.Models.Commands
                     isHistoryAction = true;
                     if (labyrinth[newPos.y, newPos.x] == 4)
                     {
-                        labyrinth[newPos.y, newPos.x] = 0;
-                        gemFound = true;
-                        model.SetCounter(model.GetCounter() + 1);
-                        model.GetController().SetGemCounter(model.GetCounter());
+                        // labyrinth[newPos.y, newPos.x] = 0;
+                        // gemFound = true;
+                        // model.SetCounter(model.GetCounter() + 1);
+                        // model.GetController().SetGemCounter(model.GetCounter());
 
-                        labyrinth[initialPos.y, initialPos.x] = 0;
+                        // labyrinth[initialPos.y, initialPos.x] = 0;
                         model.SetGridPosX(newPos.x);
                         model.SetGridPosY(newPos.y);
-                        labyrinth[newPos.y, newPos.x] = 3;
+                        // labyrinth[newPos.y, newPos.x] = 3;
                         model.GoTo(dir, newPos);
 
                     }
