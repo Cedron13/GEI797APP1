@@ -1,5 +1,7 @@
-﻿using ExplorusE.Controllers.States;
+﻿using ExplorusE.Constants;
+using ExplorusE.Controllers.States;
 using ExplorusE.Models;
+using System.Collections.Generic;
 
 
 /* EXPLORUS-E
@@ -41,6 +43,10 @@ namespace ExplorusE.Controllers
 
         void ExitPause();
 
-        int NewLevel(); 
+        int NewLevel();
+
+        void SetBubbleShoot(bool b);
+        void SetCoordBubble(coord coord);
+        
     }
 }

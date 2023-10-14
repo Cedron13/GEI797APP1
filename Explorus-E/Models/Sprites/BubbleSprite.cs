@@ -15,11 +15,13 @@ namespace ExplorusE.Models
 {
     internal class BubbleSprite : Sprite
     {
+        protected new double timeToMove = 3750;
 
         public BubbleSprite(coord gridPos, int top, int left, int brick) : base(gridPos, top, left, brick)
         {
 
         }
+
         public override void Update(int elapsedMs)
         {
             timeElapsed += elapsedMs;

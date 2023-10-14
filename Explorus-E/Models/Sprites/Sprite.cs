@@ -124,5 +124,18 @@ namespace ExplorusE.Models
         {
             return boundingRadius;
         }
+
+        public int GetActualBricksize()
+        {
+            return brickSize;
+        }
+        public int GetActualTop()
+        {
+            return topMargin;
+        }
+        public int GetActualLeft() 
+        { 
+            return leftMargin;
+        }
     }
 }

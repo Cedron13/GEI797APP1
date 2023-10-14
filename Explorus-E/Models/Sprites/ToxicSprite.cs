@@ -25,6 +25,7 @@ namespace ExplorusE.Models
             timeToMove -= 20;
         }
 
+
         public override String GetImageName()
         {
             if (dir == Direction.UP) return "ToxicUp" + (imageIndex + 1).ToString();

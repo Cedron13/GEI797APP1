@@ -38,13 +38,17 @@ namespace ExplorusE.Views
         private List<coord> toxicCoord = new List<coord>();
         private string statusText;
         private Thread windowThread;
-     
+        private coord coordbubble = new coord();
+        
+
 
         
         private int taskBarWidth; 
         private int menuItemWidth = 25; 
         private int beginTaskBar = 109;
         private int afterTaskBar = 25 + 19;
+
+        private bool bubbleshoot = false;
         
         public int GetTopMargin() 
         { 
@@ -63,6 +67,8 @@ namespace ExplorusE.Views
         {
             gemCounter=i;
         }
+
+        
 
 
         public void SetLevelNumber(int i)
@@ -83,6 +89,16 @@ namespace ExplorusE.Views
             return initPosY;
         }
 
+        public void SetBubbleshoot(bool b)
+        {
+            bubbleshoot = b;
+        }
+
+        public void SetCoordBubble(coord coord)
+        {
+            //Console.WriteLine("coordbuuble "+coord.x.ToString() + " " + coord.y.ToString());
+            coordbubble = coord;
+        }
         
 
         public GameView(IControllerView c)
@@ -270,8 +286,15 @@ namespace ExplorusE.Views
         }
 
 
-
-
+        private void BubbleDisplay(Graphics g,BubbleSprite bubble)
+        {
+            spriteState bubbleStatus = bubble.GetCurrentRenderInfo();
+            //Console.WriteLine(bubbleStatus.spriteCoord.x);
+            // BubbleSprite b = new BubbleSprite(coordbubble, topMargin, leftMargin, brickSize);
+            g.DrawImage(tileManager.getImage("Bubble2").bitmap, (int)(brickSize * bubble.GetGridPosition().x + leftMargin), (int)(brickSize * bubble.GetGridPosition().y + topMargin + brickSize), brickSize, brickSize);
+            //g.DrawImage(tileManager.getImage("Bubble2").bitmap, bubbleStatus.spriteCoord.x, bubbleStatus.spriteCoord.y, brickSize, brickSize);
+        }
+        
 
 
 
@@ -322,7 +345,16 @@ namespace ExplorusE.Views
             TaskBarDisplay(g);
             LabyrinthDisplay(g);
             PlayerDisplay(g);
-            StatusBarDisplay(g, e);
+            StatusBarDisplay(g, e);          
+           if (controller.GetBubbles().Count !=0)
+            {
+                foreach (BubbleSprite element in controller.GetBubbles())
+                {
+                    BubbleDisplay(g, element);
+                }
+                
+            }
+            
 
            /* foreach (coord c in toxicCoord)
             {
@@ -387,7 +419,7 @@ namespace ExplorusE.Views
             }
         }
 
-
+       
 
 
     }

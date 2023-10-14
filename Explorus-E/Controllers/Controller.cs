@@ -48,7 +48,7 @@ namespace ExplorusE.Controllers
             engine = new GameEngine(this);
             //Order is very important due to dependencies between each object, this order works 👍
         }
-
+        
         public void ViewCloseEvent()
         {
             engine.KillEngine(); //Works 👍
@@ -148,6 +148,19 @@ namespace ExplorusE.Controllers
         {
             view.SetGemCounter(i);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public void SetBubbleShoot(bool b)
+        {
+            view.SetBubbleshoot(b);
+        }
+
+        public void SetCoordBubble(coord coord)
+        {
+            view.SetCoordBubble(coord);
+        }
 
         public int[,] GetLabyrinth() => model.GetLabyrinth();
 
@@ -206,7 +219,7 @@ namespace ExplorusE.Controllers
             return currentLevel;
         }
         
-
+        public List<BubbleSprite> GetBubbles() => model.GetBubbles();
         public Sprite GetPlayer() => model.GetPlayer();
         public GameModel GetGameModel() => model;
         public IState GetState() => currentState;

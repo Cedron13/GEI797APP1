@@ -23,7 +23,7 @@ namespace ExplorusE.Models
         private IControllerModel controller;
         private PlayerSprite player;
         private List<ToxicSprite> toxicSlimes;
-        private List<BubbleSprite> bubbles;
+        private List<BubbleSprite> bubbles = new List<BubbleSprite>();       
         private List<GemSprite> gems;
         private coord gridPos;
         private int counter = 0;
@@ -92,7 +92,19 @@ namespace ExplorusE.Models
             {
                 player.Update((int)lag);
             }
-            foreach(Sprite slime in toxicSlimes)
+            if (bubbles.Count > 0 && !bubbles[0].IsMovementOver())
+            {
+                foreach (BubbleSprite element in bubbles)
+                {
+                    element.Update((int)lag);
+                }
+                //bubbles[0].Update((int)lag);
+            }
+            else if (bubbles.Count > 0 && bubbles[0].IsMovementOver())
+            {
+                bubbles.Remove(bubbles[0]);
+            }
+            foreach (Sprite slime in toxicSlimes)
             {
                 if (!slime.IsMovementOver())
                 {
@@ -184,12 +196,25 @@ namespace ExplorusE.Models
                 player = p;
             }
         }
+
         public void InitToxicSlime(coord initialPos,string name, int top, int left, int brick)
         {
             ToxicSprite toxicSlime = new ToxicSprite(initialPos, top, left, brick);
             toxicSlime.setName(name);
             toxicSlimes.Add(toxicSlime);
         }
+
+        public void AddBubble(BubbleSprite bubble)
+        {
+            //BubbleSprite bubble = new BubbleSprite(initialPos,top,left,brick);
+            bubbles.Add(bubble);
+        }
+        public List<BubbleSprite> GetBubbles()
+        {
+            return bubbles;
+        }
+
+
         public Sprite GetPlayer()
         {
             lock (lockSprites)
@@ -204,6 +229,8 @@ namespace ExplorusE.Models
                 return new ConcurrentBag<ToxicSprite>(toxicSlimes); ;
             }
         }
+        
+        
 
         public void SetLabyrinth(int[,] lab)
         {

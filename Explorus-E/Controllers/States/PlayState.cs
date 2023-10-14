@@ -1,6 +1,7 @@
 ﻿using ExplorusE.Constants;
 using ExplorusE.Models;
 using ExplorusE.Models.Commands;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -10,6 +11,7 @@ namespace ExplorusE.Controllers.States
     {
         private IState nextState = null;
         private IControllerModel controller;
+        private int index = 0;
 
         public PlayState(IControllerModel c)
         {
@@ -20,6 +22,7 @@ namespace ExplorusE.Controllers.States
         public void ProcessInput(List<Keys> keys) {
             GameModel model = controller.GetGameModel();
             coord initialCoord = model.GetGridCoord();
+            int index = 0;
             foreach (Keys e in keys)
             {
                 switch (e)
@@ -66,6 +69,7 @@ namespace ExplorusE.Controllers.States
                             };
                             MoveCommand com = new MoveCommand(Direction.LEFT, initialCoord, dest);
                             model.InvokeCommand(com);
+                            
                             break;
                         }
                     case Keys.P:
@@ -75,6 +79,64 @@ namespace ExplorusE.Controllers.States
                             controller.IsPaused = true;
                             break;
                         }
+                    case Keys.Space:
+                        {
+                            coord init = new coord()
+                            {
+                                x = initialCoord.x,
+                                y = initialCoord.y
+                            };
+                            
+                            //Console.WriteLine(init.x.ToString() +" "+ init.y.ToString());
+                            Direction playerDirection = model.GetPlayer().GetDirection();
+                            BubbleSprite newBubble = new BubbleSprite(init, controller.GetPlayer().GetActualTop(), controller.GetPlayer().GetActualLeft(), controller.GetPlayer().GetActualBricksize());
+                            //model.AddBubble(init, controller.GetPlayer().GetActualTop(), controller.GetPlayer().GetActualLeft(), controller.GetPlayer().GetActualBricksize());
+                            coord dest = new coord()
+                            {
+                                x = initialCoord.x ,
+                                y = initialCoord.y
+                            };
+                            if (model.GetPlayer().GetDirection() == Direction.UP){
+                                dest = new coord()
+                                {
+                                    x = initialCoord.x ,
+                                    y = initialCoord.y -15
+                                    
+                            };
+
+                            }
+                            else if (model.GetPlayer().GetDirection() == Direction.DOWN)
+                                {
+                                 dest = new coord()
+                                {
+                                    x = initialCoord.x,
+                                    y = initialCoord.y + 15
+                                };
+                                }
+                            else if (model.GetPlayer().GetDirection() == Direction.RIGHT)
+                            {
+                                dest = new coord()
+                                {
+                                    x = initialCoord.x + 15,
+                                    y = initialCoord.y 
+                                };
+                            }
+                            else if (model.GetPlayer().GetDirection() == Direction.LEFT)
+                            {
+                                dest = new coord()
+                                {
+                                    x = initialCoord.x - 15,
+                                    y = initialCoord.y
+                                };
+                            }
+
+                            /*model.GetBubbles()[index].StartMovement(dest, playerDirection);
+                            index++;   */
+                            newBubble.StartMovement(dest, playerDirection);
+                            model.AddBubble(newBubble);
+                            break;
+                        }
+                        
                 }
             }
         }
