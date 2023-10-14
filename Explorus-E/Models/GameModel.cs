@@ -28,6 +28,7 @@ namespace ExplorusE.Models
         private coord gridPos;
         private int counter = 0;
         private int commandIndex = 0;
+        private int playerLives = 3;
         private int[,] originalLabyrinthCopy;
         private int[,] labyrinth = {
                  {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
@@ -50,6 +51,11 @@ namespace ExplorusE.Models
         private List<IGameCommand> commandHistory = new List<IGameCommand>();
         private readonly object lockSprites = new object();
         private readonly object lockCollision = new object();
+
+        public int GetPlayerLives()
+        {
+            return playerLives;
+        }
 
         public GameModel(IControllerModel c)
         {
@@ -120,6 +126,7 @@ namespace ExplorusE.Models
             {
                 player.LoseLife();
                 player.SetInvincible();
+                playerLives--;
             }
         }
         private void PlayerGemCollision(GemSprite gem)

@@ -35,6 +35,7 @@ namespace ExplorusE.Views
         private int levelNumber = 1;
         private int initPosX;
         private int initPosY;
+        private int playerLives = 3;
         private List<coord> toxicCoord = new List<coord>();
         private string statusText;
         private Thread windowThread;
@@ -81,6 +82,11 @@ namespace ExplorusE.Views
         public int GetInitPosY()
         {
             return initPosY;
+        }
+
+        public void SetPlayerLives(int i)
+        {
+            playerLives = i;
         }
 
         
@@ -156,6 +162,9 @@ namespace ExplorusE.Views
             g.DrawImage(tileManager.getImage("Gem").bitmap, beginTaskBar + menuItemWidth * 12, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 13, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 17, topMargin, menuItemWidth, menuItemWidth);
+
+
+
 
             if (gemCounter == 0)
             {
@@ -323,11 +332,6 @@ namespace ExplorusE.Views
             LabyrinthDisplay(g);
             PlayerDisplay(g);
             StatusBarDisplay(g, e);
-
-           /* foreach (coord c in toxicCoord)
-            {
-                ToxicDisplay(g, c);
-            }*/
 
             //Console.WriteLine(Thread.CurrentThread.Name);
         }
