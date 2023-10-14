@@ -3,6 +3,7 @@ using ExplorusE.Controllers;
 using ExplorusE.Controllers.States;
 using ExplorusE.Models;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -34,6 +35,7 @@ namespace ExplorusE.Views
         private int levelNumber = 1;
         private int initPosX;
         private int initPosY;
+        private List<coord> toxicCoord = new List<coord>();
         private string statusText;
         private Thread windowThread;
      
@@ -236,7 +238,14 @@ namespace ExplorusE.Views
                     }
                     else if (labyrinth[i, j] == 4)
                     {
-                        g.DrawImage(tileManager.getImage("ToxicDown1").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize , brickSize);
+                       
+                        coord c = new coord
+                        {
+                            x = i,
+                            y = j
+                        };
+                        toxicCoord.Add(c);
+
                     }
                     else if (labyrinth[i, j] == 5)
                     {
@@ -254,6 +263,22 @@ namespace ExplorusE.Views
 
             g.DrawImage(tileManager.getImage(controller.GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
         }
+
+        private void ToxicDisplay(Graphics g, coord c)
+        {
+            ToxicSprite t = new ToxicSprite(c, topMargin, leftMargin, brickSize);
+            g.DrawImage(tileManager.getImage("ToxicDown1").bitmap, brickSize * c.y + leftMargin, brickSize * c.x  + topMargin + brickSize, brickSize, brickSize);
+           
+        }
+
+
+
+
+
+
+
+
+
 
         private void StatusBarDisplay(Graphics g, PaintEventArgs e)
         {
@@ -300,6 +325,12 @@ namespace ExplorusE.Views
             LabyrinthDisplay(g);
             PlayerDisplay(g);
             StatusBarDisplay(g, e);
+
+            foreach (coord c in toxicCoord)
+            {
+                ToxicDisplay(g, c);
+            }
+
             //Console.WriteLine(Thread.CurrentThread.Name);
         }
 
