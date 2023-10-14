@@ -110,6 +110,7 @@ namespace ExplorusE.Models
                 {
                     slime.IncreaseSpeed();
                 }
+                // create new gem 
             }
             bubbles.Remove(b);
         }

@@ -238,14 +238,12 @@ namespace ExplorusE.Views
                     }
                     else if (labyrinth[i, j] == 4)
                     {
-                       
                         coord c = new coord
                         {
                             x = i,
                             y = j
                         };
-                        toxicCoord.Add(c);
-
+                        ToxicDisplay(g, c);
                     }
                     else if (labyrinth[i, j] == 5)
                     {
@@ -326,10 +324,10 @@ namespace ExplorusE.Views
             PlayerDisplay(g);
             StatusBarDisplay(g, e);
 
-            foreach (coord c in toxicCoord)
+           /* foreach (coord c in toxicCoord)
             {
                 ToxicDisplay(g, c);
-            }
+            }*/
 
             //Console.WriteLine(Thread.CurrentThread.Name);
         }
