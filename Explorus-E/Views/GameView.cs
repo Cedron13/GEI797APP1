@@ -41,6 +41,7 @@ namespace ExplorusE.Views
         private Thread windowThread;
         private coord coordbubble = new coord();
         private bool isReloading = false;
+        private double reloadTime = 0;
         
 
 
@@ -106,6 +107,14 @@ namespace ExplorusE.Views
             isReloading = value;
         }
 
+        public void SetReloadTime(double value)
+        {
+            reloadTime = value;
+        }
+        public double GetReloadTime()
+        {
+            return reloadTime;
+        }
 
         public GameView(IControllerView c)
         {
@@ -184,9 +193,52 @@ namespace ExplorusE.Views
             }
             else if (isReloading == true)
             {
-                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, menuItemWidth);
-                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth);
-                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 10, topMargin, menuItemWidth, menuItemWidth);
+                if (reloadTime == 0)
+                {
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 10, topMargin, menuItemWidth, menuItemWidth);
+                }
+                else if (reloadTime > 200 && reloadTime < 400)
+                {
+                    g.DrawImage(tileManager.getImage("BlueHalf").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 10, topMargin, menuItemWidth, menuItemWidth);
+                }
+                else if (reloadTime > 400 && reloadTime < 600)
+                {
+                    g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 10, topMargin, menuItemWidth, menuItemWidth);
+                }
+                else if (reloadTime > 600 && reloadTime < 800)
+                {
+                    g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("BlueHalf").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 10, topMargin, menuItemWidth, menuItemWidth);
+                }
+                else if (reloadTime > 800 && reloadTime < 1000)
+                {
+                    g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 10, topMargin, menuItemWidth, menuItemWidth);
+                }
+                else if (reloadTime > 1000 && reloadTime < 1200)
+                {
+                    g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("BlueHalf").bitmap, beginTaskBar + menuItemWidth * 10, topMargin, menuItemWidth, menuItemWidth);
+                }
+                else if (reloadTime > 1200)
+                {
+                    g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth);
+                    g.DrawImage(tileManager.getImage("BlueFull").bitmap, beginTaskBar + menuItemWidth * 10, topMargin, menuItemWidth, menuItemWidth);
+                }
+
+
+
+
             }
             g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 11, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("Gem").bitmap, beginTaskBar + menuItemWidth * 12, topMargin, menuItemWidth, menuItemWidth);
