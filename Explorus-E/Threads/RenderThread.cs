@@ -93,7 +93,7 @@ namespace ExplorusE.Threads
         {
             lock(lockObj)
             {
-                return permanentItems.Flush();
+                return items.Flush();
             }
         }
 
