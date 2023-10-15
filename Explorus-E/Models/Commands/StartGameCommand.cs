@@ -10,7 +10,7 @@ namespace ExplorusE.Models.Commands
 {
     internal class StartGameCommand : IGameCommand
     {
-        public void Execute(GameModel model) { }
+        public void Execute(GameModel model, bool isPlayer) { }
 
         public void Undo(GameModel model) { }
 

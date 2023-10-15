@@ -102,6 +102,19 @@ namespace ExplorusE.Models
             }
         }
 
+        public coord GetGridPositionC()
+        {
+            lock (coordlock)
+            {
+                coord temp = new coord()
+                {
+                    x = initialPos.x,
+                    y = initialPos.y
+                };
+                return temp;
+            }
+        }
+
         private coord GetPixelPosition()
         {
             coord playerCurrentPixelCoord = new coord()

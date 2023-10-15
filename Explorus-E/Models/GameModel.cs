@@ -22,16 +22,17 @@ namespace ExplorusE.Models
     {
         private IControllerModel controller;
         private PlayerSprite player;
-        private List<ToxicSprite> toxicSlimes;
-        private List<BubbleSprite> bubbles = new List<BubbleSprite>();       
+        private List<ToxicSprite> toxicSlimes = new List<ToxicSprite>();
+        private List<BubbleSprite> bubbles = new List<BubbleSprite>();
         private List<GemSprite> gems;
         private coord gridPos;
         private int counter = 0;
         private int commandIndex = 0;
         private int playerLives = 3;
         private int[,] originalLabyrinthCopy;
+        private bool isPlayer;
         private int[,] labyrinth = {
-                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
                 {1, 0, 0, 0, 0, 1, 0, 0, 4, 0, 0, 1, 0, 0, 0, 0, 1},  // 1 = display wall
                 {1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1},  // 2 = display door
                 {1, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4, 1},  // 3 = display Slimus
@@ -52,9 +53,30 @@ namespace ExplorusE.Models
         private readonly object lockSprites = new object();
         private readonly object lockCollision = new object();
 
-        public int GetPlayerLives()
+        public List<ToxicSprite> GetToxicSprites()
         {
-            return playerLives;
+
+            return toxicSlimes;
+        }
+
+        public void ToxicCreation()
+        {
+            for (int i = 0; i < labyrinth.GetLength(0); i++)
+            {
+                for (int j = 0; j < labyrinth.GetLength(1); j++)
+                {
+                    if (labyrinth[i, j] == 4)
+                    {
+                        coord c = new coord
+                        {
+                            x = j,
+                            y = i
+                        };
+                        ToxicSprite newToxic = new ToxicSprite(c, controller.GetPlayer().GetActualTop(), controller.GetPlayer().GetActualLeft(), controller.GetPlayer().GetActualBricksize());
+                        toxicSlimes.Add(newToxic);
+                    }
+                }
+            }
         }
 
         public GameModel(IControllerModel c)
@@ -131,6 +153,7 @@ namespace ExplorusE.Models
                 // create new gem 
             }
             bubbles.Remove(b);
+            b.DestroyBubble();
         }
         private void ToxicPlayerCollision(ToxicSprite tox)
         {
@@ -146,14 +169,17 @@ namespace ExplorusE.Models
             //ADD GEM COUNTER
         }
 
-        public void GoTo(Direction d, coord dest)
+        public void PlayerGoTo(Direction d, coord dest)
         {
             player.StartMovement(dest, d);
         }
-
+        public void ToxicGoTo(ToxicSprite t, Direction d, coord dest)
+        {
+            t.StartMovement(dest, d);
+        }
         public void InvokeCommand(IGameCommand command)
         {
-            command.Execute(this);
+            command.Execute(this, isPlayer);
             if(command.IsHistoryAction())
             {
                 commandHistory.Add(command);
@@ -176,7 +202,7 @@ namespace ExplorusE.Models
             if(len > commandIndex)
             {
                 commandIndex++;
-                commandHistory.ElementAt(commandIndex-1).Execute(this);
+                commandHistory.ElementAt(commandIndex-1).Execute(this, isPlayer);
             }
         }
 
@@ -202,6 +228,7 @@ namespace ExplorusE.Models
                 p.SetDirection(player.GetDirection());
                 player = p;
             }
+            ToxicCreation();
         }
 
         public void InitToxicSlime(coord initialPos,string name, int top, int left, int brick)
@@ -300,6 +327,7 @@ namespace ExplorusE.Models
                         if(IsCollision(toxSlime, bubble))
                         {
                             ToxicBubbleCollision(toxSlime, bubble);
+                            Console.WriteLine("collision toxic bubble");
                         }    
                     }
                 }

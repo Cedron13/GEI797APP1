@@ -38,6 +38,7 @@ namespace ExplorusE.Controllers
         void PositionUpdate();
         List<BubbleSprite> GetBubbles();
 
+        List<ToxicSprite> GetToxicSprites();
 
     }
 }

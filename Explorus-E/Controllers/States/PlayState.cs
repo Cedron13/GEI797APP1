@@ -89,10 +89,8 @@ namespace ExplorusE.Controllers.States
                                     y = initialCoord.y
                                 };
 
-                                //Console.WriteLine(init.x.ToString() +" "+ init.y.ToString());
                                 Direction playerDirection = model.GetPlayer().GetDirection();
                                 BubbleSprite newBubble = new BubbleSprite(init, controller.GetPlayer().GetActualTop(), controller.GetPlayer().GetActualLeft(), controller.GetPlayer().GetActualBricksize());
-                                //model.AddBubble(init, controller.GetPlayer().GetActualTop(), controller.GetPlayer().GetActualLeft(), controller.GetPlayer().GetActualBricksize());
                                 coord dest = new coord()
                                 {
                                     x = initialCoord.x,
@@ -131,9 +129,6 @@ namespace ExplorusE.Controllers.States
                                         y = initialCoord.y
                                     };
                                 }
-
-                                /*model.GetBubbles()[index].StartMovement(dest, playerDirection);
-                                index++;   */
                                 newBubble.StartMovement(dest, playerDirection);
                                 model.AddBubble(newBubble);
                                 controller.WaitForNewBubble();

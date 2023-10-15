@@ -251,15 +251,17 @@ namespace ExplorusE.Views
                         initPosX = i - 1;
                         initPosY = j;
                     }
-                    else if (labyrinth[i, j] == 4)
+/*                    else if (labyrinth[i, j] == 4)
                     {
                         coord c = new coord
                         {
                             x = i,
                             y = j
                         };
+                        ToxicSprite t = new ToxicSprite(c, topMargin, leftMargin, brickSize);
                         ToxicDisplay(g, c);
-                    }
+                        
+                    }*/
                     else if (labyrinth[i, j] == 5)
                     {
                         g.DrawImage(tileManager.getImage("MiniSlime").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
@@ -277,14 +279,6 @@ namespace ExplorusE.Views
             g.DrawImage(tileManager.getImage(controller.GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
         }
 
-        private void ToxicDisplay(Graphics g, coord c)
-        {
-            ToxicSprite t = new ToxicSprite(c, topMargin, leftMargin, brickSize);
-            g.DrawImage(tileManager.getImage("ToxicDown1").bitmap, brickSize * c.y + leftMargin, brickSize * c.x  + topMargin + brickSize, brickSize, brickSize);
-           
-        }
-
-
         private void BubbleDisplay(Graphics g,BubbleSprite bubble)
         {
             spriteState bubbleStatus = bubble.GetCurrentRenderInfo();
@@ -293,7 +287,13 @@ namespace ExplorusE.Views
             g.DrawImage(tileManager.getImage("Bubble2").bitmap, (int)(brickSize * bubble.GetGridPosition().x + leftMargin), (int)(brickSize * bubble.GetGridPosition().y + topMargin + brickSize), brickSize, brickSize);
             //g.DrawImage(tileManager.getImage("Bubble2").bitmap, bubbleStatus.spriteCoord.x, bubbleStatus.spriteCoord.y, brickSize, brickSize);
         }
-        
+
+        private void ToxicDisplay(Graphics g, ToxicSprite toxic)
+        {
+            spriteState toxicStatus = toxic.GetCurrentRenderInfo();
+            g.DrawImage(tileManager.getImage("ToxicDown1").bitmap, (int)(brickSize * toxic.GetGridPosition().x + leftMargin), (int)(brickSize * toxic.GetGridPosition().y + topMargin + brickSize), brickSize, brickSize);
+        }
+
 
 
 
@@ -304,7 +304,7 @@ namespace ExplorusE.Views
         {
             using (Brush blackBrush = new SolidBrush(Color.Black))
             {
-                e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 41 / 4, topMargin + brickSize * 62 / 50, brickSize * 11 / 20, brickSize * 11 / 20));
+                e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 65 / 4, topMargin + brickSize * 62 / 50, brickSize * 11 / 20, brickSize * 11 / 20));
             }
 
             using (Font font = new Font("Arial", 14))
@@ -312,7 +312,7 @@ namespace ExplorusE.Views
             {
                 string pauseText = Convert.ToString(levelNumber);
                 SizeF textSize = g.MeasureString(pauseText, font);
-                float x = (leftMargin + brickSize * 41 / 4) + (brickSize * 11 / 20 - textSize.Width) / 2;
+                float x = (leftMargin + brickSize * 65 / 4) + (brickSize * 11 / 20 - textSize.Width) / 2;
                 float y = (topMargin + brickSize * 62 / 50) + (brickSize * 11 / 20 - textSize.Height) / 2;
                 g.DrawString(pauseText, font, brush, x, y);
             }
@@ -328,7 +328,7 @@ namespace ExplorusE.Views
             else if (controller.GetState() is StopState) statusText = "VICTORY";
             else statusText = "PLAY";
 
-            using (Font font = new Font("Arial", 14))
+            using (Font font = new Font("Arial", 10))
             using (Brush brush = new SolidBrush(Color.Yellow))
             {
                 SizeF textSize = g.MeasureString(statusText, font);
@@ -351,9 +351,15 @@ namespace ExplorusE.Views
                 {
                     BubbleDisplay(g, element);
                 }
-                
             }
-            
+            if (controller.GetToxicSprites().Count != 0)
+            {
+                foreach (ToxicSprite element in controller.GetToxicSprites())
+                {
+                    ToxicDisplay(g, element);
+                }
+            }
+
 
             //Console.WriteLine(Thread.CurrentThread.Name);
         }

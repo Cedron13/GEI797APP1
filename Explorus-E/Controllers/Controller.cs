@@ -229,15 +229,18 @@ namespace ExplorusE.Controllers
                 x = view.GetInitPosX(), //Place holder coordinates
                 y = view.GetInitPosY()
             });
-            model.GoTo(Direction.DOWN, model.GetGridCoord());
+            model.PlayerGoTo(Direction.DOWN, model.GetGridCoord());
             return currentLevel;
         }
         
         public List<BubbleSprite> GetBubbles() => model.GetBubbles();
+        public List<ToxicSprite> GetToxicSprites() => model.GetToxicSprites();
         public Sprite GetPlayer() => model.GetPlayer();
         public GameModel GetGameModel() => model;
         public IState GetState() => currentState;
         public int GetTransitionTime() => (int)transitionTime;
+
+
        
 
 

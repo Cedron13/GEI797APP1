@@ -41,5 +41,27 @@ namespace ExplorusE.Models
         {
             return "Bubble" + (imageIndex + 1).ToString();
         }
+
+        public void DestroyBubble()
+        {
+
+            GC.SuppressFinalize(this);
+        }
+
+/*        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                return;
+            }
+
+        }*/
+
     }
 }

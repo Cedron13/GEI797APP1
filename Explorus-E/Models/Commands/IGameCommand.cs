@@ -10,7 +10,7 @@ namespace ExplorusE.Models.Commands
 {
     internal interface IGameCommand
     {
-        void Execute(GameModel model);
+        void Execute(GameModel model, bool isPlayer);
         void Undo(GameModel model);
         bool IsHistoryAction();
     }
