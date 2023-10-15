@@ -2,6 +2,7 @@
 using ExplorusE.Constants;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -20,6 +21,7 @@ namespace ExplorusE.Models
         {
 
         }
+
         public override void Update(int elapsedMs)
         {
             lock (coordlock)

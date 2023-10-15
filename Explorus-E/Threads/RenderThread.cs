@@ -2,6 +2,7 @@
 using ExplorusE.Controllers;
 using ExplorusE.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -19,9 +20,13 @@ namespace ExplorusE.Threads
         private RenderList permanentItems = new RenderList();
         private RenderList items = new RenderList();
 
+        /*
         private Renderable itemQueue;
         private RenderItemType itemQueueType;
         private volatile bool isSomethingInQueue = false;
+        */
+
+        private ConcurrentQueue<RenderElement> queue = new ConcurrentQueue<RenderElement>();
 
         /// <summary>
         /// Stops the RenderThread's thread
@@ -57,10 +62,17 @@ namespace ExplorusE.Threads
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AskForNewItem(Renderable item, RenderItemType type)
         {
+            /*
             while(isSomethingInQueue);
-            itemQueue = item.Copy();
+            itemQueue = item.CopyForRender();
             itemQueueType = type;
-            isSomethingInQueue = true;
+            isSomethingInQueue = true;*/
+            queue.Enqueue(new RenderElement()
+            {
+                element = item.CopyForRender(),
+                type = type
+            });
+
         }
 
         /// <summary>
@@ -69,7 +81,7 @@ namespace ExplorusE.Threads
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void ResetPermanentItems()
         {
-            while(isSomethingInQueue);
+            //while(isSomethingInQueue);
             permanentItems = new RenderList();
         }
 
@@ -104,6 +116,7 @@ namespace ExplorusE.Threads
         {
             while(isRunning)
             {
+                /*
                 if(isSomethingInQueue)
                 {
                     lock(lockObj)
@@ -116,6 +129,20 @@ namespace ExplorusE.Threads
                         isSomethingInQueue = false;
                     }
                 }
+                */
+                RenderElement renderElement = new RenderElement();
+                do
+                {
+                    if (renderElement.element == null) continue;
+                    else
+                    {
+                        switch (renderElement.type)
+                        {
+                            case RenderItemType.Permanent: AddPermanentItem(renderElement.element); break;
+                            case RenderItemType.NonPermanent: AddItem(renderElement.element); break;
+                        }
+                    }
+                } while (queue.TryDequeue(out renderElement));
                 //Thread.Sleep(1);
             }      
         }

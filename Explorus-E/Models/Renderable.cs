@@ -19,6 +19,6 @@ namespace ExplorusE.Models
         /// Makes a copy of the object
         /// </summary>
         /// <returns>Copy of the object</returns>
-        Renderable Copy();
+        Renderable CopyForRender();
     }
 }

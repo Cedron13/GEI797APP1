@@ -2,6 +2,7 @@
 using ExplorusE.Constants;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -22,6 +23,7 @@ namespace ExplorusE.Models
         {
             timeToMove = 500;
         }
+
         public void SetInvincible()
         {
             //Partir Timer pour remettre invincible a false
@@ -64,6 +66,15 @@ namespace ExplorusE.Models
             else if (dir == Direction.RIGHT) return "Right" + (imageIndex + 1).ToString();
             else if (dir == Direction.LEFT) return "Left" + (imageIndex + 1).ToString();
             else return "Idle";
+        }
+
+        //Renderable Interface
+        public override Renderable CopyForRender()
+        {
+            PlayerSprite copy = new PlayerSprite(new coord(), base.topMargin, base.leftMargin, base.brickSize);
+            copy.SetDirection(base.dir);
+            copy.SetGridPosition(currentPos);
+            return copy;
         }
     }
 }

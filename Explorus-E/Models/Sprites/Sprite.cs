@@ -3,6 +3,7 @@ using ExplorusE.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Drawing;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -14,7 +15,7 @@ using System.Linq;
 
 namespace ExplorusE.Models
 {
-    internal abstract class Sprite : IResizeEventSubscriber
+    internal abstract class Sprite : IResizeEventSubscriber, Renderable
     {
         protected coord initialPos;
         protected coordF currentPos;
@@ -32,6 +33,8 @@ namespace ExplorusE.Models
         protected int leftMargin;
         protected int brickSize;
 
+        protected TileManager tileManager;
+
         public Sprite(coord gridPos, int top, int left, int brick)
         {
             currentPos.x = gridPos.x;
@@ -41,7 +44,9 @@ namespace ExplorusE.Models
             leftMargin = left;
             brickSize = brick;
             boundingRadius = 1;
+            tileManager = TileManager.GetInstance();
         }
+
         public void setName(string n)
         {
             name = n;
@@ -102,6 +107,15 @@ namespace ExplorusE.Models
             }
         }
 
+        protected void SetGridPosition(coordF pos)
+        {
+            currentPos = new coordF()
+            {
+                x = pos.x,
+                y = pos.y
+            };
+        }
+
         private coord GetPixelPosition()
         {
             coord playerCurrentPixelCoord = new coord()
@@ -137,5 +151,13 @@ namespace ExplorusE.Models
         { 
             return leftMargin;
         }
+
+        //Renderable Interface
+        public void Render(Graphics g)
+        {
+            g.DrawImage(tileManager.getImage(GetImageName()).bitmap, GetPixelPosition().x, GetPixelPosition().y, brickSize, brickSize);
+        }
+
+        public abstract Renderable CopyForRender();
     }
 }

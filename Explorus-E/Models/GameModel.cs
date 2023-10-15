@@ -7,6 +7,8 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Collections.Concurrent;
+using ExplorusE.Threads;
+using ExplorusE.Models.Sprites;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -52,18 +54,21 @@ namespace ExplorusE.Models
         private readonly object lockSprites = new object();
         private readonly object lockCollision = new object();
 
+        private RenderThread render;
+
         public int GetPlayerLives()
         {
             return playerLives;
         }
 
-        public GameModel(IControllerModel c)
+        public GameModel(IControllerModel c, RenderThread r)
         {
             controller = c;
             InvokeCommand(new StartGameCommand());
             originalLabyrinthCopy = new int[labyrinth.GetLength(0), labyrinth.GetLength(1)];
             Array.Copy(labyrinth, originalLabyrinthCopy, labyrinth.Length);
             toxicSlimes = new List<ToxicSprite>();
+            render = r;
         }
 
         public void SetGridPosX(int posX)
@@ -98,6 +103,9 @@ namespace ExplorusE.Models
             {
                 player.Update((int)lag);
             }
+
+            render.AskForNewItem(player, RenderItemType.NonPermanent);
+
             if (bubbles.Count > 0 && !bubbles[0].IsMovementOver())
             {
                 foreach (BubbleSprite element in bubbles)
@@ -110,13 +118,18 @@ namespace ExplorusE.Models
             {
                 bubbles.Remove(bubbles[0]);
             }
+
+            foreach (BubbleSprite bubble in bubbles) render.AskForNewItem(bubble, RenderItemType.NonPermanent);
+
             foreach (Sprite slime in toxicSlimes)
             {
                 if (!slime.IsMovementOver())
                 {
                     slime.Update((int)lag);
                 }
+                render.AskForNewItem(slime, RenderItemType.NonPermanent);
             }
+
         }
         private void ToxicBubbleCollision(ToxicSprite tox, BubbleSprite b)
         {

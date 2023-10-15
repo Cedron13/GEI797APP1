@@ -22,7 +22,7 @@ namespace ExplorusE.Models
         public List<Renderable> Flush()
         {
             List<Renderable> list = new List<Renderable>();
-            foreach (Renderable item in renderList) list.Add(item.Copy());
+            foreach (Renderable item in renderList) list.Add(item);
             renderList.Clear();
             return list;
         }
@@ -30,7 +30,7 @@ namespace ExplorusE.Models
         public List<Renderable> GetList()
         {
             List<Renderable> list = new List<Renderable>();
-            foreach (Renderable item in renderList) list.Add(item.Copy());
+            foreach (Renderable item in renderList) list.Add(item);
             return list;
         }
     }
