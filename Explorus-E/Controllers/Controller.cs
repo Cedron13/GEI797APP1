@@ -25,6 +25,7 @@ namespace ExplorusE.Controllers
         private IState currentState;
         private List<IResizeEventSubscriber> resizeSubscribers;
         private double transitionTime = 0;
+        private double transitionTimeBubble = 0;
         private double stopTime = 0;
         private bool isPaused = false;
         private bool waitLoadBubble = false;
@@ -96,8 +97,8 @@ namespace ExplorusE.Controllers
             }
             else if (currentState is PlayState && (waitLoadBubble==true))
             {
-                transitionTime += lag;
-                if (transitionTime > 3000)
+                transitionTimeBubble += lag;
+                if (transitionTimeBubble > 1200)
                 {
                     waitLoadBubble = false;
                     Console.WriteLine("c'est okok");
@@ -207,7 +208,7 @@ namespace ExplorusE.Controllers
 
         public void WaitForNewBubble()
         {
-            transitionTime = 0;
+            transitionTimeBubble = 0;
             waitLoadBubble = true;
             Console.WriteLine("boule envoyée"); // OK
         }
