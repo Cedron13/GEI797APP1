@@ -27,12 +27,20 @@ namespace ExplorusE.Controllers
         private double transitionTime = 0;
         private double stopTime = 0;
         private bool isPaused = false;
+        private bool waitLoadBubble = false;
 
         public bool IsPaused
         {
             get { return isPaused; }
             set { isPaused = value; }
         }
+
+        public bool GetWaitLoadBubble()
+        {
+            return waitLoadBubble;
+        }
+
+
 
         private List<Keys> inputList;
 
@@ -84,6 +92,15 @@ namespace ExplorusE.Controllers
                 {
                     currentState.PrepareNextState();
                     currentState.GetNextState();
+                }
+            }
+            else if (currentState is PlayState && (waitLoadBubble==true))
+            {
+                transitionTime += lag;
+                if (transitionTime > 3000)
+                {
+                    waitLoadBubble = false;
+                    Console.WriteLine("c'est okok");
                 }
             }
             else if (currentState is StopState)
@@ -185,6 +202,14 @@ namespace ExplorusE.Controllers
         {
             isPaused = false;
             transitionTime = 0;
+        }
+
+
+        public void WaitForNewBubble()
+        {
+            transitionTime = 0;
+            waitLoadBubble = true;
+            Console.WriteLine("boule envoyée"); // OK
         }
 
         public int NewLevel()

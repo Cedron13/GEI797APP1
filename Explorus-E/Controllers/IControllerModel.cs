@@ -26,6 +26,10 @@ namespace ExplorusE.Controllers
 
         bool IsPaused { get; set; }
 
+        bool GetWaitLoadBubble();
+
+        void WaitForNewBubble();
+
         void InitGame();
 
         void EndGameReached();

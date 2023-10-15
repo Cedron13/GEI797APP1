@@ -81,59 +81,63 @@ namespace ExplorusE.Controllers.States
                         }
                     case Keys.Space:
                         {
-                            coord init = new coord()
-                            {
-                                x = initialCoord.x,
-                                y = initialCoord.y
-                            };
-                            
-                            //Console.WriteLine(init.x.ToString() +" "+ init.y.ToString());
-                            Direction playerDirection = model.GetPlayer().GetDirection();
-                            BubbleSprite newBubble = new BubbleSprite(init, controller.GetPlayer().GetActualTop(), controller.GetPlayer().GetActualLeft(), controller.GetPlayer().GetActualBricksize());
-                            //model.AddBubble(init, controller.GetPlayer().GetActualTop(), controller.GetPlayer().GetActualLeft(), controller.GetPlayer().GetActualBricksize());
-                            coord dest = new coord()
-                            {
-                                x = initialCoord.x ,
-                                y = initialCoord.y
-                            };
-                            if (model.GetPlayer().GetDirection() == Direction.UP){
-                                dest = new coord()
+                            if (!controller.GetWaitLoadBubble())
                                 {
-                                    x = initialCoord.x ,
-                                    y = initialCoord.y -15
-                                    
-                            };
-
-                            }
-                            else if (model.GetPlayer().GetDirection() == Direction.DOWN)
-                                {
-                                 dest = new coord()
+                                coord init = new coord()
                                 {
                                     x = initialCoord.x,
-                                    y = initialCoord.y + 15
-                                };
-                                }
-                            else if (model.GetPlayer().GetDirection() == Direction.RIGHT)
-                            {
-                                dest = new coord()
-                                {
-                                    x = initialCoord.x + 15,
-                                    y = initialCoord.y 
-                                };
-                            }
-                            else if (model.GetPlayer().GetDirection() == Direction.LEFT)
-                            {
-                                dest = new coord()
-                                {
-                                    x = initialCoord.x - 15,
                                     y = initialCoord.y
                                 };
-                            }
 
-                            /*model.GetBubbles()[index].StartMovement(dest, playerDirection);
-                            index++;   */
-                            newBubble.StartMovement(dest, playerDirection);
-                            model.AddBubble(newBubble);
+                                //Console.WriteLine(init.x.ToString() +" "+ init.y.ToString());
+                                Direction playerDirection = model.GetPlayer().GetDirection();
+                                BubbleSprite newBubble = new BubbleSprite(init, controller.GetPlayer().GetActualTop(), controller.GetPlayer().GetActualLeft(), controller.GetPlayer().GetActualBricksize());
+                                //model.AddBubble(init, controller.GetPlayer().GetActualTop(), controller.GetPlayer().GetActualLeft(), controller.GetPlayer().GetActualBricksize());
+                                coord dest = new coord()
+                                {
+                                    x = initialCoord.x,
+                                    y = initialCoord.y
+                                };
+                                if (model.GetPlayer().GetDirection() == Direction.UP) {
+                                    dest = new coord()
+                                    {
+                                        x = initialCoord.x,
+                                        y = initialCoord.y - 15
+
+                                    };
+
+                                }
+                                else if (model.GetPlayer().GetDirection() == Direction.DOWN)
+                                {
+                                    dest = new coord()
+                                    {
+                                        x = initialCoord.x,
+                                        y = initialCoord.y + 15
+                                    };
+                                }
+                                else if (model.GetPlayer().GetDirection() == Direction.RIGHT)
+                                {
+                                    dest = new coord()
+                                    {
+                                        x = initialCoord.x + 15,
+                                        y = initialCoord.y
+                                    };
+                                }
+                                else if (model.GetPlayer().GetDirection() == Direction.LEFT)
+                                {
+                                    dest = new coord()
+                                    {
+                                        x = initialCoord.x - 15,
+                                        y = initialCoord.y
+                                    };
+                                }
+
+                                /*model.GetBubbles()[index].StartMovement(dest, playerDirection);
+                                index++;   */
+                                newBubble.StartMovement(dest, playerDirection);
+                                model.AddBubble(newBubble);
+                                controller.WaitForNewBubble();
+                            }
                             break;
                         }
                         
