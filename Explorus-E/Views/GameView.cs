@@ -356,6 +356,8 @@ namespace ExplorusE.Views
             
 
             //Console.WriteLine(Thread.CurrentThread.Name);
+
+            //TODO: Change this method to loop with the RenderThread object
         }
 
         private void KeyDownEvent(object sender, PreviewKeyDownEventArgs e)
@@ -411,6 +413,8 @@ namespace ExplorusE.Views
                 Console.WriteLine("menuItemWidth = " + menuItemWidth + ", beginTaskBar = " + beginTaskBar + ", afterTaskBar = ", afterTaskBar);
                 controller.PositionUpdate();
             }
+
+            //TODO: Reset permament items for RenderThread (all sizes have changed, so do the items) and refill the permanent list
         }
 
        
