@@ -111,10 +111,11 @@ namespace ExplorusE.Controllers
             else if (currentState is PlayState && (waitLoadBubble==true))
             {
                 transitionTimeBubble += lag;
+                view.SetReloadTime(view.GetReloadTime()+lag);  
                 if (transitionTimeBubble > 1200)
                 {
-                    waitLoadBubble = false;
                     view.SetIsReloading(false);
+                    waitLoadBubble = false;
                     Console.WriteLine("c'est okok");
                 }
             }
@@ -224,6 +225,7 @@ namespace ExplorusE.Controllers
         {
             transitionTimeBubble = 0;
             waitLoadBubble = true;
+            view.SetReloadTime(0);
             view.SetIsReloading(true);
             Console.WriteLine("boule envoyée"); // OK
         }
