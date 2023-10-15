@@ -114,6 +114,7 @@ namespace ExplorusE.Controllers
                 if (transitionTimeBubble > 1200)
                 {
                     waitLoadBubble = false;
+                    view.SetIsReloading(false);
                     Console.WriteLine("c'est okok");
                 }
             }
@@ -223,6 +224,7 @@ namespace ExplorusE.Controllers
         {
             transitionTimeBubble = 0;
             waitLoadBubble = true;
+            view.SetIsReloading(true);
             Console.WriteLine("boule envoyée"); // OK
         }
 
