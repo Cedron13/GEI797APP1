@@ -2,6 +2,7 @@
 using ExplorusE.Constants;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -40,6 +41,15 @@ namespace ExplorusE.Models
         public override String GetImageName()
         {
             return "Bubble" + (imageIndex + 1).ToString();
+        }
+
+        //Renderable Interface
+        public override Renderable CopyForRender()
+        {
+            BubbleSprite copy = new BubbleSprite(new coord(), base.topMargin, base.leftMargin, base.brickSize);
+            copy.SetDirection(base.dir);
+            copy.SetGridPosition(currentPos);
+            return copy;
         }
     }
 }

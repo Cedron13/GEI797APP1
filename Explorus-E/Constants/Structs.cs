@@ -6,28 +6,36 @@
  * Cloé LEGLISE (legc1001)
  */
 
+using ExplorusE.Models;
+
 namespace ExplorusE.Constants
 {
-    public struct RenderData
+    internal struct RenderData
     {
         public int[,] lab;
     }
 
-    public struct coord
+    internal struct coord
     {
         public int x { get; set; }
         public int y { get; set; }
     }
 
-    public struct coordF //float version of coord
+    internal struct coordF //float version of coord
     {
         public double x { get; set; }
         public double y { get; set; }
     }
 
-    public struct spriteState
+    internal struct spriteState
     {
         public int imageIndex { get; set; }
         public coord spriteCoord { get; set; }
+    }
+
+    internal struct RenderElement
+    {
+        public Renderable element { get; set; }
+        public RenderItemType type { get; set; }
     }
 }

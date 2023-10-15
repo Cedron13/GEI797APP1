@@ -2,6 +2,7 @@
 using ExplorusE.Constants;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -33,6 +34,15 @@ namespace ExplorusE.Models
             else if (dir == Direction.RIGHT) return "ToxicRight" + (imageIndex + 1).ToString();
             else if (dir == Direction.LEFT) return "ToxicLeft" + (imageIndex + 1).ToString();
             else return "Idle";
+        }
+
+        //Renderable Interface
+        public override Renderable CopyForRender()
+        {
+            ToxicSprite copy = new ToxicSprite(new coord(), base.topMargin, base.leftMargin, base.brickSize);
+            copy.SetDirection(base.dir);
+            copy.SetGridPosition(currentPos);
+            return copy;
         }
     }
 }

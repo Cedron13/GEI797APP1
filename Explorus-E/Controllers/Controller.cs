@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using ExplorusE.Threads;
 using System.Threading;
+using ExplorusE.Models.Sprites;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -34,6 +35,7 @@ namespace ExplorusE.Controllers
 
         private RenderThread oRenderThread;
         private Thread renderThread;
+        private List<Wall> walls;
 
         public bool IsPaused
         {
@@ -53,10 +55,10 @@ namespace ExplorusE.Controllers
         public Controller()
         {
             oRenderThread = new RenderThread(); //TODO: Look for which object needs an access to oRenderThread
-            model = new GameModel(this);
+            model = new GameModel(this, oRenderThread);
             inputList = new List<Keys>();
             resizeSubscribers = new List<IResizeEventSubscriber>();
-            view = new GameView(this);
+            view = new GameView(this, oRenderThread);
             currentState = new PlayState(this);
             InitGame();
 
@@ -134,12 +136,13 @@ namespace ExplorusE.Controllers
 
         public void PositionUpdate()
         {
-
+            oRenderThread.ResetPermanentItems(); //Permament item have their size changed
             foreach (IResizeEventSubscriber s in resizeSubscribers)
             {
-                
                 s.NotifyResize(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
             }
+
+            foreach (Wall w in walls) oRenderThread.AskForNewItem(w, RenderItemType.Permanent); //Re-adding all walls in the render list
         }
 
         public void EngineProcessInputEvent()
@@ -152,6 +155,8 @@ namespace ExplorusE.Controllers
 
         public void InitGame()
         {
+
+            walls = new List<Wall>();
             for (int i = 0; i < model.GetLabyrinth().GetLength(0); i++)
             {
                 for (int j = 0; j < model.GetLabyrinth().GetLength(1); j++)
@@ -160,6 +165,17 @@ namespace ExplorusE.Controllers
                     {
                         model.SetGridPosX(j);
                         model.SetGridPosY(i);
+                    }
+                    else if (model.GetLabyrinth()[i, j] == 1)
+                    {
+                        Wall w = new Wall(new coord()
+                        {
+                            x = j,
+                            y = i
+                        }, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+                        walls.Add(w);
+                        AddSubscriber(w);
+                        oRenderThread.AskForNewItem(w, RenderItemType.Permanent);
                     }
                 }
             }

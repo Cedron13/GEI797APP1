@@ -2,6 +2,7 @@
 using ExplorusE.Controllers;
 using ExplorusE.Controllers.States;
 using ExplorusE.Models;
+using ExplorusE.Threads;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -50,6 +51,8 @@ namespace ExplorusE.Views
         private int afterTaskBar = 25 + 19;
 
         private bool bubbleshoot = false;
+
+        private RenderThread render;
         
         public int GetTopMargin() 
         { 
@@ -97,7 +100,7 @@ namespace ExplorusE.Views
 
         
 
-        public GameView(IControllerView c)
+        public GameView(IControllerView c, RenderThread r)
         {
             controller = c;
             oGameForm = new GameForm();
@@ -109,6 +112,7 @@ namespace ExplorusE.Views
             oGameForm.GotFocus += GotFocusEvent;
             oGameForm.Shown += FirstLoadEvent;
             tileManager = TileManager.GetInstance();
+            render = r;
 
             windowThread = new Thread(new ThreadStart(Show)); //New thread because "Application.run()" blocks the actual thread and prevents the engine to run
             windowThread.Name = "Window Thread";
@@ -147,7 +151,7 @@ namespace ExplorusE.Views
         private void TaskBarDisplay(Graphics g)
         {
             // Black background and menu
-            g.Clear(Color.Black);
+            //g.Clear(Color.Black);
 
             g.DrawImage(tileManager.getImage("Title").bitmap, leftMargin + brickSize / 2, topMargin, brickSize * 2, brickSize / 2);
 
@@ -235,7 +239,7 @@ namespace ExplorusE.Views
                 {
                     if (labyrinth[i, j] == 1)
                     {
-                        g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize);
+                        //g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize);
                     }
                     else if (labyrinth[i, j] == 2)
                     {
@@ -274,7 +278,7 @@ namespace ExplorusE.Views
             //Display player, independant from the maze
             spriteState playerStatus = controller.GetPlayer().GetCurrentRenderInfo();
 
-            g.DrawImage(tileManager.getImage(controller.GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
+            //g.DrawImage(tileManager.getImage(controller.GetPlayer().GetImageName()).bitmap, playerStatus.spriteCoord.x, playerStatus.spriteCoord.y, brickSize, brickSize);
         }
 
         private void ToxicDisplay(Graphics g, coord c)
@@ -341,23 +345,31 @@ namespace ExplorusE.Views
         private void GameRenderer(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
+            g.Clear(Color.Black);
+
+            //TODO: Change this method to loop with the RenderThread object
+            List<Renderable> renderPermanentItems = render.GetPermanentItems();
+            foreach (Renderable r in renderPermanentItems) r.Render(g);
+
+            List<Renderable> renderItems = render.GetItems();
+            foreach (Renderable r in renderItems) r.Render(g);
+
+
+            //Old ways to render, TODO: remove all
             TaskBarDisplay(g);
-            LabyrinthDisplay(g);
-            PlayerDisplay(g);
-            StatusBarDisplay(g, e);          
-           if (controller.GetBubbles().Count !=0)
+            LabyrinthDisplay(g); //Walls are rendered by the new way
+            //PlayerDisplay(g);
+            StatusBarDisplay(g, e);
+            /*
+            if (controller.GetBubbles().Count !=0)
             {
                 foreach (BubbleSprite element in controller.GetBubbles())
                 {
                     BubbleDisplay(g, element);
                 }
-                
             }
-            
-
-            //Console.WriteLine(Thread.CurrentThread.Name);
-
-            //TODO: Change this method to loop with the RenderThread object
+            */
+                       
         }
 
         private void KeyDownEvent(object sender, PreviewKeyDownEventArgs e)
