@@ -16,6 +16,7 @@ namespace ExplorusE.Threads
         private string threadName;
         GameModel model;
         Sprite player;
+        List<BubbleSprite> bubbles;
         ConcurrentBag<ToxicSprite> toxicSlimes;
         private bool isRunning = true;
         private readonly object lockObj = new object();
@@ -42,6 +43,8 @@ namespace ExplorusE.Threads
             {
                 player = model.GetPlayer();
                 toxicSlimes = model.GetToxicSlimes();
+                bubbles = model.GetBubbles();
+
                 try
                 {
                     do
