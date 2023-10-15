@@ -37,7 +37,7 @@ namespace Tests
                 x = 4,
                 y = 7
             };
-            Sprite s = new Sprite(start, 33, 19, 50);
+            Sprite s = new PlayerSprite(start, 33, 19, 50);
             GameModel gm = new GameModel(null);
 
             gm.SetGridPosX(4);
@@ -73,7 +73,7 @@ namespace Tests
                 x = 4,
                 y = 7
             };
-            Sprite s = new Sprite(start, 33, 19, 50);
+            Sprite s = new PlayerSprite(start, 33, 19, 50);
             GameModel gm = new GameModel(null);
 
             gm.SetGridPosX(4);
@@ -109,7 +109,7 @@ namespace Tests
                 x = 1,
                 y = 7
             };
-            Sprite s = new Sprite(start, 33, 19, 50);
+            Sprite s = new PlayerSprite(start, 33, 19, 50);
             GameModel gm = new GameModel(null);
 
             gm.SetGridPosX(1);
@@ -134,7 +134,7 @@ namespace Tests
                 x = 4,
                 y = 7
             };
-            Sprite s = new Sprite(start, 33, 19, 50);
+            Sprite s = new PlayerSprite(start, 33, 19, 50);
             GameModel gm = new GameModel(null);
 
             gm.SetGridPosX(4);
@@ -172,7 +172,7 @@ namespace Tests
                 y = 1
             };
 
-            Sprite s = new Sprite(start, 33, 19, 50);
+            Sprite s = new PlayerSprite(start, 33, 19, 50);
             ControllerMOC mocController = new ControllerMOC();
             GameModel gm = new GameModel(mocController);
 
@@ -211,7 +211,7 @@ namespace Tests
                 y = 1
             };
 
-            Sprite s = new Sprite(start, 33, 19, 50);
+            Sprite s = new PlayerSprite(start, 33, 19, 50);
             ControllerMOC mocController = new ControllerMOC();
             GameModel gm = new GameModel(mocController);
 
@@ -251,7 +251,7 @@ namespace Tests
                 y = 5
             };
 
-            Sprite s = new Sprite(start, 33, 19, 50);
+            Sprite s = new PlayerSprite(start, 33, 19, 50);
             ControllerMOC mocController = new ControllerMOC();
             GameModel gm = new GameModel(mocController);
 
@@ -295,7 +295,7 @@ namespace Tests
                 y = 5
             };
 
-            Sprite s = new Sprite(start, 33, 19, 50);
+            Sprite s = new PlayerSprite(start, 33, 19, 50);
             ControllerMOC mocController = new ControllerMOC();
             GameModel gm = new GameModel(mocController);
 
@@ -340,7 +340,7 @@ namespace Tests
                 y = 5
             };
 
-            Sprite s = new Sprite(start, 33, 19, 50);
+            Sprite s = new PlayerSprite(start, 33, 19, 50);
             ControllerMOC mocController = new ControllerMOC();
             GameModel gm = new GameModel(mocController);
             gm.SetLabyrinth(labyrinth);

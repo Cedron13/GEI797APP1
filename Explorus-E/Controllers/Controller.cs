@@ -27,8 +27,10 @@ namespace ExplorusE.Controllers
         private IState currentState;
         private List<IResizeEventSubscriber> resizeSubscribers;
         private double transitionTime = 0;
+        private double transitionTimeBubble = 0;
         private double stopTime = 0;
         private bool isPaused = false;
+        private bool waitLoadBubble = false;
 
         private RenderThread oRenderThread;
         private Thread renderThread;
@@ -38,6 +40,13 @@ namespace ExplorusE.Controllers
             get { return isPaused; }
             set { isPaused = value; }
         }
+
+        public bool GetWaitLoadBubble()
+        {
+            return waitLoadBubble;
+        }
+
+
 
         private List<Keys> inputList;
 
@@ -58,7 +67,7 @@ namespace ExplorusE.Controllers
             engine = new GameEngine(this);
             //Order is very important due to dependencies between each object, this order works 👍
         }
-
+        
         public void ViewCloseEvent()
         {
             engine.KillEngine(); //Works 👍
@@ -97,6 +106,15 @@ namespace ExplorusE.Controllers
                 {
                     currentState.PrepareNextState();
                     currentState.GetNextState();
+                }
+            }
+            else if (currentState is PlayState && (waitLoadBubble==true))
+            {
+                transitionTimeBubble += lag;
+                if (transitionTimeBubble > 1200)
+                {
+                    waitLoadBubble = false;
+                    Console.WriteLine("c'est okok");
                 }
             }
             else if (currentState is StopState)
@@ -146,7 +164,7 @@ namespace ExplorusE.Controllers
                 }
             }
 
-            Sprite player = new Sprite(
+            PlayerSprite player = new PlayerSprite(
                 new coord()
                 {
                     x = model.GetGridPosX(), //Place holder coordinates
@@ -161,6 +179,7 @@ namespace ExplorusE.Controllers
         {
             view.SetGemCounter(i);
         }
+        
 
         public int[,] GetLabyrinth() => model.GetLabyrinth();
 
@@ -199,6 +218,14 @@ namespace ExplorusE.Controllers
             transitionTime = 0;
         }
 
+
+        public void WaitForNewBubble()
+        {
+            transitionTimeBubble = 0;
+            waitLoadBubble = true;
+            Console.WriteLine("boule envoyée"); // OK
+        }
+
         public int NewLevel()
         {
             model.ClearCommandHistory();
@@ -219,12 +246,12 @@ namespace ExplorusE.Controllers
             return currentLevel;
         }
         
-
+        public List<BubbleSprite> GetBubbles() => model.GetBubbles();
         public Sprite GetPlayer() => model.GetPlayer();
         public GameModel GetGameModel() => model;
         public IState GetState() => currentState;
         public int GetTransitionTime() => (int)transitionTime;
-
+       
 
 
     }

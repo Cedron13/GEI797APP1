@@ -40,11 +40,11 @@ namespace ExplorusE.Models.Commands
                 }
                 else if (labyrinth[newPos.y, newPos.x] == 2)
                 {
-                    if (model.GetCounter() == 3)
+                    if (model.GetCounter() == 6)
                     {
                         doorUnlocked = true;
                         isHistoryAction = true;
-                        labyrinth[4, 7] = 0; // TODO : automatically locate (coordX coordY)
+                        labyrinth[newPos.x, newPos.y] = 0; 
                         model.SetGridPosX(newPos.x);
                         model.SetGridPosY(newPos.y);
                         model.GoTo(dir, newPos);
@@ -60,15 +60,15 @@ namespace ExplorusE.Models.Commands
                     isHistoryAction = true;
                     if (labyrinth[newPos.y, newPos.x] == 4)
                     {
-                        labyrinth[newPos.y, newPos.x] = 0;
-                        gemFound = true;
-                        model.SetCounter(model.GetCounter() + 1);
-                        model.GetController().SetGemCounter(model.GetCounter());
+                        // labyrinth[newPos.y, newPos.x] = 0;
+                        // gemFound = true;
+                        // model.SetCounter(model.GetCounter() + 1);
+                        // model.GetController().SetGemCounter(model.GetCounter());
 
-                        labyrinth[initialPos.y, initialPos.x] = 0;
+                        // labyrinth[initialPos.y, initialPos.x] = 0;
                         model.SetGridPosX(newPos.x);
                         model.SetGridPosY(newPos.y);
-                        labyrinth[newPos.y, newPos.x] = 3;
+                        // labyrinth[newPos.y, newPos.x] = 3;
                         model.GoTo(dir, newPos);
 
                     }

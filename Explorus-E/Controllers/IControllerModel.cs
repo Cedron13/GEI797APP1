@@ -1,5 +1,7 @@
-﻿using ExplorusE.Controllers.States;
+﻿using ExplorusE.Constants;
+using ExplorusE.Controllers.States;
 using ExplorusE.Models;
+using System.Collections.Generic;
 
 
 /* EXPLORUS-E
@@ -24,6 +26,10 @@ namespace ExplorusE.Controllers
 
         bool IsPaused { get; set; }
 
+        bool GetWaitLoadBubble();
+
+        void WaitForNewBubble();
+
         void InitGame();
 
         void EndGameReached();
@@ -41,6 +47,9 @@ namespace ExplorusE.Controllers
 
         void ExitPause();
 
-        int NewLevel(); 
+        int NewLevel();
+
+       
+        
     }
 }

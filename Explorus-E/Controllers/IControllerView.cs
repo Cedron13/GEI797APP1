@@ -1,5 +1,6 @@
 ﻿using ExplorusE.Controllers.States;
 using ExplorusE.Models;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 /* EXPLORUS-E
@@ -35,6 +36,8 @@ namespace ExplorusE.Controllers
         int GetTransitionTime();
 
         void PositionUpdate();
+        List<BubbleSprite> GetBubbles();
+
 
     }
 }
