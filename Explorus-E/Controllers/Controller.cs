@@ -45,6 +45,9 @@ namespace ExplorusE.Controllers
         private NotInGridSprite heartSprite;
         private NotInGridSprite bubbleSprite;
         private NotInGridSprite coinSprite;
+        private Bar healthBar;
+        private Bar bubbleBar;
+        private Bar coinBar;
 
         public bool IsPaused
         {
@@ -155,6 +158,9 @@ namespace ExplorusE.Controllers
 
             oRenderThread.AskForNewItem(statusBarText, RenderItemType.NonPermanent);
             oRenderThread.AskForNewItem(levelText, RenderItemType.NonPermanent);
+            oRenderThread.AskForNewItem(healthBar, RenderItemType.NonPermanent);
+            oRenderThread.AskForNewItem(bubbleBar, RenderItemType.NonPermanent);
+            oRenderThread.AskForNewItem(coinBar, RenderItemType.NonPermanent);
         }
 
         public void AddSubscriber(IResizeEventSubscriber sub)
@@ -306,6 +312,39 @@ namespace ExplorusE.Controllers
             }, Constants.Constants.COIN_SPRITE_NAME, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
             AddSubscriber(coinSprite);
             oRenderThread.AskForNewItem(coinSprite, RenderItemType.Permanent);
+
+            healthBar = new Bar(new coord()
+            {
+                x = 3,
+                y = -2
+            }, new coordF()
+            {
+                x = 0.5,
+                y = 0.9
+            }, false, 3, BarType.HEALTH, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
+            AddSubscriber(healthBar);
+
+            bubbleBar = new Bar(new coord()
+            {
+                x = 7,
+                y = -2
+            }, new coordF()
+            {
+                x = 0.5,
+                y = 0.9
+            }, true, 6, BarType.BUBBLE, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
+            AddSubscriber(bubbleBar);
+
+            coinBar = new Bar(new coord()
+            {
+                x = 11,
+                y = -2
+            }, new coordF()
+            {
+                x = 0.5,
+                y = 0.9
+            }, true, 6, BarType.COIN, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
+            AddSubscriber(coinBar);
         }
 
 

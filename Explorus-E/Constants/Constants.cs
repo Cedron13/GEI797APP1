@@ -20,5 +20,11 @@ namespace ExplorusE.Constants
         public const string HEART_SPRITE_NAME = "Heart";
         public const string BUBBLE_SPRITE_NAME = "Bubble";
         public const string COIN_SPRITE_NAME = "Gem";
+        public const string HEALTHBAR_SPRITE_NAME = "Red";
+        public const string BUBBLEBAR_SPRITE_NAME = "Blue";
+        public const string COINBAR_SPRITE_NAME = "Yellow";
+        public const string BEGINBAR_SPRITE_NAME = "BeginBar";
+        public const string ENDBAR_SPRITE_NAME = "EndBar";
+        public const string EMPTYBAR_SPRITE_NAME = "EmptyBar";
     }
 }

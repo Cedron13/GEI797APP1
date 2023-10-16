@@ -175,7 +175,7 @@ namespace ExplorusE.Views
             //g.DrawImage(tileManager.getImage("Title").bitmap, leftMargin + brickSize / 2, topMargin, brickSize * 2, brickSize / 2);
 
 
-            
+            /*
                 //g.DrawImage(tileManager.getImage("Heart").bitmap, beginTaskBar, topMargin, menuItemWidth, menuItemWidth);
                 g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 1, topMargin, menuItemWidth, menuItemWidth);
                 g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 2, topMargin, menuItemWidth, menuItemWidth);
@@ -187,7 +187,7 @@ namespace ExplorusE.Views
                 g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, menuItemWidth);//
                 g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth);//
                 g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 10, topMargin, menuItemWidth, menuItemWidth);//
-
+            */
             g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 7, topMargin, menuItemWidth, menuItemWidth);
             if (isReloading == false)
             {
@@ -433,7 +433,7 @@ namespace ExplorusE.Views
 
 
             //Old ways to render, TODO: remove all
-            TaskBarDisplay(g);
+            //TaskBarDisplay(g);
             LabyrinthDisplay(g); //Walls are rendered by the new way
             //PlayerDisplay(g);
             //StatusBarDisplay(g, e);

@@ -31,6 +31,11 @@ namespace ExplorusE.Models.Sprites
             return imageName;
         }
 
+        public void SetImageName(string newName)
+        {
+            imageName = newName;
+        }
+
         protected override coord GetPixelPosition()
         {
             coord playerCurrentPixelCoord = new coord()
@@ -39,6 +44,11 @@ namespace ExplorusE.Models.Sprites
                 y = (int)(topMargin + brickSize * (currentPos.y + 1) + brickSize * tilePos.y)
             };
             return playerCurrentPixelCoord;
+        }
+
+        public float GetScaleWidth()
+        {
+            return brickSize / tileManager.getImage(GetImageName()).bitmap.Width * brickScale;
         }
 
         //Renderable interface
