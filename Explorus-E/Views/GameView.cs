@@ -260,15 +260,15 @@ namespace ExplorusE.Views
         {
             using (Brush blackBrush = new SolidBrush(Color.Black))
             {
-                e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 41 / 4, topMargin + brickSize * 62 / 50, brickSize * 11 / 20, brickSize * 11 / 20));
+                e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 65 / 4, topMargin + brickSize * 62 / 50, brickSize * 11 / 20, brickSize * 11 / 20));
             }
 
-            using (Font font = new Font("Arial", 14))
+            using (Font font = new Font("Arial", 12))
             using (Brush brush = new SolidBrush(Color.Yellow))
             {
                 string pauseText = Convert.ToString(levelNumber);
                 SizeF textSize = g.MeasureString(pauseText, font);
-                float x = (leftMargin + brickSize * 41 / 4) + (brickSize * 11 / 20 - textSize.Width) / 2;
+                float x = (leftMargin + brickSize * 65 / 4) + (brickSize * 11 / 20 - textSize.Width) / 2;
                 float y = (topMargin + brickSize * 62 / 50) + (brickSize * 11 / 20 - textSize.Height) / 2;
                 g.DrawString(pauseText, font, brush, x, y);
             }
@@ -284,7 +284,7 @@ namespace ExplorusE.Views
             else if (controller.GetState() is StopState) statusText = "VICTORY";
             else statusText = "PLAY";
 
-            using (Font font = new Font("Arial", 14))
+            using (Font font = new Font("Arial", 10))
             using (Brush brush = new SolidBrush(Color.Yellow))
             {
                 SizeF textSize = g.MeasureString(statusText, font);
