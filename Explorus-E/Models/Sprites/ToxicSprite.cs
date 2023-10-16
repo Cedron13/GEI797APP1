@@ -16,17 +16,15 @@ namespace ExplorusE.Models
 {
     internal class ToxicSprite : SlimeTypeSprite
     {
-
-        private double incrSpeed = 0;
         public ToxicSprite(coord gridPos, int top, int left, int brick) : base(gridPos, top, left, brick)
         {
-            timeToMove = 500/(0.8 + incrSpeed/10);
+            timeToMove = 600;
             lives = 2;
         }
 
         public void IncreaseSpeed()
         {
-            incrSpeed ++;
+            timeToMove -= 30;
         }
 
 
