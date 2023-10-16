@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using ExplorusE.Threads;
 using System.Threading;
 using ExplorusE.Models.Sprites;
+using System.Drawing;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -36,6 +37,9 @@ namespace ExplorusE.Controllers
         private RenderThread oRenderThread;
         private Thread renderThread;
         private List<Wall> walls;
+
+        private Text statusBarText;
+        private Text levelText;
 
         public bool IsPaused
         {
@@ -68,6 +72,8 @@ namespace ExplorusE.Controllers
 
             engine = new GameEngine(this);
             //Order is very important due to dependencies between each object, this order works 👍
+
+            InitRenderObjects();
         }
         
         public void ViewCloseEvent()
@@ -109,17 +115,24 @@ namespace ExplorusE.Controllers
                     currentState.PrepareNextState();
                     currentState.GetNextState();
                 }
+
+                statusBarText.TextToDisplay = Constants.Constants.RESUME_TEXT + " (" + ((int)(4000 - transitionTime) / 1000).ToString() + ")";
+
             }
-            else if (currentState is PlayState && (waitLoadBubble==true))
+            else if (currentState is PlayState)
             {
-                transitionTimeBubble += lag;
-                view.SetReloadTime(view.GetReloadTime()+lag);  
-                if (transitionTimeBubble > 1200)
+                if (waitLoadBubble == true)
                 {
-                    view.SetIsReloading(false);
-                    waitLoadBubble = false;
-                    Console.WriteLine("c'est okok");
+                    transitionTimeBubble += lag;
+                    view.SetReloadTime(view.GetReloadTime()+lag);  
+                    if (transitionTimeBubble > 1200)
+                    {
+                        view.SetIsReloading(false);
+                        waitLoadBubble = false;
+                        Console.WriteLine("c'est okok");
+                    }
                 }
+                statusBarText.TextToDisplay = Constants.Constants.PLAY_TEXT;
             }
             else if (currentState is StopState)
             {
@@ -128,7 +141,15 @@ namespace ExplorusE.Controllers
                 {
                     ModelCloseEvent();
                 }
+                statusBarText.TextToDisplay = Constants.Constants.VICTORY_TEXT;
             }
+            else if(currentState is PausedState)
+            {
+                statusBarText.TextToDisplay = Constants.Constants.PAUSE_TEXT;
+            }
+
+            oRenderThread.AskForNewItem(statusBarText, RenderItemType.NonPermanent);
+            oRenderThread.AskForNewItem(levelText, RenderItemType.NonPermanent);
         }
 
         public void AddSubscriber(IResizeEventSubscriber sub)
@@ -191,7 +212,45 @@ namespace ExplorusE.Controllers
             ) ;
             model.InitPlayer(player);
             AddSubscriber(model.GetPlayer());
+
+
         }
+
+        public void InitRenderObjects()
+        {
+            statusBarText = new Text(Constants.Constants.PLAY_TEXT, new SizeF()
+            {
+                Width = (float) 2.65,
+                Height = (float) 0.65
+            }, "Arial", Color.Yellow, Color.Black, new coord()
+            {
+                x = 0,
+                y = 0
+            }, new coordF()
+            {
+                x = 0.2,
+                y = 0.2
+            },
+            view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+            AddSubscriber(statusBarText);
+
+            levelText = new Text(view.GetLevelNumber().ToString(), new SizeF()
+            {
+                Width = (float)0.65,
+                Height = (float)0.65
+            }, "Arial", Color.Yellow, Color.Black, new coord()
+            {
+                x = 16,
+                y = 0
+            }, new coordF()
+            {
+                x = 0.2,
+                y = 0.2
+            },
+            view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+            AddSubscriber(levelText);
+        }
+
 
         public void SetGemCounter(int i)
         {

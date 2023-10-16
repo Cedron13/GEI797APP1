@@ -67,6 +67,7 @@ namespace ExplorusE.Threads
             itemQueue = item.CopyForRender();
             itemQueueType = type;
             isSomethingInQueue = true;*/
+
             queue.Enqueue(new RenderElement()
             {
                 element = item.CopyForRender(),

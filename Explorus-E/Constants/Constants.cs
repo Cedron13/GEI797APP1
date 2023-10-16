@@ -10,5 +10,9 @@ namespace ExplorusE.Constants
 {
     internal static class Constants
     {
+        public const string PAUSE_TEXT = "PAUSE";
+        public const string RESUME_TEXT = "RESUME";
+        public const string VICTORY_TEXT = "VICTORY";
+        public const string PLAY_TEXT = "PLAY";
     }
 }
