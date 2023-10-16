@@ -101,6 +101,15 @@ namespace ExplorusE.Models
             return labyrinth;
         }
 
+        public bool GetIsAlreadyDead()
+        {
+            return isAlreadyDead;
+        }
+        public void SetIsAlreadyDead(bool b)
+        {
+            isAlreadyDead = b;
+        }
+
         public void Update(double lag)
         {
             lock (lockSprites)
@@ -187,16 +196,11 @@ namespace ExplorusE.Models
                     isAlreadyDead = true;
 
                     // appel undo redo
-                    // isDeadOnce = false ?
                 }
-                if (playerLives == 0 && isAlreadyDead) 
+                else if (playerLives == 0 && isAlreadyDead) 
                 {
                     controller.IsDeadTwice = true;
                     controller.IsDying();
-                    //isAlreadydead = false
-                    //isDeadTwice = false ? 
-                    //timer 3 sec 
-                    // controller.EndGameReached();
                 }
             }
         }

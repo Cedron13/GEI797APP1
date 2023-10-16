@@ -37,6 +37,7 @@ namespace ExplorusE.Controllers
         private bool waitLoadBubble = false;
         private bool isInvincible = false;
         private double invincibleTimer=0;
+        private double gameOverTimer = 0;
 
         private RenderThread oRenderThread;
         private PhysicsThread oPhysicsThread;
@@ -74,6 +75,11 @@ namespace ExplorusE.Controllers
         public void SetInvincibleTimer(double time)
         {
             invincibleTimer = time;
+        }
+
+        public void SetGameOverTimer(double time)
+        {
+            gameOverTimer = time;
         }
 
         private List<Keys> inputList;
@@ -169,7 +175,24 @@ namespace ExplorusE.Controllers
                         Console.WriteLine("c'est okok");
                     }
                 }
-                    
+
+            }
+            else if (currentState is PausedState)
+            {
+                if (isDeadTwice)
+                {
+                    Console.WriteLine("je suis mort");
+                    gameOverTimer += lag;
+                    if (gameOverTimer > 3000)
+                    {
+                        isDeadTwice = false;
+                        isDeadOnce = false;
+                        model.SetIsAlreadyDead(false);
+                        Console.WriteLine("jeu terminé");
+                        EndGameReached();
+                        //AUTRE CHOSE ICI POUR PLAYER
+                    }
+                }
             }
             else if (currentState is StopState)
             {
