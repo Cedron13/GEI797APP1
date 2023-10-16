@@ -40,7 +40,7 @@ namespace ExplorusE.Models
         public override Renderable CopyForRender()
         {
             ToxicSprite copy = new ToxicSprite(new coord(), base.topMargin, base.leftMargin, base.brickSize);
-            copy.SetDirection(base.dir);
+            copy.SetDirection(dir);
             copy.SetGridPosition(currentPos);
             return copy;
         }

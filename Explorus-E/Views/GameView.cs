@@ -332,6 +332,7 @@ namespace ExplorusE.Views
                         initPosX = i - 1;
                         initPosY = j;
                     }
+                    /*
                     else if (labyrinth[i, j] == 4)
                     {
                         coord c = new coord
@@ -340,7 +341,7 @@ namespace ExplorusE.Views
                             y = j
                         };
                         ToxicDisplay(g, c);
-                    }
+                    }*/
                     else if (labyrinth[i, j] == 5)
                     {
                         g.DrawImage(tileManager.getImage("MiniSlime").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);

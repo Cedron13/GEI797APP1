@@ -37,9 +37,16 @@ namespace ExplorusE.Models
 
         public Sprite(coord gridPos, int top, int left, int brick)
         {
-            currentPos.x = gridPos.x;
-            currentPos.y = gridPos.y;
-            destinationPos = gridPos;
+            currentPos = new coordF()
+            {
+                x = gridPos.x,
+                y = gridPos.y
+            };
+            destinationPos = new coord()
+            {
+                x = gridPos.x,
+                y = gridPos.y
+            };
             topMargin = top;
             leftMargin = left;
             brickSize = brick;

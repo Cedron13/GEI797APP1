@@ -25,7 +25,7 @@ namespace ExplorusE.Models
         private IControllerModel controller;
         private PlayerSprite player;
         private List<ToxicSprite> toxicSlimes;
-        private List<BubbleSprite> bubbles = new List<BubbleSprite>();       
+        private List<BubbleSprite> bubbles;
         private List<GemSprite> gems;
         private coord gridPos;
         private int counter = 0;
@@ -33,18 +33,18 @@ namespace ExplorusE.Models
         private int playerLives = 3;
         private int[,] originalLabyrinthCopy;
         private int[,] labyrinth = {
-                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
-                {1, 0, 0, 0, 0, 1, 0, 0, 4, 0, 0, 1, 0, 0, 0, 0, 1},  // 1 = display wall
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
+                {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},  // 1 = display wall
                 {1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1},  // 2 = display door
-                {1, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4, 1},  // 3 = display Slimus
+                {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},  // 3 = display Slimus
                 {1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1},  // 4 = display gem
-                {1, 0, 1, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 1, 0, 1},  // 5 = display mini-slime
+                {1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1},  // 5 = display mini-slime
                 {1, 0, 0, 0, 1, 0, 1, 1, 2, 1, 1, 0, 1, 0, 0, 0, 1},
                 {1, 1, 1, 0, 0, 0, 1, 0, 5, 0, 1, 0, 0, 0, 1, 1, 1},
                 {1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1},
                 {1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1},
                 {1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1},
-                {1, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4, 1},
+                {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
                 {1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1},
                 {1, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 1},
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
@@ -68,6 +68,7 @@ namespace ExplorusE.Models
             originalLabyrinthCopy = new int[labyrinth.GetLength(0), labyrinth.GetLength(1)];
             Array.Copy(labyrinth, originalLabyrinthCopy, labyrinth.Length);
             toxicSlimes = new List<ToxicSprite>();
+            bubbles = new List<BubbleSprite>();
             render = r;
         }
 
@@ -106,27 +107,26 @@ namespace ExplorusE.Models
 
             render.AskForNewItem(player, RenderItemType.NonPermanent);
 
-            if (bubbles.Count > 0 && !bubbles[0].IsMovementOver())
+            if (bubbles.Count > 0)
             {
                 foreach (BubbleSprite element in bubbles)
                 {
+                    if(element.IsMovementOver())
+                    {
+                        //Invoke Movement Action
+                    }
                     element.Update((int)lag);
+                    render.AskForNewItem(element, RenderItemType.NonPermanent);
                 }
-                //bubbles[0].Update((int)lag);
-            }
-            else if (bubbles.Count > 0 && bubbles[0].IsMovementOver())
-            {
-                bubbles.Remove(bubbles[0]);
             }
 
-            foreach (BubbleSprite bubble in bubbles) render.AskForNewItem(bubble, RenderItemType.NonPermanent);
-
-            foreach (Sprite slime in toxicSlimes)
+            foreach (ToxicSprite slime in toxicSlimes)
             {
-                if (!slime.IsMovementOver())
+                if (slime.IsMovementOver())
                 {
-                    slime.Update((int)lag);
+                    NextToxicMovement(slime);
                 }
+                slime.Update((int)lag);
                 render.AskForNewItem(slime, RenderItemType.NonPermanent);
             }
 
@@ -217,11 +217,10 @@ namespace ExplorusE.Models
             }
         }
 
-        public void InitToxicSlime(coord initialPos,string name, int top, int left, int brick)
+        public void InitToxicSlime(ToxicSprite tox, String name)
         {
-            ToxicSprite toxicSlime = new ToxicSprite(initialPos, top, left, brick);
-            toxicSlime.setName(name);
-            toxicSlimes.Add(toxicSlime);
+            tox.setName(name);
+            toxicSlimes.Add(tox);
         }
 
         public void AddBubble(BubbleSprite bubble)
@@ -325,6 +324,10 @@ namespace ExplorusE.Models
                 }
             }
         }
-
+        private void NextToxicMovement(ToxicSprite tox)
+        {
+            ToxicMoveCommand c = new ToxicMoveCommand(tox);
+            InvokeCommand(c);
+        }
     }
 }

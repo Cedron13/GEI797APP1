@@ -16,7 +16,7 @@ namespace ExplorusE.Models
 {
     internal class BubbleSprite : Sprite
     {
-        protected new double timeToMove = 3750;
+        protected new double timeToMove = 500;
 
         public BubbleSprite(coord gridPos, int top, int left, int brick) : base(gridPos, top, left, brick)
         {
@@ -46,8 +46,8 @@ namespace ExplorusE.Models
         //Renderable Interface
         public override Renderable CopyForRender()
         {
-            BubbleSprite copy = new BubbleSprite(new coord(), base.topMargin, base.leftMargin, base.brickSize);
-            copy.SetDirection(base.dir);
+            BubbleSprite copy = new BubbleSprite(new coord(), topMargin, leftMargin, brickSize);
+            copy.SetDirection(dir);
             copy.SetGridPosition(currentPos);
             return copy;
         }
