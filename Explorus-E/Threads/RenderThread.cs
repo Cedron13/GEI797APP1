@@ -137,11 +137,15 @@ namespace ExplorusE.Threads
                     if (renderElement.element == null) continue;
                     else
                     {
-                        switch (renderElement.type)
+                        lock (lockObj)
                         {
-                            case RenderItemType.Permanent: AddPermanentItem(renderElement.element); break;
-                            case RenderItemType.NonPermanent: AddItem(renderElement.element); break;
+                            switch (renderElement.type)
+                            {
+                                case RenderItemType.Permanent: AddPermanentItem(renderElement.element); break;
+                                case RenderItemType.NonPermanent: AddItem(renderElement.element); break;
+                            }
                         }
+                        
                     }
                 } while (queue.TryDequeue(out renderElement));
                 //Thread.Sleep(1);
