@@ -122,9 +122,10 @@ namespace ExplorusE.Models
                     }
                 }
 
+                SizeF size = g.MeasureString(TextToDisplay, f);
                 using (Brush b = new SolidBrush(this.textColor))
                 {
-                    g.DrawString(TextToDisplay, f, b, drawPoint.x, drawPoint.y);
+                    g.DrawString(TextToDisplay, f, b, drawPoint.x + width / 2 - size.Width / 2, drawPoint.y + height / 2 - size.Height / 2);
                 }
             }
         }
