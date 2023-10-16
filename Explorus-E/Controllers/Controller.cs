@@ -12,6 +12,7 @@ using ExplorusE.Models.Sprites;
 using System.Linq;
 using System.Drawing;
 using System.Reflection;
+using System.Security.Policy;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -37,6 +38,12 @@ namespace ExplorusE.Controllers
         private bool waitLoadBubble = false;
         private bool isInvincible = false;
         private double invincibleTimer=0;
+        private bool flashPlayer = false;
+        private bool flashToxic = false;
+        private bool isFlashingToxic;
+        private double flashTempTimePlayer=0;
+        private double flashTempTimeToxic = 0;
+        private double flashToxicTimer;
 
         private RenderThread oRenderThread;
         private PhysicsThread oPhysicsThread;
@@ -62,6 +69,24 @@ namespace ExplorusE.Controllers
             set { isPaused = value; }
         }
 
+        public void SetFlashPlayer(bool v)
+        {
+            flashPlayer = v;
+        }
+        public bool GetFlashPlayer()
+        {
+            return flashPlayer;
+        }
+        public void SetFlashToxic(bool v)
+        {
+            flashToxic = v;
+        }
+
+        public bool GetFlashToxic()
+        {
+            return flashToxic;
+        }
+
         public bool GetWaitLoadBubble()
         {
             return waitLoadBubble;
@@ -72,11 +97,19 @@ namespace ExplorusE.Controllers
             isInvincible = b;
         }
 
+        public void SetIsFlashingToxic(bool b)
+        {
+            isFlashingToxic = b;
+        }
+
         public void SetInvincibleTimer(double time)
         {
             invincibleTimer = time;
         }
-
+        public void SetFlashToxicTimer(double time)
+        {
+            flashToxicTimer = time;
+        }
         private List<Keys> inputList;
 
         public Controller()
@@ -152,16 +185,37 @@ namespace ExplorusE.Controllers
             }
             else if (currentState is PlayState)
             {
+                if (isFlashingToxic)
+                {
+                    flashToxicTimer += lag;
+                    if (flashToxicTimer > flashTempTimeToxic + 500 && flashToxicTimer < 1000)
+                    {
+                        flashToxic = !flashToxic;
+                        flashTempTimeToxic = flashToxicTimer;
+                    }
+                    if (flashToxicTimer > 1000)
+                    {
+                        isFlashingToxic = false;
+                        flashTempTimeToxic = 0;
+                        flashToxic = false;
+                    }
+                }
                 if (isInvincible)
                 {
                     Console.WriteLine("je suis invincible");
                     invincibleTimer += lag;
+                    if (invincibleTimer > flashTempTimePlayer + 500 && invincibleTimer<3000)
+                    {
+                        flashPlayer = !flashPlayer;
+                        flashTempTimePlayer = invincibleTimer;
+                    }
                     if (invincibleTimer > 3000)
                     {
+                        flashPlayer = false;
                         isInvincible = false;
                         Console.WriteLine("je suis plus invincible");
                         model.GetPlayer().SetTimeDone(true);
-                        //AUTRE CHOSE ICI POUR PLAYER
+                        flashTempTimePlayer = 0;
                     }
                 }
                 if(waitLoadBubble)
