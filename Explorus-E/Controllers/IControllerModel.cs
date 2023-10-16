@@ -24,6 +24,10 @@ namespace ExplorusE.Controllers
 
         int[,] GetLabyrinth();
 
+        void SetIsInvincible(bool b);
+
+        void SetInvincibleTimer(double time);
+
         bool IsPaused { get; set; }
 
         bool GetWaitLoadBubble();

@@ -46,4 +46,11 @@ namespace ExplorusE.Constants
         BUBBLE,
         COIN
     }
+
+    public enum SpriteType
+    {
+        PLAYER,
+        ENEMY,
+        BUBBLE
+    }
 }

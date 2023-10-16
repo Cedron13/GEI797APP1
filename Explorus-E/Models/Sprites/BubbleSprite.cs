@@ -16,7 +16,10 @@ namespace ExplorusE.Models
 {
     internal class BubbleSprite : Sprite
     {
-        protected new double timeToMove = 3750;
+        protected new double timeToMove = 250;
+        private bool isDestroyed = false;
+        private volatile  bool isExploded = false;
+        private int timeSinceExplosion = 0;
 
         public BubbleSprite(coord gridPos, int top, int left, int brick) : base(gridPos, top, left, brick)
         {
@@ -25,30 +28,90 @@ namespace ExplorusE.Models
 
         public override void Update(int elapsedMs)
         {
-            timeElapsed += elapsedMs;
-            double ratio = timeElapsed / timeToMove;
-            if (ratio > 1)
+
+            if (!isExploded)
             {
-                ratio = 1; //Avoid the position going further than it is supposed
-            }
-            currentPos.x = ((double)destinationPos.x - initialPos.x) * ratio + initialPos.x;
-            currentPos.y = ((double)destinationPos.y - initialPos.y) * ratio + initialPos.y;
-            imageIndex = (int)(3.99 * ratio);//so we never have an index of 4
-            if (imageIndex == 2) { imageIndex = 0; }
-            if (imageIndex >= 3) { imageIndex = 1; }
+                //Console.WriteLine("isExploded in update " + isExploded);
+                timeElapsed += elapsedMs;
+                double ratio = timeElapsed / timeToMove;
+                if (ratio > 1)
+                {
+                    ratio = 1; //Avoid the position going further than it is supposed
+                }
+                currentPos.x = ((double)destinationPos.x - initialPos.x) * ratio + initialPos.x;
+                currentPos.y = ((double)destinationPos.y - initialPos.y) * ratio + initialPos.y;
+                imageIndex = (int)(3.99 * ratio);//so we never have an index of 4
+                if (imageIndex == 2) { imageIndex = 0; }
+                if (imageIndex >= 3) { imageIndex = 1; }
         }
+
+            if (isExploded)
+            {
+                timeSinceExplosion += elapsedMs;
+
+                
+                if (timeSinceExplosion >= 500) 
+                {
+                    Destroy();
+    }
+}
+
+        }
+        
 
         public override String GetImageName()
         {
-            return "Bubble" + (imageIndex + 1).ToString();
+            
+                //Console.WriteLine("explosed in getimage " + isExploded);
+                if (isExploded) return "Effect";
+
+                return "Bubble" + (imageIndex + 1).ToString();
+            
+
+        }
+        public bool IsDestroyed()
+        {
+            return isDestroyed;
         }
 
+        public void Destroy()
+        {
+            /*isExploded = false;*/
+            isDestroyed = true;
+        }
+
+        public void Explode()
+        {
+            
+                isExploded = true;
+               // Console.WriteLine("Bulle en train d'exploser !");
+            
+        }
+
+        public bool IsExploded()
+        {
+            
+                Console.WriteLine("isExploded   " + isExploded);
+                return isExploded;
+            
+        }
+
+        
         //Renderable Interface
         public override Renderable CopyForRender()
         {
-            BubbleSprite copy = new BubbleSprite(new coord(), base.topMargin, base.leftMargin, base.brickSize);
-            copy.SetDirection(base.dir);
+            BubbleSprite copy = new BubbleSprite(new coord(), topMargin, leftMargin, brickSize);
+            copy.SetDirection(dir);
             copy.SetGridPosition(currentPos);
+            if (isExploded)
+            {
+                copy.Explode();
+            }
+            if (isDestroyed)
+            {
+                copy.Destroy();
+            }
+
             return copy;
         }
     }

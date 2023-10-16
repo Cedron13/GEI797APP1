@@ -62,6 +62,8 @@
     <Compile Include="Models\Commands\IGameCommand.cs" />
     <Compile Include="Models\Commands\MoveCommand.cs" />
     <Compile Include="Models\Commands\StartGameCommand.cs" />
+    <Compile Include="Models\Commands\BubbleMoveCommand.cs" />
+    <Compile Include="Models\Commands\ToxicMoveCommand.cs" />
     <Compile Include="Models\Sprites\BubbleSprite.cs" />
     <Compile Include="Models\Sprites\GemSprite.cs" />
     <Compile Include="Models\Sprites\NotInGridSprite.cs" />

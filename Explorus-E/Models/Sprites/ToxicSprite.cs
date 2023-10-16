@@ -19,11 +19,12 @@ namespace ExplorusE.Models
         public ToxicSprite(coord gridPos, int top, int left, int brick) : base(gridPos, top, left, brick)
         {
             timeToMove = 600;
+            lives = 2;
         }
 
         public void IncreaseSpeed()
         {
-            timeToMove -= 20;
+            timeToMove -= 30;
         }
 
 
@@ -40,7 +41,7 @@ namespace ExplorusE.Models
         public override Renderable CopyForRender()
         {
             ToxicSprite copy = new ToxicSprite(new coord(), base.topMargin, base.leftMargin, base.brickSize);
-            copy.SetDirection(base.dir);
+            copy.SetDirection(dir);
             copy.SetGridPosition(currentPos);
             return copy;
         }

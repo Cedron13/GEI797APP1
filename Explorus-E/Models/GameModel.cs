@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Collections.Concurrent;
 using ExplorusE.Threads;
 using ExplorusE.Models.Sprites;
+using ExplorusE.Controllers.States;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -25,7 +26,7 @@ namespace ExplorusE.Models
         private IControllerModel controller;
         private PlayerSprite player;
         private List<ToxicSprite> toxicSlimes;
-        private List<BubbleSprite> bubbles = new List<BubbleSprite>();       
+        private List<BubbleSprite> bubbles;
         private List<GemSprite> gems;
         private coord gridPos;
         private int counter = 0;
@@ -33,18 +34,18 @@ namespace ExplorusE.Models
         private int playerLives = 3;
         private int[,] originalLabyrinthCopy;
         private int[,] labyrinth = {
-                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
-                {1, 0, 0, 0, 0, 1, 0, 0, 4, 0, 0, 1, 0, 0, 0, 0, 1},  // 1 = display wall
+                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
+                {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},  // 1 = display wall
                 {1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1},  // 2 = display door
-                {1, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4, 1},  // 3 = display Slimus
+                {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},  // 3 = display Slimus
                 {1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1},  // 4 = display gem
-                {1, 0, 1, 0, 1, 0, 0, 0, 4, 0, 0, 0, 1, 0, 1, 0, 1},  // 5 = display mini-slime
+                {1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1},  // 5 = display mini-slime
                 {1, 0, 0, 0, 1, 0, 1, 1, 2, 1, 1, 0, 1, 0, 0, 0, 1},
                 {1, 1, 1, 0, 0, 0, 1, 0, 5, 0, 1, 0, 0, 0, 1, 1, 1},
                 {1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1},
                 {1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1},
                 {1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1},
-                {1, 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 4, 1},
+                {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
                 {1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1},
                 {1, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 1, 0, 0, 0, 0, 1},
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
@@ -68,6 +69,8 @@ namespace ExplorusE.Models
             originalLabyrinthCopy = new int[labyrinth.GetLength(0), labyrinth.GetLength(1)];
             Array.Copy(labyrinth, originalLabyrinthCopy, labyrinth.Length);
             toxicSlimes = new List<ToxicSprite>();
+            bubbles = new List<BubbleSprite>();
+            gems = new List<GemSprite>();
             render = r;
         }
 
@@ -99,51 +102,73 @@ namespace ExplorusE.Models
 
         public void Update(double lag)
         {
-            if (!player.IsMovementOver())
+            lock (lockSprites)
             {
-                player.Update((int)lag);
-            }
-
-            render.AskForNewItem(player, RenderItemType.NonPermanent);
-
-            if (bubbles.Count > 0 && !bubbles[0].IsMovementOver())
-            {
-                foreach (BubbleSprite element in bubbles)
+                if (!player.IsMovementOver())
                 {
-                    element.Update((int)lag);
+                    player.Update((int)lag);
                 }
-                //bubbles[0].Update((int)lag);
-            }
-            else if (bubbles.Count > 0 && bubbles[0].IsMovementOver())
-            {
-                bubbles.Remove(bubbles[0]);
-            }
 
-            foreach (BubbleSprite bubble in bubbles) render.AskForNewItem(bubble, RenderItemType.NonPermanent);
+                render.AskForNewItem(player, RenderItemType.NonPermanent);
 
-            foreach (Sprite slime in toxicSlimes)
-            {
-                if (!slime.IsMovementOver())
+                if (bubbles.Count > 0)
                 {
+                    foreach (BubbleSprite element in bubbles)
+                    {
+                        if (element.IsMovementOver())
+                        {   
+                            NextBubbleMovement(element);
+                        }
+                        element.Update((int)lag);
+                        render.AskForNewItem(element, RenderItemType.NonPermanent);
+                    }
+
+                    bubbles.RemoveAll(element => element.IsDestroyed());
+                }
+
+                foreach (ToxicSprite slime in toxicSlimes)
+                {
+                    if (slime.IsMovementOver())
+                    {
+                        NextToxicMovement(slime);
+                    }
                     slime.Update((int)lag);
+                    render.AskForNewItem(slime, RenderItemType.NonPermanent);
                 }
-                render.AskForNewItem(slime, RenderItemType.NonPermanent);
+                toxicSlimes.RemoveAll(element => !element.IsAlive());
+
+                foreach(GemSprite gem in gems)
+                {
+                    render.AskForNewItem(gem, RenderItemType.NonPermanent);
+                }
             }
 
         }
         private void ToxicBubbleCollision(ToxicSprite tox, BubbleSprite b)
         {
-            bool death = tox.LoseLife();
-            if(death)
+            Console.WriteLine("Collision: " + tox.GetName());
+            if (!b.IsExploded())
             {
-                toxicSlimes.Remove(tox);
-                foreach(ToxicSprite slime in toxicSlimes)
+                bool death = tox.LoseLife();
+                if (death)
                 {
-                    slime.IncreaseSpeed();
+                    foreach (ToxicSprite slime in toxicSlimes)
+                    {
+                        slime.IncreaseSpeed();
+                    }
+                    coordF toxPos = tox.GetGridPosition();
+                    coord gemCoord = new coord()
+                    {
+                        x = (int)toxPos.x,
+                        y = (int)toxPos.y
+                    };
+                    GemSprite gem = new GemSprite(gemCoord, tox.GetActualTop(), tox.GetActualLeft(), tox.GetActualBricksize());
+                    gem.StartMovement(gemCoord, Direction.DOWN);
+                    gems.Add(gem);
                 }
-                // create new gem 
             }
-            bubbles.Remove(b);
+            b.Explode();
+            //b.Destroy();
         }
         private void ToxicPlayerCollision(ToxicSprite tox)
         {
@@ -151,17 +176,21 @@ namespace ExplorusE.Models
             {
                 player.LoseLife();
                 player.SetInvincible();
+                controller.SetIsInvincible(true);
+                controller.SetInvincibleTimer(0);
                 playerLives--;
             }
         }
         private void PlayerGemCollision(GemSprite gem)
         {
-            //ADD GEM COUNTER
+            counter++;
+            controller.SetGemCounter(counter);
+            gem.Destroy();
         }
 
         public void GoTo(Direction d, coord dest)
         {
-            player.StartMovement(dest, d);
+                player.StartMovement(dest, d);
         }
 
         public void InvokeCommand(IGameCommand command)
@@ -217,11 +246,10 @@ namespace ExplorusE.Models
             }
         }
 
-        public void InitToxicSlime(coord initialPos,string name, int top, int left, int brick)
+        public void InitToxicSlime(ToxicSprite tox, String name)
         {
-            ToxicSprite toxicSlime = new ToxicSprite(initialPos, top, left, brick);
-            toxicSlime.setName(name);
-            toxicSlimes.Add(toxicSlime);
+            tox.setName(name);
+            toxicSlimes.Add(tox);
         }
 
         public void AddBubble(BubbleSprite bubble)
@@ -235,7 +263,7 @@ namespace ExplorusE.Models
         }
 
 
-        public Sprite GetPlayer()
+        public PlayerSprite GetPlayer()
         {
             lock (lockSprites)
             {
@@ -271,6 +299,9 @@ namespace ExplorusE.Models
             if(controller.NewLevel() != 3)
             {
                 ResetLabyrinth();
+                controller.InitGame();
+                playerLives = 3; // Reset de la barre de vie
+
             }
             else
             {
@@ -293,9 +324,9 @@ namespace ExplorusE.Models
             double d = Math.Sqrt(Math.Pow(c2.x - c1.x, 2) + Math.Pow(c2.y - c1.y, 2));
             if (r1 + r2 < d)
             {
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
 
         public void checkCollision()
@@ -312,19 +343,42 @@ namespace ExplorusE.Models
                     {
                         if(IsCollision(toxSlime, bubble))
                         {
+                            
                             ToxicBubbleCollision(toxSlime, bubble);
+                            
                         }    
                     }
                 }
-                foreach(GemSprite gem in gems)
+                bubbles.RemoveAll(element => element.IsDestroyed());
+                toxicSlimes.RemoveAll(element => !element.IsAlive());
+
+                foreach (GemSprite gem in gems)
                 {
                     if(IsCollision(player, gem))
                     {
                         PlayerGemCollision(gem);
                     }
                 }
+                gems.RemoveAll(element => element.IsDestroyed());
+
             }
         }
-
+        private void NextToxicMovement(ToxicSprite tox)
+        {
+            if (controller.GetState() is PlayState) // STOP THE TOXIC SLIME IF WE ARE NOT IN PLAY STATE (pour gérer undo et redo penser à ajouter variable en +)
+            {
+                ToxicMoveCommand c = new ToxicMoveCommand(tox);
+                InvokeCommand(c);
+            }
+            
+        }
+        private void NextBubbleMovement(BubbleSprite bubble)
+        {
+            if (!bubble.IsDestroyed() && controller.GetState() is PlayState) // STOP THE TOXIC SLIME IF WE ARE NOT IN PLAY STATE (pour gérer undo et redo penser à ajouter variable en +)
+            {
+                BubbleMoveCommand c = new BubbleMoveCommand(bubble);
+                InvokeCommand(c);
+            }
+        }
     }
 }

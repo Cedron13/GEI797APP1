@@ -16,7 +16,7 @@ namespace ExplorusE.Models
 {
     internal class GemSprite : Sprite
     {
-
+        private bool isDestroyed = false;
         public GemSprite(coord gridPos, int top, int left, int brick) : base(gridPos, top, left, brick)
         {
 
@@ -28,6 +28,14 @@ namespace ExplorusE.Models
         public override String GetImageName()
         {
             return "Gem";
+        }
+        public void Destroy()
+        {
+            isDestroyed = true;
+        }
+        public bool IsDestroyed()
+        {
+            return isDestroyed;
         }
 
         //Renderable Interface
