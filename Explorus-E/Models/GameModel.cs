@@ -175,7 +175,8 @@ namespace ExplorusE.Models
         }
         private void PlayerGemCollision(GemSprite gem)
         {
-            //INCREASE GEM COUNTER
+            counter++;
+            controller.SetGemCounter(counter);
             gem.Destroy();
         }
 
