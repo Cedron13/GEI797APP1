@@ -10,6 +10,8 @@ using ExplorusE.Threads;
 using System.Threading;
 using ExplorusE.Models.Sprites;
 using System.Linq;
+using System.Drawing;
+using System.Reflection;
 using System.Security.Policy;
 
 /* EXPLORUS-E
@@ -48,6 +50,18 @@ namespace ExplorusE.Controllers
         private Thread renderThread;
         private Thread physicsThread; 
         private List<Wall> walls;
+
+        private Text statusBarText;
+        private Text levelText;
+        private NotInGridSprite titleSprite;
+        private NotInGridSprite heartSprite;
+        private NotInGridSprite bubbleSprite;
+        private NotInGridSprite coinSprite;
+        private Bar healthBar;
+        private Bar bubbleBar;
+        private Bar coinBar;
+
+        private const int BUBBLE_RELOAD_TIME = 1200;
 
         public bool IsPaused
         {
@@ -119,6 +133,8 @@ namespace ExplorusE.Controllers
 
             engine = new GameEngine(this);
             //Order is very important due to dependencies between each object, this order works 👍
+
+            InitRenderObjects();
         }
         
         public void ViewCloseEvent()
@@ -154,7 +170,7 @@ namespace ExplorusE.Controllers
         public void EngineUpdateEvent(double lag)
         {
             model.Update(lag);
-            view.SetLives(model.GetPlayerLives()); //Vie du joueur
+            healthBar.SetProgression(model.GetPlayerLives()); //Vie du joueur
             if (currentState is ResumeState)
             {
                 transitionTime += lag;
@@ -163,6 +179,9 @@ namespace ExplorusE.Controllers
                     currentState.PrepareNextState();
                     currentState.GetNextState();
                 }
+
+                statusBarText.TextToDisplay = Constants.Constants.RESUME_TEXT + " (" + ((int)(4000 - transitionTime) / 1000).ToString() + ")";
+
             }
             else if (currentState is PlayState)
             {
@@ -199,13 +218,14 @@ namespace ExplorusE.Controllers
                         flashTempTimePlayer = 0;
                     }
                 }
-                if (currentState is PlayState && (waitLoadBubble == true))
+                if(waitLoadBubble)
                 {
                     transitionTimeBubble += lag;
-                    view.SetReloadTime(view.GetReloadTime() + lag);
-                    if (transitionTimeBubble > 1200)
+                    int prog = (int)(transitionTimeBubble / BUBBLE_RELOAD_TIME * 6);
+                    Console.WriteLine(prog);
+                    bubbleBar.SetProgression(prog);
+                    if (transitionTimeBubble > BUBBLE_RELOAD_TIME)
                     {
-                        view.SetIsReloading(false);
                         waitLoadBubble = false;
                         Console.WriteLine("c'est okok");
                     }
@@ -219,7 +239,18 @@ namespace ExplorusE.Controllers
                 {
                     ModelCloseEvent();
                 }
+                statusBarText.TextToDisplay = Constants.Constants.VICTORY_TEXT;
             }
+            else if(currentState is PausedState)
+            {
+                statusBarText.TextToDisplay = Constants.Constants.PAUSE_TEXT;
+            }
+
+            oRenderThread.AskForNewItem(statusBarText, RenderItemType.NonPermanent);
+            oRenderThread.AskForNewItem(levelText, RenderItemType.NonPermanent);
+            oRenderThread.AskForNewItem(healthBar, RenderItemType.NonPermanent);
+            oRenderThread.AskForNewItem(bubbleBar, RenderItemType.NonPermanent);
+            oRenderThread.AskForNewItem(coinBar, RenderItemType.NonPermanent);
         }
 
         public void AddSubscriber(IResizeEventSubscriber sub)
@@ -236,6 +267,10 @@ namespace ExplorusE.Controllers
             }
 
             foreach (Wall w in walls) oRenderThread.AskForNewItem(w, RenderItemType.Permanent); //Re-adding all walls in the render list
+            oRenderThread.AskForNewItem(titleSprite, RenderItemType.Permanent);
+            oRenderThread.AskForNewItem(heartSprite, RenderItemType.Permanent);
+            oRenderThread.AskForNewItem(bubbleSprite, RenderItemType.Permanent);
+            oRenderThread.AskForNewItem(coinSprite, RenderItemType.Permanent);
         }
 
         public void EngineProcessInputEvent()
@@ -290,6 +325,7 @@ namespace ExplorusE.Controllers
                 y = 3
             };
             toxicCoords.Add(toxic1 );
+            
             coord toxic2 = new coord()
             {
                 x = 1,
@@ -324,14 +360,132 @@ namespace ExplorusE.Controllers
             for(int i = 0;i<toxicCoords.Count; i++)
             {
                 ToxicSprite tox = new ToxicSprite(toxicCoords.ElementAt(i), view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+                AddSubscriber(tox);
                 tox.StartMovement(toxicCoords.ElementAt(i), Direction.DOWN);
                 model.InitToxicSlime(tox, "Toxic" + i);
             }
         }
 
+        public void InitRenderObjects()
+        {
+            statusBarText = new Text(Constants.Constants.PLAY_TEXT, new SizeF()
+            {
+                Width = (float) 2.65,
+                Height = (float) 0.65
+            }, "Arial", Color.Yellow, Color.Black, new coord()
+            {
+                x = 0,
+                y = 0
+            }, new coordF()
+            {
+                x = 0.2,
+                y = 0.2
+            },
+            view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+            AddSubscriber(statusBarText);
+
+            levelText = new Text(view.GetLevelNumber().ToString(), new SizeF()
+            {
+                Width = (float)0.65,
+                Height = (float)0.65
+            }, "Arial", Color.Yellow, Color.Black, new coord()
+            {
+                x = 16,
+                y = 0
+            }, new coordF()
+            {
+                x = 0.2,
+                y = 0.2
+            },
+            view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+            AddSubscriber(levelText);
+
+            titleSprite = new NotInGridSprite(new coord()
+            {
+                x = 0,
+                y = -1
+            }, new coordF()
+            {
+                x = 0.5,
+                y = 0
+            }, Constants.Constants.TITLE_SPRITE_NAME, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.5f);
+            AddSubscriber(titleSprite);
+            oRenderThread.AskForNewItem(titleSprite, RenderItemType.Permanent);
+
+            heartSprite = new NotInGridSprite(new coord()
+            {
+                x = 3,
+                y = -2
+            }, new coordF()
+            {
+                x = 0.15,
+                y = 0.9
+            }, Constants.Constants.HEART_SPRITE_NAME, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
+            AddSubscriber(heartSprite);
+            oRenderThread.AskForNewItem(heartSprite, RenderItemType.Permanent);
+
+            bubbleSprite = new NotInGridSprite(new coord()
+            {
+                x = 7,
+                y = -2
+            }, new coordF()
+            {
+                x = 0.15,
+                y = 0.9
+            }, Constants.Constants.BUBBLE_SPRITE_NAME + "1", view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
+            AddSubscriber(bubbleSprite);
+            oRenderThread.AskForNewItem(bubbleSprite, RenderItemType.Permanent);
+
+            coinSprite = new NotInGridSprite(new coord()
+            {
+                x = 11,
+                y = -2
+            }, new coordF()
+            {
+                x = 0.15,
+                y = 0.9
+            }, Constants.Constants.COIN_SPRITE_NAME, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
+            AddSubscriber(coinSprite);
+            oRenderThread.AskForNewItem(coinSprite, RenderItemType.Permanent);
+
+            healthBar = new Bar(new coord()
+            {
+                x = 3,
+                y = -2
+            }, new coordF()
+            {
+                x = 0.5,
+                y = 0.9
+            }, false, 3, BarType.HEALTH, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
+            AddSubscriber(healthBar);
+
+            bubbleBar = new Bar(new coord()
+            {
+                x = 7,
+                y = -2
+            }, new coordF()
+            {
+                x = 0.5,
+                y = 0.9
+            }, true, 6, BarType.BUBBLE, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
+            AddSubscriber(bubbleBar);
+
+            coinBar = new Bar(new coord()
+            {
+                x = 11,
+                y = -2
+            }, new coordF()
+            {
+                x = 0.5,
+                y = 0.9
+            }, true, 6, BarType.COIN, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
+            AddSubscriber(coinBar);
+        }
+
+
         public void SetGemCounter(int i)
         {
-            view.SetGemCounter(i);
+            coinBar.SetProgression(i);
         }
         
 

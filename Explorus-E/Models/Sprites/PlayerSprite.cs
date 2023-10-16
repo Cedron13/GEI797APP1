@@ -19,6 +19,8 @@ namespace ExplorusE.Models
         bool isInvincible = false;
         private readonly object lockInvincibleTimer = new object();
         bool timeDone;
+        private DateTime lastBlinkTime = DateTime.Now;
+
         public PlayerSprite(coord gridPos, int top, int left, int brick) : base(gridPos, top, left, brick)
         {
             timeToMove = 500;
@@ -44,7 +46,7 @@ namespace ExplorusE.Models
                     isInvincible = false;
                     timeDone = false;
                 }
-            }    
+            }
             lock (coordlock)
             {
                 timeElapsed += elapsedMs;
@@ -58,6 +60,8 @@ namespace ExplorusE.Models
                 imageIndex = (int)(5 * ratio);
                 if (imageIndex == 3) { imageIndex = 1; }
                 if (imageIndex >= 4) { imageIndex = 0; }
+                
+               
             }
         }
 
@@ -67,19 +71,24 @@ namespace ExplorusE.Models
         }
         public override String GetImageName()
         {
+            
             if (dir == Direction.UP) return "Up" + (imageIndex + 1).ToString();
             else if (dir == Direction.DOWN) return "Down" + (imageIndex + 1).ToString();
             else if (dir == Direction.RIGHT) return "Right" + (imageIndex + 1).ToString();
             else if (dir == Direction.LEFT) return "Left" + (imageIndex + 1).ToString();
             else return "Idle";
         }
+        
 
         //Renderable Interface
         public override Renderable CopyForRender()
         {
+
             PlayerSprite copy = new PlayerSprite(new coord(), base.topMargin, base.leftMargin, base.brickSize);
             copy.SetDirection(base.dir);
             copy.SetGridPosition(currentPos);
+           
+
             return copy;
         }
     }
