@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace ExplorusE.Models
@@ -23,7 +22,7 @@ namespace ExplorusE.Models
         public List<Renderable> Flush()
         {
             List<Renderable> list = new List<Renderable>();
-            foreach (Renderable item in renderList.ToArray()) list.Add(item);
+            foreach (Renderable item in renderList) list.Add(item);
             renderList.Clear();
             return list;
         }
