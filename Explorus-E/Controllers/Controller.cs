@@ -36,7 +36,7 @@ namespace ExplorusE.Controllers
         private bool isInvincible = false;
         private double invincibleTimer=0;
         private bool flash = false;
-        private double flashTempTime=0;
+        private double flashTempTimePlayer=0;
 
         private RenderThread oRenderThread;
         private PhysicsThread oPhysicsThread;
@@ -148,11 +148,11 @@ namespace ExplorusE.Controllers
                 {
                     Console.WriteLine("je suis invincible");
                     invincibleTimer += lag;
-                    flashTempTime = 0;
-                    if (invincibleTimer > flashTempTime + 100 && invincibleTimer<3000)
+                    flashTempTimePlayer = 0;
+                    if (invincibleTimer > flashTempTimePlayer + 100 && invincibleTimer<3000)
                     {
                         flash = !flash;
-                        flashTempTime = invincibleTimer;
+                        flashTempTimePlayer = invincibleTimer;
                     }
                     if (invincibleTimer > 3000)
                     {
@@ -160,7 +160,7 @@ namespace ExplorusE.Controllers
                         isInvincible = false;
                         Console.WriteLine("je suis plus invincible");
                         model.GetPlayer().SetTimeDone(true);
-                        flashTempTime = 0;
+                        flashTempTimePlayer = 0;
                     }
                 }
                 if (currentState is PlayState && (waitLoadBubble == true))
