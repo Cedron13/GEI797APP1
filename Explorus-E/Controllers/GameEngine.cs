@@ -61,6 +61,7 @@ namespace ExplorusE.Controllers
                 if (lag >= MS_PER_FRAME)
                 {
                     fps = (float)(1000f / lag);
+                    controller.SetFPS(fps);
 
                     ProcessInput();
 

@@ -44,6 +44,7 @@ namespace ExplorusE.Views
         private bool isReloading = false;
         private double reloadTime = 0;
         private int lives;
+        private float fps;
         
 
 
@@ -121,6 +122,11 @@ namespace ExplorusE.Views
         public double GetReloadTime()
         {
             return reloadTime;
+        }
+
+        public void SetFPS(float value)
+        {
+            fps = value;
         }
 
         public GameView(IControllerView c, RenderThread r)
@@ -451,6 +457,24 @@ namespace ExplorusE.Views
             }
         }
 
+        private void FpsDisplay(Graphics g, PaintEventArgs e)
+        {
+            string FPS = fps.ToString();
+            using (Brush blackBrush = new SolidBrush(Color.Black))
+            {
+                e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 29/4, topMargin + brickSize * 62 / 50, brickSize * 5/2, brickSize * 11 / 20));
+            }
+
+            using (Font font = new Font("Arial", 12))
+            using (Brush brush = new SolidBrush(Color.Yellow))
+            {
+                SizeF textSize = g.MeasureString(FPS, font);
+                float x = (leftMargin + brickSize * 29 / 4) + (brickSize * 5/2 - textSize.Width) / 2;
+                float y = (topMargin + brickSize * 62 / 50) + (brickSize * 11 / 20 - textSize.Height) / 2;
+                g.DrawString(FPS, font, brush, x, y);
+            }
+        }
+
         private void GameRenderer(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -470,6 +494,7 @@ namespace ExplorusE.Views
             LabyrinthDisplay(g); //Walls are rendered by the new way
             //PlayerDisplay(g);
             StatusBarDisplay(g, e);
+            FpsDisplay(g, e);
             /*
             if (controller.GetBubbles().Count !=0)
             {
