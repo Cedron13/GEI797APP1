@@ -31,13 +31,17 @@ namespace ExplorusE.Controllers
         void SetInvincibleTimer(double time);
 
         bool IsPaused { get; set; }
-
+        void SetFlashPlayer(bool b);
+        bool GetFlashPlayer();
+        void SetFlashToxic(bool b);
+        bool GetFlashToxic();
+        void SetIsFlashingToxic(bool b);
         bool GetWaitLoadBubble();
 
         void WaitForNewBubble();
 
         void InitGame();
-
+        void SetFlashToxicTimer(double b);
         void EndGameReached();
 
         void ModelCloseEvent();
