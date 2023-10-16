@@ -54,6 +54,8 @@ namespace ExplorusE.Controllers
         private Bar bubbleBar;
         private Bar coinBar;
 
+        private const int BUBBLE_RELOAD_TIME = 1200;
+
         public bool IsPaused
         {
             get { return isPaused; }
@@ -135,7 +137,7 @@ namespace ExplorusE.Controllers
         public void EngineUpdateEvent(double lag)
         {
             model.Update(lag);
-            view.SetLives(model.GetPlayerLives()); //Vie du joueur
+            healthBar.SetProgression(model.GetPlayerLives()); //Vie du joueur
             if (currentState is ResumeState)
             {
                 transitionTime += lag;
@@ -162,13 +164,14 @@ namespace ExplorusE.Controllers
                         //AUTRE CHOSE ICI POUR PLAYER
                     }
                 }
-                if (currentState is PlayState && (waitLoadBubble == true))
+                if(waitLoadBubble)
                 {
                     transitionTimeBubble += lag;
-                    view.SetReloadTime(view.GetReloadTime() + lag);
-                    if (transitionTimeBubble > 1200)
+                    int prog = (int)(transitionTimeBubble / BUBBLE_RELOAD_TIME * 6);
+                    Console.WriteLine(prog);
+                    bubbleBar.SetProgression(prog);
+                    if (transitionTimeBubble > BUBBLE_RELOAD_TIME)
                     {
-                        view.SetIsReloading(false);
                         waitLoadBubble = false;
                         Console.WriteLine("c'est okok");
                     }
@@ -428,7 +431,7 @@ namespace ExplorusE.Controllers
 
         public void SetGemCounter(int i)
         {
-            view.SetGemCounter(i);
+            coinBar.SetProgression(i);
         }
         
 

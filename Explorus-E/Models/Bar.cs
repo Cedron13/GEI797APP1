@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ExplorusE.Models
@@ -90,7 +91,7 @@ namespace ExplorusE.Models
                     bool needHalf = count % 2 == 1;
                     for (int i = 1; i < full + 1; i++) itemList[i].SetImageName(spriteName + "Full");
                     if (needHalf) itemList[full + 1].SetImageName(spriteName + "Half");
-                    for (int i = full + 2; i < itemNumber + 1; i++) itemList[i].SetImageName(Constants.Constants.EMPTYBAR_SPRITE_NAME);
+                    for (int i = needHalf ? full + 2 : full + 1; i < itemNumber + 1; i++) itemList[i].SetImageName(Constants.Constants.EMPTYBAR_SPRITE_NAME);
                 }
             }
         }
