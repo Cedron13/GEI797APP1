@@ -40,11 +40,11 @@ namespace ExplorusE.Models.Commands
                 }
                 else if (labyrinth[newPos.y, newPos.x] == 2)
                 {
-                    if (model.GetCounter() == 3)
+                    if (model.GetCounter() == 6)
                     {
                         doorUnlocked = true;
                         isHistoryAction = true;
-                        labyrinth[4, 7] = 0; // TODO : automatically locate (coordX coordY)
+                        labyrinth[newPos.y, newPos.x] = 0; // TODO : automatically locate (coordX coordY)
                         model.SetGridPosX(newPos.x);
                         model.SetGridPosY(newPos.y);
                         model.GoTo(dir, newPos);
