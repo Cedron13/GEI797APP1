@@ -10,6 +10,7 @@ using ExplorusE.Threads;
 using System.Threading;
 using ExplorusE.Models.Sprites;
 using System.Drawing;
+using System.Reflection;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -40,6 +41,10 @@ namespace ExplorusE.Controllers
 
         private Text statusBarText;
         private Text levelText;
+        private NotInGridSprite titleSprite;
+        private NotInGridSprite heartSprite;
+        private NotInGridSprite bubbleSprite;
+        private NotInGridSprite coinSprite;
 
         public bool IsPaused
         {
@@ -166,6 +171,10 @@ namespace ExplorusE.Controllers
             }
 
             foreach (Wall w in walls) oRenderThread.AskForNewItem(w, RenderItemType.Permanent); //Re-adding all walls in the render list
+            oRenderThread.AskForNewItem(titleSprite, RenderItemType.Permanent);
+            oRenderThread.AskForNewItem(heartSprite, RenderItemType.Permanent);
+            oRenderThread.AskForNewItem(bubbleSprite, RenderItemType.Permanent);
+            oRenderThread.AskForNewItem(coinSprite, RenderItemType.Permanent);
         }
 
         public void EngineProcessInputEvent()
@@ -249,6 +258,54 @@ namespace ExplorusE.Controllers
             },
             view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
             AddSubscriber(levelText);
+
+            titleSprite = new NotInGridSprite(new coord()
+            {
+                x = 0,
+                y = -1
+            }, new coordF()
+            {
+                x = 0.5,
+                y = 0
+            }, Constants.Constants.TITLE_SPRITE_NAME, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.5f);
+            AddSubscriber(titleSprite);
+            oRenderThread.AskForNewItem(titleSprite, RenderItemType.Permanent);
+
+            heartSprite = new NotInGridSprite(new coord()
+            {
+                x = 3,
+                y = -2
+            }, new coordF()
+            {
+                x = 0.15,
+                y = 0.9
+            }, Constants.Constants.HEART_SPRITE_NAME, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
+            AddSubscriber(heartSprite);
+            oRenderThread.AskForNewItem(heartSprite, RenderItemType.Permanent);
+
+            bubbleSprite = new NotInGridSprite(new coord()
+            {
+                x = 7,
+                y = -2
+            }, new coordF()
+            {
+                x = 0.15,
+                y = 0.9
+            }, Constants.Constants.BUBBLE_SPRITE_NAME + "1", view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
+            AddSubscriber(bubbleSprite);
+            oRenderThread.AskForNewItem(bubbleSprite, RenderItemType.Permanent);
+
+            coinSprite = new NotInGridSprite(new coord()
+            {
+                x = 11,
+                y = -2
+            }, new coordF()
+            {
+                x = 0.15,
+                y = 0.9
+            }, Constants.Constants.COIN_SPRITE_NAME, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
+            AddSubscriber(coinSprite);
+            oRenderThread.AskForNewItem(coinSprite, RenderItemType.Permanent);
         }
 
 

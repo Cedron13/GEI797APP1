@@ -14,5 +14,11 @@ namespace ExplorusE.Constants
         public const string RESUME_TEXT = "RESUME";
         public const string VICTORY_TEXT = "VICTORY";
         public const string PLAY_TEXT = "PLAY";
+
+
+        public const string TITLE_SPRITE_NAME = "Title";
+        public const string HEART_SPRITE_NAME = "Heart";
+        public const string BUBBLE_SPRITE_NAME = "Bubble";
+        public const string COIN_SPRITE_NAME = "Gem";
     }
 }

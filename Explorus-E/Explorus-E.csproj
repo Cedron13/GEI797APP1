@@ -63,6 +63,7 @@
     <Compile Include="Models\Commands\StartGameCommand.cs" />
     <Compile Include="Models\Sprites\BubbleSprite.cs" />
     <Compile Include="Models\Sprites\GemSprite.cs" />
+    <Compile Include="Models\Sprites\NotInGridSprite.cs" />
     <Compile Include="Models\Sprites\PlayerSprite.cs" />
     <Compile Include="Models\Sprites\SlimeTypeSprite.cs" />
     <Compile Include="Models\Sprites\Sprite.cs" />

@@ -116,7 +116,7 @@ namespace ExplorusE.Models
             };
         }
 
-        private coord GetPixelPosition()
+        protected virtual coord GetPixelPosition()
         {
             coord playerCurrentPixelCoord = new coord()
             {
@@ -153,7 +153,7 @@ namespace ExplorusE.Models
         }
 
         //Renderable Interface
-        public void Render(Graphics g)
+        public virtual void Render(Graphics g)
         {
             g.DrawImage(tileManager.getImage(GetImageName()).bitmap, GetPixelPosition().x, GetPixelPosition().y, brickSize, brickSize);
         }
