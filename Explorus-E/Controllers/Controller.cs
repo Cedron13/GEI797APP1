@@ -149,7 +149,7 @@ namespace ExplorusE.Controllers
                     Console.WriteLine("je suis invincible");
                     invincibleTimer += lag;
                     flashTempTime = 0;
-                    if (invincibleTimer > flashTempTime + 1000 && invincibleTimer<3000)
+                    if (invincibleTimer > flashTempTime + 100 && invincibleTimer<3000)
                     {
                         flash = !flash;
                         flashTempTime = invincibleTimer;
