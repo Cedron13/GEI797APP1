@@ -181,16 +181,14 @@ namespace ExplorusE.Controllers
             {
                 if (isDeadTwice)
                 {
-                    Console.WriteLine("je suis mort");
                     gameOverTimer += lag;
                     if (gameOverTimer > 3000)
                     {
                         isDeadTwice = false;
                         isDeadOnce = false;
                         model.SetIsAlreadyDead(false);
-                        Console.WriteLine("jeu terminé");
                         EndGameReached();
-                        //AUTRE CHOSE ICI POUR PLAYER
+                        // menu display
                     }
                 }
             }
