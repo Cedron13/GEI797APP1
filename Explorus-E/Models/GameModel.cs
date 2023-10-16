@@ -176,6 +176,8 @@ namespace ExplorusE.Models
             {
                 player.LoseLife();
                 player.SetInvincible();
+                controller.SetIsInvincible(true);
+                controller.SetInvincibleTimer(0);
                 playerLives--;
             }
         }
@@ -261,7 +263,7 @@ namespace ExplorusE.Models
         }
 
 
-        public Sprite GetPlayer()
+        public PlayerSprite GetPlayer()
         {
             lock (lockSprites)
             {
