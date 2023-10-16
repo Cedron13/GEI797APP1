@@ -178,6 +178,7 @@ namespace ExplorusE.Controllers
                     {
                         isFlashingToxic = false;
                         flashTempTimeToxic = 0;
+                        flashToxic = false;
                     }
                 }
                 if (isInvincible)

@@ -25,6 +25,7 @@ namespace ExplorusE.Models
     {
         private IControllerModel controller;
         private PlayerSprite player;
+        private ToxicSprite toxicTouche;
         private List<ToxicSprite> toxicSlimes;
         private List<BubbleSprite> bubbles;
         private List<GemSprite> gems;
@@ -135,8 +136,11 @@ namespace ExplorusE.Models
                     }
                     slime.Update((int)lag);
 
-
-                    render.AskForNewItem(slime, RenderItemType.NonPermanent);                       
+                    if (!(controller.GetFlashToxic() && slime == toxicTouche))
+                    {
+                        render.AskForNewItem(slime, RenderItemType.NonPermanent);
+                    }
+                                     
                 }
                 toxicSlimes.RemoveAll(element => !element.IsAlive());
 
@@ -152,6 +156,9 @@ namespace ExplorusE.Models
             Console.WriteLine("Collision: " + tox.GetName());
             if (!b.IsExploded())
             {
+                controller.SetIsFlashingToxic(true);
+                controller.SetFlashToxicTimer(0);
+                toxicTouche = tox;
                 bool death = tox.LoseLife();
                 if (death)
                 {
@@ -165,12 +172,11 @@ namespace ExplorusE.Models
                         x = (int)toxPos.x,
                         y = (int)toxPos.y
                     };
-                    controller.SetIsFlashingToxic(true);
-                    controller.SetFlashToxicTimer(0);
                     GemSprite gem = new GemSprite(gemCoord, tox.GetActualTop(), tox.GetActualLeft(), tox.GetActualBricksize());
                     gem.StartMovement(gemCoord, Direction.DOWN);
                     gems.Add(gem);
                 }
+                
             }
             b.Explode();
             //b.Destroy();
