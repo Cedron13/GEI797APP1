@@ -32,6 +32,8 @@ namespace ExplorusE.Controllers
         private double transitionTimeBubble = 0;
         private double stopTime = 0;
         private bool isPaused = false;
+        private bool isDeadOnce = false;
+        private bool isDeadTwice = false;
         private bool waitLoadBubble = false;
         private bool isInvincible = false;
         private double invincibleTimer=0;
@@ -46,6 +48,17 @@ namespace ExplorusE.Controllers
         {
             get { return isPaused; }
             set { isPaused = value; }
+        }
+
+        public bool IsDeadOnce
+        {
+            get { return isDeadOnce; }
+            set { isDeadOnce = value; }
+        }
+        public bool IsDeadTwice
+        {
+            get { return isDeadTwice; }
+            set { isDeadTwice = value; }
         }
 
         public bool GetWaitLoadBubble()
@@ -353,8 +366,13 @@ namespace ExplorusE.Controllers
         public GameModel GetGameModel() => model;
         public IState GetState() => currentState;
         public int GetTransitionTime() => (int)transitionTime;
-       
 
+        public void IsDying()
+        {
+            isPaused = true;
+            currentState.PrepareNextState(Constants.GameStates.PAUSE);
+            currentState = currentState.GetNextState();
+        }
 
     }
 }
