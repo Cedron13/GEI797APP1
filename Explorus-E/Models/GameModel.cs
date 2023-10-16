@@ -300,6 +300,8 @@ namespace ExplorusE.Models
             {
                 ResetLabyrinth();
                 controller.InitGame();
+                playerLives = 3; // Reset de la barre de vie
+
             }
             else
             {
