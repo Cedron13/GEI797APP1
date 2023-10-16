@@ -38,7 +38,10 @@ namespace ExplorusE.Controllers
         private double invincibleTimer=0;
         private bool flashPlayer = false;
         private bool flashToxic = false;
+        private bool isFlashingToxic;
         private double flashTempTimePlayer=0;
+        private double flashTempTimeToxic = 0;
+        private double flashToxicTimer;
 
         private RenderThread oRenderThread;
         private PhysicsThread oPhysicsThread;
@@ -64,6 +67,7 @@ namespace ExplorusE.Controllers
         {
             flashToxic = v;
         }
+
         public bool GetFlashToxic()
         {
             return flashToxic;
@@ -79,11 +83,19 @@ namespace ExplorusE.Controllers
             isInvincible = b;
         }
 
+        public void SetIsFlashingToxic(bool b)
+        {
+            isFlashingToxic = b;
+        }
+
         public void SetInvincibleTimer(double time)
         {
             invincibleTimer = time;
         }
-
+        public void SetFlashToxicTimer(double time)
+        {
+            flashToxicTimer = time;
+        }
         private List<Keys> inputList;
 
         public Controller()
@@ -154,12 +166,25 @@ namespace ExplorusE.Controllers
             }
             else if (currentState is PlayState)
             {
+                if (isFlashingToxic)
+                {
+                    flashToxicTimer += lag;
+                    if (flashToxicTimer > flashTempTimeToxic + 500 && flashToxicTimer < 1000)
+                    {
+                        flashToxic = !flashToxic;
+                        flashTempTimeToxic = flashToxicTimer;
+                    }
+                    if (flashToxicTimer > 1000)
+                    {
+                        isFlashingToxic = false;
+                        flashTempTimeToxic = 0;
+                    }
+                }
                 if (isInvincible)
                 {
                     Console.WriteLine("je suis invincible");
                     invincibleTimer += lag;
-                    flashTempTimePlayer = 0;
-                    if (invincibleTimer > flashTempTimePlayer + 100 && invincibleTimer<3000)
+                    if (invincibleTimer > flashTempTimePlayer + 500 && invincibleTimer<3000)
                     {
                         flashPlayer = !flashPlayer;
                         flashTempTimePlayer = invincibleTimer;
