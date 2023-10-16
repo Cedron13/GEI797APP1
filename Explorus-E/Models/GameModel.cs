@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Collections.Concurrent;
 using ExplorusE.Threads;
 using ExplorusE.Models.Sprites;
+using ExplorusE.Controllers.States;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -182,7 +183,7 @@ namespace ExplorusE.Models
 
         public void GoTo(Direction d, coord dest)
         {
-            player.StartMovement(dest, d);
+                player.StartMovement(dest, d);
         }
 
         public void InvokeCommand(IGameCommand command)
@@ -353,12 +354,16 @@ namespace ExplorusE.Models
         }
         private void NextToxicMovement(ToxicSprite tox)
         {
-            ToxicMoveCommand c = new ToxicMoveCommand(tox);
-            InvokeCommand(c);
+            if (controller.GetState() is PlayState) // STOP THE TOXIC SLIME IF WE ARE NOT IN PLAY STATE (pour gérer undo et redo penser à ajouter variable en +)
+            {
+                ToxicMoveCommand c = new ToxicMoveCommand(tox);
+                InvokeCommand(c);
+            }
+            
         }
         private void NextBubbleMovement(BubbleSprite bubble)
         {
-            if (!bubble.IsDestroyed())
+            if (!bubble.IsDestroyed() && controller.GetState() is PlayState) // STOP THE TOXIC SLIME IF WE ARE NOT IN PLAY STATE (pour gérer undo et redo penser à ajouter variable en +)
             {
                 BubbleMoveCommand c = new BubbleMoveCommand(bubble);
                 InvokeCommand(c);
