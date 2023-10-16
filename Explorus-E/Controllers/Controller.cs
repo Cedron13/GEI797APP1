@@ -236,6 +236,7 @@ namespace ExplorusE.Controllers
                 y = 3
             };
             toxicCoords.Add(toxic1 );
+            
             coord toxic2 = new coord()
             {
                 x = 1,
@@ -270,6 +271,7 @@ namespace ExplorusE.Controllers
             for(int i = 0;i<toxicCoords.Count; i++)
             {
                 ToxicSprite tox = new ToxicSprite(toxicCoords.ElementAt(i), view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+                AddSubscriber(tox);
                 tox.StartMovement(toxicCoords.ElementAt(i), Direction.DOWN);
                 model.InitToxicSlime(tox, "Toxic" + i);
             }
