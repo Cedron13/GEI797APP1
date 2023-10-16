@@ -119,14 +119,8 @@ namespace ExplorusE.Models
                         {
                             NextBubbleMovement(element);
                         }
+                        element.Update((int)lag);
                         render.AskForNewItem(element, RenderItemType.NonPermanent);
-                        if (controller.GetState() is PlayState)
-                        {
-                            element.Update((int)lag);
-                        }
-                        
-                            
-                        
                     }
                     bubbles.RemoveAll(element => element.IsDestroyed());
                 }
@@ -358,12 +352,16 @@ namespace ExplorusE.Models
         }
         private void NextToxicMovement(ToxicSprite tox)
         {
-            ToxicMoveCommand c = new ToxicMoveCommand(tox);
-            InvokeCommand(c);
+            if (controller.GetState() is PlayState) // STOP THE TOXIC SLIME IF WE ARE NOT IN PLAY STATE
+            {
+                ToxicMoveCommand c = new ToxicMoveCommand(tox);
+                InvokeCommand(c);
+            }
+            
         }
         private void NextBubbleMovement(BubbleSprite bubble)
         {
-            if (!bubble.IsDestroyed())
+            if (!bubble.IsDestroyed() && controller.GetState() is PlayState)
             {
                 BubbleMoveCommand c = new BubbleMoveCommand(bubble);
                 InvokeCommand(c);
