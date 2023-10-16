@@ -291,6 +291,7 @@ namespace ExplorusE.Models
             if(controller.NewLevel() != 3)
             {
                 ResetLabyrinth();
+                controller.InitGame();
             }
             else
             {
