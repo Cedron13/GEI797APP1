@@ -10,6 +10,7 @@ using ExplorusE.Threads;
 using System.Threading;
 using ExplorusE.Models.Sprites;
 using System.Linq;
+using System.Security.Policy;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -35,7 +36,8 @@ namespace ExplorusE.Controllers
         private bool waitLoadBubble = false;
         private bool isInvincible = false;
         private double invincibleTimer=0;
-        private bool flash = false;
+        private bool flashPlayer = false;
+        private bool flashToxic = false;
         private double flashTempTimePlayer=0;
 
         private RenderThread oRenderThread;
@@ -50,13 +52,21 @@ namespace ExplorusE.Controllers
             set { isPaused = value; }
         }
 
-        public void SetFlash(bool v)
+        public void SetFlashPlayer(bool v)
         {
-            flash = v;
+            flashPlayer = v;
         }
-        public bool GetFlash()
+        public bool GetFlashPlayer()
         {
-            return flash;
+            return flashPlayer;
+        }
+        public void SetFlashToxic(bool v)
+        {
+            flashToxic = v;
+        }
+        public bool GetFlashToxic()
+        {
+            return flashToxic;
         }
 
         public bool GetWaitLoadBubble()
@@ -151,12 +161,12 @@ namespace ExplorusE.Controllers
                     flashTempTimePlayer = 0;
                     if (invincibleTimer > flashTempTimePlayer + 100 && invincibleTimer<3000)
                     {
-                        flash = !flash;
+                        flashPlayer = !flashPlayer;
                         flashTempTimePlayer = invincibleTimer;
                     }
                     if (invincibleTimer > 3000)
                     {
-                        flash = false;
+                        flashPlayer = false;
                         isInvincible = false;
                         Console.WriteLine("je suis plus invincible");
                         model.GetPlayer().SetTimeDone(true);

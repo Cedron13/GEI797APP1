@@ -108,7 +108,7 @@ namespace ExplorusE.Models
                 {
                     player.Update((int)lag);
                 }
-                if (!controller.GetFlash()) // If we are invinsible, we altern between hide and appear
+                if (!controller.GetFlashPlayer()) // If we are invinsible, we altern between hide and appear
                 {
                     render.AskForNewItem(player, RenderItemType.NonPermanent);
                 }
@@ -179,7 +179,7 @@ namespace ExplorusE.Models
                 player.SetInvincible();
                 controller.SetIsInvincible(true);
                 controller.SetInvincibleTimer(0);
-                controller.SetFlash(true);
+                controller.SetFlashPlayer(true);
                 playerLives--;
             }
         }
