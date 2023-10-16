@@ -58,6 +58,7 @@
     <Compile Include="Controllers\States\PlayState.cs" />
     <Compile Include="Controllers\States\ResumeState.cs" />
     <Compile Include="Controllers\States\StopState.cs" />
+    <Compile Include="Models\Bar.cs" />
     <Compile Include="Models\Commands\IGameCommand.cs" />
     <Compile Include="Models\Commands\MoveCommand.cs" />
     <Compile Include="Models\Commands\StartGameCommand.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Models\Commands\ToxicMoveCommand.cs" />
     <Compile Include="Models\Sprites\BubbleSprite.cs" />
     <Compile Include="Models\Sprites\GemSprite.cs" />
+    <Compile Include="Models\Sprites\NotInGridSprite.cs" />
     <Compile Include="Models\Sprites\PlayerSprite.cs" />
     <Compile Include="Models\Sprites\SlimeTypeSprite.cs" />
     <Compile Include="Models\Sprites\Sprite.cs" />
