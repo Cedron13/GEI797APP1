@@ -33,6 +33,8 @@ namespace ExplorusE.Controllers
         private double stopTime = 0;
         private bool isPaused = false;
         private bool waitLoadBubble = false;
+        private bool isInvincible = false;
+        private double invincibleTimer=0;
 
         private RenderThread oRenderThread;
         private PhysicsThread oPhysicsThread;
@@ -51,7 +53,15 @@ namespace ExplorusE.Controllers
             return waitLoadBubble;
         }
 
+        public void SetIsInvincible(bool b)
+        {
+            isInvincible = b;
+        }
 
+        public void SetInvincibleTimer(double time)
+        {
+            invincibleTimer = time;
+        }
 
         private List<Keys> inputList;
 
@@ -120,16 +130,32 @@ namespace ExplorusE.Controllers
                     currentState.GetNextState();
                 }
             }
-            else if (currentState is PlayState && (waitLoadBubble==true))
+            else if (currentState is PlayState)
             {
-                transitionTimeBubble += lag;
-                view.SetReloadTime(view.GetReloadTime()+lag);  
-                if (transitionTimeBubble > 1200)
+                if (isInvincible)
                 {
-                    view.SetIsReloading(false);
-                    waitLoadBubble = false;
-                    Console.WriteLine("c'est okok");
+                    Console.WriteLine("je suis invincible");
+                    invincibleTimer += lag;
+                    if (invincibleTimer > 3000)
+                    {
+                        isInvincible = false;
+                        Console.WriteLine("je suis plus invincible");
+                        model.GetPlayer().SetTimeDone(true);
+                        //AUTRE CHOSE ICI POUR PLAYER
+                    }
                 }
+                if (currentState is PlayState && (waitLoadBubble == true))
+                {
+                    transitionTimeBubble += lag;
+                    view.SetReloadTime(view.GetReloadTime() + lag);
+                    if (transitionTimeBubble > 1200)
+                    {
+                        view.SetIsReloading(false);
+                        waitLoadBubble = false;
+                        Console.WriteLine("c'est okok");
+                    }
+                }
+                    
             }
             else if (currentState is StopState)
             {
