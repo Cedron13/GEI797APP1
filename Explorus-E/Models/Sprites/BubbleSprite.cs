@@ -16,7 +16,8 @@ namespace ExplorusE.Models
 {
     internal class BubbleSprite : Sprite
     {
-        protected new double timeToMove = 500;
+        protected new double timeToMove = 250;
+        private bool isDestroyed = false;
 
         public BubbleSprite(coord gridPos, int top, int left, int brick) : base(gridPos, top, left, brick)
         {
@@ -41,6 +42,14 @@ namespace ExplorusE.Models
         public override String GetImageName()
         {
             return "Bubble" + (imageIndex + 1).ToString();
+        }
+        public bool IsDestroyed()
+        {
+            return isDestroyed;
+        }
+        public void Destroy()
+        {
+            isDestroyed = true;
         }
 
         //Renderable Interface

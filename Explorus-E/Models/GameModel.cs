@@ -69,6 +69,7 @@ namespace ExplorusE.Models
             Array.Copy(labyrinth, originalLabyrinthCopy, labyrinth.Length);
             toxicSlimes = new List<ToxicSprite>();
             bubbles = new List<BubbleSprite>();
+            gems = new List<GemSprite>();
             render = r;
         }
 
@@ -100,50 +101,68 @@ namespace ExplorusE.Models
 
         public void Update(double lag)
         {
-            if (!player.IsMovementOver())
+            lock (lockSprites)
             {
-                player.Update((int)lag);
-            }
-
-            render.AskForNewItem(player, RenderItemType.NonPermanent);
-
-            if (bubbles.Count > 0)
-            {
-                foreach (BubbleSprite element in bubbles)
+                if (!player.IsMovementOver())
                 {
-                    if(element.IsMovementOver())
+                    player.Update((int)lag);
+                }
+
+                render.AskForNewItem(player, RenderItemType.NonPermanent);
+
+                if (bubbles.Count > 0)
+                {
+                    foreach (BubbleSprite element in bubbles)
                     {
-                        //Invoke Movement Action
+                        if (element.IsMovementOver())
+                        {
+                            NextBubbleMovement(element);
+                        }
+                        element.Update((int)lag);
+                        render.AskForNewItem(element, RenderItemType.NonPermanent);
                     }
-                    element.Update((int)lag);
-                    render.AskForNewItem(element, RenderItemType.NonPermanent);
+                    bubbles.RemoveAll(element => element.IsDestroyed());
                 }
-            }
 
-            foreach (ToxicSprite slime in toxicSlimes)
-            {
-                if (slime.IsMovementOver())
+                foreach (ToxicSprite slime in toxicSlimes)
                 {
-                    NextToxicMovement(slime);
+                    if (slime.IsMovementOver())
+                    {
+                        NextToxicMovement(slime);
+                    }
+                    slime.Update((int)lag);
+                    render.AskForNewItem(slime, RenderItemType.NonPermanent);
                 }
-                slime.Update((int)lag);
-                render.AskForNewItem(slime, RenderItemType.NonPermanent);
+                toxicSlimes.RemoveAll(element => !element.IsAlive());
+
+                foreach(GemSprite gem in gems)
+                {
+                    render.AskForNewItem(gem, RenderItemType.NonPermanent);
+                }
             }
 
         }
         private void ToxicBubbleCollision(ToxicSprite tox, BubbleSprite b)
         {
+            Console.WriteLine("Collision: " + tox.GetName());
             bool death = tox.LoseLife();
             if(death)
             {
-                toxicSlimes.Remove(tox);
                 foreach(ToxicSprite slime in toxicSlimes)
                 {
                     slime.IncreaseSpeed();
                 }
-                // create new gem 
+                coordF toxPos = tox.GetGridPosition();
+                coord gemCoord = new coord()
+                {
+                    x = (int)toxPos.x,
+                    y = (int)toxPos.y
+                };
+                GemSprite gem = new GemSprite(gemCoord, tox.GetActualTop(), tox.GetActualLeft(), tox.GetActualBricksize());
+                gem.StartMovement(gemCoord, Direction.DOWN);
+                gems.Add(gem);
             }
-            bubbles.Remove(b);
+            b.Destroy();
         }
         private void ToxicPlayerCollision(ToxicSprite tox)
         {
@@ -156,7 +175,8 @@ namespace ExplorusE.Models
         }
         private void PlayerGemCollision(GemSprite gem)
         {
-            //ADD GEM COUNTER
+            //INCREASE GEM COUNTER
+            gem.Destroy();
         }
 
         public void GoTo(Direction d, coord dest)
@@ -292,9 +312,9 @@ namespace ExplorusE.Models
             double d = Math.Sqrt(Math.Pow(c2.x - c1.x, 2) + Math.Pow(c2.y - c1.y, 2));
             if (r1 + r2 < d)
             {
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
 
         public void checkCollision()
@@ -315,19 +335,32 @@ namespace ExplorusE.Models
                         }    
                     }
                 }
-                foreach(GemSprite gem in gems)
+                bubbles.RemoveAll(element => element.IsDestroyed());
+                toxicSlimes.RemoveAll(element => !element.IsAlive());
+
+                foreach (GemSprite gem in gems)
                 {
                     if(IsCollision(player, gem))
                     {
                         PlayerGemCollision(gem);
                     }
                 }
+                gems.RemoveAll(element => element.IsDestroyed());
+
             }
         }
         private void NextToxicMovement(ToxicSprite tox)
         {
             ToxicMoveCommand c = new ToxicMoveCommand(tox);
             InvokeCommand(c);
+        }
+        private void NextBubbleMovement(BubbleSprite bubble)
+        {
+            if (!bubble.IsDestroyed())
+            {
+                BubbleMoveCommand c = new BubbleMoveCommand(bubble);
+                InvokeCommand(c);
+            }
         }
     }
 }

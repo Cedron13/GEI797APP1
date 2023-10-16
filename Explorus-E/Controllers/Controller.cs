@@ -35,7 +35,9 @@ namespace ExplorusE.Controllers
         private bool waitLoadBubble = false;
 
         private RenderThread oRenderThread;
+        private PhysicsThread oPhysicsThread;
         private Thread renderThread;
+        private Thread physicsThread; 
         private List<Wall> walls;
 
         public bool IsPaused
@@ -57,6 +59,7 @@ namespace ExplorusE.Controllers
         {
             oRenderThread = new RenderThread(); //TODO: Look for which object needs an access to oRenderThread
             model = new GameModel(this, oRenderThread);
+            oPhysicsThread = new PhysicsThread("Collision Thread", model);
             inputList = new List<Keys>();
             resizeSubscribers = new List<IResizeEventSubscriber>();
             view = new GameView(this, oRenderThread);
@@ -67,6 +70,10 @@ namespace ExplorusE.Controllers
             renderThread.Name = "Render Thread";
             renderThread.Start();
 
+            physicsThread = new Thread(new ThreadStart(oPhysicsThread.Run));
+            physicsThread.Name = "Collision Thread";
+            physicsThread.Start();
+
             engine = new GameEngine(this);
             //Order is very important due to dependencies between each object, this order works 👍
         }
@@ -76,7 +83,9 @@ namespace ExplorusE.Controllers
             engine.KillEngine(); //Works 👍
             view.Close();
             oRenderThread.Stop();
+            oPhysicsThread.Stop();
             renderThread.Join();
+            physicsThread.Join();
 
         }
         public void ModelCloseEvent()

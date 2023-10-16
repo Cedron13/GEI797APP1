@@ -50,13 +50,17 @@ namespace ExplorusE.Models
             topMargin = top;
             leftMargin = left;
             brickSize = brick;
-            boundingRadius = 1;
+            boundingRadius = 0.40;
             tileManager = TileManager.GetInstance();
         }
 
         public void setName(string n)
         {
             name = n;
+        }
+        public string GetName()
+        {
+            return name;
         }
         //IResizeEventSubscriber
         public void NotifyResize(int top, int left, int brick)

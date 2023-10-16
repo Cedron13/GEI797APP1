@@ -19,11 +19,12 @@ namespace ExplorusE.Models
         public ToxicSprite(coord gridPos, int top, int left, int brick) : base(gridPos, top, left, brick)
         {
             timeToMove = 600;
+            lives = 2;
         }
 
         public void IncreaseSpeed()
         {
-            timeToMove -= 20;
+            timeToMove -= 30;
         }
 
 
