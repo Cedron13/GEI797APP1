@@ -504,8 +504,8 @@ namespace ExplorusE.Controllers
         public GameModel GetGameModel() => model;
         public IState GetState() => currentState;
         public int GetTransitionTime() => (int)transitionTime;
-       
 
-
+        
+        
     }
 }

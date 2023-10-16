@@ -1,6 +1,7 @@
 ﻿using ExplorusE.Constants;
 using ExplorusE.Controllers.States;
 using ExplorusE.Models;
+using ExplorusE.Observer;
 using System.Collections.Generic;
 
 
@@ -16,6 +17,7 @@ namespace ExplorusE.Controllers
 {
     internal interface IControllerModel
     {
+        
         void EngineRenderEvent();
 
         void EngineUpdateEvent(double lag);
@@ -40,6 +42,8 @@ namespace ExplorusE.Controllers
 
         void ModelCloseEvent();
 
+        
+
         GameModel GetGameModel();
 
         Sprite GetPlayer();
@@ -52,8 +56,6 @@ namespace ExplorusE.Controllers
         void ExitPause();
 
         int NewLevel();
-
-       
-        
+        void AddSubscriber(IResizeEventSubscriber newBubble);
     }
 }

@@ -37,7 +37,6 @@ namespace ExplorusE.Controllers
 
         void PositionUpdate();
         List<BubbleSprite> GetBubbles();
-
-
+        
     }
 }

@@ -255,6 +255,7 @@ namespace ExplorusE.Models
         public void AddBubble(BubbleSprite bubble)
         {
             //BubbleSprite bubble = new BubbleSprite(initialPos,top,left,brick);
+            
             bubbles.Add(bubble);
         }
         public List<BubbleSprite> GetBubbles()
