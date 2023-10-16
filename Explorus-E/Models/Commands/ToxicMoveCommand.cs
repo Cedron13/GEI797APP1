@@ -22,6 +22,7 @@ namespace ExplorusE.Models.Commands
         private coord newPos;
         private ToxicSprite toxicSprite;
         private Random rnd;
+        private bool isWall = false;
 
 
         public ToxicMoveCommand(ToxicSprite tox)
@@ -45,15 +46,16 @@ namespace ExplorusE.Models.Commands
                 coord defaultDirCoord = GetCoordFromDir(dir, initialPos);
                 if(labyrinth[defaultDirCoord.y, defaultDirCoord.x] == 0 || labyrinth[defaultDirCoord.y, defaultDirCoord.x] == 3)
                 {
-                    toxicSprite.StartMovement(defaultDirCoord, dir);
+                    isWall = false;
                 }
                 else
                 {
-                    List<Direction> possibleDirs = EvaluatePossibleDirections(labyrinth, initialPos);
-                    Direction newDir = possibleDirs.ElementAt(rnd.Next(possibleDirs.Count));
-                    defaultDirCoord = GetCoordFromDir(newDir, initialPos);
-                    toxicSprite.StartMovement(defaultDirCoord, newDir);
+                    isWall = true;
                 }
+                List<Direction> possibleDirs = EvaluatePossibleDirections(labyrinth, initialPos);
+                Direction newDir = possibleDirs.ElementAt(rnd.Next(possibleDirs.Count));
+                defaultDirCoord = GetCoordFromDir(newDir, initialPos);
+                toxicSprite.StartMovement(defaultDirCoord, newDir);
             }
         }
         public void Undo(GameModel model)
@@ -68,22 +70,34 @@ namespace ExplorusE.Models.Commands
             coord tempCoord = GetCoordFromDir(Direction.DOWN, initialCoord);
             if (lab[tempCoord.y, tempCoord.x] == 0 || lab[tempCoord.y, tempCoord.x] == 3)
             {
-                result.Add(Direction.DOWN);
+                if(this.dir != Direction.UP || isWall)
+                {
+                    result.Add(Direction.DOWN);
+                }
             }
             tempCoord = GetCoordFromDir(Direction.UP, initialCoord);
             if (lab[tempCoord.y, tempCoord.x] == 0 || lab[tempCoord.y, tempCoord.x] == 3)
             {
-                result.Add(Direction.UP);
+                if (this.dir != Direction.DOWN || isWall)
+                {
+                    result.Add(Direction.UP);
+                }
             }
             tempCoord = GetCoordFromDir(Direction.RIGHT, initialCoord);
             if (lab[tempCoord.y, tempCoord.x] == 0 || lab[tempCoord.y, tempCoord.x] == 3)
             {
-                result.Add(Direction.RIGHT);
+                if (this.dir != Direction.LEFT || isWall)
+                {
+                    result.Add(Direction.RIGHT);
+                }
             }
             tempCoord = GetCoordFromDir(Direction.LEFT, initialCoord);
             if (lab[tempCoord.y, tempCoord.x] == 0 || lab[tempCoord.y, tempCoord.x] == 3)
             {
-                result.Add(Direction.LEFT);
+                if (this.dir != Direction.RIGHT || isWall)
+                {
+                    result.Add(Direction.LEFT);
+                }
             }
             return result;
         }
