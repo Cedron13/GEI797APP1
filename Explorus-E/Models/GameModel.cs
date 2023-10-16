@@ -115,12 +115,13 @@ namespace ExplorusE.Models
                     foreach (BubbleSprite element in bubbles)
                     {
                         if (element.IsMovementOver())
-                        {
+                        {   
                             NextBubbleMovement(element);
                         }
                         element.Update((int)lag);
                         render.AskForNewItem(element, RenderItemType.NonPermanent);
                     }
+
                     bubbles.RemoveAll(element => element.IsDestroyed());
                 }
 
@@ -145,24 +146,28 @@ namespace ExplorusE.Models
         private void ToxicBubbleCollision(ToxicSprite tox, BubbleSprite b)
         {
             Console.WriteLine("Collision: " + tox.GetName());
-            bool death = tox.LoseLife();
-            if(death)
+            if (!b.IsExploded())
             {
-                foreach(ToxicSprite slime in toxicSlimes)
+                bool death = tox.LoseLife();
+                if (death)
                 {
-                    slime.IncreaseSpeed();
+                    foreach (ToxicSprite slime in toxicSlimes)
+                    {
+                        slime.IncreaseSpeed();
+                    }
+                    coordF toxPos = tox.GetGridPosition();
+                    coord gemCoord = new coord()
+                    {
+                        x = (int)toxPos.x,
+                        y = (int)toxPos.y
+                    };
+                    GemSprite gem = new GemSprite(gemCoord, tox.GetActualTop(), tox.GetActualLeft(), tox.GetActualBricksize());
+                    gem.StartMovement(gemCoord, Direction.DOWN);
+                    gems.Add(gem);
                 }
-                coordF toxPos = tox.GetGridPosition();
-                coord gemCoord = new coord()
-                {
-                    x = (int)toxPos.x,
-                    y = (int)toxPos.y
-                };
-                GemSprite gem = new GemSprite(gemCoord, tox.GetActualTop(), tox.GetActualLeft(), tox.GetActualBricksize());
-                gem.StartMovement(gemCoord, Direction.DOWN);
-                gems.Add(gem);
             }
-            b.Destroy();
+            b.Explode();
+            //b.Destroy();
         }
         private void ToxicPlayerCollision(ToxicSprite tox)
         {
@@ -331,7 +336,9 @@ namespace ExplorusE.Models
                     {
                         if(IsCollision(toxSlime, bubble))
                         {
+                            
                             ToxicBubbleCollision(toxSlime, bubble);
+                            
                         }    
                     }
                 }

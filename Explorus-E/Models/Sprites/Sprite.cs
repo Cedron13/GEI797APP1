@@ -126,7 +126,7 @@ namespace ExplorusE.Models
                 y = pos.y
             };
         }
-
+       
         private coord GetPixelPosition()
         {
             coord playerCurrentPixelCoord = new coord()
@@ -142,6 +142,7 @@ namespace ExplorusE.Models
         {
             dir = d;
         }
+        
 
         public abstract String GetImageName();
         

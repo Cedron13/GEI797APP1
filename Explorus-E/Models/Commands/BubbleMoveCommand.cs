@@ -49,7 +49,10 @@ namespace ExplorusE.Models.Commands
                 }
                 else
                 {
-                    bubbleSprite.Destroy();
+
+                    //bubbleSprite.Destroy();
+                    bubbleSprite.Explode();
+
                 }
             }
         }

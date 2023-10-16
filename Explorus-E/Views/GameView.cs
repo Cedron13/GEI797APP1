@@ -370,6 +370,7 @@ namespace ExplorusE.Views
         private void BubbleDisplay(Graphics g,BubbleSprite bubble)
         {
             spriteState bubbleStatus = bubble.GetCurrentRenderInfo();
+
             //Console.WriteLine(bubbleStatus.spriteCoord.x);
             // BubbleSprite b = new BubbleSprite(coordbubble, topMargin, leftMargin, brickSize);
             g.DrawImage(tileManager.getImage("Bubble2").bitmap, (int)(brickSize * bubble.GetGridPosition().x + leftMargin), (int)(brickSize * bubble.GetGridPosition().y + topMargin + brickSize), brickSize, brickSize);
@@ -427,6 +428,7 @@ namespace ExplorusE.Views
 
             //TODO: Change this method to loop with the RenderThread object
             List<Renderable> renderPermanentItems = render.GetPermanentItems();
+
             foreach (Renderable r in renderPermanentItems) r.Render(g);
 
             List<Renderable> renderItems = render.GetItems();

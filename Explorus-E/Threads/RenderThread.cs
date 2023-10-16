@@ -126,7 +126,7 @@ namespace ExplorusE.Threads
                             case RenderItemType.Permanent: AddPermanentItem(itemQueue); break;
                             case RenderItemType.NonPermanent: AddItem(itemQueue); break; 
                         }
-                        isSomethingInQueue = false;
+                        isSomethingInQueue = false; 
                     }
                 }
                 */
