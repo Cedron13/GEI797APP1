@@ -116,12 +116,12 @@ namespace ExplorusE.Controllers
         public void EngineRenderEvent()
         {
             view.Render();
-            view.SetLives(model.GetPlayerLives()); //Vie du joueur
         }
 
         public void EngineUpdateEvent(double lag)
         {
             model.Update(lag);
+            view.SetLives(model.GetPlayerLives()); //Vie du joueur
             if (currentState is ResumeState)
             {
                 transitionTime += lag;
