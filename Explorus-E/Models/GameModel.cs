@@ -182,7 +182,7 @@ namespace ExplorusE.Models
 
         public void GoTo(Direction d, coord dest)
         {
-            player.StartMovement(dest, d);
+                player.StartMovement(dest, d);
         }
 
         public void InvokeCommand(IGameCommand command)
@@ -352,7 +352,7 @@ namespace ExplorusE.Models
         }
         private void NextToxicMovement(ToxicSprite tox)
         {
-            if (controller.GetState() is PlayState) // STOP THE TOXIC SLIME IF WE ARE NOT IN PLAY STATE
+            if (controller.GetState() is PlayState) // STOP THE TOXIC SLIME IF WE ARE NOT IN PLAY STATE (pour gérer undo et redo penser à ajouter variable en +)
             {
                 ToxicMoveCommand c = new ToxicMoveCommand(tox);
                 InvokeCommand(c);
@@ -361,7 +361,7 @@ namespace ExplorusE.Models
         }
         private void NextBubbleMovement(BubbleSprite bubble)
         {
-            if (!bubble.IsDestroyed() && controller.GetState() is PlayState)
+            if (!bubble.IsDestroyed() && controller.GetState() is PlayState) // STOP THE TOXIC SLIME IF WE ARE NOT IN PLAY STATE (pour gérer undo et redo penser à ajouter variable en +)
             {
                 BubbleMoveCommand c = new BubbleMoveCommand(bubble);
                 InvokeCommand(c);
