@@ -29,7 +29,8 @@ namespace ExplorusE.Controllers
         void SetInvincibleTimer(double time);
 
         bool IsPaused { get; set; }
-
+        void SetFlash(bool b);
+        bool GetFlash();
         bool GetWaitLoadBubble();
 
         void WaitForNewBubble();

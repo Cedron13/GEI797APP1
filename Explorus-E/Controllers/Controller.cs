@@ -35,6 +35,8 @@ namespace ExplorusE.Controllers
         private bool waitLoadBubble = false;
         private bool isInvincible = false;
         private double invincibleTimer=0;
+        private bool flash = false;
+        private double flashTempTime=0;
 
         private RenderThread oRenderThread;
         private PhysicsThread oPhysicsThread;
@@ -46,6 +48,15 @@ namespace ExplorusE.Controllers
         {
             get { return isPaused; }
             set { isPaused = value; }
+        }
+
+        public void SetFlash(bool v)
+        {
+            flash = v;
+        }
+        public bool GetFlash()
+        {
+            return flash;
         }
 
         public bool GetWaitLoadBubble()
@@ -137,12 +148,19 @@ namespace ExplorusE.Controllers
                 {
                     Console.WriteLine("je suis invincible");
                     invincibleTimer += lag;
+                    flashTempTime = 0;
+                    if (invincibleTimer > flashTempTime + 1000 && invincibleTimer<3000)
+                    {
+                        flash = !flash;
+                        flashTempTime = invincibleTimer;
+                    }
                     if (invincibleTimer > 3000)
                     {
+                        flash = false;
                         isInvincible = false;
                         Console.WriteLine("je suis plus invincible");
                         model.GetPlayer().SetTimeDone(true);
-                        //AUTRE CHOSE ICI POUR PLAYER
+                        flashTempTime = 0;
                     }
                 }
                 if (currentState is PlayState && (waitLoadBubble == true))

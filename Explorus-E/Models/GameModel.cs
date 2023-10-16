@@ -108,9 +108,10 @@ namespace ExplorusE.Models
                 {
                     player.Update((int)lag);
                 }
-
-                render.AskForNewItem(player, RenderItemType.NonPermanent);
-
+                if (!controller.GetFlash()) // If we are invinsible, we altern between hide and appear
+                {
+                    render.AskForNewItem(player, RenderItemType.NonPermanent);
+                }
                 if (bubbles.Count > 0)
                 {
                     foreach (BubbleSprite element in bubbles)
@@ -178,6 +179,7 @@ namespace ExplorusE.Models
                 player.SetInvincible();
                 controller.SetIsInvincible(true);
                 controller.SetInvincibleTimer(0);
+                controller.SetFlash(true);
                 playerLives--;
             }
         }
