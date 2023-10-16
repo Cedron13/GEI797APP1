@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Collections.Concurrent;
 using ExplorusE.Threads;
 using ExplorusE.Models.Sprites;
+using ExplorusE.Controllers.States;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -118,8 +119,14 @@ namespace ExplorusE.Models
                         {
                             NextBubbleMovement(element);
                         }
-                        element.Update((int)lag);
                         render.AskForNewItem(element, RenderItemType.NonPermanent);
+                        if (controller.GetState() is PlayState)
+                        {
+                            element.Update((int)lag);
+                        }
+                        
+                            
+                        
                     }
                     bubbles.RemoveAll(element => element.IsDestroyed());
                 }
