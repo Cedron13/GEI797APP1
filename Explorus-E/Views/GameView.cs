@@ -44,7 +44,7 @@ namespace ExplorusE.Views
         private bool isReloading = false;
         private double reloadTime = 0;
         private int lives;
-        private float fps;
+        private int fps;
         
 
 
@@ -126,7 +126,7 @@ namespace ExplorusE.Views
 
         public void SetFPS(float value)
         {
-            fps = value;
+            fps = (int)value;
         }
 
         public GameView(IControllerView c, RenderThread r)
