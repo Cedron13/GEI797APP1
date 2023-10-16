@@ -232,8 +232,8 @@ namespace ExplorusE.Views
                     }
                     else if (labyrinth[i, j] == 3)
                     {
-                        initPosX = i - 1;
-                        initPosY = j;
+                        initPosX = 8;
+                        initPosY = 13;
                     }
                     else if (labyrinth[i, j] == 4)
                     {
