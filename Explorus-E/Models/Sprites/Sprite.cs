@@ -37,19 +37,30 @@ namespace ExplorusE.Models
 
         public Sprite(coord gridPos, int top, int left, int brick)
         {
-            currentPos.x = gridPos.x;
-            currentPos.y = gridPos.y;
-            destinationPos = gridPos;
+            currentPos = new coordF()
+            {
+                x = gridPos.x,
+                y = gridPos.y
+            };
+            destinationPos = new coord()
+            {
+                x = gridPos.x,
+                y = gridPos.y
+            };
             topMargin = top;
             leftMargin = left;
             brickSize = brick;
-            boundingRadius = 1;
+            boundingRadius = 0.40;
             tileManager = TileManager.GetInstance();
         }
 
         public void setName(string n)
         {
             name = n;
+        }
+        public string GetName()
+        {
+            return name;
         }
         //IResizeEventSubscriber
         public void NotifyResize(int top, int left, int brick)
@@ -115,7 +126,7 @@ namespace ExplorusE.Models
                 y = pos.y
             };
         }
-
+       
         private coord GetPixelPosition()
         {
             coord playerCurrentPixelCoord = new coord()
@@ -131,6 +142,7 @@ namespace ExplorusE.Models
         {
             dir = d;
         }
+        
 
         public abstract String GetImageName();
         

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using ExplorusE.Threads;
 using System.Threading;
 using ExplorusE.Models.Sprites;
+using System.Linq;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -32,9 +33,13 @@ namespace ExplorusE.Controllers
         private double stopTime = 0;
         private bool isPaused = false;
         private bool waitLoadBubble = false;
+        private bool isInvincible = false;
+        private double invincibleTimer=0;
 
         private RenderThread oRenderThread;
+        private PhysicsThread oPhysicsThread;
         private Thread renderThread;
+        private Thread physicsThread; 
         private List<Wall> walls;
 
         public bool IsPaused
@@ -48,7 +53,15 @@ namespace ExplorusE.Controllers
             return waitLoadBubble;
         }
 
+        public void SetIsInvincible(bool b)
+        {
+            isInvincible = b;
+        }
 
+        public void SetInvincibleTimer(double time)
+        {
+            invincibleTimer = time;
+        }
 
         private List<Keys> inputList;
 
@@ -56,6 +69,7 @@ namespace ExplorusE.Controllers
         {
             oRenderThread = new RenderThread(); //TODO: Look for which object needs an access to oRenderThread
             model = new GameModel(this, oRenderThread);
+            oPhysicsThread = new PhysicsThread("Collision Thread", model);
             inputList = new List<Keys>();
             resizeSubscribers = new List<IResizeEventSubscriber>();
             view = new GameView(this, oRenderThread);
@@ -66,6 +80,10 @@ namespace ExplorusE.Controllers
             renderThread.Name = "Render Thread";
             renderThread.Start();
 
+            physicsThread = new Thread(new ThreadStart(oPhysicsThread.Run));
+            physicsThread.Name = "Collision Thread";
+            physicsThread.Start();
+
             engine = new GameEngine(this);
             //Order is very important due to dependencies between each object, this order works 👍
         }
@@ -75,7 +93,9 @@ namespace ExplorusE.Controllers
             engine.KillEngine(); //Works 👍
             view.Close();
             oRenderThread.Stop();
+            oPhysicsThread.Stop();
             renderThread.Join();
+            physicsThread.Join();
 
         }
         public void ModelCloseEvent()
@@ -101,6 +121,7 @@ namespace ExplorusE.Controllers
         public void EngineUpdateEvent(double lag)
         {
             model.Update(lag);
+            view.SetLives(model.GetPlayerLives()); //Vie du joueur
             if (currentState is ResumeState)
             {
                 transitionTime += lag;
@@ -110,16 +131,32 @@ namespace ExplorusE.Controllers
                     currentState.GetNextState();
                 }
             }
-            else if (currentState is PlayState && (waitLoadBubble==true))
+            else if (currentState is PlayState)
             {
-                transitionTimeBubble += lag;
-                view.SetReloadTime(view.GetReloadTime()+lag);  
-                if (transitionTimeBubble > 1200)
+                if (isInvincible)
                 {
-                    view.SetIsReloading(false);
-                    waitLoadBubble = false;
-                    Console.WriteLine("c'est okok");
+                    Console.WriteLine("je suis invincible");
+                    invincibleTimer += lag;
+                    if (invincibleTimer > 3000)
+                    {
+                        isInvincible = false;
+                        Console.WriteLine("je suis plus invincible");
+                        model.GetPlayer().SetTimeDone(true);
+                        //AUTRE CHOSE ICI POUR PLAYER
+                    }
                 }
+                if (currentState is PlayState && (waitLoadBubble == true))
+                {
+                    transitionTimeBubble += lag;
+                    view.SetReloadTime(view.GetReloadTime() + lag);
+                    if (transitionTimeBubble > 1200)
+                    {
+                        view.SetIsReloading(false);
+                        waitLoadBubble = false;
+                        Console.WriteLine("c'est okok");
+                    }
+                }
+                    
             }
             else if (currentState is StopState)
             {
@@ -157,7 +194,9 @@ namespace ExplorusE.Controllers
 
         public void InitGame()
         {
-
+            int top = view.GetTopMargin();
+            int left = view.GetLeftMargin();
+            int brick = view.GetBrickSize();
             walls = new List<Wall>();
             for (int i = 0; i < model.GetLabyrinth().GetLength(0); i++)
             {
@@ -174,7 +213,7 @@ namespace ExplorusE.Controllers
                         {
                             x = j,
                             y = i
-                        }, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+                        }, top, left, brick);
                         walls.Add(w);
                         AddSubscriber(w);
                         oRenderThread.AskForNewItem(w, RenderItemType.Permanent);
@@ -187,10 +226,53 @@ namespace ExplorusE.Controllers
                 {
                     x = model.GetGridPosX(), //Place holder coordinates
                     y = model.GetGridPosY()
-                }, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize()
-            ) ;
+                }, top, left, brick);
             model.InitPlayer(player);
             AddSubscriber(model.GetPlayer());
+
+            List<coord> toxicCoords = new List<coord>();
+            coord toxic1 = new coord() {
+                x = 1,
+                y = 3
+            };
+            toxicCoords.Add(toxic1 );
+            coord toxic2 = new coord()
+            {
+                x = 1,
+                y = 11
+            };
+            toxicCoords.Add(toxic2);
+            coord toxic3 = new coord()
+            {
+                x = 8,
+                y = 1
+            };
+            toxicCoords.Add(toxic3);
+            coord toxic4 = new coord()
+            {
+                x = 8,
+                y = 5
+            };
+            toxicCoords.Add(toxic4);
+            coord toxic5 = new coord()
+            {
+                x = 15,
+                y = 3
+            };
+            toxicCoords.Add(toxic5);
+            coord toxic6 = new coord()
+            {
+                x = 15,
+                y = 11
+            };
+            toxicCoords.Add(toxic6);
+
+            for(int i = 0;i<toxicCoords.Count; i++)
+            {
+                ToxicSprite tox = new ToxicSprite(toxicCoords.ElementAt(i), view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+                tox.StartMovement(toxicCoords.ElementAt(i), Direction.DOWN);
+                model.InitToxicSlime(tox, "Toxic" + i);
+            }
         }
 
         public void SetGemCounter(int i)

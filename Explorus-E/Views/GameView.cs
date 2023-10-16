@@ -43,6 +43,7 @@ namespace ExplorusE.Views
         private coord coordbubble = new coord();
         private bool isReloading = false;
         private double reloadTime = 0;
+        private int lives;
         
 
 
@@ -75,7 +76,10 @@ namespace ExplorusE.Views
         }
 
         
-
+        public void SetLives(int value)
+        {
+            lives = value;
+        }
 
         public void SetLevelNumber(int i)
         {
@@ -176,17 +180,43 @@ namespace ExplorusE.Views
 
 
             
-                g.DrawImage(tileManager.getImage("Heart").bitmap, beginTaskBar, topMargin, menuItemWidth, menuItemWidth);
-                g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 1, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("Heart").bitmap, beginTaskBar, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 1, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 2, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 3, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 4, topMargin, menuItemWidth, menuItemWidth);
+
+            if (lives == 3)
+            {
                 g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 2, topMargin, menuItemWidth, menuItemWidth);
                 g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 3, topMargin, menuItemWidth, menuItemWidth);
                 g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 4, topMargin, menuItemWidth, menuItemWidth);
-                g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 5, topMargin, menuItemWidth, menuItemWidth);
+            }
+            else if (lives == 2)
+            {
+                g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 2, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 3, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 4, topMargin, menuItemWidth, menuItemWidth);
+            }
+            else if (lives == 1)
+            {
+                g.DrawImage(tileManager.getImage("RedFull").bitmap, beginTaskBar + menuItemWidth * 2, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 3, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 4, topMargin, menuItemWidth, menuItemWidth);
+            }
+            else if (lives == 0)
+            {
+                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 2, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 3, topMargin, menuItemWidth, menuItemWidth);
+                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 4, topMargin, menuItemWidth, menuItemWidth);
+            }
 
-                g.DrawImage(tileManager.getImage("Bubble1").bitmap, beginTaskBar + menuItemWidth * 6, topMargin, menuItemWidth, menuItemWidth);
-                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, menuItemWidth);//
-                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth);//
-                g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 10, topMargin, menuItemWidth, menuItemWidth);//
+            g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 5, topMargin, menuItemWidth, menuItemWidth);
+
+            g.DrawImage(tileManager.getImage("Bubble1").bitmap, beginTaskBar + menuItemWidth * 6, topMargin, menuItemWidth, menuItemWidth);
+            g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 8, topMargin, menuItemWidth, menuItemWidth);//
+            g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 9, topMargin, menuItemWidth, menuItemWidth);//
+            g.DrawImage(tileManager.getImage("EmptyBar").bitmap, beginTaskBar + menuItemWidth * 10, topMargin, menuItemWidth, menuItemWidth);//
 
             g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 7, topMargin, menuItemWidth, menuItemWidth);
             if (isReloading == false)
@@ -329,9 +359,10 @@ namespace ExplorusE.Views
                     }
                     else if (labyrinth[i, j] == 3)
                     {
-                        initPosX = i - 1;
-                        initPosY = j;
+                        initPosX = 8;
+                        initPosY = 13;
                     }
+                    /*
                     else if (labyrinth[i, j] == 4)
                     {
                         coord c = new coord
@@ -340,7 +371,7 @@ namespace ExplorusE.Views
                             y = j
                         };
                         ToxicDisplay(g, c);
-                    }
+                    }*/
                     else if (labyrinth[i, j] == 5)
                     {
                         g.DrawImage(tileManager.getImage("MiniSlime").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
@@ -369,6 +400,7 @@ namespace ExplorusE.Views
         private void BubbleDisplay(Graphics g,BubbleSprite bubble)
         {
             spriteState bubbleStatus = bubble.GetCurrentRenderInfo();
+
             //Console.WriteLine(bubbleStatus.spriteCoord.x);
             // BubbleSprite b = new BubbleSprite(coordbubble, topMargin, leftMargin, brickSize);
             g.DrawImage(tileManager.getImage("Bubble2").bitmap, (int)(brickSize * bubble.GetGridPosition().x + leftMargin), (int)(brickSize * bubble.GetGridPosition().y + topMargin + brickSize), brickSize, brickSize);
@@ -385,15 +417,15 @@ namespace ExplorusE.Views
         {
             using (Brush blackBrush = new SolidBrush(Color.Black))
             {
-                e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 41 / 4, topMargin + brickSize * 62 / 50, brickSize * 11 / 20, brickSize * 11 / 20));
+                e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 65 / 4, topMargin + brickSize * 62 / 50, brickSize * 11 / 20, brickSize * 11 / 20));
             }
 
-            using (Font font = new Font("Arial", 14))
+            using (Font font = new Font("Arial", 12))
             using (Brush brush = new SolidBrush(Color.Yellow))
             {
                 string pauseText = Convert.ToString(levelNumber);
                 SizeF textSize = g.MeasureString(pauseText, font);
-                float x = (leftMargin + brickSize * 41 / 4) + (brickSize * 11 / 20 - textSize.Width) / 2;
+                float x = (leftMargin + brickSize * 65 / 4) + (brickSize * 11 / 20 - textSize.Width) / 2;
                 float y = (topMargin + brickSize * 62 / 50) + (brickSize * 11 / 20 - textSize.Height) / 2;
                 g.DrawString(pauseText, font, brush, x, y);
             }
@@ -409,7 +441,7 @@ namespace ExplorusE.Views
             else if (controller.GetState() is StopState) statusText = "VICTORY";
             else statusText = "PLAY";
 
-            using (Font font = new Font("Arial", 14))
+            using (Font font = new Font("Arial", 10))
             using (Brush brush = new SolidBrush(Color.Yellow))
             {
                 SizeF textSize = g.MeasureString(statusText, font);
@@ -426,6 +458,7 @@ namespace ExplorusE.Views
 
             //TODO: Change this method to loop with the RenderThread object
             List<Renderable> renderPermanentItems = render.GetPermanentItems();
+
             foreach (Renderable r in renderPermanentItems) r.Render(g);
 
             List<Renderable> renderItems = render.GetItems();

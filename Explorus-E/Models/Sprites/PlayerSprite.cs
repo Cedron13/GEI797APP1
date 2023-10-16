@@ -29,6 +29,12 @@ namespace ExplorusE.Models
             //Partir Timer pour remettre invincible a false
             isInvincible=true;
         }
+
+        public void SetTimeDone(bool b)
+        {
+            timeDone=b;
+        }
+
         public override void Update(int elapsedMs)
         {
             lock(lockInvincibleTimer)

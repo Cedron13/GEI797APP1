@@ -50,6 +50,7 @@ namespace ExplorusE.Threads
                     do
                     {
                         model.checkCollision();
+                        Thread.Sleep(50);
                     }
                     while (isRunning);
                 }

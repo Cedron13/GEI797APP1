@@ -17,6 +17,7 @@ namespace ExplorusE.Models
     internal abstract class SlimeTypeSprite : Sprite
     {
         protected int lives;
+        protected bool isAlive = true;
         public SlimeTypeSprite(coord gridPos, int top, int left, int brick) : base(gridPos, top, left, brick)
         {
 
@@ -39,14 +40,23 @@ namespace ExplorusE.Models
                 if (imageIndex >= 4) { imageIndex = 0; }
             }
         }
-        public virtual bool LoseLife()
+        public bool LoseLife()
         {
             lives--;
             if (lives == 0)
             {
+                isAlive = false;
                 return true;
             }
             return false;
+        }
+        public bool IsAlive()
+        {
+            return isAlive;
+        }
+        public void SetLives(int l)
+        {
+            lives = l;
         }
 
         public int GetLives()
