@@ -350,12 +350,14 @@ namespace ExplorusE.Views
                     }
                     else if (labyrinth[i, j] == 2)
                     {
+                        /*
                         g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize);
 
                         using (Brush transparencyBrush = new SolidBrush(Color.FromArgb(150, Color.Black)))
                         {
                             g.FillRectangle(transparencyBrush, new Rectangle(brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize));
                         }
+                        */
                     }
                     else if (labyrinth[i, j] == 3)
                     {

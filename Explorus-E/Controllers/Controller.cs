@@ -50,6 +50,7 @@ namespace ExplorusE.Controllers
         private Thread renderThread;
         private Thread physicsThread; 
         private List<Wall> walls;
+        private Wall transparentWall;
 
         private Text statusBarText;
         private Text levelText;
@@ -251,6 +252,7 @@ namespace ExplorusE.Controllers
             oRenderThread.AskForNewItem(healthBar, RenderItemType.NonPermanent);
             oRenderThread.AskForNewItem(bubbleBar, RenderItemType.NonPermanent);
             oRenderThread.AskForNewItem(coinBar, RenderItemType.NonPermanent);
+            if(!model.GetDoorUnlocked()) oRenderThread.AskForNewItem(transparentWall, RenderItemType.NonPermanent);
         }
 
         public void AddSubscriber(IResizeEventSubscriber sub)
@@ -306,6 +308,15 @@ namespace ExplorusE.Controllers
                         walls.Add(w);
                         AddSubscriber(w);
                         oRenderThread.AskForNewItem(w, RenderItemType.Permanent);
+                    }
+                    else if (model.GetLabyrinth()[i, j] == 2)
+                    {
+                        transparentWall = new Wall(new coord()
+                        {
+                            x = j,
+                            y = i
+                        }, top, left, brick, 150);
+                        AddSubscriber(transparentWall);
                     }
                 }
             }

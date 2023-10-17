@@ -45,7 +45,6 @@ namespace ExplorusE.Controllers
         void EndGameReached();
 
         void ModelCloseEvent();
-
         
 
         GameModel GetGameModel();
