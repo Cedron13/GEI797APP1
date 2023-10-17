@@ -147,6 +147,7 @@ namespace ExplorusE.Models
                             NextBubbleMovement(element);
                         }
                         element.Update((int)lag);
+                        player.Update((int)lag);
                         render.AskForNewItem(element, RenderItemType.NonPermanent);
                     }
 
