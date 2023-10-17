@@ -543,6 +543,7 @@ namespace ExplorusE.Controllers
             AddSubscriber(healthBar);
 
             bubbleBar = new Bar(new coord()
+            
             {
                 x = 7,
                 y = -2
@@ -551,6 +552,7 @@ namespace ExplorusE.Controllers
                 x = 0.5,
                 y = 0.9
             }, true, 6, BarType.BUBBLE, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
+            bubbleBar.SetProgression(6);
             AddSubscriber(bubbleBar);
 
             coinBar = new Bar(new coord()
