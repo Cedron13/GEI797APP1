@@ -73,10 +73,10 @@ namespace ExplorusE.Models
         public override String GetImageName()
         {
             
-            if (dir == Direction.UP) return "Up" + (imageIndex + 1).ToString();
-            else if (dir == Direction.DOWN) return "Down" + (imageIndex + 1).ToString();
-            else if (dir == Direction.RIGHT) return "Right" + (imageIndex + 1).ToString();
-            else if (dir == Direction.LEFT) return "Left" + (imageIndex + 1).ToString();
+            if (dir == Direction.UP) return Constants.Constants.SLIMEUP_SPRITE_NAME + (imageIndex + 1).ToString();
+            else if (dir == Direction.DOWN) return Constants.Constants.SLIMEDOWN_SPRITE_NAME + (imageIndex + 1).ToString();
+            else if (dir == Direction.RIGHT) return Constants.Constants.SLIMERIGHT_SPRITE_NAME + (imageIndex + 1).ToString();
+            else if (dir == Direction.LEFT) return Constants.Constants.SLIMELEFT_SPRITE_NAME + (imageIndex + 1).ToString();
             else return "Idle";
         }
         
@@ -88,6 +88,7 @@ namespace ExplorusE.Models
             PlayerSprite copy = new PlayerSprite(new coord(), base.topMargin, base.leftMargin, base.brickSize);
             copy.SetDirection(base.dir);
             copy.SetGridPosition(currentPos);
+            copy.SetTransparency(transparency);
            
 
             return copy;

@@ -55,7 +55,7 @@ namespace ExplorusE.Models
             itemList = new List<NotInGridSprite>();
             NotInGridSprite start = new NotInGridSprite(gridPos, tilePos, Constants.Constants.BEGINBAR_SPRITE_NAME, topMargin, leftMargin, brickSize, brickScale);
             float startBarScaleToBrick = start.GetScaleWidth();
-            Console.WriteLine(startBarScaleToBrick);
+            //Console.WriteLine(startBarScaleToBrick);
             itemList.Add(start);
             int itemNumber;
             itemNumber = half ? size / 2 : size;

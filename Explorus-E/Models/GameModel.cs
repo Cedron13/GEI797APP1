@@ -37,6 +37,7 @@ namespace ExplorusE.Models
         private int playerLives = 3;
         private bool isAlreadyDead = false;
         private int[,] originalLabyrinthCopy;
+        private bool isTouched = false;
         private int[,] labyrinth = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
                 {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},  // 1 = display wall
@@ -60,6 +61,9 @@ namespace ExplorusE.Models
         private readonly object lockCollision = new object();
 
         private RenderThread render;
+
+        private bool doorUnlocked = false;
+        private bool needupdate = false;
 
         public int GetPlayerLives()
         {
@@ -112,6 +116,13 @@ namespace ExplorusE.Models
             return labyrinth;
         }
 
+        public void SetDoorUnlocked(bool unlocked)
+        {
+            doorUnlocked = unlocked;
+        }
+
+        public bool GetDoorUnlocked() => doorUnlocked;
+       
         public bool GetIsAlreadyDead()
         {
             return isAlreadyDead;
@@ -125,13 +136,21 @@ namespace ExplorusE.Models
         {
             lock (lockSprites)
             {
-                Console.WriteLine(bubbles.Count);
-                if (!player.IsMovementOver())
+                //Console.WriteLine("position " +player.GetGridPosition().x);
+                if (!player.IsMovementOver() || isTouched==true)
                 {
                     player.Update((int)lag);
+                    isTouched = false;
+                    
                 }
-                if (!controller.GetFlashPlayer()) // If we are invinsible, we altern between hide and appear
+                if (controller.GetFlashPlayer()) // If we are invinsible, we altern between hide and appear
                 {
+                    player.SetTransparency(175);
+                    render.AskForNewItem(player, RenderItemType.NonPermanent);
+                }
+                else if (!controller.GetFlashPlayer())
+                {
+                    player.SetTransparency(0);
                     render.AskForNewItem(player, RenderItemType.NonPermanent);
                 }
                 if (bubbles.Count > 0)
@@ -143,6 +162,7 @@ namespace ExplorusE.Models
                             NextBubbleMovement(element);
                         }
                         element.Update((int)lag);
+                        
                         render.AskForNewItem(element, RenderItemType.NonPermanent);
                         if(element.IsDestroyed())
                         {
@@ -157,16 +177,26 @@ namespace ExplorusE.Models
                 {
                     if (slime.IsMovementOver())
                     {
+                        
                         NextToxicMovement(slime);
                     }
                     slime.Update((int)lag);
 
-                    if (!(controller.GetFlashToxic() && slime == toxicTouche))
+                    
+
+                    if ((controller.GetFlashToxic() && slime == toxicTouche))
                     {
+                        toxicTouche.SetTransparency(175);
+                        render.AskForNewItem(slime, RenderItemType.NonPermanent);
+                    }
+                    else
+                    {
+                        slime.SetTransparency(0);
                         render.AskForNewItem(slime, RenderItemType.NonPermanent);
                     }
                                      
                 }
+
                 toxicSlimes.RemoveAll(element => !element.IsAlive());
 
                 foreach(GemSprite gem in gems)
@@ -178,7 +208,7 @@ namespace ExplorusE.Models
         }
         private void ToxicBubbleCollision(ToxicSprite tox, BubbleSprite b)
         {
-            Console.WriteLine("Collision: " + tox.GetName());
+            //Console.WriteLine("Collision: " + tox.GetName());
             if (!b.IsExploded())
             {
                 controller.SetIsFlashingToxic(true);
@@ -210,7 +240,8 @@ namespace ExplorusE.Models
         }
         private void ToxicPlayerCollision(ToxicSprite tox)
         {
-            if(!player.IsInvincible())
+            isTouched = true;
+            if (!player.IsInvincible())
             {
                 InvokeCommand(new LoseLifeCommand(player));
                 player.SetInvincible();
@@ -218,6 +249,7 @@ namespace ExplorusE.Models
                 controller.SetInvincibleTimer(0);
                 controller.SetFlashPlayer(true);
                 playerLives = player.GetLives();
+
                 if (playerLives == 0 && !isAlreadyDead)
                 {
                     controller.IsDying();
@@ -383,7 +415,7 @@ namespace ExplorusE.Models
                 ResetLabyrinth();
                 controller.InitGame();
                 player.SetLives(3); // Reset de la barre de vie
-
+                doorUnlocked = false;
             }
             else
             {

@@ -68,9 +68,9 @@ namespace ExplorusE.Models
         {
             
                 //Console.WriteLine("explosed in getimage " + isExploded);
-                if (isExploded) return "Effect";
+                if (isExploded) return Constants.Constants.EFFECT_SPRITE_NAME;
 
-                return "Bubble" + (imageIndex + 1).ToString();
+                return Constants.Constants.BUBBLE_SPRITE_NAME + (imageIndex + 1).ToString();
             
 
         }
@@ -96,7 +96,8 @@ namespace ExplorusE.Models
         public bool IsExploded()
         {
             
-                Console.WriteLine("isExploded   " + isExploded);
+                
+            //.WriteLine("isExploded   " + isExploded);
                 return isExploded;
             
         }

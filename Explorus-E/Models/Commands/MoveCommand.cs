@@ -47,6 +47,7 @@ namespace ExplorusE.Models.Commands
                         labyrinth[newPos.y, newPos.x] = 0; 
                         model.SetGridPosX(newPos.x);
                         model.SetGridPosY(newPos.y);
+                        model.SetDoorUnlocked(true);
                         model.GoTo(dir, newPos);
                     }
                     else

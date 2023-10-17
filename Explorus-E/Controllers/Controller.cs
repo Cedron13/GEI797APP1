@@ -46,6 +46,7 @@ namespace ExplorusE.Controllers
         private double flashTempTimePlayer=0;
         private double flashTempTimeToxic = 0;
         private double flashToxicTimer;
+        private bool fullCoin = false;
         private double gameOverTimer = 0;
 
         private RenderThread oRenderThread;
@@ -53,9 +54,12 @@ namespace ExplorusE.Controllers
         private Thread renderThread;
         private Thread physicsThread; 
         private List<Wall> walls;
+        private Wall transparentWall;
+        private MiniSlimeSprite miniSlime;
 
         private Text statusBarText;
         private Text levelText;
+        private Text deadText;
         private NotInGridSprite titleSprite;
         private NotInGridSprite heartSprite;
         private NotInGridSprite bubbleSprite;
@@ -63,6 +67,7 @@ namespace ExplorusE.Controllers
         private Bar healthBar;
         private Bar bubbleBar;
         private Bar coinBar;
+        private NotInGridSprite keySprite;
 
         private const int BUBBLE_RELOAD_TIME = 1200;
 
@@ -190,7 +195,10 @@ namespace ExplorusE.Controllers
         public void EngineUpdateEvent(double lag)
         {
             model.Update(lag);
+            if (!model.GetDoorUnlocked()) oRenderThread.AskForNewItem(transparentWall, RenderItemType.NonPermanent);
             healthBar.SetProgression(model.GetPlayerLives()); //Vie du joueur
+            levelText.TextToDisplay = view.GetLevelNumber().ToString();
+            if (fullCoin) oRenderThread.AskForNewItem(keySprite, RenderItemType.NonPermanent);
             if (currentState is ResumeState)
             {
                 transitionTime += lag;
@@ -205,6 +213,7 @@ namespace ExplorusE.Controllers
             }
             else if (currentState is PlayState)
             {
+                statusBarText.TextToDisplay = Constants.Constants.PLAY_TEXT;
                 if (isFlashingToxic)
                 {
                     flashToxicTimer += lag;
@@ -222,7 +231,7 @@ namespace ExplorusE.Controllers
                 }
                 if (isInvincible)
                 {
-                    Console.WriteLine("je suis invincible");
+                    //Console.WriteLine("je suis invincible");
                     invincibleTimer += lag;
                     if (invincibleTimer > flashTempTimePlayer + 500 && invincibleTimer<3000)
                     {
@@ -233,28 +242,31 @@ namespace ExplorusE.Controllers
                     {
                         flashPlayer = false;
                         isInvincible = false;
-                        Console.WriteLine("je suis plus invincible");
+                        //Console.WriteLine("je suis plus invincible");
                         model.GetPlayer().SetTimeDone(true);
                         flashTempTimePlayer = 0;
+                        model.GetPlayer().SetTransparency(0);
                     }
                 }
                 if(waitLoadBubble)
                 {
                     transitionTimeBubble += lag;
-                    int prog = (int)(transitionTimeBubble / BUBBLE_RELOAD_TIME * 6);
                     bubbleBar.SetProgression(prog);
                     if (transitionTimeBubble > BUBBLE_RELOAD_TIME)
                     {
                         waitLoadBubble = false;
-                        Console.WriteLine("c'est okok");
+                        //Console.WriteLine("c'est okok");
                     }
                 }
 
             }
             else if (currentState is PausedState)
             {
+                statusBarText.TextToDisplay = Constants.Constants.PAUSE_TEXT;
                 if (isDeadTwice)
                 {
+                    deadText.TextToDisplay = Constants.Constants.GAMEOVER_TEXT;
+                    oRenderThread.AskForNewItem(deadText, RenderItemType.NonPermanent);
                     gameOverTimer += lag;
                     if (gameOverTimer > 3000)
                     {
@@ -265,6 +277,10 @@ namespace ExplorusE.Controllers
                         // menu display
                     }
                 }
+                else
+                {
+                    oRenderThread.AskForNewItem(deadText, RenderItemType.NonPermanent);
+                }
             }
             else if (currentState is StopState)
             {
@@ -274,10 +290,6 @@ namespace ExplorusE.Controllers
                     ModelCloseEvent();
                 }
                 statusBarText.TextToDisplay = Constants.Constants.VICTORY_TEXT;
-            }
-            else if(currentState is PausedState)
-            {
-                statusBarText.TextToDisplay = Constants.Constants.PAUSE_TEXT;
             }
 
             oRenderThread.AskForNewItem(statusBarText, RenderItemType.NonPermanent);
@@ -305,6 +317,7 @@ namespace ExplorusE.Controllers
             oRenderThread.AskForNewItem(heartSprite, RenderItemType.Permanent);
             oRenderThread.AskForNewItem(bubbleSprite, RenderItemType.Permanent);
             oRenderThread.AskForNewItem(coinSprite, RenderItemType.Permanent);
+            oRenderThread.AskForNewItem(miniSlime, RenderItemType.Permanent);
         }
 
         public void EngineProcessInputEvent()
@@ -340,6 +353,25 @@ namespace ExplorusE.Controllers
                         walls.Add(w);
                         AddSubscriber(w);
                         oRenderThread.AskForNewItem(w, RenderItemType.Permanent);
+                    }
+                    else if (model.GetLabyrinth()[i, j] == 2)
+                    {
+                        transparentWall = new Wall(new coord()
+                        {
+                            x = j,
+                            y = i
+                        }, top, left, brick, 150);
+                        AddSubscriber(transparentWall);
+                    }
+                    else if (model.GetLabyrinth()[i, j] == 5)
+                    {
+                        miniSlime = new MiniSlimeSprite(new coord()
+                        {
+                            x = j,
+                            y = i
+                        }, top, left, brick);
+                        AddSubscriber(miniSlime);
+                        oRenderThread.AskForNewItem(miniSlime, RenderItemType.Permanent);
                     }
                 }
             }
@@ -434,6 +466,22 @@ namespace ExplorusE.Controllers
             view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
             AddSubscriber(levelText);
 
+            deadText = new Text(Constants.Constants.DEADONCE_TEXT, new SizeF()
+            {
+                Width = (float)8,
+                Height = (float)6
+            }, "Arial", Color.Yellow, Color.Black, new coord()
+            {
+                x = 4,
+                y = 4
+            }, new coordF()
+            {
+                x = 0.5,
+                y = 0.5
+            },
+            view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+            AddSubscriber(deadText);
+
             titleSprite = new NotInGridSprite(new coord()
             {
                 x = 0,
@@ -494,6 +542,7 @@ namespace ExplorusE.Controllers
             AddSubscriber(healthBar);
 
             bubbleBar = new Bar(new coord()
+            
             {
                 x = 7,
                 y = -2
@@ -502,6 +551,7 @@ namespace ExplorusE.Controllers
                 x = 0.5,
                 y = 0.9
             }, true, 6, BarType.BUBBLE, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
+            bubbleBar.SetProgression(6);
             AddSubscriber(bubbleBar);
 
             coinBar = new Bar(new coord()
@@ -514,12 +564,24 @@ namespace ExplorusE.Controllers
                 y = 0.9
             }, true, 6, BarType.COIN, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
             AddSubscriber(coinBar);
+
+            keySprite = new NotInGridSprite(new coord()
+            {
+                x = 15,
+                y = -2
+            }, new coordF()
+            {
+                x = 0.60,
+                y = 0.9
+            }, Constants.Constants.KEY_SPRITE_NAME, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
+            AddSubscriber(keySprite);
         }
 
 
         public void SetGemCounter(int i)
         {
             coinBar.SetProgression(i);
+            fullCoin = i == 6 ? true : false;
         }
         
 
@@ -567,7 +629,7 @@ namespace ExplorusE.Controllers
             waitLoadBubble = true;
             view.SetReloadTime(0);
             view.SetIsReloading(true);
-            Console.WriteLine("boule envoyée"); // OK
+            //Console.WriteLine("boule envoyée"); // OK
         }
 
         public int NewLevel()
@@ -575,6 +637,7 @@ namespace ExplorusE.Controllers
             model.ClearCommandHistory();
             model.SetLabyrinth(GetLabyrinth());
             view.SetGemCounter(0);
+            SetGemCounter(0);
             int currentLevel = view.GetLevelNumber();
             if(currentLevel == 3)
             {

@@ -22,7 +22,7 @@ namespace ExplorusE.Models.Commands
         private coord initialPos;
         private coord newPos;
         private ToxicSprite toxicSprite;
-        private Random rnd;
+        private static Random rnd = new Random();
         private bool isWall = false;
         private bool firstRun = true;
 
@@ -37,7 +37,6 @@ namespace ExplorusE.Models.Commands
                 y = (int)d.y,
             };
             toxicSprite = tox;
-            rnd = new Random();
         }
 
         //TODO: Add movement to history if there is no collision with wall

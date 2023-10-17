@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -32,10 +33,16 @@ namespace ExplorusE.Models
         protected int topMargin;
         protected int leftMargin;
         protected int brickSize;
-
         protected TileManager tileManager;
 
-        public Sprite(coord gridPos, int top, int left, int brick)
+        protected int transparency;
+
+        public Sprite(coord gridPos, int top, int left, int brick) : this(gridPos, top, left, brick, 0)
+        {
+
+        }
+
+        public Sprite(coord gridPos, int top, int left, int brick, int transparency)
         {
             currentPos = new coordF()
             {
@@ -52,6 +59,12 @@ namespace ExplorusE.Models
             brickSize = brick;
             boundingRadius = 0.40;
             tileManager = TileManager.GetInstance();
+            this.transparency = transparency;
+        }
+
+        public void SetTransparency(int value)
+        {
+            transparency = value;
         }
 
         public void setName(string n)
@@ -168,6 +181,10 @@ namespace ExplorusE.Models
         public virtual void Render(Graphics g)
         {
             g.DrawImage(tileManager.getImage(GetImageName()).bitmap, GetPixelPosition().x, GetPixelPosition().y, brickSize, brickSize);
+            using (Brush transparencyBrush = new SolidBrush(Color.FromArgb(transparency, Color.Black)))
+            {
+                g.FillRectangle(transparencyBrush, new Rectangle(GetPixelPosition().x, GetPixelPosition().y, brickSize, brickSize));
+            }
         }
 
         public abstract Renderable CopyForRender();

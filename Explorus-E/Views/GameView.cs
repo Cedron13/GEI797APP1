@@ -368,12 +368,14 @@ namespace ExplorusE.Views
                     }
                     else if (labyrinth[i, j] == 2)
                     {
+                        /*
                         g.DrawImage(tileManager.getImage("Wall").bitmap, brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize);
 
                         using (Brush transparencyBrush = new SolidBrush(Color.FromArgb(150, Color.Black)))
                         {
                             g.FillRectangle(transparencyBrush, new Rectangle(brickSize * j + leftMargin, brickSize * i + topMargin + brickSize, brickSize, brickSize));
                         }
+                        */
                     }
                     else if (labyrinth[i, j] == 3)
                     {
@@ -382,7 +384,7 @@ namespace ExplorusE.Views
                     }
                     else if (labyrinth[i, j] == 5)
                     {
-                        g.DrawImage(tileManager.getImage("MiniSlime").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
+                        //g.DrawImage(tileManager.getImage("MiniSlime").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
                     }
                 }
 
@@ -516,7 +518,7 @@ namespace ExplorusE.Views
 
             //Old ways to render, TODO: remove all
             //TaskBarDisplay(g);
-            LabyrinthDisplay(g); //Walls are rendered by the new way
+            //LabyrinthDisplay(g); //Walls are rendered by the new way
             //PlayerDisplay(g);
             //StatusBarDisplay(g, e);
             /*
@@ -580,7 +582,7 @@ namespace ExplorusE.Views
                 taskBarWidth = displayWidth - beginTaskBar - afterTaskBar; // Size of the taskbar (without the title, margins)
                 menuItemWidth = (int)(taskBarWidth / 18); // Size of each "item" of the taskbar
 
-                Console.WriteLine("menuItemWidth = " + menuItemWidth + ", beginTaskBar = " + beginTaskBar + ", afterTaskBar = ", afterTaskBar);
+                //Console.WriteLine("menuItemWidth = " + menuItemWidth + ", beginTaskBar = " + beginTaskBar + ", afterTaskBar = ", afterTaskBar);
                 controller.PositionUpdate();
             }
 
