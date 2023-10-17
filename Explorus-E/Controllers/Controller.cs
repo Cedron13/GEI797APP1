@@ -499,12 +499,12 @@ namespace ExplorusE.Controllers
 
             deadText = new Text(Constants.Constants.DEADONCE_TEXT, new SizeF()
             {
-                Width = (float)8,
-                Height = (float)6
+                Width = (float)14,
+                Height = (float)1
             }, "Arial", Color.Yellow, Color.Black, new coord()
             {
-                x = 4,
-                y = 4
+                x = 1,
+                y = 13
             }, new coordF()
             {
                 x = 0.5,
