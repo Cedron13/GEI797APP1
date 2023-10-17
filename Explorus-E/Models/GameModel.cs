@@ -259,7 +259,7 @@ namespace ExplorusE.Models
                     controller.IsDeadOnce = true;
                     isAlreadyDead = true;
                     isPaused = true;
-                    UndoLastCommand();
+                    //UndoLastCommand();
                 }
                 else if (playerLives == 0 && isAlreadyDead) 
                 {
