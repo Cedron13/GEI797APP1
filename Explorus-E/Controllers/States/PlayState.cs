@@ -94,7 +94,12 @@ namespace ExplorusE.Controllers.States
                             }
                             break;
                         }
-                        
+                    case Keys.F:
+                        {
+                            controller.ChangeFpsDisplay();
+                            break;
+                        }
+
                 }
             }
         }

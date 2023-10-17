@@ -35,6 +35,8 @@ namespace ExplorusE.Controllers
         private double transitionTimeBubble = 0;
         private double stopTime = 0;
         private bool isPaused = false;
+        private bool isDeadOnce = false;
+        private bool isDeadTwice = false;
         private bool waitLoadBubble = false;
         private bool isInvincible = false;
         private double invincibleTimer=0;
@@ -45,6 +47,7 @@ namespace ExplorusE.Controllers
         private double flashTempTimeToxic = 0;
         private double flashToxicTimer;
         private bool fullCoin = false;
+        private double gameOverTimer = 0;
 
         private RenderThread oRenderThread;
         private PhysicsThread oPhysicsThread;
@@ -91,6 +94,17 @@ namespace ExplorusE.Controllers
             return flashToxic;
         }
 
+        public bool IsDeadOnce
+        {
+            get { return isDeadOnce; }
+            set { isDeadOnce = value; }
+        }
+        public bool IsDeadTwice
+        {
+            get { return isDeadTwice; }
+            set { isDeadTwice = value; }
+        }
+
         public bool GetWaitLoadBubble()
         {
             return waitLoadBubble;
@@ -114,6 +128,12 @@ namespace ExplorusE.Controllers
         {
             flashToxicTimer = time;
         }
+
+        public void SetGameOverTimer(double time)
+        {
+            gameOverTimer = time;
+        }
+
         private List<Keys> inputList;
 
         public Controller()
@@ -236,7 +256,22 @@ namespace ExplorusE.Controllers
                         Console.WriteLine("c'est okok");
                     }
                 }
-                    
+
+            }
+            else if (currentState is PausedState)
+            {
+                if (isDeadTwice)
+                {
+                    gameOverTimer += lag;
+                    if (gameOverTimer > 3000)
+                    {
+                        isDeadTwice = false;
+                        isDeadOnce = false;
+                        model.SetIsAlreadyDead(false);
+                        EndGameReached();
+                        // menu display
+                    }
+                }
             }
             else if (currentState is StopState)
             {
@@ -604,5 +639,22 @@ namespace ExplorusE.Controllers
 
         
         
+
+        public void IsDying()
+        {
+            isPaused = true;
+            currentState.PrepareNextState(Constants.GameStates.PAUSE);
+            currentState = currentState.GetNextState();
+        }
+        public void ShowFPS(float fps)
+        {
+            view.SetFPS(fps);
+        }
+        public void ChangeFpsDisplay()
+        {
+            view.SetFpsDisplay(!view.GetFpsDisplay());
+        }
+
+
     }
 }

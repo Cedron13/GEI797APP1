@@ -1,6 +1,9 @@
 ﻿using ExplorusE.Constants;
+using ExplorusE.Models.Commands;
+using ExplorusE.Models;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Runtime.Remoting.Channels;
 
 namespace ExplorusE.Controllers.States
 {
@@ -13,9 +16,20 @@ namespace ExplorusE.Controllers.States
             nextState = this;
             controller = c;
         }
+
         public void ProcessInput(List<Keys> keys)
         {
-            //Do nothing on input
+            foreach (Keys e in keys)
+            {
+                switch (e)
+                {
+                    case Keys.F:
+                        {
+                            controller.ChangeFpsDisplay();
+                            break;
+                        }
+                }
+            }
         }
 
         public IState GetNextState() => nextState;

@@ -23,6 +23,17 @@ namespace ExplorusE.Controllers.States
         }
         public void ProcessInput(List<Keys> keys)
         {
+            foreach (Keys e in keys)
+            {
+                switch (e)
+                {
+                    case Keys.F:
+                        {
+                            controller.ChangeFpsDisplay();
+                            break;
+                        }
+                }
+            }
         }
 
         public IState GetNextState() => nextState;

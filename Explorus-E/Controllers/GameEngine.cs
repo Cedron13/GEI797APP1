@@ -1,4 +1,5 @@
 ﻿using ExplorusE.Threads;
+using ExplorusE.Views;
 using System;
 using System.Threading;
 
@@ -19,6 +20,9 @@ namespace ExplorusE.Controllers
         private bool isAlive = true;
         private readonly object lockObject = new object();
         private Thread gameThread;
+        private double fpsTimer = 0;
+        private int fpsCounter = 0;
+        private float fpsSum = 0;
 
         public GameEngine(IControllerModel c)
         {
@@ -58,9 +62,17 @@ namespace ExplorusE.Controllers
                 double elapsed = current - previous;
                 previous = current;
                 lag += elapsed;
+                fpsTimer += lag;
                 if (lag >= MS_PER_FRAME)
                 {
                     fps = (float)(1000f / lag);
+                    fpsSum += fps;
+                    fpsCounter++;
+                    if (fpsTimer > 1000)
+                    {
+                        controller.ShowFPS(fpsSum/fpsCounter);
+                        fpsTimer = 0;
+                    } 
 
                     ProcessInput();
 

@@ -28,6 +28,8 @@ namespace ExplorusE.Controllers
         int[,] GetLabyrinth();
 
         bool IsPaused { get; set; }
+        bool IsDeadOnce { get; set; }
+        bool IsDeadTwice { get; set; }
 
         Sprite GetPlayer();
 

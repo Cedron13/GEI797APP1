@@ -41,6 +41,11 @@ namespace ExplorusE.Controllers.States
                             controller.ExitPause();
                             break;
                         }
+                    case Keys.F:
+                        {
+                            controller.ChangeFpsDisplay();
+                            break;
+                        }
                 }
             }
 

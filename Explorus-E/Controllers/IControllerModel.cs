@@ -31,6 +31,9 @@ namespace ExplorusE.Controllers
         void SetInvincibleTimer(double time);
 
         bool IsPaused { get; set; }
+        bool IsDeadOnce { get; set; }
+        bool IsDeadTwice { get; set; }
+
         void SetFlashPlayer(bool b);
         bool GetFlashPlayer();
         void SetFlashToxic(bool b);
@@ -60,5 +63,14 @@ namespace ExplorusE.Controllers
 
         int NewLevel();
         void AddSubscriber(IResizeEventSubscriber newBubble);
+
+        void IsDying();
+
+
+
+        void ShowFPS(float f);
+        void ChangeFpsDisplay();
+       
+        
     }
 }
