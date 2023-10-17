@@ -27,7 +27,7 @@ namespace ExplorusE.Models
         }
         public override String GetImageName()
         {
-            return "Gem";
+            return Constants.Constants.COIN_SPRITE_NAME;
         }
         public void Destroy()
         {

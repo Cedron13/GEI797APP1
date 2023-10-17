@@ -17,6 +17,7 @@ namespace ExplorusE.Constants
 
 
         public const string TITLE_SPRITE_NAME = "Title";
+        public const string WALL_SPRITE_NAME = "Wall";
         public const string HEART_SPRITE_NAME = "Heart";
         public const string BUBBLE_SPRITE_NAME = "Bubble";
         public const string COIN_SPRITE_NAME = "Gem";
@@ -26,5 +27,16 @@ namespace ExplorusE.Constants
         public const string BEGINBAR_SPRITE_NAME = "BeginBar";
         public const string ENDBAR_SPRITE_NAME = "EndBar";
         public const string EMPTYBAR_SPRITE_NAME = "EmptyBar";
+        public const string KEY_SPRITE_NAME = "Key";
+        public const string EFFECT_SPRITE_NAME = "Effect";
+        public const string MINISLIME_SPRITE_NAME = "MiniSlime";
+        public const string SLIMEDOWN_SPRITE_NAME = "Down";
+        public const string SLIMEUP_SPRITE_NAME = "Up";
+        public const string SLIMERIGHT_SPRITE_NAME = "Right";
+        public const string SLIMELEFT_SPRITE_NAME = "Left";
+        public const string TOXICDOWN_SPRITE_NAME = "ToxicDown";
+        public const string TOXICUP_SPRITE_NAME = "ToxicUp";
+        public const string TOXICRIGHT_SPRITE_NAME = "ToxicRight";
+        public const string TOXICLEFT_SPRITE_NAME = "ToxicLeft";
     }
 }

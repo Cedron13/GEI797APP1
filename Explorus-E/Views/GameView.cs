@@ -469,7 +469,7 @@ namespace ExplorusE.Views
 
             //Old ways to render, TODO: remove all
             //TaskBarDisplay(g);
-            LabyrinthDisplay(g); //Walls are rendered by the new way
+            //LabyrinthDisplay(g); //Walls are rendered by the new way
             //PlayerDisplay(g);
             //StatusBarDisplay(g, e);
             /*

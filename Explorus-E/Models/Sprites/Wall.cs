@@ -28,7 +28,7 @@ namespace ExplorusE.Models.Sprites
         //Sprite
         public override string GetImageName()
         {
-            return "Wall";
+            return Constants.Constants.WALL_SPRITE_NAME;
         }
 
         public override void Update(int elapsedMs)

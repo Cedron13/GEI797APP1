@@ -44,6 +44,7 @@ namespace ExplorusE.Controllers
         private double flashTempTimePlayer=0;
         private double flashTempTimeToxic = 0;
         private double flashToxicTimer;
+        private bool fullCoin = false;
 
         private RenderThread oRenderThread;
         private PhysicsThread oPhysicsThread;
@@ -62,6 +63,7 @@ namespace ExplorusE.Controllers
         private Bar healthBar;
         private Bar bubbleBar;
         private Bar coinBar;
+        private NotInGridSprite keySprite;
 
         private const int BUBBLE_RELOAD_TIME = 1200;
 
@@ -173,6 +175,7 @@ namespace ExplorusE.Controllers
         {
             model.Update(lag);
             healthBar.SetProgression(model.GetPlayerLives()); //Vie du joueur
+            if (fullCoin) oRenderThread.AskForNewItem(keySprite, RenderItemType.NonPermanent);
             if (currentState is ResumeState)
             {
                 transitionTime += lag;
@@ -187,6 +190,7 @@ namespace ExplorusE.Controllers
             }
             else if (currentState is PlayState)
             {
+                statusBarText.TextToDisplay = Constants.Constants.PLAY_TEXT;
                 if (isFlashingToxic)
                 {
                     flashToxicTimer += lag;
@@ -503,12 +507,24 @@ namespace ExplorusE.Controllers
                 y = 0.9
             }, true, 6, BarType.COIN, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
             AddSubscriber(coinBar);
+
+            keySprite = new NotInGridSprite(new coord()
+            {
+                x = 15,
+                y = -2
+            }, new coordF()
+            {
+                x = 0.60,
+                y = 0.9
+            }, Constants.Constants.KEY_SPRITE_NAME, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
+            AddSubscriber(keySprite);
         }
 
 
         public void SetGemCounter(int i)
         {
             coinBar.SetProgression(i);
+            fullCoin = i == 6 ? true : false;
         }
         
 
@@ -564,6 +580,7 @@ namespace ExplorusE.Controllers
             model.ClearCommandHistory();
             model.SetLabyrinth(GetLabyrinth());
             view.SetGemCounter(0);
+            SetGemCounter(0);
             int currentLevel = view.GetLevelNumber();
             if(currentLevel == 3)
             {

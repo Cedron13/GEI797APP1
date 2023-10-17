@@ -34,7 +34,7 @@ namespace ExplorusE.Models.Sprites
         //Sprite
         public override string GetImageName()
         {
-            return "MiniSlime";
+            return Constants.Constants.MINISLIME_SPRITE_NAME;
         }
 
         protected override coord GetPixelPosition()
