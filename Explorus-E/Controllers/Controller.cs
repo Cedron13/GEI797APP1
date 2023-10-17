@@ -266,6 +266,7 @@ namespace ExplorusE.Controllers
                 if (isDeadTwice)
                 {
                     deadText.TextToDisplay = Constants.Constants.GAMEOVER_TEXT;
+                    oRenderThread.AskForNewItem(deadText, RenderItemType.NonPermanent);
                     gameOverTimer += lag;
                     if (gameOverTimer > 3000)
                     {
@@ -275,6 +276,10 @@ namespace ExplorusE.Controllers
                         EndGameReached();
                         // menu display
                     }
+                }
+                else
+                {
+                    oRenderThread.AskForNewItem(deadText, RenderItemType.NonPermanent);
                 }
             }
             else if (currentState is StopState)
