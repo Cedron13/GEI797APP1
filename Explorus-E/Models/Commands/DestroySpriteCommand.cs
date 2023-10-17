@@ -40,6 +40,12 @@ namespace ExplorusE.Models.Commands
                 }
                 if (isToxic)
                 {
+                    coord pos = new coord()
+                    {
+                        x = (int)destroyedSprite.GetGridPosition().x,
+                        y = (int)destroyedSprite.GetGridPosition().y
+                    };
+                    model.AddGem(new GemSprite(pos, destroyedSprite.GetActualTop(), destroyedSprite.GetActualLeft(), destroyedSprite.GetActualBricksize(), ((ToxicSprite)destroyedSprite).GetName()));
                     model.RemoveToxic((ToxicSprite)destroyedSprite);
                 }
                 if (isGem)

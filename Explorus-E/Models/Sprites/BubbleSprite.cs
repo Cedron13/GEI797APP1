@@ -53,8 +53,6 @@ namespace ExplorusE.Models
                 if (timeSinceExplosion >= 500) 
                 {
                     Destroy();
-                    isExploded = false;
-                    timeSinceExplosion = 0;
                 }
             }
 
@@ -62,6 +60,8 @@ namespace ExplorusE.Models
 
         public void ReCreate()
         {
+            isExploded = false;
+            timeSinceExplosion = 0;
             isDestroyed = false;
         }
         public override String GetImageName()

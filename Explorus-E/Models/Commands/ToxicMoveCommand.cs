@@ -73,7 +73,7 @@ namespace ExplorusE.Models.Commands
         }
         public void Undo(GameModel model)
         {
-            toxicSprite.StartMovement(initialPos, dir);
+            toxicSprite.StartMovement(initialPos, newDir);
         }
         public bool IsHistoryAction() => true;
 

@@ -58,6 +58,10 @@ namespace ExplorusE.Models
         {
             lives = l;
         }
+        public void GainLife()
+        {
+            lives++;
+        }
         public void ReCreate()
         {
             SetLives(1);

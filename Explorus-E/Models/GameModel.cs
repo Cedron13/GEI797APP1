@@ -10,6 +10,7 @@ using System.Collections.Concurrent;
 using ExplorusE.Threads;
 using ExplorusE.Models.Sprites;
 using ExplorusE.Controllers.States;
+using System.Xml.Linq;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -62,7 +63,7 @@ namespace ExplorusE.Models
 
         public int GetPlayerLives()
         {
-            return playerLives;
+            return player.GetLives();
         }
 
         public GameModel(IControllerModel c, RenderThread r)
@@ -124,6 +125,7 @@ namespace ExplorusE.Models
         {
             lock (lockSprites)
             {
+                Console.WriteLine(bubbles.Count);
                 if (!player.IsMovementOver())
                 {
                     player.Update((int)lag);
@@ -142,6 +144,10 @@ namespace ExplorusE.Models
                         }
                         element.Update((int)lag);
                         render.AskForNewItem(element, RenderItemType.NonPermanent);
+                        if(element.IsDestroyed())
+                        {
+                            HandleDestroyedBubble(element);
+                        }
                     }
 
                     bubbles.RemoveAll(element => element.IsDestroyed());
@@ -178,8 +184,8 @@ namespace ExplorusE.Models
                 controller.SetIsFlashingToxic(true);
                 controller.SetFlashToxicTimer(0);
                 toxicTouche = tox;
-                bool death = tox.LoseLife();
-                if (death)
+                InvokeCommand(new LoseLifeCommand(tox));
+                if (!tox.IsAlive())
                 {
                     foreach (ToxicSprite slime in toxicSlimes)
                     {
@@ -206,19 +212,18 @@ namespace ExplorusE.Models
         {
             if(!player.IsInvincible())
             {
-                player.LoseLife();
+                InvokeCommand(new LoseLifeCommand(player));
                 player.SetInvincible();
                 controller.SetIsInvincible(true);
                 controller.SetInvincibleTimer(0);
                 controller.SetFlashPlayer(true);
-                playerLives--;
+                playerLives = player.GetLives();
                 if (playerLives == 0 && !isAlreadyDead)
                 {
                     controller.IsDying();
                     controller.IsDeadOnce = true;
                     isAlreadyDead = true;
-
-                    // appel undo redo
+                    UndoLastCommand();
                 }
                 else if (playerLives == 0 && isAlreadyDead) 
                 {
@@ -377,7 +382,7 @@ namespace ExplorusE.Models
             {
                 ResetLabyrinth();
                 controller.InitGame();
-                playerLives = 3; // Reset de la barre de vie
+                player.SetLives(3); // Reset de la barre de vie
 
             }
             else
@@ -453,11 +458,19 @@ namespace ExplorusE.Models
         }
         private void NextBubbleMovement(BubbleSprite bubble)
         {
-            if (!bubble.IsDestroyed() && controller.GetState() is PlayState) // STOP THE TOXIC SLIME IF WE ARE NOT IN PLAY STATE (pour gérer undo et redo penser à ajouter variable en +)
+            if (!bubble.IsDestroyed() && !bubble.IsExploded() && controller.GetState() is PlayState) // STOP THE TOXIC SLIME IF WE ARE NOT IN PLAY STATE (pour gérer undo et redo penser à ajouter variable en +)
             {
                 BubbleMoveCommand c = new BubbleMoveCommand(bubble);
                 InvokeCommand(c);
             }
         }
+        private void HandleDestroyedBubble(BubbleSprite bubble)
+        {
+            if (bubble.IsDestroyed() && controller.GetState() is PlayState) // STOP THE TOXIC SLIME IF WE ARE NOT IN PLAY STATE (pour gérer undo et redo penser à ajouter variable en +)
+            {
+                InvokeCommand(new DestroySpriteCommand(bubble));
+            }
+        }
+
     }
 }
