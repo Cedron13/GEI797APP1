@@ -72,13 +72,15 @@ namespace ExplorusE.Controllers.States
                             
                             break;
                         }
+                        /*Can no longer be reached through pressing p
                     case Keys.P:
                         {
                             PrepareNextState();
                             //Enter Pause Logic
                             controller.IsPaused = true;
+                            controller.GetGameModel().SetIsPaused(true);
                             break;
-                        }
+                        }*/
                     case Keys.Space:
                         {
                             if (!controller.GetWaitLoadBubble())
@@ -89,7 +91,8 @@ namespace ExplorusE.Controllers.States
                                 BubbleSprite newBubble = new BubbleSprite(initialCoord, controller.GetPlayer().GetActualTop(), controller.GetPlayer().GetActualLeft(), controller.GetPlayer().GetActualBricksize());
                                 controller.AddSubscriber(newBubble);
                                 newBubble.StartMovement(initialCoord, playerDirection);
-                                model.AddBubble(newBubble);
+                                model.InvokeCommand(new BubbleCreateCommand(newBubble));
+                                model.InvokeCommand(new BubbleMoveCommand(newBubble));
                                 controller.WaitForNewBubble();
                             }
                             break;

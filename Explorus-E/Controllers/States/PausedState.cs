@@ -16,6 +16,11 @@ namespace ExplorusE.Controllers.States
         public void ProcessInput(List<Keys> keys) {
             GameModel model = controller.GetGameModel();
             Sprite player = model.GetPlayer();
+            if(controller.IsDeadTwice)
+            {
+                //CHANGE TO STOP
+                return;
+            }
             foreach (Keys e in keys)
             {
                 switch (e)
@@ -39,6 +44,7 @@ namespace ExplorusE.Controllers.States
                             PrepareNextState();
                             //Unpause Logic
                             controller.ExitPause();
+                            controller.GetGameModel().SetIsPaused(false);
                             break;
                         }
                     case Keys.F:

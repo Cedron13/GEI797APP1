@@ -24,6 +24,7 @@ namespace ExplorusE.Models
         public PlayerSprite(coord gridPos, int top, int left, int brick) : base(gridPos, top, left, brick)
         {
             timeToMove = 500;
+            lives = 3;
         }
 
         public void SetInvincible()

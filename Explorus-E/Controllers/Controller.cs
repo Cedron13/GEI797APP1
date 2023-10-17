@@ -251,8 +251,6 @@ namespace ExplorusE.Controllers
                 if(waitLoadBubble)
                 {
                     transitionTimeBubble += lag;
-                    int prog = (int)(transitionTimeBubble / BUBBLE_RELOAD_TIME * 6);
-                    //Console.WriteLine(prog);
                     bubbleBar.SetProgression(prog);
                     if (transitionTimeBubble > BUBBLE_RELOAD_TIME)
                     {

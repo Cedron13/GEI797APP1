@@ -17,13 +17,18 @@ namespace ExplorusE.Models
     internal class GemSprite : Sprite
     {
         private bool isDestroyed = false;
-        public GemSprite(coord gridPos, int top, int left, int brick) : base(gridPos, top, left, brick)
+        private String origin = "";
+        public GemSprite(coord gridPos, int top, int left, int brick, string origin) : base(gridPos, top, left, brick)
         {
-
+            this.origin = origin;
         }
         public override void Update(int elapsedMs)
         {
             //No Change, does not move
+        }
+        public string GetOrigin()
+        {
+            return origin;
         }
         public override String GetImageName()
         {
@@ -37,11 +42,15 @@ namespace ExplorusE.Models
         {
             return isDestroyed;
         }
+        public void ReCreate()
+        {
+            isDestroyed = false;
+        }
 
         //Renderable Interface
         public override Renderable CopyForRender()
         {
-            GemSprite copy = new GemSprite(new coord(), base.topMargin, base.leftMargin, base.brickSize);
+            GemSprite copy = new GemSprite(new coord(), base.topMargin, base.leftMargin, base.brickSize, base.GetName());
             copy.SetDirection(base.dir);
             copy.SetGridPosition(currentPos);
             return copy;

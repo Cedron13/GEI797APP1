@@ -53,12 +53,17 @@ namespace ExplorusE.Models
                 if (timeSinceExplosion >= 500) 
                 {
                     Destroy();
-    }
-}
+                }
+            }
 
         }
-        
 
+        public void ReCreate()
+        {
+            isExploded = false;
+            timeSinceExplosion = 0;
+            isDestroyed = false;
+        }
         public override String GetImageName()
         {
             

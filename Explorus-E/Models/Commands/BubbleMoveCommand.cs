@@ -50,7 +50,7 @@ namespace ExplorusE.Models.Commands
                 else
                 {
 
-                    //bubbleSprite.Destroy();
+                    
                     bubbleSprite.Explode();
 
                 }
@@ -58,7 +58,7 @@ namespace ExplorusE.Models.Commands
         }
         public void Undo(GameModel model)
         {
-            
+            bubbleSprite.StartMovement(initialPos, dir);
         }
         public bool IsHistoryAction() => true;
 
