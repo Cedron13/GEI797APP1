@@ -230,7 +230,7 @@ namespace ExplorusE.Controllers
                 }
                 if (isInvincible)
                 {
-                    Console.WriteLine("je suis invincible");
+                    //Console.WriteLine("je suis invincible");
                     invincibleTimer += lag;
                     if (invincibleTimer > flashTempTimePlayer + 500 && invincibleTimer<3000)
                     {
@@ -241,7 +241,7 @@ namespace ExplorusE.Controllers
                     {
                         flashPlayer = false;
                         isInvincible = false;
-                        Console.WriteLine("je suis plus invincible");
+                        //Console.WriteLine("je suis plus invincible");
                         model.GetPlayer().SetTimeDone(true);
                         flashTempTimePlayer = 0;
                         model.GetPlayer().SetTransparency(0);
@@ -251,12 +251,12 @@ namespace ExplorusE.Controllers
                 {
                     transitionTimeBubble += lag;
                     int prog = (int)(transitionTimeBubble / BUBBLE_RELOAD_TIME * 6);
-                    Console.WriteLine(prog);
+                    //Console.WriteLine(prog);
                     bubbleBar.SetProgression(prog);
                     if (transitionTimeBubble > BUBBLE_RELOAD_TIME)
                     {
                         waitLoadBubble = false;
-                        Console.WriteLine("c'est okok");
+                        //Console.WriteLine("c'est okok");
                     }
                 }
 
@@ -628,7 +628,7 @@ namespace ExplorusE.Controllers
             waitLoadBubble = true;
             view.SetReloadTime(0);
             view.SetIsReloading(true);
-            Console.WriteLine("boule envoyée"); // OK
+            //Console.WriteLine("boule envoyée"); // OK
         }
 
         public int NewLevel()

@@ -115,7 +115,8 @@ namespace ExplorusE.Threads
         /// </summary>
         public void Run()
         {
-            while(isRunning)
+            Console.WriteLine("START - RenderThread" );
+            while (isRunning)
             {
                 /*
                 if(isSomethingInQueue)
@@ -149,7 +150,8 @@ namespace ExplorusE.Threads
                     }
                 } while (queue.TryDequeue(out renderElement));
                 //Thread.Sleep(1);
-            }      
+            }
+            Console.WriteLine("STOP - RenderThread");
         }
     }
 }

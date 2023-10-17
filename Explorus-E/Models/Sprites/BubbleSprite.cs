@@ -91,7 +91,8 @@ namespace ExplorusE.Models
         public bool IsExploded()
         {
             
-                Console.WriteLine("isExploded   " + isExploded);
+                
+            //.WriteLine("isExploded   " + isExploded);
                 return isExploded;
             
         }

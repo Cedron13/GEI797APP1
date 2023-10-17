@@ -60,6 +60,7 @@ namespace ExplorusE.Models
         private RenderThread render;
 
         private bool doorUnlocked = false;
+        private bool needupdate = false;
 
         public int GetPlayerLives()
         {
@@ -124,9 +125,11 @@ namespace ExplorusE.Models
         {
             lock (lockSprites)
             {
+                //Console.WriteLine("position " +player.GetGridPosition().x);
                 if (!player.IsMovementOver())
                 {
                     player.Update((int)lag);
+                    
                 }
                 if (controller.GetFlashPlayer()) // If we are invinsible, we altern between hide and appear
                 {
@@ -147,7 +150,7 @@ namespace ExplorusE.Models
                             NextBubbleMovement(element);
                         }
                         element.Update((int)lag);
-                        player.Update((int)lag);
+                        
                         render.AskForNewItem(element, RenderItemType.NonPermanent);
                     }
 
@@ -158,9 +161,12 @@ namespace ExplorusE.Models
                 {
                     if (slime.IsMovementOver())
                     {
+                        
                         NextToxicMovement(slime);
                     }
                     slime.Update((int)lag);
+
+                    
 
                     if ((controller.GetFlashToxic() && slime == toxicTouche))
                     {
@@ -174,6 +180,7 @@ namespace ExplorusE.Models
                     }
                                      
                 }
+
                 toxicSlimes.RemoveAll(element => !element.IsAlive());
 
                 foreach(GemSprite gem in gems)
@@ -185,7 +192,7 @@ namespace ExplorusE.Models
         }
         private void ToxicBubbleCollision(ToxicSprite tox, BubbleSprite b)
         {
-            Console.WriteLine("Collision: " + tox.GetName());
+            //Console.WriteLine("Collision: " + tox.GetName());
             if (!b.IsExploded())
             {
                 controller.SetIsFlashingToxic(true);
