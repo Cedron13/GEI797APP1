@@ -29,6 +29,8 @@ namespace ExplorusE.Controllers
         void SetInvincibleTimer(double time);
 
         bool IsPaused { get; set; }
+        bool IsDeadOnce { get; set; }
+        bool IsDeadTwice { get; set; }
 
         bool GetWaitLoadBubble();
 
@@ -52,6 +54,10 @@ namespace ExplorusE.Controllers
         void ExitPause();
 
         int NewLevel();
+
+        void IsDying();
+
+
 
         void ShowFPS(float f);
         void ChangeFpsDisplay();

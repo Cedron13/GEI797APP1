@@ -32,6 +32,7 @@ namespace ExplorusE.Models
         private int counter = 0;
         private int commandIndex = 0;
         private int playerLives = 3;
+        private bool isAlreadyDead = false;
         private int[,] originalLabyrinthCopy;
         private int[,] labyrinth = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
@@ -98,6 +99,15 @@ namespace ExplorusE.Models
         public int[,] GetLabyrinth()
         {
             return labyrinth;
+        }
+
+        public bool GetIsAlreadyDead()
+        {
+            return isAlreadyDead;
+        }
+        public void SetIsAlreadyDead(bool b)
+        {
+            isAlreadyDead = b;
         }
 
         public void Update(double lag)
@@ -179,6 +189,19 @@ namespace ExplorusE.Models
                 controller.SetIsInvincible(true);
                 controller.SetInvincibleTimer(0);
                 playerLives--;
+                if (playerLives == 0 && !isAlreadyDead)
+                {
+                    controller.IsDying();
+                    controller.IsDeadOnce = true;
+                    isAlreadyDead = true;
+
+                    // appel undo redo
+                }
+                else if (playerLives == 0 && isAlreadyDead) 
+                {
+                    controller.IsDeadTwice = true;
+                    controller.IsDying();
+                }
             }
         }
         private void PlayerGemCollision(GemSprite gem)

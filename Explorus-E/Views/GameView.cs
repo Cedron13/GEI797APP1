@@ -380,16 +380,6 @@ namespace ExplorusE.Views
                         initPosX = 8;
                         initPosY = 13;
                     }
-                    /*
-                    else if (labyrinth[i, j] == 4)
-                    {
-                        coord c = new coord
-                        {
-                            x = i,
-                            y = j
-                        };
-                        ToxicDisplay(g, c);
-                    }*/
                     else if (labyrinth[i, j] == 5)
                     {
                         g.DrawImage(tileManager.getImage("MiniSlime").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
@@ -466,6 +456,42 @@ namespace ExplorusE.Views
                 float x = (leftMargin + brickSize / 3) + (brickSize * 7 / 3 - textSize.Width) / 2;
                 float y = (topMargin + brickSize * 6 / 5) + (brickSize * 3 / 5 - textSize.Height) / 2;
                 g.DrawString(statusText, font, brush, x, y);
+            }
+
+            if (controller.IsDeadOnce)
+            {
+                string deadOnceText = "You just died! \nUse left (right) arrow \nto undo (redo) you actions.";
+                using (Brush blackBrush = new SolidBrush(Color.Black))
+                {
+                    e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 9/2, topMargin + brickSize * 11 / 2, brickSize * 8, brickSize * 6));
+                }
+
+                using (Font font = new Font("Arial", 14))
+                using (Brush brush = new SolidBrush(Color.Yellow))
+                {
+                    SizeF textSize = g.MeasureString(deadOnceText, font);
+                    float x = (leftMargin + brickSize * 9/2) + (brickSize * 8 - textSize.Width) / 2;
+                    float y = (topMargin + brickSize * 11/2) + (brickSize * 6 - textSize.Height) / 2;
+                    g.DrawString(deadOnceText, font, brush, x, y);
+                }
+            }
+
+            if (controller.IsDeadTwice)
+            {
+                string deadTwiceText = "GAME OVER";
+                using (Brush blackBrush = new SolidBrush(Color.Black))
+                {
+                    e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 9 / 2, topMargin + brickSize * 11 / 2, brickSize * 8, brickSize * 6));
+                }
+
+                using (Font font = new Font("Arial", 14))
+                using (Brush brush = new SolidBrush(Color.Yellow))
+                {
+                    SizeF textSize = g.MeasureString(deadTwiceText, font);
+                    float x = (leftMargin + brickSize * 9 / 2) + (brickSize * 8 - textSize.Width) / 2;
+                    float y = (topMargin + brickSize * 11 / 2) + (brickSize * 6 - textSize.Height) / 2;
+                    g.DrawString(deadTwiceText  , font, brush, x, y);
+                }
             }
         }
 
