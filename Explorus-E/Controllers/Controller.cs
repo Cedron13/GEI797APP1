@@ -296,6 +296,7 @@ namespace ExplorusE.Controllers
                                 isDeadOnce = false;
                                 model.SetIsAlreadyDead(false);
                                 view.Close();
+                                isPaused=false;
                                 // menu display
                             }
                         }
@@ -303,6 +304,7 @@ namespace ExplorusE.Controllers
                         {
                             currentState.PrepareNextState();
                             currentState.GetNextState();
+                            isPaused = false;
 
                         }
 
