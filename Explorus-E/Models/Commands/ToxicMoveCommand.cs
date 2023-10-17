@@ -18,16 +18,19 @@ namespace ExplorusE.Models.Commands
     internal class ToxicMoveCommand : IGameCommand
     {
         private Direction dir;
+        private Direction newDir;
         private coord initialPos;
         private coord newPos;
         private ToxicSprite toxicSprite;
         private Random rnd;
         private bool isWall = false;
+        private bool firstRun = true;
 
 
         public ToxicMoveCommand(ToxicSprite tox)
         {
             dir = tox.GetDirection();
+            newDir = dir;
             coordF d = tox.GetGridPosition();
             initialPos = new coord() {
                 x = (int)d.x,
@@ -40,11 +43,11 @@ namespace ExplorusE.Models.Commands
         //TODO: Add movement to history if there is no collision with wall
         public void Execute(GameModel model)
         {
-            if (toxicSprite.IsMovementOver())
+            if (toxicSprite.IsMovementOver() && firstRun)
             {
                 int[,] labyrinth = model.GetLabyrinth();
-                coord defaultDirCoord = GetCoordFromDir(dir, initialPos);
-                if(labyrinth[defaultDirCoord.y, defaultDirCoord.x] == 0 || labyrinth[defaultDirCoord.y, defaultDirCoord.x] == 3)
+                newPos = GetCoordFromDir(dir, initialPos);
+                if(labyrinth[newPos.y, newPos.x] == 0 || labyrinth[newPos.y, newPos.x] == 3)
                 {
                     isWall = false;
                 }
@@ -53,14 +56,24 @@ namespace ExplorusE.Models.Commands
                     isWall = true;
                 }
                 List<Direction> possibleDirs = EvaluatePossibleDirections(labyrinth, initialPos);
-                Direction newDir = possibleDirs.ElementAt(rnd.Next(possibleDirs.Count));
-                defaultDirCoord = GetCoordFromDir(newDir, initialPos);
-                toxicSprite.StartMovement(defaultDirCoord, newDir);
+                newDir = possibleDirs.ElementAt(rnd.Next(possibleDirs.Count));
+                newPos = GetCoordFromDir(newDir, initialPos);
+                toxicSprite.StartMovement(newPos, newDir);
+                firstRun = false;
             }
+            else if(firstRun)
+            {
+
+            }
+            else
+            {
+                toxicSprite.StartMovement(newPos, newDir);
+            }
+
         }
         public void Undo(GameModel model)
         {
-            
+            toxicSprite.StartMovement(initialPos, dir);
         }
         public bool IsHistoryAction() => true;
 

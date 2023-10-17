@@ -29,6 +29,7 @@ namespace ExplorusE.Models
         private List<ToxicSprite> toxicSlimes;
         private List<BubbleSprite> bubbles;
         private List<GemSprite> gems;
+        private bool isPaused = false;
         private coord gridPos;
         private int counter = 0;
         private int commandIndex = 0;
@@ -79,6 +80,14 @@ namespace ExplorusE.Models
         public void SetGridPosX(int posX)
         {
             gridPos.x = posX;
+        }
+
+        public void SetIsPaused(bool p)
+        {
+            lock (lockSprites)
+            {
+                isPaused = p;
+            }
         }
 
         public int GetGridPosX()
@@ -182,9 +191,11 @@ namespace ExplorusE.Models
                         x = (int)toxPos.x,
                         y = (int)toxPos.y
                     };
-                    GemSprite gem = new GemSprite(gemCoord, tox.GetActualTop(), tox.GetActualLeft(), tox.GetActualBricksize());
+                    GemSprite gem = new GemSprite(gemCoord, tox.GetActualTop(), tox.GetActualLeft(), tox.GetActualBricksize(), tox.GetName());
                     gem.StartMovement(gemCoord, Direction.DOWN);
                     gems.Add(gem);
+                    InvokeCommand(new DestroySpriteCommand(tox));
+                    InvokeCommand(new DestroySpriteCommand(b));
                 }
                 
             }
@@ -220,7 +231,15 @@ namespace ExplorusE.Models
         {
             counter++;
             controller.SetGemCounter(counter);
+            InvokeCommand(new DestroySpriteCommand(gem));
             gem.Destroy();
+        }
+        public void RemoveGemForToxic(string toxicName)
+        {
+            lock(lockSprites)
+            {
+                gems.RemoveAll(element => element.GetOrigin() == toxicName);
+            }
         }
 
         public void GoTo(Direction d, coord dest)
@@ -292,6 +311,28 @@ namespace ExplorusE.Models
             //BubbleSprite bubble = new BubbleSprite(initialPos,top,left,brick);
             
             bubbles.Add(bubble);
+        }
+        public void AddToxic(ToxicSprite tox)
+        {
+            toxicSlimes.Add(tox);
+        }
+        public void AddGem(GemSprite gem)
+        {
+            gems.Add(gem);
+        }
+        public void RemoveBubble(BubbleSprite bubble)
+        {
+            //BubbleSprite bubble = new BubbleSprite(initialPos,top,left,brick);
+
+            bubbles.Remove(bubble);
+        }
+        public void RemoveToxic(ToxicSprite tox)
+        {
+            toxicSlimes.Remove(tox);
+        }
+        public void RemoveGem(GemSprite gem)
+        {
+            gems.Remove(gem);
         }
         public List<BubbleSprite> GetBubbles()
         {
@@ -368,35 +409,37 @@ namespace ExplorusE.Models
         public void checkCollision()
         {
             lock (lockSprites)
-            {
-                foreach (ToxicSprite toxSlime in toxicSlimes)
+            {   
+                if(!isPaused)
                 {
-                    if(IsCollision(player, toxSlime))
+                    foreach (ToxicSprite toxSlime in toxicSlimes)
                     {
-                        ToxicPlayerCollision(toxSlime);
-                    }
-                    foreach (BubbleSprite bubble in bubbles)
-                    {
-                        if(IsCollision(toxSlime, bubble))
+                        if (IsCollision(player, toxSlime))
                         {
-                            
-                            ToxicBubbleCollision(toxSlime, bubble);
-                            
-                        }    
-                    }
-                }
-                bubbles.RemoveAll(element => element.IsDestroyed());
-                toxicSlimes.RemoveAll(element => !element.IsAlive());
+                            ToxicPlayerCollision(toxSlime);
+                        }
+                        foreach (BubbleSprite bubble in bubbles)
+                        {
+                            if (IsCollision(toxSlime, bubble))
+                            {
 
-                foreach (GemSprite gem in gems)
-                {
-                    if(IsCollision(player, gem))
+                                ToxicBubbleCollision(toxSlime, bubble);
+
+                            }
+                        }
+                    }
+                    bubbles.RemoveAll(element => element.IsDestroyed());
+                    toxicSlimes.RemoveAll(element => !element.IsAlive());
+
+                    foreach (GemSprite gem in gems)
                     {
-                        PlayerGemCollision(gem);
+                        if (IsCollision(player, gem))
+                        {
+                            PlayerGemCollision(gem);
+                        }
                     }
+                    gems.RemoveAll(element => element.IsDestroyed());
                 }
-                gems.RemoveAll(element => element.IsDestroyed());
-
             }
         }
         private void NextToxicMovement(ToxicSprite tox)

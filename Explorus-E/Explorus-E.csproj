@@ -59,6 +59,7 @@
     <Compile Include="Controllers\States\ResumeState.cs" />
     <Compile Include="Controllers\States\StopState.cs" />
     <Compile Include="Models\Bar.cs" />
+    <Compile Include="Models\Commands\DestroySpriteCommand.cs" />
     <Compile Include="Models\Commands\IGameCommand.cs" />
     <Compile Include="Models\Commands\MoveCommand.cs" />
     <Compile Include="Models\Commands\StartGameCommand.cs" />

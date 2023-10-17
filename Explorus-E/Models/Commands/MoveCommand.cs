@@ -100,25 +100,14 @@ namespace ExplorusE.Models.Commands
         public void Undo(GameModel model)
         {
             int[,] labyrinth = model.GetLabyrinth();
-            if (gemFound)
-            {
-                labyrinth[newPos.y, newPos.x] = 4;
-                model.SetCounter(model.GetCounter() - 1);
-                model.GetController().SetGemCounter(model.GetCounter());
-                if (isEndGame)
-                {
-                    isEndGame = false;
-                }
-                gemFound = false;
-            }
-            else
-            {
-                labyrinth[newPos.y, newPos.x] = 0;
-            }
+
+            
+            labyrinth[newPos.y, newPos.x] = 0;
+            
 
             if (doorUnlocked)
             {
-                labyrinth[4, 7] = 2;
+                labyrinth[newPos.y, newPos.x] = 2;
             }
 
             labyrinth[initialPos.y, initialPos.x] = 3;

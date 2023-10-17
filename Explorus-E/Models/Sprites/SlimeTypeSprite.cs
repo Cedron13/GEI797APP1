@@ -58,6 +58,11 @@ namespace ExplorusE.Models
         {
             lives = l;
         }
+        public void ReCreate()
+        {
+            SetLives(1);
+            isAlive = true;
+        }
 
         public int GetLives()
         {

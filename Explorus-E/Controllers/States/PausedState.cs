@@ -39,6 +39,7 @@ namespace ExplorusE.Controllers.States
                             PrepareNextState();
                             //Unpause Logic
                             controller.ExitPause();
+                            controller.GetGameModel().SetIsPaused(false);
                             break;
                         }
                     case Keys.F:

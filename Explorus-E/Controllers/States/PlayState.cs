@@ -77,6 +77,7 @@ namespace ExplorusE.Controllers.States
                             PrepareNextState();
                             //Enter Pause Logic
                             controller.IsPaused = true;
+                            controller.GetGameModel().SetIsPaused(true);
                             break;
                         }
                     case Keys.Space:
