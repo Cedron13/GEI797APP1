@@ -197,6 +197,7 @@ namespace ExplorusE.Controllers
             model.Update(lag);
             if (!model.GetDoorUnlocked()) oRenderThread.AskForNewItem(transparentWall, RenderItemType.NonPermanent);
             healthBar.SetProgression(model.GetPlayerLives()); //Vie du joueur
+            levelText.TextToDisplay = view.GetLevelNumber().ToString();
             if (fullCoin) oRenderThread.AskForNewItem(keySprite, RenderItemType.NonPermanent);
             if (currentState is ResumeState)
             {
