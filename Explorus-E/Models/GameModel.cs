@@ -25,6 +25,7 @@ namespace ExplorusE.Models
     {
         private IControllerModel controller;
         private PlayerSprite player;
+        private ToxicSprite toxicTouche;
         private List<ToxicSprite> toxicSlimes;
         private List<BubbleSprite> bubbles;
         private List<GemSprite> gems;
@@ -118,9 +119,10 @@ namespace ExplorusE.Models
                 {
                     player.Update((int)lag);
                 }
-
-                render.AskForNewItem(player, RenderItemType.NonPermanent);
-
+                if (!controller.GetFlashPlayer()) // If we are invinsible, we altern between hide and appear
+                {
+                    render.AskForNewItem(player, RenderItemType.NonPermanent);
+                }
                 if (bubbles.Count > 0)
                 {
                     foreach (BubbleSprite element in bubbles)
@@ -143,7 +145,12 @@ namespace ExplorusE.Models
                         NextToxicMovement(slime);
                     }
                     slime.Update((int)lag);
-                    render.AskForNewItem(slime, RenderItemType.NonPermanent);
+
+                    if (!(controller.GetFlashToxic() && slime == toxicTouche))
+                    {
+                        render.AskForNewItem(slime, RenderItemType.NonPermanent);
+                    }
+                                     
                 }
                 toxicSlimes.RemoveAll(element => !element.IsAlive());
 
@@ -159,6 +166,9 @@ namespace ExplorusE.Models
             Console.WriteLine("Collision: " + tox.GetName());
             if (!b.IsExploded())
             {
+                controller.SetIsFlashingToxic(true);
+                controller.SetFlashToxicTimer(0);
+                toxicTouche = tox;
                 bool death = tox.LoseLife();
                 if (death)
                 {
@@ -176,6 +186,7 @@ namespace ExplorusE.Models
                     gem.StartMovement(gemCoord, Direction.DOWN);
                     gems.Add(gem);
                 }
+                
             }
             b.Explode();
             //b.Destroy();
@@ -188,6 +199,7 @@ namespace ExplorusE.Models
                 player.SetInvincible();
                 controller.SetIsInvincible(true);
                 controller.SetInvincibleTimer(0);
+                controller.SetFlashPlayer(true);
                 playerLives--;
                 if (playerLives == 0 && !isAlreadyDead)
                 {
@@ -278,6 +290,7 @@ namespace ExplorusE.Models
         public void AddBubble(BubbleSprite bubble)
         {
             //BubbleSprite bubble = new BubbleSprite(initialPos,top,left,brick);
+            
             bubbles.Add(bubble);
         }
         public List<BubbleSprite> GetBubbles()

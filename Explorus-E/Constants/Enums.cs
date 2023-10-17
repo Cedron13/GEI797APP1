@@ -39,6 +39,14 @@ namespace ExplorusE.Constants
         Permanent,
         NonPermanent
     }
+
+    public enum BarType
+    {
+        HEALTH,
+        BUBBLE,
+        COIN
+    }
+
     public enum SpriteType
     {
         PLAYER,

@@ -194,7 +194,7 @@ namespace ExplorusE.Views
             // Black background and menu
             //g.Clear(Color.Black);
 
-            g.DrawImage(tileManager.getImage("Title").bitmap, leftMargin + brickSize / 2, topMargin, brickSize * 2, brickSize / 2);
+            //g.DrawImage(tileManager.getImage("Title").bitmap, leftMargin + brickSize / 2, topMargin, brickSize * 2, brickSize / 2);
 
 
             
@@ -297,7 +297,7 @@ namespace ExplorusE.Views
 
             }
             g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 11, topMargin, menuItemWidth, menuItemWidth);
-            g.DrawImage(tileManager.getImage("Gem").bitmap, beginTaskBar + menuItemWidth * 12, topMargin, menuItemWidth, menuItemWidth);
+            //g.DrawImage(tileManager.getImage("Gem").bitmap, beginTaskBar + menuItemWidth * 12, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("BeginBar").bitmap, beginTaskBar + menuItemWidth * 13, topMargin, menuItemWidth, menuItemWidth);
             g.DrawImage(tileManager.getImage("EndBar").bitmap, beginTaskBar + menuItemWidth * 17, topMargin, menuItemWidth, menuItemWidth);
 
@@ -440,7 +440,7 @@ namespace ExplorusE.Views
 
             using (Brush blackBrush = new SolidBrush(Color.Black))
             {
-                e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize / 3, topMargin + brickSize * 6 / 5, brickSize * 7 / 3, brickSize * 3 / 5));
+                //e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize / 3, topMargin + brickSize * 6 / 5, brickSize * 7 / 3, brickSize * 3 / 5));
             }
 
             //Selection of the text displayed
@@ -455,7 +455,7 @@ namespace ExplorusE.Views
                 SizeF textSize = g.MeasureString(statusText, font);
                 float x = (leftMargin + brickSize / 3) + (brickSize * 7 / 3 - textSize.Width) / 2;
                 float y = (topMargin + brickSize * 6 / 5) + (brickSize * 3 / 5 - textSize.Height) / 2;
-                g.DrawString(statusText, font, brush, x, y);
+                //g.DrawString(statusText, font, brush, x, y);
             }
 
             if (controller.IsDeadOnce)
@@ -515,10 +515,10 @@ namespace ExplorusE.Views
 
 
             //Old ways to render, TODO: remove all
-            TaskBarDisplay(g);
+            //TaskBarDisplay(g);
             LabyrinthDisplay(g); //Walls are rendered by the new way
             //PlayerDisplay(g);
-            StatusBarDisplay(g, e);
+            //StatusBarDisplay(g, e);
             /*
             if (controller.GetBubbles().Count !=0)
             {

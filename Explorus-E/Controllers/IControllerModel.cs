@@ -1,6 +1,7 @@
 ﻿using ExplorusE.Constants;
 using ExplorusE.Controllers.States;
 using ExplorusE.Models;
+using ExplorusE.Observer;
 using System.Collections.Generic;
 
 
@@ -16,6 +17,7 @@ namespace ExplorusE.Controllers
 {
     internal interface IControllerModel
     {
+        
         void EngineRenderEvent();
 
         void EngineUpdateEvent(double lag);
@@ -32,15 +34,22 @@ namespace ExplorusE.Controllers
         bool IsDeadOnce { get; set; }
         bool IsDeadTwice { get; set; }
 
+        void SetFlashPlayer(bool b);
+        bool GetFlashPlayer();
+        void SetFlashToxic(bool b);
+        bool GetFlashToxic();
+        void SetIsFlashingToxic(bool b);
         bool GetWaitLoadBubble();
 
         void WaitForNewBubble();
 
         void InitGame();
-
+        void SetFlashToxicTimer(double b);
         void EndGameReached();
 
         void ModelCloseEvent();
+
+        
 
         GameModel GetGameModel();
 
@@ -54,6 +63,7 @@ namespace ExplorusE.Controllers
         void ExitPause();
 
         int NewLevel();
+        void AddSubscriber(IResizeEventSubscriber newBubble);
 
         void IsDying();
 
