@@ -263,9 +263,11 @@ namespace ExplorusE.Controllers
             }
             else if (currentState is PausedState)
             {
+                statusBarText.TextToDisplay = Constants.Constants.PAUSE_TEXT;
                 if (isDeadTwice)
                 {
                     deadText.TextToDisplay = Constants.Constants.GAMEOVER_TEXT;
+                    oRenderThread.AskForNewItem(deadText, RenderItemType.NonPermanent);
                     gameOverTimer += lag;
                     if (gameOverTimer > 3000)
                     {
@@ -276,6 +278,10 @@ namespace ExplorusE.Controllers
                         // menu display
                     }
                 }
+                else
+                {
+                    oRenderThread.AskForNewItem(deadText, RenderItemType.NonPermanent);
+                }
             }
             else if (currentState is StopState)
             {
@@ -285,10 +291,6 @@ namespace ExplorusE.Controllers
                     ModelCloseEvent();
                 }
                 statusBarText.TextToDisplay = Constants.Constants.VICTORY_TEXT;
-            }
-            else if(currentState is PausedState)
-            {
-                statusBarText.TextToDisplay = Constants.Constants.PAUSE_TEXT;
             }
 
             oRenderThread.AskForNewItem(statusBarText, RenderItemType.NonPermanent);
