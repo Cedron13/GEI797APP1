@@ -43,6 +43,7 @@ namespace ExplorusE.Controllers.States
                             model.ClearAfterCurrentActionIndex();
                             PrepareNextState();
                             //Unpause Logic
+                            model.SetIsPaused(false);
                             controller.ExitPause();
                             controller.GetGameModel().SetIsPaused(false);
                             break;
