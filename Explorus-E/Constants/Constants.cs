@@ -14,6 +14,8 @@ namespace ExplorusE.Constants
         public const string RESUME_TEXT = "RESUME";
         public const string VICTORY_TEXT = "VICTORY";
         public const string PLAY_TEXT = "PLAY";
+        public const string DEADONCE_TEXT = "You just died! \nUse left (right) arrow \nto undo (redo) you actions.";
+        public const string GAMEOVER_TEXT = "GAME OVER"; 
 
 
         public const string TITLE_SPRITE_NAME = "Title";

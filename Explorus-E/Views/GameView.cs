@@ -520,7 +520,7 @@ namespace ExplorusE.Views
             //TaskBarDisplay(g);
             //LabyrinthDisplay(g); //Walls are rendered by the new way
             //PlayerDisplay(g);
-            //StatusBarDisplay(g, e);
+            StatusBarDisplay(g, e);
             /*
             if (controller.GetBubbles().Count !=0)
             {

@@ -59,6 +59,7 @@ namespace ExplorusE.Controllers
 
         private Text statusBarText;
         private Text levelText;
+        private Text deadText;
         private NotInGridSprite titleSprite;
         private NotInGridSprite heartSprite;
         private NotInGridSprite bubbleSprite;
@@ -194,6 +195,7 @@ namespace ExplorusE.Controllers
         public void EngineUpdateEvent(double lag)
         {
             model.Update(lag);
+            if (!model.GetDoorUnlocked()) oRenderThread.AskForNewItem(transparentWall, RenderItemType.NonPermanent);
             healthBar.SetProgression(model.GetPlayerLives()); //Vie du joueur
             if (fullCoin) oRenderThread.AskForNewItem(keySprite, RenderItemType.NonPermanent);
             if (currentState is ResumeState)
@@ -262,6 +264,7 @@ namespace ExplorusE.Controllers
             {
                 if (isDeadTwice)
                 {
+                    deadText.TextToDisplay = Constants.Constants.GAMEOVER_TEXT;
                     gameOverTimer += lag;
                     if (gameOverTimer > 3000)
                     {
@@ -292,7 +295,6 @@ namespace ExplorusE.Controllers
             oRenderThread.AskForNewItem(healthBar, RenderItemType.NonPermanent);
             oRenderThread.AskForNewItem(bubbleBar, RenderItemType.NonPermanent);
             oRenderThread.AskForNewItem(coinBar, RenderItemType.NonPermanent);
-            if(!model.GetDoorUnlocked()) oRenderThread.AskForNewItem(transparentWall, RenderItemType.NonPermanent);
         }
 
         public void AddSubscriber(IResizeEventSubscriber sub)
@@ -461,6 +463,22 @@ namespace ExplorusE.Controllers
             },
             view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
             AddSubscriber(levelText);
+
+            deadText = new Text(Constants.Constants.DEADONCE_TEXT, new SizeF()
+            {
+                Width = (float)8,
+                Height = (float)6
+            }, "Arial", Color.Yellow, Color.Black, new coord()
+            {
+                x = 4,
+                y = 4
+            }, new coordF()
+            {
+                x = 0.5,
+                y = 0.5
+            },
+            view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+            AddSubscriber(deadText);
 
             titleSprite = new NotInGridSprite(new coord()
             {
