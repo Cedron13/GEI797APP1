@@ -263,6 +263,7 @@ namespace ExplorusE.Controllers
             }
             else if (currentState is PausedState)
             {
+                statusBarText.TextToDisplay = Constants.Constants.PAUSE_TEXT;
                 if (isDeadTwice)
                 {
                     deadText.TextToDisplay = Constants.Constants.GAMEOVER_TEXT;
@@ -285,10 +286,6 @@ namespace ExplorusE.Controllers
                     ModelCloseEvent();
                 }
                 statusBarText.TextToDisplay = Constants.Constants.VICTORY_TEXT;
-            }
-            else if(currentState is PausedState)
-            {
-                statusBarText.TextToDisplay = Constants.Constants.PAUSE_TEXT;
             }
 
             oRenderThread.AskForNewItem(statusBarText, RenderItemType.NonPermanent);
