@@ -59,6 +59,8 @@ namespace ExplorusE.Models
 
         private RenderThread render;
 
+        private bool doorUnlocked = false;
+
         public int GetPlayerLives()
         {
             return playerLives;
@@ -102,6 +104,13 @@ namespace ExplorusE.Models
             return labyrinth;
         }
 
+        public void SetDoorUnlocked(bool unlocked)
+        {
+            doorUnlocked = unlocked;
+        }
+
+        public bool GetDoorUnlocked() => doorUnlocked;
+       
         public bool GetIsAlreadyDead()
         {
             return isAlreadyDead;
@@ -336,6 +345,7 @@ namespace ExplorusE.Models
             {
                 ResetLabyrinth();
                 controller.InitGame();
+                doorUnlocked = false;
                 playerLives = 3; // Reset de la barre de vie
 
             }

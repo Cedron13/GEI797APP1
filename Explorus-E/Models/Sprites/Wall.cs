@@ -13,10 +13,14 @@ namespace ExplorusE.Models.Sprites
         {
         }
 
+        public Wall(coord gridPos, int top, int left, int brick, int transparency) : base(gridPos, top, left, brick, transparency)
+        {
+        }
+
         //Renderable interface
         public override Renderable CopyForRender()
         {
-            Wall copy = new Wall(new coord(), base.topMargin, base.leftMargin, base.brickSize);
+            Wall copy = new Wall(new coord(), base.topMargin, base.leftMargin, base.brickSize, base.transparency);
             copy.SetGridPosition(currentPos);
             return copy;
         }
@@ -24,7 +28,7 @@ namespace ExplorusE.Models.Sprites
         //Sprite
         public override string GetImageName()
         {
-            return "Wall";
+            return Constants.Constants.WALL_SPRITE_NAME;
         }
 
         public override void Update(int elapsedMs)
