@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 
 /* EXPLORUS-E
@@ -15,6 +16,7 @@ namespace ExplorusE.Views
     {
         private int beginWidth = 600;
         private int beginHeight = 600;
+
         public GameForm()
         {
             InitializeComponent();
@@ -25,5 +27,6 @@ namespace ExplorusE.Views
             this.Text = "Explorus-E";
 
         }
+
     }
 }

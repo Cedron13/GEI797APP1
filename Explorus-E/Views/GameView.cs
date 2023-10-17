@@ -45,7 +45,7 @@ namespace ExplorusE.Views
         private double reloadTime = 0;
         private int lives;
         private int fps;
-        
+        private bool fpsDisplay = false;
 
 
         
@@ -129,6 +129,15 @@ namespace ExplorusE.Views
             fps = (int)value;
         }
 
+        public bool GetFpsDisplay()
+        {
+            return fpsDisplay;
+        }
+        public void SetFpsDisplay(bool value)
+        {
+            fpsDisplay = value;
+        }
+
         public GameView(IControllerView c, RenderThread r)
         {
             controller = c;
@@ -146,6 +155,7 @@ namespace ExplorusE.Views
             windowThread = new Thread(new ThreadStart(Show)); //New thread because "Application.run()" blocks the actual thread and prevents the engine to run
             windowThread.Name = "Window Thread";
             windowThread.Start();
+
         }
 
 
@@ -156,6 +166,7 @@ namespace ExplorusE.Views
 
         public void Render()
         {
+
             if (oGameForm.Visible)
             {
                 oGameForm.BeginInvoke((MethodInvoker)delegate
@@ -163,6 +174,7 @@ namespace ExplorusE.Views
                     oGameForm.Refresh();
                 });
             }
+
         }
 
         public void Close()
@@ -457,23 +469,7 @@ namespace ExplorusE.Views
             }
         }
 
-        private void FpsDisplay(Graphics g, PaintEventArgs e)
-        {
-            string FPS = fps.ToString();
-            using (Brush blackBrush = new SolidBrush(Color.Black))
-            {
-                e.Graphics.FillRectangle(blackBrush, new Rectangle(leftMargin + brickSize * 29/4, topMargin + brickSize * 62 / 50, brickSize * 5/2, brickSize * 11 / 20));
-            }
 
-            using (Font font = new Font("Arial", 12))
-            using (Brush brush = new SolidBrush(Color.Yellow))
-            {
-                SizeF textSize = g.MeasureString(FPS, font);
-                float x = (leftMargin + brickSize * 29 / 4) + (brickSize * 5/2 - textSize.Width) / 2;
-                float y = (topMargin + brickSize * 62 / 50) + (brickSize * 11 / 20 - textSize.Height) / 2;
-                g.DrawString(FPS, font, brush, x, y);
-            }
-        }
 
         private void GameRenderer(object sender, PaintEventArgs e)
         {
@@ -488,13 +484,15 @@ namespace ExplorusE.Views
             List<Renderable> renderItems = render.GetItems();
             foreach (Renderable r in renderItems) r.Render(g);
 
+            if (fpsDisplay) { oGameForm.Text = "Explorus-E   -   FPS = " + fps.ToString(); }
+            else { oGameForm.Text = "Explorus-E"; }
+
 
             //Old ways to render, TODO: remove all
             TaskBarDisplay(g);
             LabyrinthDisplay(g); //Walls are rendered by the new way
             //PlayerDisplay(g);
             StatusBarDisplay(g, e);
-            FpsDisplay(g, e);
             /*
             if (controller.GetBubbles().Count !=0)
             {
@@ -504,7 +502,6 @@ namespace ExplorusE.Views
                 }
             }
             */
-                       
         }
 
         private void KeyDownEvent(object sender, PreviewKeyDownEventArgs e)
@@ -563,9 +560,6 @@ namespace ExplorusE.Views
 
             //TODO: Reset permament items for RenderThread (all sizes have changed, so do the items) and refill the permanent list
         }
-
-       
-
 
     }
 }

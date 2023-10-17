@@ -1,4 +1,5 @@
 ﻿using ExplorusE.Threads;
+using ExplorusE.Views;
 using System;
 using System.Threading;
 
@@ -69,7 +70,7 @@ namespace ExplorusE.Controllers
                     fpsCounter++;
                     if (fpsTimer > 1000)
                     {
-                        controller.SetFPS(fpsSum/fpsCounter);
+                        controller.ShowFPS(fpsSum/fpsCounter);
                         fpsTimer = 0;
                     } 
 

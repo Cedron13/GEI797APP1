@@ -353,11 +353,14 @@ namespace ExplorusE.Controllers
         public GameModel GetGameModel() => model;
         public IState GetState() => currentState;
         public int GetTransitionTime() => (int)transitionTime;
-        public void SetFPS(float fps)
+        public void ShowFPS(float fps)
         {
             view.SetFPS(fps);
         }
-       
+        public void ChangeFpsDisplay()
+        {
+            view.SetFpsDisplay(!view.GetFpsDisplay());
+        }
 
 
     }

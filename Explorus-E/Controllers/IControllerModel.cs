@@ -53,8 +53,8 @@ namespace ExplorusE.Controllers
 
         int NewLevel();
 
-        void SetFPS(float f);
-
+        void ShowFPS(float f);
+        void ChangeFpsDisplay();
        
         
     }
