@@ -109,7 +109,10 @@ namespace ExplorusE.Models
 
         public int GetCounter() => counter;
 
-        public void SetCounter(int c) { counter = c; }
+        public void SetCounter(int c) {
+            counter = c;
+            controller.SetGemCounter(counter);
+        }
 
         public int[,] GetLabyrinth()
         {
@@ -255,6 +258,7 @@ namespace ExplorusE.Models
                     controller.IsDying();
                     controller.IsDeadOnce = true;
                     isAlreadyDead = true;
+                    isPaused = true;
                     UndoLastCommand();
                 }
                 else if (playerLives == 0 && isAlreadyDead) 
@@ -266,11 +270,12 @@ namespace ExplorusE.Models
         }
         private void PlayerGemCollision(GemSprite gem)
         {
-            counter++;
-            controller.SetGemCounter(counter);
+            Console.WriteLine("GemCollision");
+            InvokeCommand(new GemPickedUpCommand());
             InvokeCommand(new DestroySpriteCommand(gem));
             gem.Destroy();
         }
+
         public void RemoveGemForToxic(string toxicName)
         {
             lock(lockSprites)
