@@ -48,6 +48,7 @@ namespace ExplorusE.Controllers
         private double flashToxicTimer;
         private bool fullCoin = false;
         private double gameOverTimer = 0;
+        private double deadTimer = 0;
 
         private RenderThread oRenderThread;
         private PhysicsThread oPhysicsThread;
@@ -274,13 +275,19 @@ namespace ExplorusE.Controllers
                         isDeadTwice = false;
                         isDeadOnce = false;
                         model.SetIsAlreadyDead(false);
-                        EndGameReached();
+                        view.Close();
                         // menu display
                     }
                 }
                 else
                 {
                     oRenderThread.AskForNewItem(deadText, RenderItemType.NonPermanent);
+                    deadTimer += lag;
+                    if (deadTimer > 5000)
+                    {
+                        currentState.PrepareNextState();
+                        currentState.GetNextState();
+                    }
                 }
             }
             else if (currentState is StopState)
@@ -668,6 +675,7 @@ namespace ExplorusE.Controllers
             isPaused = true;
             currentState.PrepareNextState(Constants.GameStates.PAUSE);
             currentState = currentState.GetNextState();
+
         }
         public void ShowFPS(float fps)
         {
