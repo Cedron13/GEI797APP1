@@ -43,6 +43,7 @@ namespace ExplorusE.Models
             ToxicSprite copy = new ToxicSprite(new coord(), base.topMargin, base.leftMargin, base.brickSize);
             copy.SetDirection(dir);
             copy.SetGridPosition(currentPos);
+            copy.SetTransparency(transparency);
             return copy;
         }
     }

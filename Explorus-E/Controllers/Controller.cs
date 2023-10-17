@@ -244,6 +244,7 @@ namespace ExplorusE.Controllers
                         Console.WriteLine("je suis plus invincible");
                         model.GetPlayer().SetTimeDone(true);
                         flashTempTimePlayer = 0;
+                        model.GetPlayer().SetTransparency(0);
                     }
                 }
                 if(waitLoadBubble)

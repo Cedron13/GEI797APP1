@@ -87,6 +87,7 @@ namespace ExplorusE.Models
             PlayerSprite copy = new PlayerSprite(new coord(), base.topMargin, base.leftMargin, base.brickSize);
             copy.SetDirection(base.dir);
             copy.SetGridPosition(currentPos);
+            copy.SetTransparency(transparency);
            
 
             return copy;

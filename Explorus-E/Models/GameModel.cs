@@ -128,8 +128,14 @@ namespace ExplorusE.Models
                 {
                     player.Update((int)lag);
                 }
-                if (!controller.GetFlashPlayer()) // If we are invinsible, we altern between hide and appear
+                if (controller.GetFlashPlayer()) // If we are invinsible, we altern between hide and appear
                 {
+                    player.SetTransparency(175);
+                    render.AskForNewItem(player, RenderItemType.NonPermanent);
+                }
+                else if (!controller.GetFlashPlayer())
+                {
+                    player.SetTransparency(0);
                     render.AskForNewItem(player, RenderItemType.NonPermanent);
                 }
                 if (bubbles.Count > 0)
@@ -155,8 +161,14 @@ namespace ExplorusE.Models
                     }
                     slime.Update((int)lag);
 
-                    if (!(controller.GetFlashToxic() && slime == toxicTouche))
+                    if ((controller.GetFlashToxic() && slime == toxicTouche))
                     {
+                        toxicTouche.SetTransparency(175);
+                        render.AskForNewItem(slime, RenderItemType.NonPermanent);
+                    }
+                    else
+                    {
+                        slime.SetTransparency(0);
                         render.AskForNewItem(slime, RenderItemType.NonPermanent);
                     }
                                      

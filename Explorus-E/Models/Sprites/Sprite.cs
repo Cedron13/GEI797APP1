@@ -62,6 +62,11 @@ namespace ExplorusE.Models
             this.transparency = transparency;
         }
 
+        public void SetTransparency(int value)
+        {
+            transparency = value;
+        }
+
         public void setName(string n)
         {
             name = n;
