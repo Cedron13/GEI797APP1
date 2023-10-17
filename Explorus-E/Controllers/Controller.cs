@@ -285,8 +285,27 @@ namespace ExplorusE.Controllers
                     deadTimer += lag;
                     if (deadTimer > 5000)
                     {
-                        currentState.PrepareNextState();
-                        currentState.GetNextState();
+                        if (model.GetPlayerLives() == 0)
+                        {
+                            deadText.TextToDisplay = Constants.Constants.GAMEOVER_TEXT;
+                            oRenderThread.AskForNewItem(deadText, RenderItemType.NonPermanent);
+                            gameOverTimer += lag;
+                            if (gameOverTimer > 3000)
+                            {
+                                isDeadTwice = false;
+                                isDeadOnce = false;
+                                model.SetIsAlreadyDead(false);
+                                view.Close();
+                                // menu display
+                            }
+                        }
+                        else
+                        {
+                            currentState.PrepareNextState();
+                            currentState.GetNextState();
+
+                        }
+
                     }
                 }
             }
