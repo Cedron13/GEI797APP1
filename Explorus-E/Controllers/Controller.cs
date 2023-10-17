@@ -195,6 +195,7 @@ namespace ExplorusE.Controllers
 
         public void EngineUpdateEvent(double lag)
         {
+            oRenderThread.ResetItems();
             model.Update(lag);
             if (!model.GetDoorUnlocked()) oRenderThread.AskForNewItem(transparentWall, RenderItemType.NonPermanent);
             healthBar.SetProgression(model.GetPlayerLives()); //Vie du joueur

@@ -86,6 +86,13 @@ namespace ExplorusE.Threads
             permanentItems = new RenderList();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void ResetItems()
+        {
+            //while(isSomethingInQueue);
+            items = new RenderList();
+        }
+
         /// <summary>
         /// Returns the list of the permanent items
         /// </summary>
