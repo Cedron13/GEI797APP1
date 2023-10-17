@@ -305,6 +305,7 @@ namespace ExplorusE.Controllers
                             currentState.GetNextState();
 
                         }
+                        model.SetIsPaused(false);
 
                     }
                 }
