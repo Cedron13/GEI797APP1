@@ -376,7 +376,7 @@ namespace ExplorusE.Views
                     }*/
                     else if (labyrinth[i, j] == 5)
                     {
-                        g.DrawImage(tileManager.getImage("MiniSlime").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
+                        //g.DrawImage(tileManager.getImage("MiniSlime").bitmap, brickSize * j + leftMargin + brickMiddle, brickSize * i + topMargin + brickSize + brickMiddle, brickSize / 2, brickSize / 2);
                     }
                 }
 

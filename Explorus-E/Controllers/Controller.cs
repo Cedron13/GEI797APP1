@@ -51,6 +51,7 @@ namespace ExplorusE.Controllers
         private Thread physicsThread; 
         private List<Wall> walls;
         private Wall transparentWall;
+        private MiniSlimeSprite miniSlime;
 
         private Text statusBarText;
         private Text levelText;
@@ -273,6 +274,7 @@ namespace ExplorusE.Controllers
             oRenderThread.AskForNewItem(heartSprite, RenderItemType.Permanent);
             oRenderThread.AskForNewItem(bubbleSprite, RenderItemType.Permanent);
             oRenderThread.AskForNewItem(coinSprite, RenderItemType.Permanent);
+            oRenderThread.AskForNewItem(miniSlime, RenderItemType.Permanent);
         }
 
         public void EngineProcessInputEvent()
@@ -317,6 +319,16 @@ namespace ExplorusE.Controllers
                             y = i
                         }, top, left, brick, 150);
                         AddSubscriber(transparentWall);
+                    }
+                    else if (model.GetLabyrinth()[i, j] == 5)
+                    {
+                        miniSlime = new MiniSlimeSprite(new coord()
+                        {
+                            x = j,
+                            y = i
+                        }, top, left, brick);
+                        AddSubscriber(miniSlime);
+                        oRenderThread.AskForNewItem(miniSlime, RenderItemType.Permanent);
                     }
                 }
             }

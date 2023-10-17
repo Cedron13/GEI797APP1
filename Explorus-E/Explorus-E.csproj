@@ -66,6 +66,7 @@
     <Compile Include="Models\Commands\ToxicMoveCommand.cs" />
     <Compile Include="Models\Sprites\BubbleSprite.cs" />
     <Compile Include="Models\Sprites\GemSprite.cs" />
+    <Compile Include="Models\Sprites\MiniSlimeSprite.cs" />
     <Compile Include="Models\Sprites\NotInGridSprite.cs" />
     <Compile Include="Models\Sprites\PlayerSprite.cs" />
     <Compile Include="Models\Sprites\SlimeTypeSprite.cs" />
