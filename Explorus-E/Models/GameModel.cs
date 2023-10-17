@@ -35,6 +35,7 @@ namespace ExplorusE.Models
         private int playerLives = 3;
         private bool isAlreadyDead = false;
         private int[,] originalLabyrinthCopy;
+        private bool isTouched = false;
         private int[,] labyrinth = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
                 {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},  // 1 = display wall
@@ -126,9 +127,10 @@ namespace ExplorusE.Models
             lock (lockSprites)
             {
                 //Console.WriteLine("position " +player.GetGridPosition().x);
-                if (!player.IsMovementOver())
+                if (!player.IsMovementOver() || isTouched==true)
                 {
                     player.Update((int)lag);
+                    isTouched = false;
                     
                 }
                 if (controller.GetFlashPlayer()) // If we are invinsible, we altern between hide and appear
@@ -222,13 +224,16 @@ namespace ExplorusE.Models
         }
         private void ToxicPlayerCollision(ToxicSprite tox)
         {
-            if(!player.IsInvincible())
+            isTouched = true;
+            if (!player.IsInvincible())
             {
                 player.LoseLife();
                 player.SetInvincible();
                 controller.SetIsInvincible(true);
                 controller.SetInvincibleTimer(0);
                 controller.SetFlashPlayer(true);
+                
+                
                 playerLives--;
                 if (playerLives == 0 && !isAlreadyDead)
                 {
