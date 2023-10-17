@@ -61,6 +61,7 @@
     <Compile Include="Models\Bar.cs" />
     <Compile Include="Models\Commands\BubbleCreateCommand.cs" />
     <Compile Include="Models\Commands\DestroySpriteCommand.cs" />
+    <Compile Include="Models\Commands\GemPickedUpCommand.cs" />
     <Compile Include="Models\Commands\IGameCommand.cs" />
     <Compile Include="Models\Commands\LoseLifeCommand.cs" />
     <Compile Include="Models\Commands\MoveCommand.cs" />
