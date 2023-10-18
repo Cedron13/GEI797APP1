@@ -286,9 +286,13 @@ namespace ExplorusE.Controllers
                 {
                     oRenderThread.AskForNewItem(deadText, RenderItemType.NonPermanent);
                     deadTimer += lag;
-                    if (deadTimer > 5000 | model.GetPlayerLives() >1)
+                    if (deadTimer > 10000 | model.GetPlayerLives() >1)
                     {
-                        if (model.GetPlayerLives() == 0)
+                        if (model.GetPlayerLives() == 2 | model.GetPlayerLives() == 3)
+                        {
+                            model.RedoNextCommand();
+                        }
+                        else if (model.GetPlayerLives() == 0)
                         {
                             deadText.TextToDisplay = Constants.Constants.GAMEOVER_TEXT;
                             oRenderThread.AskForNewItem(deadText, RenderItemType.NonPermanent);
