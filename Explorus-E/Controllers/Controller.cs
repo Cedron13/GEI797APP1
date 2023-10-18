@@ -173,6 +173,8 @@ namespace ExplorusE.Controllers
             physicsThread.Join();
 
         }
+
+        
         public void ModelCloseEvent()
         {
             view.Close();
@@ -284,9 +286,14 @@ namespace ExplorusE.Controllers
                 {
                     oRenderThread.AskForNewItem(deadText, RenderItemType.NonPermanent);
                     deadTimer += lag;
-                    if (deadTimer > 5000)
+                    if (deadTimer > 5000 | model.GetPlayerLives() >1)
                     {
-                        if (model.GetPlayerLives() == 0)
+                        if (model.GetPlayerLives() == 2)
+                        {
+                            model.RedoNextCommand();
+                            model.SetUndoMax(true);
+                        }
+                        else if (model.GetPlayerLives() == 0)
                         {
                             deadText.TextToDisplay = Constants.Constants.GAMEOVER_TEXT;
                             oRenderThread.AskForNewItem(deadText, RenderItemType.NonPermanent);
@@ -298,6 +305,7 @@ namespace ExplorusE.Controllers
                                 model.SetIsAlreadyDead(false);
                                 view.Close();
                                 isPaused=false;
+                                model.SetUndoMax(false);
                                 // menu display
                             }
                         }
@@ -306,6 +314,7 @@ namespace ExplorusE.Controllers
                             currentState.PrepareNextState();
                             currentState.GetNextState();
                             isPaused = false;
+                            model.SetUndoMax(false);
 
                         }
                         model.SetIsPaused(false);
