@@ -230,7 +230,7 @@ namespace ExplorusE.Models
                         x = (int)toxPos.x,
                         y = (int)toxPos.y
                     };
-                    GemSprite gem = new GemSprite(gemCoord, tox.GetActualTop(), tox.GetActualLeft(), tox.GetActualBricksize(), tox.GetName());
+                    GemSprite gem = new GemSprite(gemCoord, tox.GetActualTop(), tox.GetActualLeft(), tox.GetActualBricksize(), tox.GetName(), 0.5f);
                     gem.StartMovement(gemCoord, Direction.DOWN);
                     gems.Add(gem);
                     InvokeCommand(new DestroySpriteCommand(tox));

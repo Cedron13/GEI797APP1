@@ -26,6 +26,11 @@ namespace ExplorusE.Models
 
         }
 
+        public BubbleSprite(coord gridPos, int top, int left, int brick, float brickScale) : base(gridPos, top, left, brick, brickScale)
+        {
+
+        }
+
         public override void Update(int elapsedMs)
         {
 
@@ -106,7 +111,7 @@ namespace ExplorusE.Models
         //Renderable Interface
         public override Renderable CopyForRender()
         {
-            BubbleSprite copy = new BubbleSprite(new coord(), topMargin, leftMargin, brickSize);
+            BubbleSprite copy = new BubbleSprite(new coord(), topMargin, leftMargin, brickSize, brickScale);
             copy.SetDirection(dir);
             copy.SetGridPosition(currentPos);
             if (isExploded)

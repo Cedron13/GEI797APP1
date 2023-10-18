@@ -36,13 +36,24 @@ namespace ExplorusE.Models
         protected TileManager tileManager;
 
         protected int transparency;
+        protected float brickScale;
 
-        public Sprite(coord gridPos, int top, int left, int brick) : this(gridPos, top, left, brick, 0)
+        public Sprite(coord gridPos, int top, int left, int brick) : this(gridPos, top, left, brick, 0, 1.0f)
         {
 
         }
 
-        public Sprite(coord gridPos, int top, int left, int brick, int transparency)
+        public Sprite(coord gridPos, int top, int left, int brick, float brickScale) : this(gridPos, top, left, brick, 0, brickScale)
+        {
+
+        }
+
+        public Sprite(coord gridPos, int top, int left, int brick, int transparency) : this(gridPos, top, left, brick, transparency, 1.0f)
+        {
+
+        }
+
+        public Sprite(coord gridPos, int top, int left, int brick, int transparency, float brickScale)
         {
             currentPos = new coordF()
             {
@@ -60,6 +71,7 @@ namespace ExplorusE.Models
             boundingRadius = 0.40;
             tileManager = TileManager.GetInstance();
             this.transparency = transparency;
+            this.brickScale = brickScale;
         }
 
         public void SetTransparency(int value)
@@ -144,8 +156,8 @@ namespace ExplorusE.Models
         {
             coord playerCurrentPixelCoord = new coord()
             {
-                x = (int)(leftMargin + brickSize * currentPos.x),
-                y = (int)(topMargin + brickSize * (currentPos.y + 1))
+                x = (int)(leftMargin + brickSize * currentPos.x + brickSize / 2 - (brickSize * brickScale) / 2),
+                y = (int)(topMargin + brickSize * (currentPos.y + 1) + brickSize / 2 - (brickSize * brickScale) / 2)
             };
             return playerCurrentPixelCoord;
         }
@@ -180,10 +192,10 @@ namespace ExplorusE.Models
         //Renderable Interface
         public virtual void Render(Graphics g)
         {
-            g.DrawImage(tileManager.getImage(GetImageName()).bitmap, GetPixelPosition().x, GetPixelPosition().y, brickSize, brickSize);
+            g.DrawImage(tileManager.getImage(GetImageName()).bitmap, GetPixelPosition().x, GetPixelPosition().y, (int)(brickSize * brickScale), (int)(brickSize * brickScale));
             using (Brush transparencyBrush = new SolidBrush(Color.FromArgb(transparency, Color.Black)))
             {
-                g.FillRectangle(transparencyBrush, new Rectangle(GetPixelPosition().x, GetPixelPosition().y, brickSize, brickSize));
+                g.FillRectangle(transparencyBrush, new Rectangle(GetPixelPosition().x, GetPixelPosition().y, (int)(brickSize * brickScale), (int)( brickSize * brickScale)));
             }
         }
 
