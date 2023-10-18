@@ -288,9 +288,10 @@ namespace ExplorusE.Controllers
                     deadTimer += lag;
                     if (deadTimer > 5000 | model.GetPlayerLives() >1)
                     {
-                        if (model.GetPlayerLives() == 2 | model.GetPlayerLives() == 3)
+                        if (model.GetPlayerLives() == 2)
                         {
                             model.RedoNextCommand();
+                            model.SetUndoMax(true);
                         }
                         else if (model.GetPlayerLives() == 0)
                         {
@@ -304,6 +305,7 @@ namespace ExplorusE.Controllers
                                 model.SetIsAlreadyDead(false);
                                 view.Close();
                                 isPaused=false;
+                                model.SetUndoMax(false);
                                 // menu display
                             }
                         }
@@ -312,6 +314,7 @@ namespace ExplorusE.Controllers
                             currentState.PrepareNextState();
                             currentState.GetNextState();
                             isPaused = false;
+                            model.SetUndoMax(false);
 
                         }
                         model.SetIsPaused(false);

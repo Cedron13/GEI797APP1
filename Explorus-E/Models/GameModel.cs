@@ -38,6 +38,7 @@ namespace ExplorusE.Models
         private bool isAlreadyDead = false;
         private int[,] originalLabyrinthCopy;
         private bool isTouched = false;
+        private bool undoMax = false;
         private int[,] labyrinth = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
                 {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},  // 1 = display wall
@@ -87,6 +88,10 @@ namespace ExplorusE.Models
             gridPos.x = posX;
         }
 
+        public void SetUndoMax(bool b)
+        {
+            undoMax = b;
+        }
         public void SetIsPaused(bool p)
         {
             lock (lockSprites)
@@ -301,7 +306,7 @@ namespace ExplorusE.Models
 
         public void UndoLastCommand()
         {
-            if (commandIndex>1)
+            if (commandIndex>1 &&(!undoMax))
             {
                 commandHistory.ElementAt(commandIndex-1).Undo(this);
                 commandIndex--;
@@ -315,6 +320,7 @@ namespace ExplorusE.Models
             {
                 commandIndex++;
                 commandHistory.ElementAt(commandIndex-1).Execute(this);
+                undoMax = false;
             }
         }
 
