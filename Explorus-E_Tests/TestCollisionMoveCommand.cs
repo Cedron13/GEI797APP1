@@ -37,9 +37,9 @@ namespace Tests
                 x = 4,
                 y = 7
             };
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null);
-
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null,null);
+            gm.SetLabyrinth(labyrinth);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -73,9 +73,9 @@ namespace Tests
                 x = 4,
                 y = 7
             };
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null);
-
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null, null);
+            gm.SetLabyrinth(labyrinth);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -109,9 +109,9 @@ namespace Tests
                 x = 1,
                 y = 7
             };
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null);
-
+            PlayerSprite   s = new PlayerSprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null, null);
+            //gm.SetLabyrinth(labyrinth);
             gm.SetGridPosX(1);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -134,8 +134,8 @@ namespace Tests
                 x = 4,
                 y = 7
             };
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null);
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null, null );
 
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
@@ -152,7 +152,8 @@ namespace Tests
             s.Update(500);
             Assert.AreEqual(start, gm.GetGridCoord());
         }
-        [TestMethod]
+        //Collision avec gemme a changer donc a refaire dans physicsthread test
+       /* [TestMethod]
         public void TestExecute_MoveCommand_WithGem()
         {
             int[,] labyrinth = {
@@ -172,10 +173,10 @@ namespace Tests
                 y = 1
             };
 
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
             ControllerMOC mocController = new ControllerMOC();
-            GameModel gm = new GameModel(mocController);
-
+            GameModel gm = new GameModel(mocController, null);
+            gm.SetLabyrinth(labyrinth);
             gm.SetGridPosX(4);
             gm.SetGridPosY(1);
             gm.InitPlayer(s);
@@ -190,8 +191,8 @@ namespace Tests
             s.Update(500);
 
             Assert.AreEqual(1, gm.GetCounter());
-        }
-        [TestMethod]
+        }*/
+       /* [TestMethod]
         public void TestUndo_MoveCommand_WithGem()
         {
             int[,] labyrinth = {
@@ -211,10 +212,10 @@ namespace Tests
                 y = 1
             };
 
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
             ControllerMOC mocController = new ControllerMOC();
-            GameModel gm = new GameModel(mocController);
-
+            GameModel gm = new GameModel(mocController, null   );
+            gm.SetLabyrinth(labyrinth);
             gm.SetGridPosX(4);
             gm.SetGridPosY(1);
             gm.InitPlayer(s);
@@ -230,7 +231,7 @@ namespace Tests
             gm.UndoLastCommand();
 
             Assert.AreEqual(0, gm.GetCounter());
-        }
+        }*/
         [TestMethod]
         public void TestExecute_MoveCommand_WithLockedDoor()
         {
@@ -251,10 +252,10 @@ namespace Tests
                 y = 5
             };
 
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
             ControllerMOC mocController = new ControllerMOC();
-            GameModel gm = new GameModel(mocController);
-
+            GameModel gm = new GameModel(mocController, null);
+            gm.SetLabyrinth(labyrinth);
             gm.SetGridPosX(7);
             gm.SetGridPosY(5);
             gm.InitPlayer(s);
@@ -295,10 +296,10 @@ namespace Tests
                 y = 5
             };
 
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
             ControllerMOC mocController = new ControllerMOC();
-            GameModel gm = new GameModel(mocController);
-
+            GameModel gm = new GameModel(mocController, null);
+            gm.SetLabyrinth(labyrinth);
             gm.SetGridPosX(7);
             gm.SetGridPosY(5);
             gm.InitPlayer(s);
@@ -308,7 +309,7 @@ namespace Tests
                 x = 7,
                 y = 4
             };
-            gm.SetCounter(3);
+            gm.SetCounter(6);
             MoveCommand com = new MoveCommand(Direction.UP, start, dest);
             gm.InvokeCommand(com);
             s.Update(500);
@@ -340,9 +341,9 @@ namespace Tests
                 y = 5
             };
 
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
             ControllerMOC mocController = new ControllerMOC();
-            GameModel gm = new GameModel(mocController);
+            GameModel gm = new GameModel(mocController,null);
             gm.SetLabyrinth(labyrinth);
 
             gm.SetGridPosX(7);

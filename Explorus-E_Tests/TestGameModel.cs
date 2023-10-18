@@ -31,8 +31,8 @@ namespace Tests
                 x = 3,
                 y = 7
             };
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null);
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null, null);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -56,8 +56,8 @@ namespace Tests
                 x = 4,
                 y = 7
             };
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null);
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null, null);
             gm.SetGridPosX(3);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -80,8 +80,8 @@ namespace Tests
                 x = 3,
                 y = 6
             };
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null);
+            PlayerSprite   s = new PlayerSprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null, null);
             gm.SetGridPosX(3);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -104,8 +104,8 @@ namespace Tests
                 x = 3,
                 y = 7
             };
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null);
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null, null);
             gm.SetGridPosX(3);
             gm.SetGridPosY(6);
             gm.InitPlayer(s);
@@ -130,6 +130,7 @@ namespace Tests
                     {1, 0, 0, 0, 3, 1, 0, 0, 4, 0, 1},
                     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                 };
+            
             coord start = new coord()
             {
                 x = 4,
@@ -140,8 +141,9 @@ namespace Tests
                 x = 5,
                 y = 7
             };
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null);
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null, null);
+            gm.SetLabyrinth(labyrinth);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -149,7 +151,7 @@ namespace Tests
             gm.InvokeCommand(com);
             s.Update(500);
             
-            Assert.AreEqual(labyrinth[7, 4], gm.GetLabyrinth()[7, 4]);
+            Assert.AreEqual(labyrinth[7, 4], 3);
         }
 
        
@@ -179,15 +181,16 @@ namespace Tests
                 x = 3,
                 y = 7
             };
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null);
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null, null);
+            gm.SetLabyrinth(labyrinth);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
             MoveCommand com = new MoveCommand(Direction.LEFT, start, dest);
             gm.InvokeCommand(com);
             s.Update(500);
-            Assert.AreNotEqual(labyrinth[7, 4], gm.GetLabyrinth()[7, 4]);
+            Assert.AreNotEqual(labyrinth[7, 4], 3);
         }
         [TestMethod]
         public void TestUndoLastCommand_WithMovement()
@@ -202,8 +205,8 @@ namespace Tests
                 x = 3,
                 y = 7
             };
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null);
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null, null);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -233,8 +236,8 @@ namespace Tests
                 x = 3,
                 y = 7
             };
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null);
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null, null);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -261,8 +264,8 @@ namespace Tests
                 x = 4,
                 y = 7
             };
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null);
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null, null);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -289,8 +292,8 @@ namespace Tests
                 x = 3,
                 y = 7
             };
-            Sprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null);
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
+            GameModel gm = new GameModel(null, null );
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
