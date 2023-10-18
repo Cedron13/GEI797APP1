@@ -262,8 +262,7 @@ namespace ExplorusE.Controllers
                         //Console.WriteLine("c'est okok");
                     }
                 }
-
-                            }
+            }
             else if (currentState is PausedState)
             {
                 statusBarText.TextToDisplay = Constants.Constants.PAUSE_TEXT;
@@ -277,7 +276,7 @@ namespace ExplorusE.Controllers
                         isDeadTwice = false;
                         isDeadOnce = false;
                         model.SetIsAlreadyDead(false); 
-                        menu = new PauseMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+                        menu = new PauseMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), false);
 
                         oRenderThread.AskForNewItem(menu, RenderItemType.NonPermanent);
                         // menu display
@@ -299,7 +298,7 @@ namespace ExplorusE.Controllers
                                 isDeadTwice = false;
                                 isDeadOnce = false;
                                 model.SetIsAlreadyDead(false);
-                                menu = new PauseMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+                                menu = new PauseMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), false);
 
                                 oRenderThread.AskForNewItem(menu, RenderItemType.NonPermanent);
                                 // menu display

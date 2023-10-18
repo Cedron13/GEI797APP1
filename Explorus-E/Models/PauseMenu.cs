@@ -17,13 +17,10 @@ namespace ExplorusE.Models
     {
         private IControllerMenu controller;
         private List<Text> itemList;
-        private readonly int size;
-        private readonly coord gridPos;
         private readonly int topMargin;
         private readonly int leftMargin;
         private readonly int brickSize;
-        private readonly float brickScale;
-        private readonly bool half;
+        private readonly bool isPause;
 
         private Text menuBlock;
         private Text titleText;
@@ -32,12 +29,19 @@ namespace ExplorusE.Models
         private Text helpText;
         private Text exitGame;
 
-        public PauseMenu(int top, int left, int brick)
+        private string start = "Start";
+        private string resume = "resume";
+        private string play = "";
+
+        public PauseMenu(int top, int left, int brick, bool pause)
         {
             this.topMargin = top;
             this.leftMargin = left;
             this.brickSize = brick;
+            this.isPause = pause;
 
+            if (isPause) { play = resume; }
+            else { play = start; }
             InitMenu();
 
         }
@@ -82,7 +86,7 @@ namespace ExplorusE.Models
             topMargin, leftMargin, brickSize);
             itemList.Add(titleText);
 
-            launchGame = new Text("Start", new SizeF()
+            launchGame = new Text(play, new SizeF()
             {
                 Width = (float)6,
                 Height = (float)1
