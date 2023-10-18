@@ -37,10 +37,10 @@ namespace ExplorusE.Threads
         /// </summary>
         public void Stop()
         {
-            lock (lockObj)
+            isRunning = false;
+            lock (queue)
             {
-                isRunning = false;
-                Monitor.PulseAll(lockObj);
+                Monitor.PulseAll(queue);
             }
         }
 
