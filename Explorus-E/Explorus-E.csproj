@@ -82,6 +82,7 @@
     <Compile Include="Models\Text.cs" />
     <Compile Include="Observer\IResizeEventPublisher.cs" />
     <Compile Include="Observer\IResizeEventSubscriber.cs" />
+    <Compile Include="Threads\AudioThreadBubble.cs" />
     <Compile Include="Threads\PhysicsThread.cs" />
     <Compile Include="Threads\RenderThread.cs" />
     <Compile Include="Views\GameForm.cs">
@@ -123,6 +124,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\VIctory.wav" />
+    <None Include="Resources\CollisionWall.wav" />
+    <None Include="Resources\GemCollected.wav" />
     <Content Include="Resources\TilesSheet.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
