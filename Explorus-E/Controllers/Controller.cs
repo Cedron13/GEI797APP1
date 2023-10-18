@@ -173,6 +173,8 @@ namespace ExplorusE.Controllers
             physicsThread.Join();
 
         }
+
+        
         public void ModelCloseEvent()
         {
             view.Close();
@@ -284,7 +286,7 @@ namespace ExplorusE.Controllers
                 {
                     oRenderThread.AskForNewItem(deadText, RenderItemType.NonPermanent);
                     deadTimer += lag;
-                    if (deadTimer > 5000)
+                    if (deadTimer > 5000 | model.GetPlayerLives() >1)
                     {
                         if (model.GetPlayerLives() == 0)
                         {
