@@ -54,6 +54,7 @@
     <Compile Include="Controllers\IControllerModel.cs" />
     <Compile Include="Controllers\IControllerView.cs" />
     <Compile Include="Controllers\GameEngine.cs" />
+    <Compile Include="Controllers\States\HelpState.cs" />
     <Compile Include="Controllers\States\IState.cs" />
     <Compile Include="Controllers\States\MenuState.cs" />
     <Compile Include="Controllers\States\PausedState.cs" />

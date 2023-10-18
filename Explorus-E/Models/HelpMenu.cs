@@ -29,6 +29,7 @@ namespace ExplorusE.Models
         private Text titleText;
         private Text controlKeys;
         private Text goBack;
+        private Color selectedColor;
 
         public HelpMenu(int top, int left, int brick)
         {
@@ -44,6 +45,11 @@ namespace ExplorusE.Models
             this.itemList = itemList;
         }
 
+        public void SetColor(bool b)
+        {
+            if (b) { selectedColor = Color.Blue; }
+            else { selectedColor = Color.Black; }
+        }
         private void InitMenu()
         {
             itemList = new List<Text>();
@@ -81,8 +87,8 @@ namespace ExplorusE.Models
             itemList.Add(titleText);
 
             controlKeys = new Text("Control Keys :\n " +
-                "\t Slimus movement\n " +
-                "\t Undo / Redo (on pause)\n " +
+                "\t ← → ↓ ↑ : Slimus movement\n " +
+                "\t ← → : Undo / Redo (on pause)\n " +
                 "\t Spacebar : Throw a Bubble\n" +
                 "\t F : Show FPS\n" +
                 "\t P : Pause game\n" +
@@ -119,12 +125,25 @@ namespace ExplorusE.Models
             },
             topMargin, leftMargin, brickSize);
             itemList.Add(goBack);
-
-
-
         }
 
-
+        public void Update()
+        {
+            itemList[3] = new Text("Return", new SizeF()
+            {
+                Width = (float)6,
+                Height = (float)0.9
+            }, "Arial", Color.White, selectedColor, new coord()
+            {
+                x = 5,
+                y = 9
+            }, new coordF()
+            {
+                x = 0.2,
+                y = 0.2
+            },
+            topMargin, leftMargin, brickSize);
+        }
 
 
         public void NotifyResize(int top, int left, int brick)

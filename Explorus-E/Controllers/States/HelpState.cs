@@ -1,43 +1,50 @@
 ﻿using ExplorusE.Constants;
 using ExplorusE.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ExplorusE.Controllers.States
 {
-    internal class PausedState: IState
+    internal class HelpState : IState
     {
         private IState nextState = null;
         private IControllerModel controller;
-        public PausedState(IControllerModel c) { 
+        private HelpMenu helpMenu;
+
+        private bool selection = false;
+
+        public HelpState(IControllerModel controller)
+        {
             nextState = this;
-            controller = c;
+            this.controller = controller;
+            this.helpMenu = controller.GetHelpMenu();
         }
-        public void ProcessInput(List<Keys> keys) {
+
+        public void ProcessInput(List<Keys> keys)
+        {
             GameModel model = controller.GetGameModel();
-            Sprite player = model.GetPlayer();
-            if(controller.IsDeadTwice)
-            {
-                //CHANGE TO STOP
-                return;
-            }
             foreach (Keys e in keys)
             {
                 switch (e)
                 {
-                    case Keys.Right:
+                    case Keys.Down:
                         {
-                            if(player.IsMovementOver())
-                                model.RedoNextCommand();
+                            selection = !selection;
+                            helpMenu.SetColor(selection);
+                            helpMenu.Update();
                             break;
                         }
-                    case Keys.Left:
+                    case Keys.Up:
                         {
-                            if (player.IsMovementOver())
-                                model.UndoLastCommand();
+                            selection = !selection;
+                            helpMenu.SetColor(selection);
+                            helpMenu.Update();
                             break;
                         }
-
                     case Keys.R:
                         {
                             model.ClearAfterCurrentActionIndex();
@@ -53,16 +60,23 @@ namespace ExplorusE.Controllers.States
                             controller.ChangeFpsDisplay();
                             break;
                         }
-                    case Keys.Escape:
+                    case Keys.Enter:
                         {
-                            controller.LaunchMenu();
+                            if(selection)
+                            {
+                                helpMenu.SetColor(false);
+                                helpMenu.Update();
+                                controller.LaunchMenu();
+                            }
                             break;
                         }
                 }
             }
-
         }
+
+
         public IState GetNextState() => nextState;
+
         public void PrepareNextState(GameStates state = GameStates.RESUME) //Default next state is RESUME
         {
             if (state == GameStates.UNKNOWN) state = GameStates.RESUME; //If the method is called from the interface IState
@@ -70,9 +84,11 @@ namespace ExplorusE.Controllers.States
             {
                 //List here the possible output states
                 case GameStates.RESUME: nextState = new ResumeState(controller); break;
-                case GameStates.MENU: nextState = new MenuState(controller); break;
+                case GameStates.MENU: nextState = new MenuState(controller);break;
                 default: break;
             }
         }
+
+
     }
 }

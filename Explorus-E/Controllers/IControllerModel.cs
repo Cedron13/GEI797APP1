@@ -70,7 +70,12 @@ namespace ExplorusE.Controllers
 
         void ShowFPS(float f);
         void ChangeFpsDisplay();
-       
+
+        void KillApp();
+        PauseMenu GetPauseMenu();
+        void LaunchMenu();
+        HelpMenu GetHelpMenu();
+        void LaunchHelp();
         
     }
 }
