@@ -13,7 +13,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
 
 namespace ExplorusE.Models
 {
-    internal class PauseMenu : Renderable, IResizeEventSubscriber
+    internal class HelpMenu : Renderable, IResizeEventSubscriber
     {
         private IControllerMenu controller;
         private List<Text> itemList;
@@ -27,12 +27,10 @@ namespace ExplorusE.Models
 
         private Text menuBlock;
         private Text titleText;
-        private Text launchGame;
-        private Text soundVolume;
-        private Text helpText;
-        private Text exitGame;
+        private Text controlKeys;
+        private Text goBack;
 
-        public PauseMenu(int top, int left, int brick)
+        public HelpMenu(int top, int left, int brick)
         {
             this.topMargin = top;
             this.leftMargin = left;
@@ -41,7 +39,7 @@ namespace ExplorusE.Models
             InitMenu();
 
         }
-        private PauseMenu(List<Text> itemList)
+        private HelpMenu(List<Text> itemList)
         {
             this.itemList = itemList;
         }
@@ -63,13 +61,13 @@ namespace ExplorusE.Models
                 x = 0.2,
                 y = 0.2
             },
-            topMargin, leftMargin,brickSize);
+            topMargin, leftMargin, brickSize);
             itemList.Add(menuBlock);
 
             titleText = new Text("Explorus", new SizeF()
             {
                 Width = (float)6,
-                Height = (float)1.5
+                Height = (float)1.25
             }, "Arial", Color.FromArgb(100, 69, 180, 239), Color.Black, new coord()
             {
                 x = 5,
@@ -82,58 +80,34 @@ namespace ExplorusE.Models
             topMargin, leftMargin, brickSize);
             itemList.Add(titleText);
 
-            launchGame = new Text("Start", new SizeF()
+            controlKeys = new Text("Control Keys :\n " +
+                "\t Slimus movement\n " +
+                "\t Undo / Redo (on pause)\n " +
+                "\t Spacebar : Throw a Bubble\n" +
+                "\t F : Show FPS\n" +
+                "\t P : Pause game\n" +
+                "\t R : Resume Game\n" +
+                "\t ESC : Show menu", new SizeF()
             {
                 Width = (float)6,
-                Height = (float)1
+                Height = (float)4
             }, "Arial", Color.White, Color.Black, new coord()
             {
                 x = 5,
-                y = 6
+                y = 5
             }, new coordF()
             {
                 x = 0.2,
                 y = 0.2
             },
             topMargin, leftMargin, brickSize);
-            itemList.Add(launchGame);
+            itemList.Add(controlKeys);
 
-            soundVolume = new Text("Sound volume : " + 0.ToString(), new SizeF()
+           
+            goBack = new Text("Return", new SizeF()
             {
                 Width = (float)6,
-                Height = (float)1
-            }, "Arial", Color.White, Color.Black, new coord()
-            {
-                x = 5,
-                y = 7
-            }, new coordF()
-            {
-                x = 0.2,
-                y = 0.2
-            },
-            topMargin, leftMargin, brickSize);
-            itemList.Add(soundVolume);
-
-            helpText = new Text("Help", new SizeF()
-            {
-                Width = (float)6,
-                Height = (float)1
-            }, "Arial", Color.White, Color.Black, new coord()
-            {
-                x = 5,
-                y = 8
-            }, new coordF()
-            {
-                x = 0.2,
-                y = 0.2
-            },
-            topMargin, leftMargin, brickSize);
-            itemList.Add(helpText);
-
-            exitGame = new Text("Exit game", new SizeF()
-            {
-                Width = (float)6,
-                Height = (float)1
+                Height = (float)0.9
             }, "Arial", Color.White, Color.Black, new coord()
             {
                 x = 5,
@@ -144,7 +118,7 @@ namespace ExplorusE.Models
                 y = 0.2
             },
             topMargin, leftMargin, brickSize);
-            itemList.Add(exitGame);
+            itemList.Add(goBack);
 
 
 
@@ -167,7 +141,7 @@ namespace ExplorusE.Models
         {
             List<Text> list = new List<Text>();
             foreach (Text item in itemList) list.Add((Text)item.CopyForRender());
-            return new PauseMenu(list);
+            return new HelpMenu(list);
         }
 
     }

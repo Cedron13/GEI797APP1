@@ -69,6 +69,7 @@
     <Compile Include="Models\Commands\StartGameCommand.cs" />
     <Compile Include="Models\Commands\BubbleMoveCommand.cs" />
     <Compile Include="Models\Commands\ToxicMoveCommand.cs" />
+    <Compile Include="Models\HelpMenu.cs" />
     <Compile Include="Models\PauseMenu.cs" />
     <Compile Include="Models\Sprites\BubbleSprite.cs" />
     <Compile Include="Models\Sprites\GemSprite.cs" />
