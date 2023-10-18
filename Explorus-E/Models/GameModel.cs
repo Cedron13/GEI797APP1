@@ -176,6 +176,11 @@ namespace ExplorusE.Models
                     bubbles.RemoveAll(element => element.IsDestroyed());
                 }
 
+                foreach (GemSprite gem in gems)
+                {
+                    queue.AskForNewItem(gem, RenderItemType.NonPermanent);
+                }
+
                 foreach (ToxicSprite slime in toxicSlimes)
                 {
                     if (slime.IsMovementOver())
@@ -201,11 +206,6 @@ namespace ExplorusE.Models
                 }
 
                 toxicSlimes.RemoveAll(element => !element.IsAlive());
-
-                foreach(GemSprite gem in gems)
-                {
-                    queue.AskForNewItem(gem, RenderItemType.NonPermanent);
-                }
             }
 
         }
