@@ -263,8 +263,7 @@ namespace ExplorusE.Controllers
                     }
                 }
 
-                menu = new PauseMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
-            }
+                            }
             else if (currentState is PausedState)
             {
                 statusBarText.TextToDisplay = Constants.Constants.PAUSE_TEXT;
@@ -277,8 +276,10 @@ namespace ExplorusE.Controllers
                     {
                         isDeadTwice = false;
                         isDeadOnce = false;
-                        model.SetIsAlreadyDead(false);
-                        view.Close();
+                        model.SetIsAlreadyDead(false); 
+                        menu = new PauseMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+
+                        oRenderThread.AskForNewItem(menu, RenderItemType.NonPermanent);
                         // menu display
                     }
                 }
@@ -298,8 +299,9 @@ namespace ExplorusE.Controllers
                                 isDeadTwice = false;
                                 isDeadOnce = false;
                                 model.SetIsAlreadyDead(false);
-                                view.Close();
-                                isPaused=false;
+                                menu = new PauseMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+
+                                oRenderThread.AskForNewItem(menu, RenderItemType.NonPermanent);
                                 // menu display
                             }
                         }
@@ -330,7 +332,6 @@ namespace ExplorusE.Controllers
             oRenderThread.AskForNewItem(healthBar, RenderItemType.NonPermanent);
             oRenderThread.AskForNewItem(bubbleBar, RenderItemType.NonPermanent);
             oRenderThread.AskForNewItem(coinBar, RenderItemType.NonPermanent);
-            oRenderThread.AskForNewItem(menu, RenderItemType.NonPermanent);
         }
 
         public void AddSubscriber(IResizeEventSubscriber sub)
