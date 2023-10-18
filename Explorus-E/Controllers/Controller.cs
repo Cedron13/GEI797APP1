@@ -69,6 +69,7 @@ namespace ExplorusE.Controllers
         private Bar bubbleBar;
         private Bar coinBar;
         private NotInGridSprite keySprite;
+        private PauseMenu menu;
 
         private const int BUBBLE_RELOAD_TIME = 1200;
 
@@ -262,6 +263,7 @@ namespace ExplorusE.Controllers
                     }
                 }
 
+                menu = new PauseMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
             }
             else if (currentState is PausedState)
             {
@@ -328,6 +330,7 @@ namespace ExplorusE.Controllers
             oRenderThread.AskForNewItem(healthBar, RenderItemType.NonPermanent);
             oRenderThread.AskForNewItem(bubbleBar, RenderItemType.NonPermanent);
             oRenderThread.AskForNewItem(coinBar, RenderItemType.NonPermanent);
+            oRenderThread.AskForNewItem(menu, RenderItemType.NonPermanent);
         }
 
         public void AddSubscriber(IResizeEventSubscriber sub)
@@ -606,6 +609,7 @@ namespace ExplorusE.Controllers
                 y = 0.9
             }, Constants.Constants.KEY_SPRITE_NAME, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
             AddSubscriber(keySprite);
+
         }
 
 
