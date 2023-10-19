@@ -28,11 +28,6 @@ namespace ExplorusE.Controllers.States
                             controller.ChangeFpsDisplay();
                             break;
                         }
-                    case Keys.Escape:
-                        {
-                            controller.LaunchMenu();
-                            break;
-                        }
                 }
             }
         }
@@ -47,7 +42,6 @@ namespace ExplorusE.Controllers.States
                 //List here the possible output states
                 case GameStates.PLAY: nextState = new PlayState(controller); break;
                 case GameStates.PAUSE: nextState = new PausedState(controller); break;
-                case GameStates.MENU: nextState = new MenuState(controller); break;
                 default: break;
             }
         }

@@ -52,11 +52,13 @@ namespace ExplorusE.Models
             this.leftMargin = left;
             this.brickSize = brick;
 
-            colorList = new List<Color>();
-            colorList.Add(startColor);
-            colorList.Add(soundColor);
-            colorList.Add(helpColor);
-            colorList.Add(exitColor);
+            colorList = new List<Color>
+            {
+                startColor,
+                soundColor,
+                helpColor,
+                exitColor
+            };
 
             if (isPlaying) { play = resume; }
             else { play = start; }
@@ -224,6 +226,9 @@ namespace ExplorusE.Models
 
         public void Update()
         {
+            if (isPlaying) { play = resume; }
+            else { play = start; }
+
             itemList[2] = new Text(play, new SizeF()
             {
                 Width = (float)6,
@@ -299,8 +304,6 @@ namespace ExplorusE.Models
             topMargin, leftMargin, brickSize);
 
         }
-
-
 
         public void NotifyResize(int top, int left, int brick)
         {

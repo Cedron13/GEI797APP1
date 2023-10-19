@@ -150,7 +150,6 @@ namespace ExplorusE.Controllers
             view = new GameView(this, oRenderThread);
 
             pauseMenu = new PauseMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
-            pauseMenu.SetIsPlaying(false);
             currentState = new MenuState(this);
             InitGame();
 
@@ -164,7 +163,6 @@ namespace ExplorusE.Controllers
 
             engine = new GameEngine(this);
             //Order is very important due to dependencies between each object, this order works 👍
-            pauseMenu.SetIsPlaying(true);
             InitRenderObjects();
         }
         
@@ -208,8 +206,6 @@ namespace ExplorusE.Controllers
             if (fullCoin) oRenderThread.AskForNewItem(keySprite, RenderItemType.NonPermanent);
             if (currentState is ResumeState)
             {
-                pauseMenu.SetIsPlaying(true);
-                pauseMenu.Update();
                 transitionTime += lag;
                 if (transitionTime > 3000)
                 {
@@ -286,6 +282,7 @@ namespace ExplorusE.Controllers
                         isDeadOnce = false;
                         model.SetIsAlreadyDead(false);
                         pauseMenu.SetIsPlaying(false);
+                        pauseMenu.Update();
                         LaunchMenu();
 
                     }
@@ -308,6 +305,7 @@ namespace ExplorusE.Controllers
                                 model.SetIsAlreadyDead(false);
                                 // menu display
                                 pauseMenu.SetIsPlaying(false);
+                                pauseMenu.Update();
                                 LaunchMenu();
 
                             }
