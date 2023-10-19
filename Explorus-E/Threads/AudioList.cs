@@ -11,6 +11,7 @@ namespace ExplorusE.Threads
 {
     internal class AudioList
     {
+        private const int MAX_NUMBER_SOUND = 2;
         private readonly List<SoundPlayer> oListData = new List<SoundPlayer>();
 
 
@@ -19,7 +20,7 @@ namespace ExplorusE.Threads
         {
             bool isAdded = false;
 
-            if (oListData.Count < 5 && sound!=null) // 5 --> max sound in list
+            if (oListData.Count < MAX_NUMBER_SOUND && sound!=null) // 5 --> max sound in list
             {
                 oListData.Add(sound);
                 isAdded = true;
