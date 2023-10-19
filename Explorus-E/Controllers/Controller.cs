@@ -50,8 +50,11 @@ namespace ExplorusE.Controllers
         private double gameOverTimer = 0;
         private double deadTimer = 0;
 
+        private AudioList oAudioList;
+        private AudioThread oAudioThread;
         private RenderThread oRenderThread;
         private PhysicsThread oPhysicsThread;
+        private Thread audioThread;
         private Thread renderThread;
         private Thread physicsThread; 
         private List<Wall> walls;
@@ -142,12 +145,16 @@ namespace ExplorusE.Controllers
 
         public Controller()
         {
+            oAudioList = new AudioList();
+            oAudioThread = new AudioThread("Audio1", oAudioList);         
             oRenderThread = new RenderThread(); //TODO: Look for which object needs an access to oRenderThread
+
             view = new GameView(this, oRenderThread);
             pauseMenu = new PauseMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
             currentState = new MenuState(this);
 
-            model = new GameModel(this, oRenderThread);
+            model = new GameModel(this, oRenderThread,oAudioList);
+
             oPhysicsThread = new PhysicsThread("Collision Thread", model);
             inputList = new List<Keys>();
             resizeSubscribers = new List<IResizeEventSubscriber>();
@@ -162,6 +169,10 @@ namespace ExplorusE.Controllers
             physicsThread.Name = "Collision Thread";
             physicsThread.Start();
 
+            audioThread = new Thread(new ThreadStart(oAudioThread.Run));
+            audioThread.Name = " Audio Thread";
+            audioThread.Start();
+
             engine = new GameEngine(this);
             //Order is very important due to dependencies between each object, this order works 👍
             InitRenderObjects();
@@ -174,8 +185,10 @@ namespace ExplorusE.Controllers
             view.Close();
             oRenderThread.Stop();
             oPhysicsThread.Stop();
+            oAudioThread.Stop();
             renderThread.Join();
             physicsThread.Join();
+            audioThread.Join();
 
         }
 

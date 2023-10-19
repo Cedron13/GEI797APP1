@@ -37,6 +37,8 @@ namespace ExplorusE.Models.Commands
                 if (labyrinth[newPos.y, newPos.x] == 1)
                 {
                     model.GoTo(dir, initialPos);
+                    System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.CollisionWall);
+                    model.GetAudioList().Add(sound);
                 }
                 else if (labyrinth[newPos.y, newPos.x] == 2)
                 {
@@ -53,6 +55,8 @@ namespace ExplorusE.Models.Commands
                     else
                     {
                         model.GoTo(dir, initialPos);
+                        System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.CollisionWall);
+                        model.GetAudioList().Add(sound);
                     }
                     
                 }
@@ -81,10 +85,11 @@ namespace ExplorusE.Models.Commands
                         model.SetGridPosY(newPos.y);
                         labyrinth[newPos.y, newPos.x] = 3;
                         model.GoTo(dir, newPos);
-
                         labyrinth[newPos.y, newPos.x] = 0;
                         model.SetCounter(0);
                         isEndGame = true;
+                        System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.VIctory);
+                        model.GetAudioList().Add(sound);
                         model.EndLevel();
                     }
                     else

@@ -62,6 +62,7 @@ namespace ExplorusE.Models
         private readonly object lockCollision = new object();
 
         private RenderThread render;
+        private AudioList audio; // 
 
         private bool doorUnlocked = false;
         private bool needupdate = false;
@@ -71,7 +72,7 @@ namespace ExplorusE.Models
             return player.GetLives();
         }
 
-        public GameModel(IControllerModel c, RenderThread r)
+        public GameModel(IControllerModel c, RenderThread r, AudioList a)
         {
             controller = c;
             InvokeCommand(new StartGameCommand());
@@ -81,6 +82,7 @@ namespace ExplorusE.Models
             bubbles = new List<BubbleSprite>();
             gems = new List<GemSprite>();
             render = r;
+            audio = a;
         }
 
         public void SetGridPosX(int posX)
@@ -257,6 +259,8 @@ namespace ExplorusE.Models
                 controller.SetInvincibleTimer(0);
                 controller.SetFlashPlayer(true);
                 playerLives = player.GetLives();
+                System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.CollisionPlayerToxic);
+                audio.Add(sound);
 
                 if (playerLives == 0 && !isAlreadyDead)
                 {
@@ -264,14 +268,21 @@ namespace ExplorusE.Models
                     controller.IsDeadOnce = true;
                     isAlreadyDead = true;
                     isPaused = true;
+                    audio.Add(sound);
                     //UndoLastCommand();
                 }
                 else if (playerLives == 0 && isAlreadyDead) 
                 {
                     controller.IsDeadTwice = true;
                     controller.IsDying();
+                    audio.Add(sound);
                 }
             }
+        }
+
+        public AudioList GetAudioList()
+        {
+            return audio;
         }
         private void PlayerGemCollision(GemSprite gem)
         {
@@ -279,6 +290,9 @@ namespace ExplorusE.Models
             InvokeCommand(new GemPickedUpCommand());
             InvokeCommand(new DestroySpriteCommand(gem));
             gem.Destroy();
+            System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.GemCollected);
+            audio.Add(sound);
+
         }
 
         public void RemoveGemForToxic(string toxicName)

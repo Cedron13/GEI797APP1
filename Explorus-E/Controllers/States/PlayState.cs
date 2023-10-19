@@ -91,6 +91,8 @@ namespace ExplorusE.Controllers.States
                                 BubbleSprite newBubble = new BubbleSprite(initialCoord, controller.GetPlayer().GetActualTop(), controller.GetPlayer().GetActualLeft(), controller.GetPlayer().GetActualBricksize());
                                 controller.AddSubscriber(newBubble);
                                 newBubble.StartMovement(initialCoord, playerDirection);
+                                System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.ThrowBubble);
+                                model.GetAudioList().Add(sound);
                                 model.InvokeCommand(new BubbleCreateCommand(newBubble));
                                 model.InvokeCommand(new BubbleMoveCommand(newBubble));
                                 controller.WaitForNewBubble();
