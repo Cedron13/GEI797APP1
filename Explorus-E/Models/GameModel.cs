@@ -38,6 +38,7 @@ namespace ExplorusE.Models
         private bool isAlreadyDead = false;
         private int[,] originalLabyrinthCopy;
         private bool isTouched = false;
+        private bool undoMax = false;
         private int[,] labyrinth = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
                 {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},  // 1 = display wall
@@ -60,7 +61,11 @@ namespace ExplorusE.Models
         private readonly object lockSprites = new object();
         private readonly object lockCollision = new object();
 
+
         private IRenderQueueAsker queue;
+        private RenderThread render;
+        private AudioList audio; // 
+
 
         private bool doorUnlocked = false;
         private bool needupdate = false;
@@ -70,7 +75,8 @@ namespace ExplorusE.Models
             return player.GetLives();
         }
 
-        public GameModel(IControllerModel c, IRenderQueueAsker q)
+        public GameModel(IControllerModel c, IRenderQueueAsker q, AudioList a)
+
         {
             controller = c;
             InvokeCommand(new StartGameCommand());
@@ -80,6 +86,7 @@ namespace ExplorusE.Models
             bubbles = new List<BubbleSprite>();
             gems = new List<GemSprite>();
             queue = q;
+            audio = a;
         }
 
         public void SetGridPosX(int posX)
@@ -87,6 +94,10 @@ namespace ExplorusE.Models
             gridPos.x = posX;
         }
 
+        public void SetUndoMax(bool b)
+        {
+            undoMax = b;
+        }
         public void SetIsPaused(bool p)
         {
             lock (lockSprites)
@@ -252,6 +263,8 @@ namespace ExplorusE.Models
                 controller.SetInvincibleTimer(0);
                 controller.SetFlashPlayer(true);
                 playerLives = player.GetLives();
+                System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.CollisionPlayerToxic);
+                audio.Add(sound);
 
                 if (playerLives == 0 && !isAlreadyDead)
                 {
@@ -259,14 +272,21 @@ namespace ExplorusE.Models
                     controller.IsDeadOnce = true;
                     isAlreadyDead = true;
                     isPaused = true;
+                    audio.Add(sound);
                     //UndoLastCommand();
                 }
                 else if (playerLives == 0 && isAlreadyDead) 
                 {
                     controller.IsDeadTwice = true;
                     controller.IsDying();
+                    audio.Add(sound);
                 }
             }
+        }
+
+        public AudioList GetAudioList()
+        {
+            return audio;
         }
         private void PlayerGemCollision(GemSprite gem)
         {
@@ -274,6 +294,9 @@ namespace ExplorusE.Models
             InvokeCommand(new GemPickedUpCommand());
             InvokeCommand(new DestroySpriteCommand(gem));
             gem.Destroy();
+            System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.GemCollected);
+            audio.Add(sound);
+
         }
 
         public void RemoveGemForToxic(string toxicName)
@@ -301,7 +324,7 @@ namespace ExplorusE.Models
 
         public void UndoLastCommand()
         {
-            if (commandIndex>1)
+            if (commandIndex>1 &&(!undoMax))
             {
                 commandHistory.ElementAt(commandIndex-1).Undo(this);
                 commandIndex--;
@@ -315,6 +338,7 @@ namespace ExplorusE.Models
             {
                 commandIndex++;
                 commandHistory.ElementAt(commandIndex-1).Execute(this);
+                undoMax = false;
             }
         }
 

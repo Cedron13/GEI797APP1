@@ -1,5 +1,6 @@
 ﻿using ExplorusE.Controllers.States;
 using ExplorusE.Models;
+using ExplorusE.Observer;
 
 
 /* EXPLORUS-E
@@ -39,6 +40,8 @@ namespace Tests
         }
 
         public bool IsPaused { get; set; }
+        public bool IsDeadOnce { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool IsDeadTwice { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public void InitGame()
         {
@@ -81,6 +84,106 @@ namespace Tests
         public int NewLevel()
         {
             return 0;
+        }
+
+        public void SetIsInvincible(bool b)
+        {
+            
+        }
+
+        public void SetInvincibleTimer(double time)
+        {
+            
+        }
+
+        public void SetFlashPlayer(bool b)
+        {
+            
+        }
+
+        public bool GetFlashPlayer()
+        {
+            return false;
+        }
+
+        public void SetFlashToxic(bool b)
+        {
+            
+        }
+
+        public bool GetFlashToxic()
+        {
+            return false;
+        }
+
+        public void SetIsFlashingToxic(bool b)
+        {
+            
+        }
+
+        public bool GetWaitLoadBubble()
+        {
+            return false;
+        }
+
+        public void WaitForNewBubble()
+        {
+            
+        }
+
+        public void SetFlashToxicTimer(double b)
+        {
+            
+        }
+
+        public void AddSubscriber(IResizeEventSubscriber newBubble)
+        {
+            
+        }
+
+        public void IsDying()
+        {
+           
+        }
+
+        public void ShowFPS(float f)
+        {
+            
+        }
+
+        public void ChangeFpsDisplay()
+        {
+            
+        }
+
+        public void KillApp()
+        {
+           
+        }
+
+        public PauseMenu GetPauseMenu()
+        {
+            return null;
+        }
+
+        public void LaunchMenu()
+        {
+            
+        }
+
+        public HelpMenu GetHelpMenu()
+        {
+            return null;
+        }
+
+        public void LaunchHelp()
+        {
+            
+        }
+
+        public void NewGame()
+        {
+            
         }
     }
 }

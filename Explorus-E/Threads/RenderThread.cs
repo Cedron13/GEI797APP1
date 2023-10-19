@@ -43,7 +43,10 @@ namespace ExplorusE.Threads
                 Monitor.PulseAll(queue);
             }
         }
-
+        public bool IsStopped()
+        {
+            return isRunning;
+        }
         /// <summary>
         /// Adds an item to the permanent list
         /// </summary>
