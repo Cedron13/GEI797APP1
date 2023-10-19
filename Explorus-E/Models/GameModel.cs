@@ -259,6 +259,8 @@ namespace ExplorusE.Models
                 controller.SetInvincibleTimer(0);
                 controller.SetFlashPlayer(true);
                 playerLives = player.GetLives();
+                System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.CollisionPlayerToxic);
+                audio.Add(sound);
 
                 if (playerLives == 0 && !isAlreadyDead)
                 {
@@ -266,12 +268,14 @@ namespace ExplorusE.Models
                     controller.IsDeadOnce = true;
                     isAlreadyDead = true;
                     isPaused = true;
+                    audio.Add(sound);
                     //UndoLastCommand();
                 }
                 else if (playerLives == 0 && isAlreadyDead) 
                 {
                     controller.IsDeadTwice = true;
                     controller.IsDying();
+                    audio.Add(sound);
                 }
             }
         }
@@ -286,8 +290,8 @@ namespace ExplorusE.Models
             InvokeCommand(new GemPickedUpCommand());
             InvokeCommand(new DestroySpriteCommand(gem));
             gem.Destroy();
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.GemCollected);
-            audio.Add(player);
+            System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.GemCollected);
+            audio.Add(sound);
 
         }
 

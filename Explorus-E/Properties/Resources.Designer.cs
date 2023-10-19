@@ -63,6 +63,15 @@ namespace ExplorusE.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.IO.UnmanagedMemoryStream semblable à System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream CollisionPlayerToxic {
+            get {
+                return ResourceManager.GetStream("CollisionPlayerToxic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.IO.UnmanagedMemoryStream semblable à System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream CollisionWall {
             get {
                 return ResourceManager.GetStream("CollisionWall", resourceCulture);

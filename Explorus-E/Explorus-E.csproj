@@ -129,6 +129,7 @@
     <None Include="Resources\CollisionWall.wav" />
     <None Include="Resources\GemCollected.wav" />
     <None Include="Resources\ThrowBubble.wav" />
+    <None Include="Resources\CollisionPlayerToxic.wav" />
     <Content Include="Resources\TilesSheet.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
