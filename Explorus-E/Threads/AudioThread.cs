@@ -64,7 +64,7 @@ namespace ExplorusE.Threads
                             Console.WriteLine("élément dans liste" + oList.GetList().Count);
                             oList.GetList().ElementAt(0).PlaySync();
                             oList.Remove();
-                            Thread.Sleep(SLEEP_TIMER);
+                            //Thread.Sleep(1);
                             break;
                         }
                     }
