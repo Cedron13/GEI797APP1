@@ -4,6 +4,7 @@ using ExplorusE.Models.Commands;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Windows.Media;
 
 namespace ExplorusE.Controllers.States
 {
@@ -88,9 +89,10 @@ namespace ExplorusE.Controllers.States
 
                                 //Console.WriteLine(init.x.ToString() +" "+ init.y.ToString());
                                 Direction playerDirection = model.GetPlayer().GetDirection();
-                                BubbleSprite newBubble = new BubbleSprite(initialCoord, controller.GetPlayer().GetActualTop(), controller.GetPlayer().GetActualLeft(), controller.GetPlayer().GetActualBricksize());
+                                BubbleSprite newBubble = new BubbleSprite(initialCoord, controller.GetPlayer().GetActualTop(), controller.GetPlayer().GetActualLeft(), controller.GetPlayer().GetActualBricksize(), 0.5f);
                                 controller.AddSubscriber(newBubble);
                                 newBubble.StartMovement(initialCoord, playerDirection);
+                                model.GetAudioList().Add("ThrowBubble.wav");
                                 model.InvokeCommand(new BubbleCreateCommand(newBubble));
                                 model.InvokeCommand(new BubbleMoveCommand(newBubble));
                                 controller.WaitForNewBubble();
@@ -104,6 +106,7 @@ namespace ExplorusE.Controllers.States
                         }
                     case Keys.Escape:
                         {
+                            PrepareNextState();
                             controller.GetPauseMenu().SetIsPlaying(true);
                             controller.GetPauseMenu().Update();
                             controller.LaunchMenu();

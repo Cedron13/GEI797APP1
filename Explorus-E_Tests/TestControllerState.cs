@@ -19,7 +19,7 @@ namespace Tests
         public void TestPause()
         {
             ControllerMOC moc = new ControllerMOC();
-            GameModel gm = new GameModel(moc);
+            GameModel gm = new GameModel(moc, null,null);
             IState currentState;
             PlayState play = new PlayState(moc);
             currentState = play;
@@ -31,7 +31,7 @@ namespace Tests
         public void TestResume()
         {
             ControllerMOC moc = new ControllerMOC();
-            GameModel gm = new GameModel(moc);
+            GameModel gm = new GameModel(moc, null,null);
             IState currentState;
             PausedState pause = new PausedState(moc);
             currentState = pause;

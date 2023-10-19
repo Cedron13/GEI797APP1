@@ -21,6 +21,13 @@ namespace ExplorusE.Models
         public GemSprite(coord gridPos, int top, int left, int brick, string origin) : base(gridPos, top, left, brick)
         {
             this.origin = origin;
+            boundingRadius = 0.1;
+        }
+
+        public GemSprite(coord gridPos, int top, int left, int brick, string origin, float brickScale) : base(gridPos, top, left, brick, brickScale)
+        {
+            this.origin = origin;
+            boundingRadius = 0.1;
         }
         public override void Update(int elapsedMs)
         {
@@ -50,7 +57,7 @@ namespace ExplorusE.Models
         //Renderable Interface
         public override Renderable CopyForRender()
         {
-            GemSprite copy = new GemSprite(new coord(), base.topMargin, base.leftMargin, base.brickSize, base.GetName());
+            GemSprite copy = new GemSprite(new coord(), base.topMargin, base.leftMargin, base.brickSize, base.GetName(), base.brickScale);
             copy.SetDirection(base.dir);
             copy.SetGridPosition(currentPos);
             return copy;

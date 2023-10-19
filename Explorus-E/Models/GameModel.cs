@@ -11,6 +11,7 @@ using ExplorusE.Threads;
 using ExplorusE.Models.Sprites;
 using ExplorusE.Controllers.States;
 using System.Xml.Linq;
+using System.Windows.Media;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -38,6 +39,7 @@ namespace ExplorusE.Models
         private bool isAlreadyDead = false;
         private int[,] originalLabyrinthCopy;
         private bool isTouched = false;
+        private bool undoMax = false;
         private int[,] labyrinth = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
                 {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1},  // 1 = display wall
@@ -60,7 +62,11 @@ namespace ExplorusE.Models
         private readonly object lockSprites = new object();
         private readonly object lockCollision = new object();
 
+
+        private IRenderQueueAsker queue;
         private RenderThread render;
+        private AudioList audio; // 
+
 
         private bool doorUnlocked = false;
         private bool needupdate = false;
@@ -70,7 +76,8 @@ namespace ExplorusE.Models
             return player.GetLives();
         }
 
-        public GameModel(IControllerModel c, RenderThread r)
+        public GameModel(IControllerModel c, IRenderQueueAsker q, AudioList a)
+
         {
             controller = c;
             InvokeCommand(new StartGameCommand());
@@ -79,7 +86,8 @@ namespace ExplorusE.Models
             toxicSlimes = new List<ToxicSprite>();
             bubbles = new List<BubbleSprite>();
             gems = new List<GemSprite>();
-            render = r;
+            queue = q;
+            audio = a;
         }
 
         public void SetGridPosX(int posX)
@@ -87,6 +95,10 @@ namespace ExplorusE.Models
             gridPos.x = posX;
         }
 
+        public void SetUndoMax(bool b)
+        {
+            undoMax = b;
+        }
         public void SetIsPaused(bool p)
         {
             lock (lockSprites)
@@ -149,12 +161,12 @@ namespace ExplorusE.Models
                 if (controller.GetFlashPlayer()) // If we are invinsible, we altern between hide and appear
                 {
                     player.SetTransparency(175);
-                    render.AskForNewItem(player, RenderItemType.NonPermanent);
+                    queue.AskForNewItem(player, RenderItemType.NonPermanent);
                 }
                 else if (!controller.GetFlashPlayer())
                 {
                     player.SetTransparency(0);
-                    render.AskForNewItem(player, RenderItemType.NonPermanent);
+                    queue.AskForNewItem(player, RenderItemType.NonPermanent);
                 }
                 if (bubbles.Count > 0)
                 {
@@ -166,7 +178,7 @@ namespace ExplorusE.Models
                         }
                         element.Update((int)lag);
                         
-                        render.AskForNewItem(element, RenderItemType.NonPermanent);
+                        queue.AskForNewItem(element, RenderItemType.NonPermanent);
                         if(element.IsDestroyed())
                         {
                             HandleDestroyedBubble(element);
@@ -174,6 +186,11 @@ namespace ExplorusE.Models
                     }
 
                     bubbles.RemoveAll(element => element.IsDestroyed());
+                }
+
+                foreach (GemSprite gem in gems)
+                {
+                    queue.AskForNewItem(gem, RenderItemType.NonPermanent);
                 }
 
                 foreach (ToxicSprite slime in toxicSlimes)
@@ -190,22 +207,17 @@ namespace ExplorusE.Models
                     if ((controller.GetFlashToxic() && slime == toxicTouche))
                     {
                         toxicTouche.SetTransparency(175);
-                        render.AskForNewItem(slime, RenderItemType.NonPermanent);
+                        queue.AskForNewItem(slime, RenderItemType.NonPermanent);
                     }
                     else
                     {
                         slime.SetTransparency(0);
-                        render.AskForNewItem(slime, RenderItemType.NonPermanent);
+                        queue.AskForNewItem(slime, RenderItemType.NonPermanent);
                     }
                                      
                 }
 
                 toxicSlimes.RemoveAll(element => !element.IsAlive());
-
-                foreach(GemSprite gem in gems)
-                {
-                    render.AskForNewItem(gem, RenderItemType.NonPermanent);
-                }
             }
 
         }
@@ -230,7 +242,7 @@ namespace ExplorusE.Models
                         x = (int)toxPos.x,
                         y = (int)toxPos.y
                     };
-                    GemSprite gem = new GemSprite(gemCoord, tox.GetActualTop(), tox.GetActualLeft(), tox.GetActualBricksize(), tox.GetName());
+                    GemSprite gem = new GemSprite(gemCoord, tox.GetActualTop(), tox.GetActualLeft(), tox.GetActualBricksize(), tox.GetName(), 0.5f);
                     gem.StartMovement(gemCoord, Direction.DOWN);
                     gems.Add(gem);
                     InvokeCommand(new DestroySpriteCommand(tox));
@@ -252,6 +264,7 @@ namespace ExplorusE.Models
                 controller.SetInvincibleTimer(0);
                 controller.SetFlashPlayer(true);
                 playerLives = player.GetLives();
+                audio.Add("CollisionPlayerToxic.wav");
 
                 if (playerLives == 0 && !isAlreadyDead)
                 {
@@ -259,14 +272,21 @@ namespace ExplorusE.Models
                     controller.IsDeadOnce = true;
                     isAlreadyDead = true;
                     isPaused = true;
+                    audio.Add("CollisionPlayerToxic.wav");
                     //UndoLastCommand();
                 }
                 else if (playerLives == 0 && isAlreadyDead) 
                 {
                     controller.IsDeadTwice = true;
                     controller.IsDying();
+                    audio.Add("CollisionPlayerToxic.wav");
                 }
             }
+        }
+
+        public AudioList GetAudioList()
+        {
+            return audio;
         }
         private void PlayerGemCollision(GemSprite gem)
         {
@@ -274,6 +294,8 @@ namespace ExplorusE.Models
             InvokeCommand(new GemPickedUpCommand());
             InvokeCommand(new DestroySpriteCommand(gem));
             gem.Destroy();
+            audio.Add("GemCollected.wav");
+
         }
 
         public void RemoveGemForToxic(string toxicName)
@@ -301,7 +323,7 @@ namespace ExplorusE.Models
 
         public void UndoLastCommand()
         {
-            if (commandIndex>1)
+            if (commandIndex>1 &&(!undoMax))
             {
                 commandHistory.ElementAt(commandIndex-1).Undo(this);
                 commandIndex--;
@@ -315,6 +337,7 @@ namespace ExplorusE.Models
             {
                 commandIndex++;
                 commandHistory.ElementAt(commandIndex-1).Execute(this);
+                undoMax = false;
             }
         }
 
