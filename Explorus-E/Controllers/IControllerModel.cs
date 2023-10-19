@@ -76,6 +76,8 @@ namespace ExplorusE.Controllers
         void LaunchMenu();
         HelpMenu GetHelpMenu();
         void LaunchHelp();
+
+        void NewGame();
         
     }
 }

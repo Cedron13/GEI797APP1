@@ -11,5 +11,8 @@ namespace ExplorusE.Controllers
     {
 
         void AddSubscriber(IResizeEventSubscriber subscriber);
+
+
+        void NewGame();
     }
 }

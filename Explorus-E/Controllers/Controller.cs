@@ -143,27 +143,12 @@ namespace ExplorusE.Controllers
         public Controller()
         {
             oRenderThread = new RenderThread(); //TODO: Look for which object needs an access to oRenderThread
-            model = new GameModel(this, oRenderThread);
-            oPhysicsThread = new PhysicsThread("Collision Thread", model);
-            inputList = new List<Keys>();
-            resizeSubscribers = new List<IResizeEventSubscriber>();
             view = new GameView(this, oRenderThread);
-
             pauseMenu = new PauseMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
             currentState = new MenuState(this);
-            InitGame();
 
-            renderThread = new Thread(new ThreadStart(oRenderThread.Run));
-            renderThread.Name = "Render Thread";
-            renderThread.Start();
+            LaunchGame();
 
-            physicsThread = new Thread(new ThreadStart(oPhysicsThread.Run));
-            physicsThread.Name = "Collision Thread";
-            physicsThread.Start();
-
-            engine = new GameEngine(this);
-            //Order is very important due to dependencies between each object, this order works 👍
-            InitRenderObjects();
         }
         
         public void ViewCloseEvent()
@@ -748,6 +733,47 @@ namespace ExplorusE.Controllers
         {
             currentState.PrepareNextState(GameStates.HELP);
             currentState.GetNextState();
+        }
+
+        public void NewGame()
+        {
+            currentState = new PlayState(this);
+            model = new GameModel(this, oRenderThread);
+            oPhysicsThread = new PhysicsThread("Collision Thread", model);
+
+            InitGame();
+
+            renderThread = new Thread(new ThreadStart(oRenderThread.Run));
+            renderThread.Name = "Render Thread";
+            renderThread.Start();
+
+            physicsThread = new Thread(new ThreadStart(oPhysicsThread.Run));
+            physicsThread.Name = "Collision Thread";
+            physicsThread.Start();
+
+            InitRenderObjects();
+        }
+
+        private void LaunchGame()
+        {
+            model = new GameModel(this, oRenderThread);
+            oPhysicsThread = new PhysicsThread("Collision Thread", model);
+            inputList = new List<Keys>();
+            resizeSubscribers = new List<IResizeEventSubscriber>();
+
+            InitGame();
+
+            renderThread = new Thread(new ThreadStart(oRenderThread.Run));
+            renderThread.Name = "Render Thread";
+            renderThread.Start();
+
+            physicsThread = new Thread(new ThreadStart(oPhysicsThread.Run));
+            physicsThread.Name = "Collision Thread";
+            physicsThread.Start();
+
+            engine = new GameEngine(this);
+            //Order is very important due to dependencies between each object, this order works 👍
+            InitRenderObjects();
         }
 
     }

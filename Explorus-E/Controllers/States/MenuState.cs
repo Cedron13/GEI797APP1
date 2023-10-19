@@ -92,21 +92,26 @@ namespace ExplorusE.Controllers.States
                                             pauseMenu.Update();
                                             model.ClearAfterCurrentActionIndex();
                                             PrepareNextState();
-                                            //Unpause Logic
                                             model.SetIsPaused(false);
                                             controller.ExitPause();
                                             controller.GetGameModel().SetIsPaused(false);
                                         }
                                         else
                                         {
-
+                                            pauseMenu.SetColor(0);
+                                            pauseMenu.Update();
+                                            controller.NewGame();
                                         }
 
                                         break;
                                     }
                                 case 2:
                                     {
+                                        pauseMenu.SetColor(0);
+                                        pauseMenu.Update();
+
                                         //sound
+
                                         break; 
                                     }
                                 case 3:
