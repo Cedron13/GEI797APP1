@@ -367,12 +367,12 @@ namespace ExplorusE.Controllers
             else if (currentState is MenuState)
             {
                 statusBarText.TextToDisplay = Constants.Constants.MENU_TEXT;
-                oRenderThread.AskForNewItem(pauseMenu, RenderItemType.NonPermanent);
+                queue.AskForNewItem(pauseMenu, RenderItemType.NonPermanent);
             }
             else if (currentState is HelpState)
             {
                 statusBarText.TextToDisplay = Constants.Constants.MENU_TEXT;
-                oRenderThread.AskForNewItem(helpMenu, RenderItemType.NonPermanent);
+                queue.AskForNewItem(helpMenu, RenderItemType.NonPermanent);
             }
 
             queue.AskForNewItem(statusBarText, RenderItemType.NonPermanent);
@@ -785,7 +785,7 @@ namespace ExplorusE.Controllers
         public void NewGame()
         {
             currentState = new PlayState(this);
-            model = new GameModel(this, oRenderThread, oAudioList);
+            model = new GameModel(this, queue, oAudioList);
             oPhysicsThread = new PhysicsThread("Collision Thread", model);
 
             InitGame();
