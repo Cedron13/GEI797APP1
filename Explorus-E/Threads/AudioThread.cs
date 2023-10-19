@@ -61,7 +61,6 @@ namespace ExplorusE.Threads
                         }
                         else
                         {
-                            Console.WriteLine("élément dans liste" + oList.GetList().Count);
                             oList.GetList().ElementAt(0).Play();
                             oList.Remove();
                             Thread.Sleep(SLEEP_TIMER);
@@ -77,8 +76,9 @@ namespace ExplorusE.Threads
                 }
 
 
-                Console.WriteLine("STOP Audio Thread : " + this.threadName);
+                
             }
+            Console.WriteLine("STOP Audio Thread : " + this.threadName);
         }
         }
 

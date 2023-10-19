@@ -88,7 +88,7 @@ namespace ExplorusE.Controllers.States
 
                                 //Console.WriteLine(init.x.ToString() +" "+ init.y.ToString());
                                 Direction playerDirection = model.GetPlayer().GetDirection();
-                                BubbleSprite newBubble = new BubbleSprite(initialCoord, controller.GetPlayer().GetActualTop(), controller.GetPlayer().GetActualLeft(), controller.GetPlayer().GetActualBricksize());
+                                BubbleSprite newBubble = new BubbleSprite(initialCoord, controller.GetPlayer().GetActualTop(), controller.GetPlayer().GetActualLeft(), controller.GetPlayer().GetActualBricksize(), 0.5f);
                                 controller.AddSubscriber(newBubble);
                                 newBubble.StartMovement(initialCoord, playerDirection);
                                 System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.ThrowBubble);
