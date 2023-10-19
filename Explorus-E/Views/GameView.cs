@@ -54,7 +54,8 @@ namespace ExplorusE.Views
 
         private bool bubbleshoot = false;
 
-        private RenderThread render;
+        private IRenderListReader items;
+        private IRenderListReader permanentItems;
         
         public int GetTopMargin() 
         { 
@@ -135,7 +136,7 @@ namespace ExplorusE.Views
             fpsDisplay = value;
         }
 
-        public GameView(IControllerView c, RenderThread r)
+        public GameView(IControllerView c, IRenderListReader i, IRenderListReader pi)
         {
             controller = c;
             oGameForm = new GameForm();
@@ -147,7 +148,8 @@ namespace ExplorusE.Views
             oGameForm.GotFocus += GotFocusEvent;
             oGameForm.Shown += FirstLoadEvent;
             tileManager = TileManager.GetInstance();
-            render = r;
+            items = i;
+            permanentItems = pi;
 
             windowThread = new Thread(new ThreadStart(Show)); //New thread because "Application.run()" blocks the actual thread and prevents the engine to run
             windowThread.Name = "Window Thread";
@@ -190,11 +192,10 @@ namespace ExplorusE.Views
             g.Clear(Color.Black);
 
             //TODO: Change this method to loop with the RenderThread object
-            List<Renderable> renderPermanentItems = render.GetPermanentItems();
-
+            List<Renderable> renderPermanentItems = permanentItems.GetList();
             foreach (Renderable r in renderPermanentItems) r.Render(g);
 
-            List<Renderable> renderItems = render.GetItems();
+            List<Renderable> renderItems = items.Flush();
             foreach (Renderable r in renderItems) r.Render(g);
 
             if (fpsDisplay) { oGameForm.Text = "Explorus-E   -   FPS = " + fps.ToString(); }

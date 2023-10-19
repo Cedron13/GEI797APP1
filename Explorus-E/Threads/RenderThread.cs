@@ -26,7 +26,11 @@ namespace ExplorusE.Threads
         private volatile bool isSomethingInQueue = false;
         */
 
-        private ConcurrentQueue<RenderElement> queue = new ConcurrentQueue<RenderElement>();
+        private RenderQueue queue = new RenderQueue();
+
+        public IRenderQueueAsker GetQueue() => queue;
+        public IRenderListReader GetPermanentList() => permanentItems;
+        public IRenderListReader GetNonPermanentList() => items;
 
         /// <summary>
         /// Stops the RenderThread's thread
@@ -34,6 +38,10 @@ namespace ExplorusE.Threads
         public void Stop()
         {
             isRunning = false;
+            lock (queue)
+            {
+                Monitor.PulseAll(queue);
+            }
         }
         public bool IsStopped()
         {
@@ -45,7 +53,11 @@ namespace ExplorusE.Threads
         /// <param name="item">Item to add</param>
         private void AddPermanentItem(Renderable item)
         {
-            permanentItems.Add(item);
+            lock (permanentItems)
+            {
+                permanentItems.Add(item);
+            }
+            
         }
 
         /// <summary>
@@ -54,69 +66,9 @@ namespace ExplorusE.Threads
         /// <param name="item">Item to add</param>
         private void AddItem(Renderable item)
         {
-            items.Add(item);
-        }
-
-        /// <summary>
-        /// Asks to the thread to add a new item
-        /// </summary>
-        /// <param name="item">Item to add</param>
-        /// <param name="type">Type of the item</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void AskForNewItem(Renderable item, RenderItemType type)
-        {
-            /*
-            while(isSomethingInQueue);
-            itemQueue = item.CopyForRender();
-            itemQueueType = type;
-            isSomethingInQueue = true;*/
-
-            queue.Enqueue(new RenderElement()
+            lock (items)
             {
-                element = item.CopyForRender(),
-                type = type
-            });
-
-        }
-
-        /// <summary>
-        /// Reset the permament item list
-        /// </summary>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void ResetPermanentItems()
-        {
-            //while(isSomethingInQueue);
-            permanentItems = new RenderList();
-        }
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void ResetItems()
-        {
-            //while(isSomethingInQueue);
-            items = new RenderList();
-        }
-
-        /// <summary>
-        /// Returns the list of the permanent items
-        /// </summary>
-        /// <returns>List of the permanent items</returns>
-        public List<Renderable> GetPermanentItems()
-        {
-            lock (lockObj)
-            {
-                return permanentItems.GetList();
-            }
-        }
-
-        /// <summary>
-        /// Flushs the list of the items but returns it before
-        /// </summary>
-        /// <returns>List of the items</returns>
-        public List<Renderable> GetItems()
-        {
-            lock(lockObj)
-            {
-                return items.Flush();
+                items.Add(item);
             }
         }
 
@@ -125,41 +77,38 @@ namespace ExplorusE.Threads
         /// </summary>
         public void Run()
         {
-            Console.WriteLine("START - RenderThread" );
+            Console.WriteLine("START - RenderThread");
             while (isRunning)
             {
-                /*
-                if(isSomethingInQueue)
+                try
                 {
-                    lock(lockObj)
+                    do
                     {
-                        switch(itemQueueType)
+                        RenderElement renderElement = new RenderElement();
+                        do
                         {
-                            case RenderItemType.Permanent: AddPermanentItem(itemQueue); break;
-                            case RenderItemType.NonPermanent: AddItem(itemQueue); break; 
-                        }
-                        isSomethingInQueue = false; 
-                    }
-                }
-                */
-                RenderElement renderElement = new RenderElement();
-                do
-                {
-                    if (renderElement.element == null) continue;
-                    else
-                    {
-                        lock (lockObj)
-                        {
-                            switch (renderElement.type)
+                            if (renderElement.element != null)
                             {
-                                case RenderItemType.Permanent: AddPermanentItem(renderElement.element); break;
-                                case RenderItemType.NonPermanent: AddItem(renderElement.element); break;
+                                lock (lockObj)
+                                {
+                                    switch (renderElement.type)
+                                    {
+                                        case RenderItemType.Permanent: AddPermanentItem(renderElement.element); break;
+                                        case RenderItemType.NonPermanent: AddItem(renderElement.element); break;
+                                    }
+                                }
+
                             }
-                        }
-                        
-                    }
-                } while (queue.TryDequeue(out renderElement));
-                //Thread.Sleep(1);
+                        } while (queue.GetQueue().TryDequeue(out renderElement));
+                    } while (isRunning);
+                    
+                } catch (ThreadInterruptedException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    isRunning = false;
+                    break;
+                }
+                
             }
             Console.WriteLine("STOP - RenderThread");
         }

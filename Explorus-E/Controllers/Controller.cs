@@ -61,6 +61,10 @@ namespace ExplorusE.Controllers
         private Wall transparentWall;
         private MiniSlimeSprite miniSlime;
 
+        private IRenderQueueAsker queue;
+        private IRenderListReader items;
+        private IRenderListReader permanentItems;
+
         private Text statusBarText;
         private Text levelText;
         private Text deadText;
@@ -145,19 +149,21 @@ namespace ExplorusE.Controllers
 
         public Controller()
         {
+
+            oRenderThread = new RenderThread();
             oAudioList = new AudioList();
             oAudioThread = new AudioThread("Audio1", oAudioList);         
-            oRenderThread = new RenderThread(); //TODO: Look for which object needs an access to oRenderThread
+            queue = oRenderThread.GetQueue();
+            items = oRenderThread.GetNonPermanentList();
+            permanentItems = oRenderThread.GetPermanentList();
 
-            view = new GameView(this, oRenderThread);
-            pauseMenu = new PauseMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
-            currentState = new MenuState(this);
-
-            model = new GameModel(this, oRenderThread,oAudioList);
-
+            model = new GameModel(this, queue,oAudioList);
             oPhysicsThread = new PhysicsThread("Collision Thread", model);
             inputList = new List<Keys>();
             resizeSubscribers = new List<IResizeEventSubscriber>();
+            view = new GameView(this, items, permanentItems);
+            pauseMenu = new PauseMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+            currentState = new MenuState(this);
 
             InitGame();
 
@@ -215,12 +221,12 @@ namespace ExplorusE.Controllers
 
         public void EngineUpdateEvent(double lag)
         {
-            oRenderThread.ResetItems();
+            items.ClearList();
             model.Update(lag);
-            if (!model.GetDoorUnlocked()) oRenderThread.AskForNewItem(transparentWall, RenderItemType.NonPermanent);
+            if (!model.GetDoorUnlocked()) queue.AskForNewItem(transparentWall, RenderItemType.NonPermanent);
             healthBar.SetProgression(model.GetPlayerLives()); //Vie du joueur
             levelText.TextToDisplay = view.GetLevelNumber().ToString();
-            if (fullCoin) oRenderThread.AskForNewItem(keySprite, RenderItemType.NonPermanent);
+            if (fullCoin) queue.AskForNewItem(keySprite, RenderItemType.NonPermanent);
             if (currentState is ResumeState)
             {
                 transitionTime += lag;
@@ -291,7 +297,7 @@ namespace ExplorusE.Controllers
                 if (isDeadTwice)
                 {
                     deadText.TextToDisplay = Constants.Constants.GAMEOVER_TEXT;
-                    oRenderThread.AskForNewItem(deadText, RenderItemType.NonPermanent);
+                    queue.AskForNewItem(deadText, RenderItemType.NonPermanent);
                     gameOverTimer += lag;
                     if (gameOverTimer > 3000)
                     {
@@ -306,7 +312,7 @@ namespace ExplorusE.Controllers
                 }
                 else
                 {
-                    oRenderThread.AskForNewItem(deadText, RenderItemType.NonPermanent);
+                    queue.AskForNewItem(deadText, RenderItemType.NonPermanent);
                     deadTimer += lag;
                     if (deadTimer > 5000 | model.GetPlayerLives() >1)
                     {
@@ -318,7 +324,7 @@ namespace ExplorusE.Controllers
                         else if (model.GetPlayerLives() == 0)
                         {
                             deadText.TextToDisplay = Constants.Constants.GAMEOVER_TEXT;
-                            oRenderThread.AskForNewItem(deadText, RenderItemType.NonPermanent);
+                            queue.AskForNewItem(deadText, RenderItemType.NonPermanent);
                             gameOverTimer += lag;
                             if (gameOverTimer > 3000)
                             {
@@ -369,11 +375,11 @@ namespace ExplorusE.Controllers
                 oRenderThread.AskForNewItem(helpMenu, RenderItemType.NonPermanent);
             }
 
-            oRenderThread.AskForNewItem(statusBarText, RenderItemType.NonPermanent);
-            oRenderThread.AskForNewItem(levelText, RenderItemType.NonPermanent);
-            oRenderThread.AskForNewItem(healthBar, RenderItemType.NonPermanent);
-            oRenderThread.AskForNewItem(bubbleBar, RenderItemType.NonPermanent);
-            oRenderThread.AskForNewItem(coinBar, RenderItemType.NonPermanent);
+            queue.AskForNewItem(statusBarText, RenderItemType.NonPermanent);
+            queue.AskForNewItem(levelText, RenderItemType.NonPermanent);
+            queue.AskForNewItem(healthBar, RenderItemType.NonPermanent);
+            queue.AskForNewItem(bubbleBar, RenderItemType.NonPermanent);
+            queue.AskForNewItem(coinBar, RenderItemType.NonPermanent);
         }
 
         public void AddSubscriber(IResizeEventSubscriber sub)
@@ -383,18 +389,18 @@ namespace ExplorusE.Controllers
 
         public void PositionUpdate()
         {
-            oRenderThread.ResetPermanentItems(); //Permament item have their size changed
+            permanentItems.ClearList(); //Permament item have their size changed
             foreach (IResizeEventSubscriber s in resizeSubscribers)
             {
                 s.NotifyResize(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
             }
 
-            foreach (Wall w in walls) oRenderThread.AskForNewItem(w, RenderItemType.Permanent); //Re-adding all walls in the render list
-            oRenderThread.AskForNewItem(titleSprite, RenderItemType.Permanent);
-            oRenderThread.AskForNewItem(heartSprite, RenderItemType.Permanent);
-            oRenderThread.AskForNewItem(bubbleSprite, RenderItemType.Permanent);
-            oRenderThread.AskForNewItem(coinSprite, RenderItemType.Permanent);
-            oRenderThread.AskForNewItem(miniSlime, RenderItemType.Permanent);
+            foreach (Wall w in walls) queue.AskForNewItem(w, RenderItemType.Permanent); //Re-adding all walls in the render list
+            queue.AskForNewItem(titleSprite, RenderItemType.Permanent);
+            queue.AskForNewItem(heartSprite, RenderItemType.Permanent);
+            queue.AskForNewItem(bubbleSprite, RenderItemType.Permanent);
+            queue.AskForNewItem(coinSprite, RenderItemType.Permanent);
+            queue.AskForNewItem(miniSlime, RenderItemType.Permanent);
         }
 
         public void EngineProcessInputEvent()
@@ -429,7 +435,7 @@ namespace ExplorusE.Controllers
                         }, top, left, brick);
                         walls.Add(w);
                         AddSubscriber(w);
-                        oRenderThread.AskForNewItem(w, RenderItemType.Permanent);
+                        queue.AskForNewItem(w, RenderItemType.Permanent);
                     }
                     else if (model.GetLabyrinth()[i, j] == 2)
                     {
@@ -448,7 +454,7 @@ namespace ExplorusE.Controllers
                             y = i
                         }, top, left, brick);
                         AddSubscriber(miniSlime);
-                        oRenderThread.AskForNewItem(miniSlime, RenderItemType.Permanent);
+                        queue.AskForNewItem(miniSlime, RenderItemType.Permanent);
                     }
                 }
             }
@@ -569,7 +575,7 @@ namespace ExplorusE.Controllers
                 y = 0
             }, Constants.Constants.TITLE_SPRITE_NAME, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.5f);
             AddSubscriber(titleSprite);
-            oRenderThread.AskForNewItem(titleSprite, RenderItemType.Permanent);
+            queue.AskForNewItem(titleSprite, RenderItemType.Permanent);
 
             heartSprite = new NotInGridSprite(new coord()
             {
@@ -581,7 +587,7 @@ namespace ExplorusE.Controllers
                 y = 0.9
             }, Constants.Constants.HEART_SPRITE_NAME, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
             AddSubscriber(heartSprite);
-            oRenderThread.AskForNewItem(heartSprite, RenderItemType.Permanent);
+            queue.AskForNewItem(heartSprite, RenderItemType.Permanent);
 
             bubbleSprite = new NotInGridSprite(new coord()
             {
@@ -593,7 +599,7 @@ namespace ExplorusE.Controllers
                 y = 0.9
             }, Constants.Constants.BUBBLE_SPRITE_NAME + "1", view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
             AddSubscriber(bubbleSprite);
-            oRenderThread.AskForNewItem(bubbleSprite, RenderItemType.Permanent);
+            queue.AskForNewItem(bubbleSprite, RenderItemType.Permanent);
 
             coinSprite = new NotInGridSprite(new coord()
             {
@@ -605,7 +611,7 @@ namespace ExplorusE.Controllers
                 y = 0.9
             }, Constants.Constants.COIN_SPRITE_NAME, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
             AddSubscriber(coinSprite);
-            oRenderThread.AskForNewItem(coinSprite, RenderItemType.Permanent);
+            queue.AskForNewItem(coinSprite, RenderItemType.Permanent);
 
             healthBar = new Bar(new coord()
             {
