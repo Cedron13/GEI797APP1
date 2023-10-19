@@ -2,6 +2,7 @@
 using ExplorusE.Controllers;
 using ExplorusE.Models;
 using ExplorusE.Models.Commands;
+using ExplorusE.Threads;
 using System.Reflection;
 
 /* EXPLORUS-E
@@ -17,7 +18,7 @@ namespace Tests
     [TestClass]
     public class TestGameModel
     {
-
+        private AudioList a= new AudioList();
 
         //Test without wall
         [TestMethod]
@@ -34,7 +35,7 @@ namespace Tests
                 y = 7
             };
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null, null);
+            GameModel gm = new GameModel(null, null, a);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -59,7 +60,7 @@ namespace Tests
                 y = 7
             };
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null, null);
+            GameModel gm = new GameModel(null, null, a);
             gm.SetGridPosX(3);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -83,7 +84,7 @@ namespace Tests
                 y = 6
             };
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null, null);
+            GameModel gm = new GameModel(null, null, a);
             gm.SetGridPosX(3);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -107,7 +108,7 @@ namespace Tests
                 y = 7
             };
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null, null);
+            GameModel gm = new GameModel(null, null, a);
             gm.SetGridPosX(3);
             gm.SetGridPosY(6);
             gm.InitPlayer(s);
@@ -144,7 +145,7 @@ namespace Tests
                 y = 7
             };
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null, null);
+            GameModel gm = new GameModel(null, null, a);
             gm.SetLabyrinth(labyrinth);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
@@ -184,7 +185,7 @@ namespace Tests
                 y = 7
             };
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null, null);
+            GameModel gm = new GameModel(null, null, a);
             gm.SetLabyrinth(labyrinth);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
@@ -208,7 +209,7 @@ namespace Tests
                 y = 7
             };
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null, null);
+            GameModel gm = new GameModel(null, null, a);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -239,7 +240,7 @@ namespace Tests
                 y = 7
             };
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null, null);
+            GameModel gm = new GameModel(null, null, a);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -267,7 +268,7 @@ namespace Tests
                 y = 7
             };
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null, null);
+            GameModel gm = new GameModel(null, null, a);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -295,7 +296,7 @@ namespace Tests
                 y = 7
             };
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null, null);
+            GameModel gm = new GameModel(null, null, a);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -316,7 +317,7 @@ namespace Tests
         public void TestCollisionToxicSlimus()
         {
             ControllerMOC moc = new ControllerMOC();
-            GameModel gm = new GameModel(moc, null);
+            GameModel gm = new GameModel(moc, null, a);
 
             coord start = new coord()
             {
@@ -334,7 +335,7 @@ namespace Tests
         public void TestCollisionSlimusGem()
         {
             ControllerMOC moc = new ControllerMOC();
-            GameModel gm = new GameModel(moc, null);
+            GameModel gm = new GameModel(moc, null, a);
 
             coord start = new coord()
             {
@@ -352,7 +353,7 @@ namespace Tests
         public void TestCollisionToxicGem()
         {
             ControllerMOC moc = new ControllerMOC();
-            GameModel gm = new GameModel(moc, null);
+            GameModel gm = new GameModel(moc, null, a  );
 
             coord start = new coord()
             {
@@ -376,7 +377,7 @@ namespace Tests
         public void TestCollisiontoxicbubble()
         {
             ControllerMOC moc = new ControllerMOC();
-            GameModel gm = new GameModel(moc, null);
+            GameModel gm = new GameModel(moc, null, a);
             coord start = new coord()
             {
                 x = 4,

@@ -27,11 +27,11 @@ namespace TestThread
             StopThread();
             oRenderThread = new RenderThread();
             oTestRenderThread = new Thread(oRenderThread.Run);
-            oTestRenderThread.Start();
+            
 
-            //oTestPhysicsThread.Join();
-            Assert.IsTrue(oTestRenderThread.IsAlive);
-            Assert.IsTrue(oRenderThread.IsStopped());
+            //oTestRenderThread.Join();
+            //Assert.IsTrue(oTestRenderThread.IsAlive);
+            
 
         }
         [TestCleanup]
@@ -58,6 +58,22 @@ namespace TestThread
 
                 Assert.IsFalse(oTestRenderThread.IsAlive);
             }
+        }
+        [TestMethod]
+        public void TestStart()
+        {
+            oTestRenderThread.Start();
+            oTestRenderThread.Join(TIMER_JOIN);
+            Assert.IsTrue(oTestRenderThread.IsAlive);
+        }
+        [TestMethod]
+         public void TestStopped()
+        {
+            TestStart();
+            //oTestRenderThread.Start();
+            oRenderThread.Stop();
+            oTestRenderThread.Join(TIMER_JOIN);
+            Assert.IsFalse(oTestRenderThread.IsAlive);
         }
 
 

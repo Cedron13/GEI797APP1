@@ -1,6 +1,7 @@
 ﻿using ExplorusE.Constants;
 using ExplorusE.Models.Commands;
 using ExplorusE.Models;
+using ExplorusE.Threads;
 
 
 
@@ -17,6 +18,7 @@ namespace Tests
     [TestClass]
     public class TestCollisionMoveCommand
     {
+        private AudioList a = new AudioList();
         //Test with wall
         [TestMethod]
         public void MoveRightWithWall_WithSpritePosition()
@@ -38,7 +40,7 @@ namespace Tests
                 y = 7
             };
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null,null);
+            GameModel gm = new GameModel(null,null,a);
             gm.SetLabyrinth(labyrinth);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
@@ -74,7 +76,7 @@ namespace Tests
                 y = 7
             };
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null, null);
+            GameModel gm = new GameModel(null, null, a );
             gm.SetLabyrinth(labyrinth);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
@@ -110,7 +112,7 @@ namespace Tests
                 y = 7
             };
             PlayerSprite   s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null, null);
+            GameModel gm = new GameModel(null, null,a);
             //gm.SetLabyrinth(labyrinth);
             gm.SetGridPosX(1);
             gm.SetGridPosY(7);
@@ -135,7 +137,7 @@ namespace Tests
                 y = 7
             };
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null, null );
+            GameModel gm = new GameModel(null, null , a);
 
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
@@ -254,7 +256,7 @@ namespace Tests
 
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
             ControllerMOC mocController = new ControllerMOC();
-            GameModel gm = new GameModel(mocController, null);
+            GameModel gm = new GameModel(mocController, null,a);
             gm.SetLabyrinth(labyrinth);
             gm.SetGridPosX(7);
             gm.SetGridPosY(5);
@@ -298,7 +300,7 @@ namespace Tests
 
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
             ControllerMOC mocController = new ControllerMOC();
-            GameModel gm = new GameModel(mocController, null);
+            GameModel gm = new GameModel(mocController, null, a);
             gm.SetLabyrinth(labyrinth);
             gm.SetGridPosX(7);
             gm.SetGridPosY(5);
@@ -343,7 +345,7 @@ namespace Tests
 
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
             ControllerMOC mocController = new ControllerMOC();
-            GameModel gm = new GameModel(mocController,null);
+            GameModel gm = new GameModel(mocController,null, a);
             gm.SetLabyrinth(labyrinth);
 
             gm.SetGridPosX(7);
@@ -383,7 +385,7 @@ namespace Tests
                     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                 };
             ControllerMOC moc = new ControllerMOC();
-            GameModel gm = new GameModel(moc, null);
+            GameModel gm = new GameModel(moc, null, a);
             coord start = new coord()
             {
                 x = 3,
@@ -432,7 +434,7 @@ namespace Tests
                     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                 };
             ControllerMOC moc = new ControllerMOC();
-            GameModel gm = new GameModel(moc, null);
+            GameModel gm = new GameModel(moc, null, a);
             coord start = new coord()
             {
                 x = 4,
@@ -476,7 +478,7 @@ namespace Tests
                     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                 };
             ControllerMOC moc = new ControllerMOC();
-            GameModel gm = new GameModel(moc, null);
+            GameModel gm = new GameModel(moc, null, a   );
             coord start = new coord()
             {
                 x = 3,
