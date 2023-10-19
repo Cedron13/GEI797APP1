@@ -17,7 +17,7 @@ namespace Tests
     [TestClass]
     public class TestGameModel
     {
-        
+
 
         //Test without wall
         [TestMethod]
@@ -82,7 +82,7 @@ namespace Tests
                 x = 3,
                 y = 6
             };
-            PlayerSprite   s = new PlayerSprite(start, 33, 19, 50);
+            PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
             GameModel gm = new GameModel(null, null);
             gm.SetGridPosX(3);
             gm.SetGridPosY(7);
@@ -132,7 +132,7 @@ namespace Tests
                     {1, 0, 0, 0, 3, 1, 0, 0, 4, 0, 1},
                     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
                 };
-            
+
             coord start = new coord()
             {
                 x = 4,
@@ -152,13 +152,13 @@ namespace Tests
             MoveCommand com = new MoveCommand(Direction.RIGHT, start, dest);
             gm.InvokeCommand(com);
             s.Update(500);
-            
+
             Assert.AreEqual(labyrinth[7, 4], 3);
         }
 
-       
-        
-        
+
+
+
         [TestMethod]
         public void MoveLeftWithoutWall_WithLabyrinth()
         {
@@ -295,7 +295,7 @@ namespace Tests
                 y = 7
             };
             PlayerSprite s = new PlayerSprite(start, 33, 19, 50);
-            GameModel gm = new GameModel(null, null );
+            GameModel gm = new GameModel(null, null);
             gm.SetGridPosX(4);
             gm.SetGridPosY(7);
             gm.InitPlayer(s);
@@ -349,7 +349,31 @@ namespace Tests
             Assert.AreEqual(gm.GetCounter(), 1);
         }
         [TestMethod]
-        public void TestCollisiontoxicbuble()
+        public void TestCollisionToxicGem()
+        {
+            ControllerMOC moc = new ControllerMOC();
+            GameModel gm = new GameModel(moc, null);
+
+            coord start = new coord()
+            {
+                x = 4,
+                y = 7
+            };
+            coord cslimus = new coord()
+            {
+                x = 12,
+                y = 15
+            };
+            PlayerSprite s = new PlayerSprite(cslimus, 33, 19, 50);
+            ToxicSprite t = new ToxicSprite(start, 33, 19, 50);
+            GemSprite gem = new GemSprite(start, 33, 19, 50, "");
+            gm.InitPlayer(s);
+            gm.AddGem(gem);
+            gm.checkCollision();
+            Assert.AreEqual(gm.GetCounter(), 0);
+        }
+        [TestMethod]
+        public void TestCollisiontoxicbubble()
         {
             ControllerMOC moc = new ControllerMOC();
             GameModel gm = new GameModel(moc, null);
@@ -367,52 +391,6 @@ namespace Tests
             gm.checkCollision();
             Assert.AreEqual(tox.GetLives(), 1);
         }
-        /*[TestMethod]
-        public void TestCollisionBubbleWall()
-        {
-            int[,] labyrinth = {
-                    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
-                    {1, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1},  // 1 = display wall
-                    {1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1},  // 2 = display door
-                    {1, 0, 0, 0, 0, 0, 1, 5, 1, 0, 1},  // 3 = display Slimus
-                    {1, 0, 1, 0, 1, 1, 1, 2, 1, 0, 1},  // 4 = display gem
-                    {1, 0, 1, 0, 1, 4, 0, 0, 0, 0, 1},  // 5 = display mini-slime
-                    {1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1},
-                    {1, 0, 0, 3, 0, 1, 0, 0, 4, 0, 1},
-                    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                };
-            ControllerMOC moc = new ControllerMOC();
-            GameModel gm = new GameModel(moc, null);
-            coord start = new coord()
-            {
-                x = 3,
-                y = 7
-            };
-            coord dest = new coord()
-            {
-                x = 19,
-                y = 7
-            };
-            coord fin = new coord()
-            {
-                x = 4,
-                y = 7
-            };
-            
-            gm.SetLabyrinth(labyrinth);
-            BubbleSprite bub = new BubbleSprite(start, 33, 19, 50);
-            moc.AddSubscriber(bub);
-            bub.StartMovement(dest, Direction.RIGHT);
-            //gm.InvokeCommand(new BubbleCreateCommand(bub));
-            gm.InvokeCommand(new BubbleMoveCommand(bub));
-            bub.Update(500);
-            coord finmes = new coord()
-            {
-                x = (int)bub.GetGridPosition().x,
-                y = (int)bub.GetGridPosition().y
-            };
-
-            Assert.AreEqual(finmes.x, fin.x);
-        }*/
+        
     }
 }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Tests
 {
     [TestClass]
-    public class TestPhysicsThread
+    public class TestRenderThread
 {
         private PhysicsThread oPhysicsThread;
         private Thread oTestPhysicsThread;

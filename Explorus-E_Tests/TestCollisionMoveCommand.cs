@@ -368,5 +368,140 @@ namespace Tests
 
             Assert.AreEqual(labyrinth, gm.GetLabyrinth());
         }
+        [TestMethod]
+        public void TestCollisionBubbleWall()
+        {
+            int[,] labyrinth = {
+                    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
+                    {1, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1},  // 1 = display wall
+                    {1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1},  // 2 = display door
+                    {1, 0, 0, 0, 0, 0, 1, 5, 1, 0, 1},  // 3 = display Slimus
+                    {1, 0, 1, 0, 1, 1, 1, 2, 1, 0, 1},  // 4 = display gem
+                    {1, 0, 1, 0, 1, 4, 0, 0, 0, 0, 1},  // 5 = display mini-slime
+                    {1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1},
+                    {1, 0, 0, 3, 0, 1, 0, 0, 4, 0, 1},
+                    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                };
+            ControllerMOC moc = new ControllerMOC();
+            GameModel gm = new GameModel(moc, null);
+            coord start = new coord()
+            {
+                x = 3,
+                y = 7
+            };
+            coord dest = new coord()
+            {
+                x = 19,
+                y = 7
+            };
+            coord fintheo = new coord()
+            {
+                x = 4,
+                y = 7
+            };
+
+            gm.SetLabyrinth(labyrinth);
+            BubbleSprite bub = new BubbleSprite(start, 33, 19, 50);
+            //gm.AddBubble(bub);
+            bub.SetDirection(Direction.RIGHT);
+            //bub.StartMovement(dest, Direction.RIGHT);
+            gm.InvokeCommand(new BubbleCreateCommand(bub));
+            gm.InvokeCommand(new BubbleMoveCommand(bub));
+
+            bub.Update(500);
+            coord finmes = new coord()
+            {
+                x = (int)bub.GetGridPosition().x,
+                y = (int)bub.GetGridPosition().y
+            };
+
+            Assert.AreEqual(fintheo, finmes);
+        }
+        [TestMethod]
+        public void TestCollisionToxicWall()
+        {
+            int[,] labyrinth = {
+                    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
+                    {1, 0, 0, 4, 0, 0, 0, 0, 0, 0, 1},  // 1 = display wall
+                    {1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1},  // 2 = display door
+                    {1, 0, 0, 0, 0, 0, 1, 5, 1, 0, 1},  // 3 = display Slimus
+                    {1, 0, 1, 0, 1, 1, 1, 2, 1, 0, 1},  // 4 = display gem
+                    {1, 0, 1, 0, 1, 4, 0, 0, 0, 0, 1},  // 5 = display mini-slime
+                    {1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1},
+                    {1, 0, 0, 0, 0, 1, 0, 0, 4, 0, 1},
+                    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                };
+            ControllerMOC moc = new ControllerMOC();
+            GameModel gm = new GameModel(moc, null);
+            coord start = new coord()
+            {
+                x = 4,
+                y = 7
+            };
+
+
+
+            gm.SetLabyrinth(labyrinth);
+            ToxicSprite tox = new ToxicSprite(start, 33, 19, 50);
+            tox.SetDirection(Direction.RIGHT);
+
+
+            //bub.StartMovement(dest, Direction.RIGHT);
+
+            gm.InvokeCommand(new ToxicMoveCommand(tox));
+
+
+            tox.Update(500);
+            coord finmes = new coord()
+            {
+                x = (int)tox.GetGridPosition().x,
+                y = (int)tox.GetGridPosition().y
+            };
+
+            Assert.AreEqual(start.x - 1, finmes.x);
+        }
+
+        [TestMethod]
+        public void TestToxicWithoutWall()
+        {
+            int[,] labyrinth = {
+                    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},  // 0 = nothing (free to go)
+                    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},  // 1 = display wall
+                    {1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1},  // 2 = display door
+                    {1, 0, 0, 0, 0, 0, 1, 5, 1, 0, 1},  // 3 = display Slimus
+                    {1, 0, 1, 0, 1, 1, 1, 2, 1, 0, 1},  // 4 = display gem
+                    {1, 0, 1, 0, 1, 4, 0, 0, 0, 0, 1},  // 5 = display mini-slime
+                    {1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1},
+                    {1, 0, 0, 0, 0, 1, 0, 0, 4, 0, 1},
+                    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+                };
+            ControllerMOC moc = new ControllerMOC();
+            GameModel gm = new GameModel(moc, null);
+            coord start = new coord()
+            {
+                x = 3,
+                y = 2
+            };
+
+
+
+            gm.SetLabyrinth(labyrinth);
+            ToxicSprite tox = new ToxicSprite(start, 33, 19, 50);
+            tox.SetDirection(Direction.RIGHT);
+
+
+
+            gm.InvokeCommand(new ToxicMoveCommand(tox));
+
+
+            tox.Update(500);
+            coord finmes = new coord()
+            {
+                x = (int)tox.GetGridPosition().x,
+                y = (int)tox.GetGridPosition().y
+            };
+
+            Assert.AreNotEqual(start, finmes);
+        }
     }
 }
