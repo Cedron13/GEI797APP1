@@ -128,6 +128,7 @@
     <None Include="Resources\VIctory.wav" />
     <None Include="Resources\CollisionWall.wav" />
     <None Include="Resources\GemCollected.wav" />
+    <None Include="Resources\ThrowBubble.wav" />
     <Content Include="Resources\TilesSheet.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
