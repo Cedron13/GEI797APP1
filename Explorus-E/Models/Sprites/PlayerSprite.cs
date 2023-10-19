@@ -33,6 +33,11 @@ namespace ExplorusE.Models
             isInvincible=true;
         }
 
+        public void SetImageIndex(int index)
+        {
+            imageIndex = index;
+        }
+
         public void SetTimeDone(bool b)
         {
             timeDone=b;
@@ -89,6 +94,7 @@ namespace ExplorusE.Models
             copy.SetDirection(base.dir);
             copy.SetGridPosition(currentPos);
             copy.SetTransparency(transparency);
+            copy.SetImageIndex(imageIndex);
            
 
             return copy;
