@@ -55,6 +55,8 @@ namespace ExplorusE.Models.Commands
                     else
                     {
                         model.GoTo(dir, initialPos);
+                        System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.CollisionWall);
+                        model.GetAudioList().Add(sound);
                     }
                     
                 }
