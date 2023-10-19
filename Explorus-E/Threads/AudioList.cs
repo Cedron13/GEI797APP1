@@ -14,7 +14,7 @@ namespace ExplorusE.Threads
     {
         private const int MAX_NUMBER_SOUND = 2;
         private readonly List<string> oListData = new List<string>();
-        private int currentVolume = 20;
+        private int currentVolume;
 
 
         [MethodImpl(MethodImplOptions.Synchronized)] // Un seul thread accède à la fois a la fonciton.. Clé partagée pour toute la classe

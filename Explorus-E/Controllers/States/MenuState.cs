@@ -53,6 +53,7 @@ namespace ExplorusE.Controllers.States
                             {
                                 pauseMenu.SetVolume(pauseMenu.GetVolume()+10);
                                 pauseMenu.Update();
+                                model.GetAudioList().SetVolume(pauseMenu.GetVolume());
                             }
                             break;
                         }
@@ -62,6 +63,7 @@ namespace ExplorusE.Controllers.States
                             {
                                 pauseMenu.SetVolume(pauseMenu.GetVolume() - 10);
                                 pauseMenu.Update();
+                                model.GetAudioList().SetVolume(pauseMenu.GetVolume());
                             }
                             break;
                         }
