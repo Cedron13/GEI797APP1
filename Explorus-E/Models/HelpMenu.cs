@@ -19,9 +19,9 @@ namespace ExplorusE.Models
         private List<Text> itemList;
         private readonly int size;
         private readonly coord gridPos;
-        private readonly int topMargin;
-        private readonly int leftMargin;
-        private readonly int brickSize;
+        private int topMargin;
+        private int leftMargin;
+        private int brickSize;
         private readonly float brickScale;
         private readonly bool half;
 
@@ -148,6 +148,9 @@ namespace ExplorusE.Models
 
         public void NotifyResize(int top, int left, int brick)
         {
+            topMargin = top;
+            leftMargin = left;
+            brickSize = brick;
             foreach (Text t in itemList)
             {
                 t.NotifyResize(top, left, brick);
