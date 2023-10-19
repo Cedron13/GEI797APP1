@@ -21,11 +21,13 @@ namespace ExplorusE.Models
         public GemSprite(coord gridPos, int top, int left, int brick, string origin) : base(gridPos, top, left, brick)
         {
             this.origin = origin;
+            boundingRadius = 0.1;
         }
 
         public GemSprite(coord gridPos, int top, int left, int brick, string origin, float brickScale) : base(gridPos, top, left, brick, brickScale)
         {
             this.origin = origin;
+            boundingRadius = 0.1;
         }
         public override void Update(int elapsedMs)
         {
