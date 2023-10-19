@@ -152,7 +152,7 @@ namespace ExplorusE.Controllers
 
             oRenderThread = new RenderThread();
             oAudioList = new AudioList();
-            oAudioThread = new AudioThread("Audio1", oAudioList);         
+            oAudioThread = new AudioThread("Audio Thread",oAudioList);         
             queue = oRenderThread.GetQueue();
             items = oRenderThread.GetNonPermanentList();
             permanentItems = oRenderThread.GetPermanentList();
