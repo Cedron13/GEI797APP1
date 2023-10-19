@@ -47,6 +47,8 @@ namespace ExplorusE.Threads
         {
             return isRunning;
         }
+
+        
         /// <summary>
         /// Adds an item to the permanent list
         /// </summary>
