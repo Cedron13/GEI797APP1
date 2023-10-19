@@ -51,7 +51,7 @@ namespace ExplorusE.Controllers.States
                         {
                             if (selectionIndex == 2 && pauseMenu.GetVolume() < 100)
                             {
-                                pauseMenu.SetVolume(pauseMenu.GetVolume()+1);
+                                pauseMenu.SetVolume(pauseMenu.GetVolume()+10);
                                 pauseMenu.Update();
                             }
                             break;
@@ -60,7 +60,7 @@ namespace ExplorusE.Controllers.States
                         {
                             if (selectionIndex == 2 && pauseMenu.GetVolume() > 0)
                             {
-                                pauseMenu.SetVolume(pauseMenu.GetVolume() - 1);
+                                pauseMenu.SetVolume(pauseMenu.GetVolume() - 10);
                                 pauseMenu.Update();
                             }
                             break;
