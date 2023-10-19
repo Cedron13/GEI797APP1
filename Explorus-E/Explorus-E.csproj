@@ -50,10 +50,13 @@
     <Compile Include="Constants\Enums.cs" />
     <Compile Include="Constants\Structs.cs" />
     <Compile Include="Controllers\Controller.cs" />
+    <Compile Include="Controllers\IControllerMenu.cs" />
     <Compile Include="Controllers\IControllerModel.cs" />
     <Compile Include="Controllers\IControllerView.cs" />
     <Compile Include="Controllers\GameEngine.cs" />
+    <Compile Include="Controllers\States\HelpState.cs" />
     <Compile Include="Controllers\States\IState.cs" />
+    <Compile Include="Controllers\States\MenuState.cs" />
     <Compile Include="Controllers\States\PausedState.cs" />
     <Compile Include="Controllers\States\PlayState.cs" />
     <Compile Include="Controllers\States\ResumeState.cs" />
@@ -68,6 +71,8 @@
     <Compile Include="Models\Commands\StartGameCommand.cs" />
     <Compile Include="Models\Commands\BubbleMoveCommand.cs" />
     <Compile Include="Models\Commands\ToxicMoveCommand.cs" />
+    <Compile Include="Models\HelpMenu.cs" />
+    <Compile Include="Models\PauseMenu.cs" />
     <Compile Include="Models\Sprites\BubbleSprite.cs" />
     <Compile Include="Models\Sprites\GemSprite.cs" />
     <Compile Include="Models\Sprites\MiniSlimeSprite.cs" />
