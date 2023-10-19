@@ -44,7 +44,7 @@ namespace ExplorusE.Threads
         public void Run()
         {
             isRunning = true;
-            Console.WriteLine("START Producer Thread : " + this.threadName);
+            Console.WriteLine("START Audio Thread : " + this.threadName);
 
             while (isRunning)
             {
@@ -77,7 +77,7 @@ namespace ExplorusE.Threads
                 }
 
 
-                Console.WriteLine("STOP Producer Thread : " + this.threadName);
+                Console.WriteLine("STOP Audio Thread : " + this.threadName);
             }
         }
         }
