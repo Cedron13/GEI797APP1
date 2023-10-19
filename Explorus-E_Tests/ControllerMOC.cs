@@ -155,5 +155,35 @@ namespace Tests
         {
             
         }
+
+        public void KillApp()
+        {
+           
+        }
+
+        public PauseMenu GetPauseMenu()
+        {
+            return null;
+        }
+
+        public void LaunchMenu()
+        {
+            
+        }
+
+        public HelpMenu GetHelpMenu()
+        {
+            return null;
+        }
+
+        public void LaunchHelp()
+        {
+            
+        }
+
+        public void NewGame()
+        {
+            
+        }
     }
 }
