@@ -85,10 +85,11 @@ namespace ExplorusE.Models.Commands
                         model.SetGridPosY(newPos.y);
                         labyrinth[newPos.y, newPos.x] = 3;
                         model.GoTo(dir, newPos);
-
                         labyrinth[newPos.y, newPos.x] = 0;
                         model.SetCounter(0);
                         isEndGame = true;
+                        System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.VIctory);
+                        model.GetAudioList().Add(sound);
                         model.EndLevel();
                     }
                     else
