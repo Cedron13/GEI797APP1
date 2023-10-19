@@ -1,4 +1,6 @@
 ﻿using ExplorusE.Constants;
+using ExplorusE.Models;
+using ExplorusE.Models.Commands;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -8,9 +10,9 @@
  * Cloé LEGLISE (legc1001)
  */
 
-namespace ExplorusE.Models.Commands
+namespace Tests
 {
-    internal class MoveCommand : IGameCommand
+    internal class MoveCommandMOC : IGameCommand
     {
         private Direction dir;
         private coord initialPos;
@@ -20,7 +22,7 @@ namespace ExplorusE.Models.Commands
         private bool isEndGame = false;
         private bool isHistoryAction = false;
 
-        public MoveCommand(Direction d, coord initial, coord dest)
+        public MoveCommandMOC(Direction d, coord initial, coord dest)
         {
             dir = d;
             initialPos = initial;
@@ -37,8 +39,6 @@ namespace ExplorusE.Models.Commands
                 if (labyrinth[newPos.y, newPos.x] == 1)
                 {
                     model.GoTo(dir, initialPos);
-                    System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.CollisionWall);
-                    model.GetAudioList().Add(sound);
                 }
                 else if (labyrinth[newPos.y, newPos.x] == 2)
                 {
@@ -46,7 +46,7 @@ namespace ExplorusE.Models.Commands
                     {
                         doorUnlocked = true;
                         isHistoryAction = true;
-                        labyrinth[newPos.y, newPos.x] = 0; 
+                        labyrinth[newPos.y, newPos.x] = 0;
                         model.SetGridPosX(newPos.x);
                         model.SetGridPosY(newPos.y);
                         model.SetDoorUnlocked(true);
@@ -55,10 +55,8 @@ namespace ExplorusE.Models.Commands
                     else
                     {
                         model.GoTo(dir, initialPos);
-                        System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.CollisionWall);
-                        model.GetAudioList().Add(sound);
                     }
-                    
+
                 }
                 else
                 {
@@ -88,8 +86,6 @@ namespace ExplorusE.Models.Commands
                         labyrinth[newPos.y, newPos.x] = 0;
                         model.SetCounter(0);
                         isEndGame = true;
-                        System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.VIctory);
-                        model.GetAudioList().Add(sound);
                         model.EndLevel();
                     }
                     else
@@ -107,9 +103,9 @@ namespace ExplorusE.Models.Commands
         {
             int[,] labyrinth = model.GetLabyrinth();
 
-            
+
             labyrinth[newPos.y, newPos.x] = 0;
-            
+
 
             if (doorUnlocked)
             {
@@ -121,7 +117,7 @@ namespace ExplorusE.Models.Commands
             model.SetGridPosY(initialPos.y);
             model.GoTo(dir, initialPos);
         }
-        public bool IsHistoryAction()=> isHistoryAction;
+        public bool IsHistoryAction() => isHistoryAction;
 
     }
 }

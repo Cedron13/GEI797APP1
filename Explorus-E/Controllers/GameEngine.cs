@@ -50,6 +50,7 @@ namespace ExplorusE.Controllers
 
             while (true)
             {
+                
                 lock (lockObject)
                 {
                     if (!isAlive)
@@ -65,6 +66,7 @@ namespace ExplorusE.Controllers
                 fpsTimer += lag;
                 if (lag >= MS_PER_FRAME)
                 {
+                    
                     fps = (float)(1000f / lag);
                     fpsSum += fps;
                     fpsCounter++;

@@ -31,6 +31,9 @@ namespace ExplorusE.Threads
         {
             isRunning = false;
         }
+        public bool IsStopped() {
+            return isRunning;
+        }
 
 
         public void Run()

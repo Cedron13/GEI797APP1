@@ -82,12 +82,17 @@
     <Compile Include="Models\Sprites\Sprite.cs" />
     <Compile Include="Models\Sprites\ToxicSprite.cs" />
     <Compile Include="Models\Renderable.cs" />
-    <Compile Include="Models\RenderList.cs" />
+    <Compile Include="Threads\IRenderListReader.cs" />
+    <Compile Include="Threads\IRenderQueueAsker.cs" />
+    <Compile Include="Threads\RenderList.cs" />
     <Compile Include="Models\Sprites\Wall.cs" />
     <Compile Include="Models\Text.cs" />
     <Compile Include="Observer\IResizeEventPublisher.cs" />
     <Compile Include="Observer\IResizeEventSubscriber.cs" />
+    <Compile Include="Threads\AudioThread.cs" />
+    <Compile Include="Threads\AudioList.cs" />
     <Compile Include="Threads\PhysicsThread.cs" />
+    <Compile Include="Threads\RenderQueue.cs" />
     <Compile Include="Threads\RenderThread.cs" />
     <Compile Include="Views\GameForm.cs">
       <SubType>Form</SubType>
@@ -128,6 +133,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\VIctory.wav" />
+    <None Include="Resources\CollisionWall.wav" />
+    <None Include="Resources\GemCollected.wav" />
+    <None Include="Resources\ThrowBubble.wav" />
+    <None Include="Resources\CollisionPlayerToxic.wav" />
     <Content Include="Resources\TilesSheet.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
