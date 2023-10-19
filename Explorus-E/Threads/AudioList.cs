@@ -68,13 +68,6 @@ namespace ExplorusE.Threads
             }
         }
 
-        public void ClearList()
-        {
-            lock (this)
-            {
-                oListData.Clear();
-            }
-        }
 
 
     }
