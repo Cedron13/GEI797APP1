@@ -779,7 +779,7 @@ namespace ExplorusE.Controllers
         public void NewGame()
         {
             currentState = new PlayState(this);
-            model = new GameModel(this, oRenderThread);
+            model = new GameModel(this, oRenderThread, oAudioList);
             oPhysicsThread = new PhysicsThread("Collision Thread", model);
 
             InitGame();
