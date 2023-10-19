@@ -14,7 +14,9 @@ namespace ExplorusE.Constants
         PLAY,
         PAUSE,
         RESUME,
-        STOP
+        STOP,
+        MENU,
+        HELP
     }
 
     public enum ImageType

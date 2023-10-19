@@ -69,6 +69,8 @@ namespace ExplorusE.Controllers
         private Bar bubbleBar;
         private Bar coinBar;
         private NotInGridSprite keySprite;
+        private PauseMenu pauseMenu;
+        private HelpMenu helpMenu;
 
         private const int BUBBLE_RELOAD_TIME = 1200;
 
@@ -141,26 +143,12 @@ namespace ExplorusE.Controllers
         public Controller()
         {
             oRenderThread = new RenderThread(); //TODO: Look for which object needs an access to oRenderThread
-            model = new GameModel(this, oRenderThread);
-            oPhysicsThread = new PhysicsThread("Collision Thread", model);
-            inputList = new List<Keys>();
-            resizeSubscribers = new List<IResizeEventSubscriber>();
             view = new GameView(this, oRenderThread);
-            currentState = new PlayState(this);
-            InitGame();
+            pauseMenu = new PauseMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+            currentState = new MenuState(this);
 
-            renderThread = new Thread(new ThreadStart(oRenderThread.Run));
-            renderThread.Name = "Render Thread";
-            renderThread.Start();
+            LaunchGame();
 
-            physicsThread = new Thread(new ThreadStart(oPhysicsThread.Run));
-            physicsThread.Name = "Collision Thread";
-            physicsThread.Start();
-
-            engine = new GameEngine(this);
-            //Order is very important due to dependencies between each object, this order works 👍
-
-            InitRenderObjects();
         }
         
         public void ViewCloseEvent()
@@ -211,12 +199,13 @@ namespace ExplorusE.Controllers
                     currentState.PrepareNextState();
                     currentState.GetNextState();
                 }
-
                 statusBarText.TextToDisplay = Constants.Constants.RESUME_TEXT + " (" + ((int)(4000 - transitionTime) / 1000).ToString() + ")";
 
             }
             else if (currentState is PlayState)
             {
+                pauseMenu.SetIsPlaying(true);
+                pauseMenu.Update();
                 statusBarText.TextToDisplay = Constants.Constants.PLAY_TEXT;
                 if (isFlashingToxic)
                 {
@@ -263,10 +252,11 @@ namespace ExplorusE.Controllers
                         //Console.WriteLine("c'est okok");
                     }
                 }
-
             }
             else if (currentState is PausedState)
             {
+                pauseMenu.SetIsPlaying(true);
+                pauseMenu.Update();
                 statusBarText.TextToDisplay = Constants.Constants.PAUSE_TEXT;
                 if (isDeadTwice)
                 {
@@ -278,8 +268,10 @@ namespace ExplorusE.Controllers
                         isDeadTwice = false;
                         isDeadOnce = false;
                         model.SetIsAlreadyDead(false);
-                        view.Close();
-                        // menu display
+                        pauseMenu.SetIsPlaying(false);
+                        pauseMenu.Update();
+                        LaunchMenu();
+
                     }
                 }
                 else
@@ -307,6 +299,10 @@ namespace ExplorusE.Controllers
                                 isPaused=false;
                                 model.SetUndoMax(false);
                                 // menu display
+                                pauseMenu.SetIsPlaying(false);
+                                pauseMenu.Update();
+                                LaunchMenu();
+
                             }
                         }
                         else
@@ -324,12 +320,23 @@ namespace ExplorusE.Controllers
             }
             else if (currentState is StopState)
             {
+                statusBarText.TextToDisplay = Constants.Constants.STOP_STATE;
                 stopTime += lag;
                 if (stopTime > 3000)
                 {
                     ModelCloseEvent();
                 }
                 statusBarText.TextToDisplay = Constants.Constants.VICTORY_TEXT;
+            }
+            else if (currentState is MenuState)
+            {
+                statusBarText.TextToDisplay = Constants.Constants.MENU_TEXT;
+                oRenderThread.AskForNewItem(pauseMenu, RenderItemType.NonPermanent);
+            }
+            else if (currentState is HelpState)
+            {
+                statusBarText.TextToDisplay = Constants.Constants.MENU_TEXT;
+                oRenderThread.AskForNewItem(helpMenu, RenderItemType.NonPermanent);
             }
 
             oRenderThread.AskForNewItem(statusBarText, RenderItemType.NonPermanent);
@@ -615,6 +622,8 @@ namespace ExplorusE.Controllers
                 y = 0.9
             }, Constants.Constants.KEY_SPRITE_NAME, view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize(), 0.8f);
             AddSubscriber(keySprite);
+
+            helpMenu = new HelpMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
         }
 
 
@@ -641,7 +650,6 @@ namespace ExplorusE.Controllers
             
         }
 
-
         public void ProcessLostFocus()
         {
             isPaused = true;
@@ -661,7 +669,6 @@ namespace ExplorusE.Controllers
             isPaused = false;
             transitionTime = 0;
         }
-
 
         public void WaitForNewBubble()
         {
@@ -699,9 +706,6 @@ namespace ExplorusE.Controllers
         public IState GetState() => currentState;
         public int GetTransitionTime() => (int)transitionTime;
 
-        
-        
-
         public void IsDying()
         {
             isPaused = true;
@@ -718,6 +722,70 @@ namespace ExplorusE.Controllers
             view.SetFpsDisplay(!view.GetFpsDisplay());
         }
 
+        public void KillApp()
+        {
+            view.Close();
+        }
+        public PauseMenu GetPauseMenu()
+        {
+            return pauseMenu;
+        }
+        public HelpMenu GetHelpMenu()
+        {
+            return helpMenu;
+        }
+
+        public void LaunchMenu()
+        {
+            currentState.PrepareNextState(GameStates.MENU);
+            currentState.GetNextState();
+        }
+        public void LaunchHelp()
+        {
+            currentState.PrepareNextState(GameStates.HELP);
+            currentState.GetNextState();
+        }
+
+        public void NewGame()
+        {
+            currentState = new PlayState(this);
+            model = new GameModel(this, oRenderThread);
+            oPhysicsThread = new PhysicsThread("Collision Thread", model);
+
+            InitGame();
+
+            renderThread = new Thread(new ThreadStart(oRenderThread.Run));
+            renderThread.Name = "Render Thread";
+            renderThread.Start();
+
+            physicsThread = new Thread(new ThreadStart(oPhysicsThread.Run));
+            physicsThread.Name = "Collision Thread";
+            physicsThread.Start();
+
+            InitRenderObjects();
+        }
+
+        private void LaunchGame()
+        {
+            model = new GameModel(this, oRenderThread);
+            oPhysicsThread = new PhysicsThread("Collision Thread", model);
+            inputList = new List<Keys>();
+            resizeSubscribers = new List<IResizeEventSubscriber>();
+
+            InitGame();
+
+            renderThread = new Thread(new ThreadStart(oRenderThread.Run));
+            renderThread.Name = "Render Thread";
+            renderThread.Start();
+
+            physicsThread = new Thread(new ThreadStart(oPhysicsThread.Run));
+            physicsThread.Name = "Collision Thread";
+            physicsThread.Start();
+
+            engine = new GameEngine(this);
+            //Order is very important due to dependencies between each object, this order works 👍
+            InitRenderObjects();
+        }
 
     }
 }
