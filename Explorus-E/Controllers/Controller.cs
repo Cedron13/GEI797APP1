@@ -147,7 +147,24 @@ namespace ExplorusE.Controllers
             pauseMenu = new PauseMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
             currentState = new MenuState(this);
 
-            LaunchGame();
+            model = new GameModel(this, oRenderThread);
+            oPhysicsThread = new PhysicsThread("Collision Thread", model);
+            inputList = new List<Keys>();
+            resizeSubscribers = new List<IResizeEventSubscriber>();
+
+            InitGame();
+
+            renderThread = new Thread(new ThreadStart(oRenderThread.Run));
+            renderThread.Name = "Render Thread";
+            renderThread.Start();
+
+            physicsThread = new Thread(new ThreadStart(oPhysicsThread.Run));
+            physicsThread.Name = "Collision Thread";
+            physicsThread.Start();
+
+            engine = new GameEngine(this);
+            //Order is very important due to dependencies between each object, this order works 👍
+            InitRenderObjects();
 
         }
         
@@ -762,28 +779,6 @@ namespace ExplorusE.Controllers
             physicsThread.Name = "Collision Thread";
             physicsThread.Start();
 
-            InitRenderObjects();
-        }
-
-        private void LaunchGame()
-        {
-            model = new GameModel(this, oRenderThread);
-            oPhysicsThread = new PhysicsThread("Collision Thread", model);
-            inputList = new List<Keys>();
-            resizeSubscribers = new List<IResizeEventSubscriber>();
-
-            InitGame();
-
-            renderThread = new Thread(new ThreadStart(oRenderThread.Run));
-            renderThread.Name = "Render Thread";
-            renderThread.Start();
-
-            physicsThread = new Thread(new ThreadStart(oPhysicsThread.Run));
-            physicsThread.Name = "Collision Thread";
-            physicsThread.Start();
-
-            engine = new GameEngine(this);
-            //Order is very important due to dependencies between each object, this order works 👍
             InitRenderObjects();
         }
 
