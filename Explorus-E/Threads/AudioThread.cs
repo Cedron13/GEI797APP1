@@ -52,13 +52,13 @@ namespace ExplorusE.Threads
             {
                 try
                 {
-                    do // ICI ON BOUCLE JUSQU A CE QUE L'AJOUT SOIT FAIT
+                    do 
                     {
-                        if (oList.GetList().Count == 0) // L'ajout a échoué c'est comme si on disait == false 
+                        if (oList.GetList().Count == 0) 
                         {
                             lock (oList)
                             {
-                                Monitor.Wait(oList, WAIT_BUFFER); // IL attend s'il a échoué
+                                Monitor.Wait(oList, WAIT_BUFFER); 
                             }
                         }
                         else
