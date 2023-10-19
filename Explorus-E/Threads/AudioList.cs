@@ -17,12 +17,12 @@ namespace ExplorusE.Threads
         private int currentVolume;
 
 
-        [MethodImpl(MethodImplOptions.Synchronized)] // Un seul thread accède à la fois a la fonciton.. Clé partagée pour toute la classe
+        [MethodImpl(MethodImplOptions.Synchronized)] 
         public bool Add(string sound)
         {
             bool isAdded = false;
 
-            if (oListData.Count < MAX_NUMBER_SOUND && sound!=null) // 5 --> max sound in list
+            if (oListData.Count < MAX_NUMBER_SOUND && sound!=null) 
             {
                 oListData.Add(sound);
                 isAdded = true;
@@ -35,10 +35,10 @@ namespace ExplorusE.Threads
         public string Remove()
         {
             string sound = "";
-            if (oListData.Count > 0) // on vérifie non vide
+            if (oListData.Count > 0) 
             {
-                sound = oListData[0]; //on cherche élément en tête de liste FIFO
-                oListData.RemoveAt(0); //Enleve élément position 0 et tout les autres vont monter de 1  FIFO
+                sound = oListData[0]; 
+                oListData.RemoveAt(0); 
             }
 
             return sound;

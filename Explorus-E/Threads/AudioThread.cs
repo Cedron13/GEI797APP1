@@ -17,8 +17,8 @@ namespace ExplorusE.Threads
     internal class AudioThread
     {
         private readonly object lockObj = new object();
-        private const int WAIT_BUFFER = 100;
-        private const int SLEEP_TIMER = 100;
+        private const int WAIT_BUFFER = 1;
+        private const int SLEEP_TIMER = 1;
         private string threadName;
         AudioList oList = new AudioList();
 
@@ -63,13 +63,17 @@ namespace ExplorusE.Threads
                         }
                         else
                         {
-                            Console.WriteLine("Yes");
-                            Uri uri = new Uri("..\\..\\Resources\\" + oList.GetList().ElementAt(0), UriKind.Relative);
-                            sound.Open(uri);
-                            sound.Volume = oList.GetVolume()/100f;
-                            sound.Play();
-                            oList.Remove();
-                            Thread.Sleep(SLEEP_TIMER);
+                            lock (oList)
+                            {
+                                Console.WriteLine("Yes");
+                                Uri uri = new Uri("..\\..\\Resources\\" + oList.GetList().ElementAt(0), UriKind.Relative);
+                                sound.Open(uri);
+                                sound.Volume = oList.GetVolume() / 100f;
+                                sound.Play();
+                                oList.Remove();
+                            }
+                        
+                            Thread.Sleep(1);
                             break;
                         }
                     }
