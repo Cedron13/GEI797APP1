@@ -8,7 +8,16 @@ using System.Text;
 using System.Threading;
 using System.Collections.Concurrent;
 
+/*
+ * 
+GAMELOOP = (update -> GAMELOOP).
+PHYSICSTHREAD = (checkCollisions -> playerGemCollision -> PHYSICSTHREAD 
+				| checkCollisions -> toxicPlayerCollision -> PHYSICSTHREAD
+				| checkCollisions -> toxicBubbleCollision -> PHYSICSTHREAD).
 
+||THREADS = (GAMELOOP||PHYSICSTHREAD).
+
+ */
 namespace ExplorusE.Threads
 {
     internal class PhysicsThread

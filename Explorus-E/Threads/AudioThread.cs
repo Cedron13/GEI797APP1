@@ -12,6 +12,21 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Xml.Linq;
 
+/*
+const N = 2
+range T = 0..N
+
+AUDIOLIST = (add -> AUDIOLIST | remove -> AUDIOLIST).
+
+AUDIOTHREAD = (waitItemInQueue -> getAudioList -> getNextElement -> play ->remove -> AUDIOTHREAD).
+
+QUEUE = ARRAY[0], ARRAY[i:T] =
+	(when(i<N) add -> ARRAY[i+1]
+	|when(i>0) remove -> ARRAY[i-1]).
+
+||THREADS = (AUDIOLIST||AUDIOTHREAD||QUEUE).
+ */
+
 namespace ExplorusE.Threads
 {
     internal class AudioThread
