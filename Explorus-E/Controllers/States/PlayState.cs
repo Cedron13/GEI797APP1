@@ -106,6 +106,7 @@ namespace ExplorusE.Controllers.States
                         }
                     case Keys.Escape:
                         {
+                            PrepareNextState();
                             controller.GetPauseMenu().SetIsPlaying(true);
                             controller.GetPauseMenu().Update();
                             controller.LaunchMenu();

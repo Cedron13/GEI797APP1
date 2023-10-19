@@ -350,6 +350,7 @@ namespace ExplorusE.Controllers
             }
             else if (currentState is StopState)
             {
+                Console.WriteLine("Stop");
                 statusBarText.TextToDisplay = Constants.Constants.STOP_STATE;
                 stopTime += lag;
                 if (stopTime > 3000)
@@ -754,7 +755,15 @@ namespace ExplorusE.Controllers
 
         public void KillApp()
         {
+            
             view.Close();
+
+            oRenderThread.Stop();
+            oPhysicsThread.Stop();
+            oAudioThread.Stop();
+            renderThread.Join();
+            physicsThread.Join();
+            audioThread.Join();
         }
         public PauseMenu GetPauseMenu()
         {
@@ -778,15 +787,17 @@ namespace ExplorusE.Controllers
 
         public void NewGame()
         {
+            oPhysicsThread.Stop();
+            physicsThread.Join();
             currentState = new PlayState(this);
             model = new GameModel(this, oRenderThread, oAudioList);
             oPhysicsThread = new PhysicsThread("Collision Thread", model);
+            
+            
 
             InitGame();
 
-            renderThread = new Thread(new ThreadStart(oRenderThread.Run));
-            renderThread.Name = "Render Thread";
-            renderThread.Start();
+            
 
             physicsThread = new Thread(new ThreadStart(oPhysicsThread.Run));
             physicsThread.Name = "Collision Thread";

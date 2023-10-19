@@ -139,12 +139,14 @@ namespace ExplorusE.Controllers.States
 
         public void PrepareNextState(GameStates state = GameStates.RESUME) //Default next state is RESUME
         {
+            
             if (state == GameStates.UNKNOWN) state = GameStates.RESUME; //If the method is called from the interface IState
             switch (state)
             {
                 //List here the possible output states
                 case GameStates.RESUME: nextState = new ResumeState(controller); break;
                 case GameStates.HELP: nextState = new HelpState(controller);break;
+                case GameStates.STOP: nextState = new StopState(controller);  break;
                 default: break;
             }
         }

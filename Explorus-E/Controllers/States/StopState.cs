@@ -23,7 +23,7 @@ namespace ExplorusE.Controllers.States
         }
         public void ProcessInput(List<Keys> keys)
         {
-            foreach (Keys e in keys)
+            /*foreach (Keys e in keys)
             {
                 switch (e)
                 {
@@ -33,7 +33,7 @@ namespace ExplorusE.Controllers.States
                             break;
                         }
                 }
-            }
+            }*/
         }
 
         public IState GetNextState() => nextState;
