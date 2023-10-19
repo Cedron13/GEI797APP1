@@ -35,7 +35,10 @@ namespace ExplorusE.Threads
         {
             isRunning = false;
         }
-
+        public bool IsStopped()
+        {
+            return isRunning;
+        }
         /// <summary>
         /// Adds an item to the permanent list
         /// </summary>
