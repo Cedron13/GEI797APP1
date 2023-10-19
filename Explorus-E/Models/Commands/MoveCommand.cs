@@ -37,6 +37,8 @@ namespace ExplorusE.Models.Commands
                 if (labyrinth[newPos.y, newPos.x] == 1)
                 {
                     model.GoTo(dir, initialPos);
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.CollisionWall);
+                    model.GetAudioList().Add(player);
                 }
                 else if (labyrinth[newPos.y, newPos.x] == 2)
                 {

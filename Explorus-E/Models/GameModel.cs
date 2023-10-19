@@ -62,6 +62,7 @@ namespace ExplorusE.Models
         private readonly object lockCollision = new object();
 
         private RenderThread render;
+        private AudioList audio; // 
 
         private bool doorUnlocked = false;
         private bool needupdate = false;
@@ -71,7 +72,7 @@ namespace ExplorusE.Models
             return player.GetLives();
         }
 
-        public GameModel(IControllerModel c, RenderThread r)
+        public GameModel(IControllerModel c, RenderThread r, AudioList a)
         {
             controller = c;
             InvokeCommand(new StartGameCommand());
@@ -81,6 +82,7 @@ namespace ExplorusE.Models
             bubbles = new List<BubbleSprite>();
             gems = new List<GemSprite>();
             render = r;
+            audio = a;
         }
 
         public void SetGridPosX(int posX)
@@ -273,12 +275,20 @@ namespace ExplorusE.Models
                 }
             }
         }
+
+        public AudioList GetAudioList()
+        {
+            return audio;
+        }
         private void PlayerGemCollision(GemSprite gem)
         {
             Console.WriteLine("GemCollision");
             InvokeCommand(new GemPickedUpCommand());
             InvokeCommand(new DestroySpriteCommand(gem));
             gem.Destroy();
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.GemCollected);
+            audio.Add(player);
+
         }
 
         public void RemoveGemForToxic(string toxicName)
