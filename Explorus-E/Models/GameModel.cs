@@ -11,6 +11,7 @@ using ExplorusE.Threads;
 using ExplorusE.Models.Sprites;
 using ExplorusE.Controllers.States;
 using System.Xml.Linq;
+using System.Windows.Media;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -263,8 +264,7 @@ namespace ExplorusE.Models
                 controller.SetInvincibleTimer(0);
                 controller.SetFlashPlayer(true);
                 playerLives = player.GetLives();
-                System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.CollisionPlayerToxic);
-                audio.Add(sound);
+                audio.Add("CollisionPlayerToxic.wav");
 
                 if (playerLives == 0 && !isAlreadyDead)
                 {
@@ -272,14 +272,14 @@ namespace ExplorusE.Models
                     controller.IsDeadOnce = true;
                     isAlreadyDead = true;
                     isPaused = true;
-                    audio.Add(sound);
+                    audio.Add("CollisionPlayerToxic.wav");
                     //UndoLastCommand();
                 }
                 else if (playerLives == 0 && isAlreadyDead) 
                 {
                     controller.IsDeadTwice = true;
                     controller.IsDying();
-                    audio.Add(sound);
+                    audio.Add("CollisionPlayerToxic.wav");
                 }
             }
         }
@@ -294,8 +294,7 @@ namespace ExplorusE.Models
             InvokeCommand(new GemPickedUpCommand());
             InvokeCommand(new DestroySpriteCommand(gem));
             gem.Destroy();
-            System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.GemCollected);
-            audio.Add(sound);
+            audio.Add("GemCollected.wav");
 
         }
 

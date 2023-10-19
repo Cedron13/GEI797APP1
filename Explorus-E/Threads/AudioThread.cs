@@ -1,6 +1,7 @@
 ﻿using ExplorusE.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Reflection;
@@ -8,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using System.Xml.Linq;
 
 namespace ExplorusE.Threads
@@ -45,7 +47,7 @@ namespace ExplorusE.Threads
         {
             isRunning = true;
             Console.WriteLine("START Audio Thread : " + this.threadName);
-
+            MediaPlayer sound = new MediaPlayer();
             while (isRunning)
             {
                 try
@@ -61,7 +63,11 @@ namespace ExplorusE.Threads
                         }
                         else
                         {
-                            oList.GetList().ElementAt(0).Play();
+                            Console.WriteLine("Yes");
+                            Uri uri = new Uri("..\\..\\Resources\\" + oList.GetList().ElementAt(0), UriKind.Relative);
+                            sound.Open(uri);
+                            sound.Volume = oList.GetVolume()/100f;
+                            sound.Play();
                             oList.Remove();
                             Thread.Sleep(SLEEP_TIMER);
                             break;

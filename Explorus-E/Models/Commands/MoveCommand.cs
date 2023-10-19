@@ -1,4 +1,6 @@
 ﻿using ExplorusE.Constants;
+using System;
+using System.Windows.Media;
 
 /* EXPLORUS-E
  * Alexis BLATRIX (blaa1406)
@@ -37,8 +39,7 @@ namespace ExplorusE.Models.Commands
                 if (labyrinth[newPos.y, newPos.x] == 1)
                 {
                     model.GoTo(dir, initialPos);
-                    System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.CollisionWall);
-                    model.GetAudioList().Add(sound);
+                    model.GetAudioList().Add("CollisionWall.wav");
                 }
                 else if (labyrinth[newPos.y, newPos.x] == 2)
                 {
@@ -55,8 +56,7 @@ namespace ExplorusE.Models.Commands
                     else
                     {
                         model.GoTo(dir, initialPos);
-                        System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.CollisionWall);
-                        model.GetAudioList().Add(sound);
+                        model.GetAudioList().Add("CollisionWall.wav");
                     }
                     
                 }
@@ -88,8 +88,7 @@ namespace ExplorusE.Models.Commands
                         labyrinth[newPos.y, newPos.x] = 0;
                         model.SetCounter(0);
                         isEndGame = true;
-                        System.Media.SoundPlayer sound = new System.Media.SoundPlayer(Properties.Resources.VIctory);
-                        model.GetAudioList().Add(sound);
+                        model.GetAudioList().Add("VIctory.wav");
                         model.EndLevel();
                     }
                     else

@@ -6,17 +6,19 @@ using System.Media;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace ExplorusE.Threads
 {
     internal class AudioList
     {
         private const int MAX_NUMBER_SOUND = 2;
-        private readonly List<SoundPlayer> oListData = new List<SoundPlayer>();
+        private readonly List<string> oListData = new List<string>();
+        private int currentVolume = 20;
 
 
         [MethodImpl(MethodImplOptions.Synchronized)] // Un seul thread accède à la fois a la fonciton.. Clé partagée pour toute la classe
-        public bool Add(SoundPlayer sound)
+        public bool Add(string sound)
         {
             bool isAdded = false;
 
@@ -30,9 +32,9 @@ namespace ExplorusE.Threads
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public SoundPlayer Remove()
+        public string Remove()
         {
-            SoundPlayer sound = null;
+            string sound = "";
             if (oListData.Count > 0) // on vérifie non vide
             {
                 sound = oListData[0]; //on cherche élément en tête de liste FIFO
@@ -41,13 +43,27 @@ namespace ExplorusE.Threads
 
             return sound;
         }
-
-        public List<SoundPlayer> GetList()
+        public void SetVolume(int v)
         {
             lock (this)
             {
-                List<SoundPlayer> list = new List<SoundPlayer>();
-                foreach (SoundPlayer item in oListData) list.Add(item);
+                currentVolume = v;
+            }
+        }
+        public int GetVolume()
+        {
+            lock (this)
+            {
+                return currentVolume;
+            }
+        }
+
+        public List<string> GetList()
+        {
+            lock (this)
+            {
+                List<string> list = new List<string>();
+                foreach (string item in oListData) list.Add(item);
                 return list;
             }
         }
