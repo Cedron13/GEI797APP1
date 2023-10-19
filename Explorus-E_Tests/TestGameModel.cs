@@ -314,6 +314,118 @@ namespace Tests
             Assert.AreEqual(finalPos, dest);
         }
         [TestMethod]
+        public void TestUndo_ToxicSlimes()
+        {
+            coord start = new coord()
+            {
+                x = 4,
+                y = 7
+            };
+            coord dest = new coord()
+            {
+                x = 3,
+                y = 7
+            };
+            ToxicSprite s = new ToxicSprite(start, 33, 19, 50);
+            s.SetDirection(Direction.LEFT);
+            GameModel gm = new GameModel(null, null, a);
+            ToxicMoveCommand com = new ToxicMoveCommand(s);
+            gm.InvokeCommand(com);
+            s.Update(600);
+            coord finalPos = new coord()
+            {
+                x = (int)s.GetGridPosition().x,
+                y = (int)s.GetGridPosition().y
+            };
+
+            Assert.AreEqual(finalPos, dest);
+        }
+        [TestMethod]
+        public void TestRedo_ToxicSlimes()
+        {
+            coord start = new coord()
+            {
+                x = 4,
+                y = 7
+            };
+            coord dest = new coord()
+            {
+                x = 3,
+                y = 7
+            };
+            ToxicSprite s = new ToxicSprite(start, 33, 19, 50);
+            s.SetDirection(Direction.LEFT);
+            GameModel gm = new GameModel(null, null, a);
+            ToxicMoveCommand com = new ToxicMoveCommand(s);
+            gm.InvokeCommand(com);
+            s.Update(600);
+            gm.RedoNextCommand();
+            s.Update(600);
+            coord finalPos = new coord()
+            {
+                x = (int)s.GetGridPosition().x,
+                y = (int)s.GetGridPosition().y
+            };
+
+            Assert.AreEqual(finalPos, dest);
+        }
+        [TestMethod]
+        public void TestUndo_Bubbles()
+        {
+            coord start = new coord()
+            {
+                x = 4,
+                y = 7
+            };
+            coord dest = new coord()
+            {
+                x = 3,
+                y = 7
+            };
+            BubbleSprite s = new BubbleSprite(start, 33, 19, 50);
+            s.SetDirection(Direction.LEFT);
+            GameModel gm = new GameModel(null, null, a);
+            BubbleMoveCommand com = new BubbleMoveCommand(s);
+            gm.InvokeCommand(com);
+            s.Update(600);
+            coord finalPos = new coord()
+            {
+                x = (int)s.GetGridPosition().x,
+                y = (int)s.GetGridPosition().y
+            };
+
+            Assert.AreEqual(finalPos, dest);
+        }
+        [TestMethod]
+        public void TestRedo_Bubbles()
+        {
+            coord start = new coord()
+            {
+                x = 4,
+                y = 7
+            };
+            coord dest = new coord()
+            {
+                x = 3,
+                y = 7
+            };
+            BubbleSprite s = new BubbleSprite(start, 33, 19, 50);
+            s.SetDirection(Direction.LEFT);
+            GameModel gm = new GameModel(null, null, a);
+            BubbleMoveCommand com = new BubbleMoveCommand(s);
+            gm.InvokeCommand(com);
+            s.Update(600);
+            gm.RedoNextCommand();
+            s.Update(600);
+            coord finalPos = new coord()
+            {
+                x = (int)s.GetGridPosition().x,
+                y = (int)s.GetGridPosition().y
+            };
+
+            Assert.AreEqual(finalPos, dest);
+        }
+        [TestMethod]
         public void TestCollisionToxicSlimus()
         {
             ControllerMOC moc = new ControllerMOC();

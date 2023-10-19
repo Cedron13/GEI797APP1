@@ -331,7 +331,6 @@ namespace ExplorusE.Controllers
                                 isDeadTwice = false;
                                 isDeadOnce = false;
                                 model.SetIsAlreadyDead(false);
-                                view.Close();
                                 isPaused=false;
                                 model.SetUndoMax(false);
                                 // menu display
