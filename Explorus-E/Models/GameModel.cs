@@ -151,7 +151,6 @@ namespace ExplorusE.Models
         {
             lock (lockSprites)
             {
-                //Console.WriteLine("position " +player.GetGridPosition().x);
                 if (!player.IsMovementOver() || isTouched==true)
                 {
                     player.Update((int)lag);
@@ -223,7 +222,6 @@ namespace ExplorusE.Models
         }
         private void ToxicBubbleCollision(ToxicSprite tox, BubbleSprite b)
         {
-            //Console.WriteLine("Collision: " + tox.GetName());
             if (!b.IsExploded())
             {
                 controller.SetIsFlashingToxic(true);
@@ -290,7 +288,6 @@ namespace ExplorusE.Models
         }
         private void PlayerGemCollision(GemSprite gem)
         {
-            Console.WriteLine("GemCollision");
             InvokeCommand(new GemPickedUpCommand());
             InvokeCommand(new DestroySpriteCommand(gem));
             gem.Destroy();

@@ -253,11 +253,9 @@ namespace ExplorusE.Views
                 taskBarWidth = displayWidth - beginTaskBar - afterTaskBar; // Size of the taskbar (without the title, margins)
                 menuItemWidth = (int)(taskBarWidth / 18); // Size of each "item" of the taskbar
 
-                //Console.WriteLine("menuItemWidth = " + menuItemWidth + ", beginTaskBar = " + beginTaskBar + ", afterTaskBar = ", afterTaskBar);
                 controller.PositionUpdate();
             }
 
-            //TODO: Reset permament items for RenderThread (all sizes have changed, so do the items) and refill the permanent list
         }
 
     }

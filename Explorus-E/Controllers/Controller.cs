@@ -260,7 +260,6 @@ namespace ExplorusE.Controllers
                 }
                 if (isInvincible)
                 {
-                    //Console.WriteLine("je suis invincible");
                     invincibleTimer += lag;
                     if (invincibleTimer > flashTempTimePlayer + 500 && invincibleTimer<3000)
                     {
@@ -271,7 +270,6 @@ namespace ExplorusE.Controllers
                     {
                         flashPlayer = false;
                         isInvincible = false;
-                        //Console.WriteLine("je suis plus invincible");
                         model.GetPlayer().SetTimeDone(true);
                         flashTempTimePlayer = 0;
                         model.GetPlayer().SetTransparency(0);
@@ -285,7 +283,6 @@ namespace ExplorusE.Controllers
                     if (transitionTimeBubble > BUBBLE_RELOAD_TIME)
                     {
                         waitLoadBubble = false;
-                        //Console.WriteLine("c'est okok");
                     }
                 }
             }
@@ -355,7 +352,6 @@ namespace ExplorusE.Controllers
             }
             else if (currentState is StopState)
             {
-                Console.WriteLine("Stop");
                 statusBarText.TextToDisplay = Constants.Constants.STOP_STATE;
                 stopTime += lag;
                 if (stopTime > 3000)
@@ -715,7 +711,6 @@ namespace ExplorusE.Controllers
             waitLoadBubble = true;
             view.SetReloadTime(0);
             view.SetIsReloading(true);
-            //Console.WriteLine("boule envoyée"); // OK
         }
 
         public int NewLevel()
