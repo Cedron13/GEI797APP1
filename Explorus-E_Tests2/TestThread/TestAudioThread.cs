@@ -70,6 +70,18 @@ namespace TestThread
             oTestAudioThread.Join(TIMER_JOIN);
             Assert.IsTrue(oTestAudioThread.IsAlive);
         }
+
+        [TestMethod]
+        public void TestRemove()
+        {
+            oTestAudioThread.Start();
+            aList.Add("test");
+            oTestAudioThread.Join(TIMER_JOIN);         
+            List <String> list = new List<String>();
+            Assert.AreEqual(aList.GetList().Count(), list.Count());
+
+        }
+
         [TestMethod]
          public void TestStopped()
         {
