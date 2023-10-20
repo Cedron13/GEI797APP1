@@ -10,6 +10,7 @@ namespace ExplorusE.Controllers.States
         void ProcessInput(List<Keys> keys);
 
         IState GetNextState();
+        
 
         void PrepareNextState(GameStates nextState = GameStates.UNKNOWN); //Let the classes decide on their own default case
         

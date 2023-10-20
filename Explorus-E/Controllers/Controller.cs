@@ -677,30 +677,45 @@ namespace ExplorusE.Controllers
 
         public void ProcessMinimize()
         {
-            isPaused = true;
-            currentState.PrepareNextState(Constants.GameStates.PAUSE);
-            currentState = currentState.GetNextState();
+
+            if ((currentState is PlayState))
+            {
+                
+                isPaused = true;
+                currentState.PrepareNextState(Constants.GameStates.PAUSE);
+                currentState = currentState.GetNextState();
+            }
+
         }
 
         public void EndGameReached()
         {
-            currentState.PrepareNextState(Constants.GameStates.STOP);
+            currentState.PrepareNextState();
             currentState = currentState.GetNextState();
             
         }
 
         public void ProcessLostFocus()
         {
-            isPaused = true;
-            currentState.PrepareNextState(Constants.GameStates.PAUSE);
-            currentState = currentState.GetNextState();
+            if ((currentState is PlayState))
+            {
+                
+                isPaused = true;
+                currentState.PrepareNextState(Constants.GameStates.PAUSE);
+                currentState = currentState.GetNextState();
+            }
         }
 
         public void EndProcessLostFocus()
         {
-            ExitPause();
-            currentState.PrepareNextState();
-            currentState = currentState.GetNextState();
+            if ((currentState is PlayState))
+            {
+                
+                ExitPause();
+                currentState.PrepareNextState();
+                currentState = currentState.GetNextState();
+            }
+               
         }
 
         public void ExitPause()
