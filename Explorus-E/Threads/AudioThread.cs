@@ -12,6 +12,14 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Xml.Linq;
 
+/* EXPLORUS-E
+ * Alexis BLATRIX (blaa1406)
+ * Cédric CHARRON (chac0902)
+ * Audric DAVID (dava1302)
+ * Matthieu JEHANNE (jehm1701)
+ * Cloé LEGLISE (legc1001)
+ */
+
 namespace ExplorusE.Threads
 {
     internal class AudioThread

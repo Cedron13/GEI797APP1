@@ -10,6 +10,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+/* EXPLORUS-E
+ * Alexis BLATRIX (blaa1406)
+ * Cédric CHARRON (chac0902)
+ * Audric DAVID (dava1302)
+ * Matthieu JEHANNE (jehm1701)
+ * Cloé LEGLISE (legc1001)
+ */
+
 namespace ExplorusE.Threads
 {
     internal class RenderThread
@@ -19,12 +27,6 @@ namespace ExplorusE.Threads
 
         private RenderList permanentItems = new RenderList();
         private RenderList items = new RenderList();
-
-        /*
-        private Renderable itemQueue;
-        private RenderItemType itemQueueType;
-        private volatile bool isSomethingInQueue = false;
-        */
 
         private RenderQueue queue = new RenderQueue();
 

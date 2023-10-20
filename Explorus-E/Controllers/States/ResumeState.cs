@@ -5,6 +5,14 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Runtime.Remoting.Channels;
 
+/* EXPLORUS-E
+ * Alexis BLATRIX (blaa1406)
+ * Cédric CHARRON (chac0902)
+ * Audric DAVID (dava1302)
+ * Matthieu JEHANNE (jehm1701)
+ * Cloé LEGLISE (legc1001)
+ */
+
 namespace ExplorusE.Controllers.States
 {
     internal class ResumeState : IState
