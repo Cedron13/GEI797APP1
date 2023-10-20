@@ -49,6 +49,7 @@ namespace ExplorusE.Controllers
         private bool fullCoin = false;
         private double gameOverTimer = 0;
         private double deadTimer = 0;
+        private bool tempDead = false;
 
         private AudioList oAudioList;
         private AudioThread oAudioThread;
@@ -116,6 +117,10 @@ namespace ExplorusE.Controllers
             set { isDeadTwice = value; }
         }
 
+        public bool GetTempDead()
+        {
+            return tempDead;
+        }
         public bool GetWaitLoadBubble()
         {
             return waitLoadBubble;
@@ -290,6 +295,7 @@ namespace ExplorusE.Controllers
             {
                 pauseMenu.SetIsPlaying(true);
                 pauseMenu.Update();
+                tempDead = true;
                 statusBarText.TextToDisplay = Constants.Constants.PAUSE_TEXT;
                 if (isDeadTwice)
                 {
@@ -302,6 +308,7 @@ namespace ExplorusE.Controllers
                         isDeadOnce = false;
                         model.SetIsAlreadyDead(false);
                         pauseMenu.SetIsPlaying(false);
+                        tempDead = false;
                         pauseMenu.Update();
                         LaunchMenu();
 
@@ -333,6 +340,7 @@ namespace ExplorusE.Controllers
                                 // menu display
                                 pauseMenu.SetIsPlaying(false);
                                 pauseMenu.Update();
+                                tempDead = false;
                                 LaunchMenu();
 
                             }
@@ -342,6 +350,7 @@ namespace ExplorusE.Controllers
                             currentState.PrepareNextState();
                             currentState.GetNextState();
                             isPaused = false;
+                            tempDead = false;
                             model.SetUndoMax(false);
 
                         }

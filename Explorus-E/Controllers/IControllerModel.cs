@@ -19,7 +19,7 @@ namespace ExplorusE.Controllers
     {
         
         void EngineRenderEvent();
-
+        bool GetTempDead();
         void EngineUpdateEvent(double lag);
 
         void EngineProcessInputEvent();

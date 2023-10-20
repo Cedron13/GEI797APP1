@@ -48,12 +48,15 @@ namespace ExplorusE.Controllers.States
 
                     case Keys.R:
                         {
-                            model.ClearAfterCurrentActionIndex();
-                            PrepareNextState();
-                            //Unpause Logic
-                            model.SetIsPaused(false);
-                            controller.ExitPause();
-                            controller.GetGameModel().SetIsPaused(false);
+                            if (!model.GetController().GetTempDead())
+                            {
+                                model.ClearAfterCurrentActionIndex();
+                                PrepareNextState();
+                                //Unpause Logic
+                                model.SetIsPaused(false);
+                                controller.ExitPause();
+                                controller.GetGameModel().SetIsPaused(false);
+                            }              
                             break;
                         }
                     case Keys.F:
