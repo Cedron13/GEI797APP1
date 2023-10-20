@@ -42,7 +42,10 @@ namespace ExplorusE.Threads
             
         }
 
-
+        public bool IsStopped()
+        {
+            return isRunning;
+        }
         public void Run()
         {
             isRunning = true;

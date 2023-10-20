@@ -32,8 +32,9 @@ namespace ExplorusE.Threads
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public string Remove()
+        public void Remove()
         {
+
             string sound = "";
             if (oListData.Count > 0) 
             {
@@ -41,7 +42,6 @@ namespace ExplorusE.Threads
                 oListData.RemoveAt(0); 
             }
 
-            return sound;
         }
         public void SetVolume(int v)
         {
