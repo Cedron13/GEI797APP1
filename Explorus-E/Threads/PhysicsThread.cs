@@ -16,6 +16,17 @@ using System.Collections.Concurrent;
  * Cloé LEGLISE (legc1001)
  */
 
+/*
+ * 
+GAMELOOP = (update -> GAMELOOP).
+PHYSICSTHREAD = (checkCollisions -> playerGemCollision -> PHYSICSTHREAD 
+				| checkCollisions -> toxicPlayerCollision -> PHYSICSTHREAD
+				| checkCollisions -> toxicBubbleCollision -> PHYSICSTHREAD).
+
+||THREADS = (GAMELOOP||PHYSICSTHREAD).
+
+ */
+
 namespace ExplorusE.Threads
 {
     internal class PhysicsThread
