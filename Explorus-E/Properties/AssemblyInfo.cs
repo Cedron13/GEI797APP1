@@ -36,4 +36,4 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 //Unit tests
-[assembly: InternalsVisibleTo("Explorus-E_Tests")]
+[assembly: InternalsVisibleTo("Explorus-E_Tests2")]
