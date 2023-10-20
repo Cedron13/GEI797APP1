@@ -148,7 +148,10 @@ namespace ExplorusE.Models
 
         public void NotifyResize(int top, int left, int brick)
         {
-            foreach (Text t in itemList) controller.AddSubscriber(t);
+            foreach (Text t in itemList)
+            {
+                t.NotifyResize(top, left, brick);
+            }
         }
 
         public void Render(Graphics g)

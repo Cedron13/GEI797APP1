@@ -347,13 +347,12 @@ namespace ExplorusE.Controllers
             {
                 s.NotifyResize(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
             }
-
-            foreach (Wall w in walls) oRenderThread.AskForNewItem(w, RenderItemType.Permanent); //Re-adding all walls in the render list
-            oRenderThread.AskForNewItem(titleSprite, RenderItemType.Permanent);
-            oRenderThread.AskForNewItem(heartSprite, RenderItemType.Permanent);
-            oRenderThread.AskForNewItem(bubbleSprite, RenderItemType.Permanent);
-            oRenderThread.AskForNewItem(coinSprite, RenderItemType.Permanent);
-            oRenderThread.AskForNewItem(miniSlime, RenderItemType.Permanent);
+            foreach (Wall w in walls) queue.AskForNewItem(w, RenderItemType.Permanent); //Re-adding all walls in the render list
+            queue.AskForNewItem(titleSprite, RenderItemType.Permanent);
+            queue.AskForNewItem(heartSprite, RenderItemType.Permanent);
+            queue.AskForNewItem(bubbleSprite, RenderItemType.Permanent);
+            queue.AskForNewItem(coinSprite, RenderItemType.Permanent);
+            queue.AskForNewItem(miniSlime, RenderItemType.Permanent);
         }
 
         public void EngineProcessInputEvent()
@@ -466,6 +465,7 @@ namespace ExplorusE.Controllers
                 tox.StartMovement(toxicCoords.ElementAt(i), Direction.DOWN);
                 model.InitToxicSlime(tox, "Toxic" + i);
             }
+
         }
 
         public void InitRenderObjects()
@@ -613,6 +613,7 @@ namespace ExplorusE.Controllers
             AddSubscriber(keySprite);
 
             helpMenu = new HelpMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+            AddSubscriber(pauseMenu);
         }
 
 
