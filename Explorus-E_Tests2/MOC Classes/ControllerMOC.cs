@@ -186,5 +186,10 @@ namespace Tests
         {
             
         }
+
+        public bool GetTempDead()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
