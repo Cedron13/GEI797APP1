@@ -27,6 +27,11 @@ namespace ExplorusE.Models
             timeToMove -= 30;
         }
 
+        public void SetImageIndex(int index)
+        {
+            imageIndex = index;
+        }
+
 
         public override String GetImageName()
         {
@@ -44,6 +49,7 @@ namespace ExplorusE.Models
             copy.SetDirection(dir);
             copy.SetGridPosition(currentPos);
             copy.SetTransparency(transparency);
+            copy.SetImageIndex(imageIndex);
             return copy;
         }
     }

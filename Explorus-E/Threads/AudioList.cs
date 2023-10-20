@@ -34,8 +34,11 @@ namespace ExplorusE.Threads
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void Remove()
         {
+
+            string sound = "";
             if (oListData.Count > 0) 
             {
+                sound = oListData[0]; 
                 oListData.RemoveAt(0); 
             }
 
@@ -65,13 +68,6 @@ namespace ExplorusE.Threads
             }
         }
 
-        public void ClearList()
-        {
-            lock (this)
-            {
-                oListData.Clear();
-            }
-        }
 
 
     }

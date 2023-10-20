@@ -31,6 +31,11 @@ namespace ExplorusE.Models
 
         }
 
+        public void SetImageIndex(int index)
+        {
+            imageIndex = index;
+        }
+
         public override void Update(int elapsedMs)
         {
 
@@ -122,6 +127,7 @@ namespace ExplorusE.Models
             {
                 copy.Destroy();
             }
+            copy.SetImageIndex(imageIndex);
 
             return copy;
         }

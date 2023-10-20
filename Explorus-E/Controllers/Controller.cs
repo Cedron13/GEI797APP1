@@ -513,6 +513,7 @@ namespace ExplorusE.Controllers
                 tox.StartMovement(toxicCoords.ElementAt(i), Direction.DOWN);
                 model.InitToxicSlime(tox, "Toxic" + i);
             }
+
         }
 
         public void InitRenderObjects()
@@ -660,6 +661,8 @@ namespace ExplorusE.Controllers
             AddSubscriber(keySprite);
 
             helpMenu = new HelpMenu(view.GetTopMargin(), view.GetLeftMargin(), view.GetBrickSize());
+            AddSubscriber(pauseMenu);
+            AddSubscriber(helpMenu);
         }
 
 
