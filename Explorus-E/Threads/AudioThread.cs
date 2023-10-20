@@ -66,7 +66,6 @@ namespace ExplorusE.Threads
                         }
                         else
                         {
-                            Console.WriteLine("Yes");
                             Uri uri = new Uri("..\\..\\Resources\\" + oList.GetList().ElementAt(0), UriKind.Relative);
                             sound.Open(uri);
                             sound.Volume = oList.GetVolume()/100f;
