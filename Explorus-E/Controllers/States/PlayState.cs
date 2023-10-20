@@ -81,7 +81,6 @@ namespace ExplorusE.Controllers.States
                             
                             break;
                         }
-                        /*Can no longer be reached through pressing p
                     case Keys.P:
                         {
                             PrepareNextState();
@@ -89,7 +88,7 @@ namespace ExplorusE.Controllers.States
                             controller.IsPaused = true;
                             controller.GetGameModel().SetIsPaused(true);
                             break;
-                        }*/
+                        }
                     case Keys.Space:
                         {
                             if (!controller.GetWaitLoadBubble())
