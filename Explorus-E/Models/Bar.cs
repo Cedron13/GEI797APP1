@@ -9,6 +9,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+/* EXPLORUS-E
+ * Alexis BLATRIX (blaa1406)
+ * Cédric CHARRON (chac0902)
+ * Audric DAVID (dava1302)
+ * Matthieu JEHANNE (jehm1701)
+ * Cloé LEGLISE (legc1001)
+ */
+
 namespace ExplorusE.Models
 {
     internal class Bar : Renderable, IResizeEventSubscriber
@@ -55,7 +63,8 @@ namespace ExplorusE.Models
             itemList = new List<NotInGridSprite>();
             NotInGridSprite start = new NotInGridSprite(gridPos, tilePos, Constants.Constants.BEGINBAR_SPRITE_NAME, topMargin, leftMargin, brickSize, brickScale);
             float startBarScaleToBrick = start.GetScaleWidth();
-            //Console.WriteLine(startBarScaleToBrick);
+            //
+            //(startBarScaleToBrick);
             itemList.Add(start);
             int itemNumber;
             itemNumber = half ? size / 2 : size;

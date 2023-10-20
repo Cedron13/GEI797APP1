@@ -10,6 +10,40 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+/* EXPLORUS-E
+ * Alexis BLATRIX (blaa1406)
+ * Cédric CHARRON (chac0902)
+ * Audric DAVID (dava1302)
+ * Matthieu JEHANNE (jehm1701)
+ * Cloé LEGLISE (legc1001)
+ */
+
+/*
+ * 
+ *
+const N = 2
+range T = 0..N
+
+GAMELOOP = (askForNewItem -> GAMELOOP).
+RENDERTHREAD = (waitItemInQueue -> addPermanentItem -> removeItemInQueue -> RENDERTHREAD
+				| waitItemInQueue -> addItem -> removeItemInQueue -> RENDERTHREAD).
+WINDOWTHREAD = (getList -> WINDOWTHREAD
+				| getPermanentList -> WINDOWTHREAD).
+QUEUE = ARRAY[0], ARRAY[i:T] =
+	(when(i<N) askForNewItem -> ARRAY[i+1]
+	|when(i>0) removeItemInQueue -> ARRAY[i-1]).
+PERMANENTLIST = ARRAY[0], ARRAY[i:T] =
+	(when(i<N) add-> ARRAY[i+1]
+	|clear -> ARRAY[0]).
+NONPERMANENTLIST = ARRAY[0], ARRAY[i:T] =
+	(when(i<N) add-> ARRAY[i+1]
+	|clear -> ARRAY[0]).
+
+||THREADS = (GAMELOOP||RENDERTHREAD||WINDOWTHREAD||QUEUE||PERMANENTLIST||NONPERMANENTLIST).
+ * 
+ * 
+ */
+
 namespace ExplorusE.Threads
 {
     internal class RenderThread
@@ -19,12 +53,6 @@ namespace ExplorusE.Threads
 
         private RenderList permanentItems = new RenderList();
         private RenderList items = new RenderList();
-
-        /*
-        private Renderable itemQueue;
-        private RenderItemType itemQueueType;
-        private volatile bool isSomethingInQueue = false;
-        */
 
         private RenderQueue queue = new RenderQueue();
 

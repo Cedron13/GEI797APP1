@@ -12,6 +12,29 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Xml.Linq;
 
+/* EXPLORUS-E
+ * Alexis BLATRIX (blaa1406)
+ * Cédric CHARRON (chac0902)
+ * Audric DAVID (dava1302)
+ * Matthieu JEHANNE (jehm1701)
+ * Cloé LEGLISE (legc1001)
+ */
+
+/*
+const N = 2
+range T = 0..N
+
+AUDIOLIST = (add -> AUDIOLIST | remove -> AUDIOLIST).
+
+AUDIOTHREAD = (waitItemInQueue -> getAudioList -> getNextElement -> play ->remove -> AUDIOTHREAD).
+
+QUEUE = ARRAY[0], ARRAY[i:T] =
+	(when(i<N) add -> ARRAY[i+1]
+	|when(i>0) remove -> ARRAY[i-1]).
+
+||THREADS = (AUDIOLIST||AUDIOTHREAD||QUEUE).
+ */
+
 namespace ExplorusE.Threads
 {
     internal class AudioThread
@@ -68,7 +91,6 @@ namespace ExplorusE.Threads
                         {
                             lock (oList)
                             {
-                                Console.WriteLine("Yes");
                                 Uri uri = new Uri("..\\..\\Resources\\" + oList.GetList().ElementAt(0), UriKind.Relative);
                                 sound.Open(uri);
                                 sound.Volume = oList.GetVolume() / 100f;

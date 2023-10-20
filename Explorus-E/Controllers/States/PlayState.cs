@@ -6,6 +6,14 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Windows.Media;
 
+/* EXPLORUS-E
+ * Alexis BLATRIX (blaa1406)
+ * Cédric CHARRON (chac0902)
+ * Audric DAVID (dava1302)
+ * Matthieu JEHANNE (jehm1701)
+ * Cloé LEGLISE (legc1001)
+ */
+
 namespace ExplorusE.Controllers.States
 {
     internal class PlayState: IState
@@ -87,7 +95,6 @@ namespace ExplorusE.Controllers.States
                             if (!controller.GetWaitLoadBubble())
                                 {
 
-                                //Console.WriteLine(init.x.ToString() +" "+ init.y.ToString());
                                 Direction playerDirection = model.GetPlayer().GetDirection();
                                 BubbleSprite newBubble = new BubbleSprite(initialCoord, controller.GetPlayer().GetActualTop(), controller.GetPlayer().GetActualLeft(), controller.GetPlayer().GetActualBricksize(), 0.5f);
                                 controller.AddSubscriber(newBubble);

@@ -41,7 +41,6 @@ namespace ExplorusE.Models
 
             if (!isExploded)
             {
-                //Console.WriteLine("isExploded in update " + isExploded);
                 timeElapsed += elapsedMs;
                 double ratio = timeElapsed / timeToMove;
                 if (ratio > 1)
@@ -77,7 +76,6 @@ namespace ExplorusE.Models
         public override String GetImageName()
         {
             
-                //Console.WriteLine("explosed in getimage " + isExploded);
                 if (isExploded) return Constants.Constants.EFFECT_SPRITE_NAME;
 
                 return Constants.Constants.BUBBLE_SPRITE_NAME + (imageIndex + 1).ToString();
@@ -99,7 +97,6 @@ namespace ExplorusE.Models
         {
             
                 isExploded = true;
-               // Console.WriteLine("Bulle en train d'exploser !");
             
         }
 
@@ -107,7 +104,6 @@ namespace ExplorusE.Models
         {
             
                 
-            //.WriteLine("isExploded   " + isExploded);
                 return isExploded;
             
         }
